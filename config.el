@@ -3,11 +3,10 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Nopanun Laochunhanun"
+      user-mail-address "nopanun@pm.me")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -35,7 +34,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -52,3 +50,32 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(edit-server-start)
+;; mu4e config
+;; :ensure nil
+;; :load-path "/usr/share/emacs/site-lisp/mu4e/"
+;; :defer 20 ; Wait until 20 seconds after startup
+
+;; This is set to 't' to avoid mail syncing issues when using mbsync
+(setq mu4e-change-filenames-when-moving t)
+
+;; Refresh mail using isync every 10 minutes
+(setq mu4e-update-interval (* 10 60))
+(setq mu4e-get-mail-command "mbsync -a")
+(setq mu4e-maildir "~/Mail")
+
+(setq mu4e-drafts-folder "/[Gmail]/Drafts")
+(setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
+(setq mu4e-refile-folder "/[Gmail]/All Mail")
+(setq mu4e-trash-folder  "/[Gmail]/Trash")
+
+(setq mu4e-maildir-shortcuts
+      '(("/Inbox"             . ?i)
+        ("/[Gmail]/Sent Mail" . ?s)
+        ("/[Gmail]/Trash"     . ?t)
+        ("/[Gmail]/Drafts"    . ?d)
+        ("/[Gmail]/All Mail"  . ?a)))
+
+(add-load-path! "~/.doom.d/lisp")
+;; (require 'wsl)
