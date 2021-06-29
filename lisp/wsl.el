@@ -1,0 +1,1 @@
+;;; lisp/wsl.el -*- lexical-binding: t; -*- WSL package to interactive with Windows's programs, such as browsing the URL with Chrome, open the PDF file with Acrobat Reader DC, open the current file with default program, launch explorer.exe, etc.
