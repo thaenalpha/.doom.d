@@ -18,8 +18,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+(setq doom-font (font-spec :family "monospace" :size 24 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "sans" :size 25))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -52,6 +52,17 @@
 ;; they are implemented.
 
 (edit-server-start)
+(server-start)
+(require 'org-protocol)
+(setq org-capture-templates `(
+    ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+    ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %? [[%:link][%:description]] \nCaptured On: %U")
+    ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
+        "* %c :website:\n%U %?%:initial")
+))
+
 ;; mu4e config
 ;; :ensure nil
 ;; :load-path "/usr/share/emacs/site-lisp/mu4e/"
@@ -78,4 +89,4 @@
         ("/[Gmail]/All Mail"  . ?a)))
 
 (add-load-path! "~/.doom.d/lisp")
-;; (require 'wsl)
+(require 'wsl)
