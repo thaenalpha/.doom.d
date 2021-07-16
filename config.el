@@ -54,14 +54,13 @@
 (edit-server-start)
 (server-start)
 (require 'org-protocol)
-(setq org-capture-templates `(
-    ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+(setq org-capture-templates (append org-capture-templates
+    '(("P" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-    ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+    ("l" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
         "* %? [[%:link][%:description]] \nCaptured On: %U")
     ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
-        "* %c :website:\n%U %?%:initial")
-))
+        "* %c :website:\n%U %?%:initial"))))
 
 ;; mu4e config
 ;; :ensure nil
