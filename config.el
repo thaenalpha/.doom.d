@@ -50,6 +50,9 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(defun turn-on-paredit () (paredit-mode 1))
+(add-hook 'clojure-mode-hook 'turn-on-paredit)
+;; turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 
 (edit-server-start)
 (server-start)
