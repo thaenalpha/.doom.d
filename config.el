@@ -55,15 +55,14 @@
 ;; turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 
 (edit-server-start)
-(server-start)
 (require 'org-protocol)
 (setq org-capture-templates (append org-capture-templates
-    '(("P" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-    ("l" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %? [[%:link][%:description]] \nCaptured On: %U")
-    ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
-        "* %c :website:\n%U %?%:initial"))))
+                             '(("P" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+                                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+                               ("l" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+                                   "* %? [[%:link][%:description]] \nCaptured On: %U")
+                               ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
+                                   "* %c :website:\n%U %?%:initial"))))
 
 ;; mu4e config
 ;; :ensure nil
@@ -77,18 +76,13 @@
 (setq mu4e-update-interval (* 10 60))
 (setq mu4e-get-mail-command "mbsync -a")
 (setq mu4e-maildir "~/Mail")
-
 (setq mu4e-drafts-folder "/[Gmail]/Drafts")
 (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
 (setq mu4e-refile-folder "/[Gmail]/All Mail")
 (setq mu4e-trash-folder  "/[Gmail]/Trash")
-
 (setq mu4e-maildir-shortcuts
       '(("/Inbox"             . ?i)
         ("/[Gmail]/Sent Mail" . ?s)
         ("/[Gmail]/Trash"     . ?t)
         ("/[Gmail]/Drafts"    . ?d)
         ("/[Gmail]/All Mail"  . ?a)))
-
-(add-load-path! "~/.doom.d/lisp")
-(require 'wsl)
