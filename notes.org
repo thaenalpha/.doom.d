@@ -1,0 +1,46 @@
+* Inbox
+** [2021-08-01 Sun 20:59] config.el docs-block
+[[file:~/.doom.d/config.el][file:~/.doom.d/config.el]]
+Here are the three important ones:
++ `doom-font'
++ `doom-variable-pitch-font'
++ `doom-big-font' -- used for `doom-big-font-mode'; use this for
+  presentations or streaming.
+
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+font string.
+
+There are two ways to load a theme. Both assume the theme is installed and available.
+You can either set `doom-theme' or manually load a theme with the
+`load-theme' function. This is the default:
+#+begin_src elisp
+(setq doom-theme 'doom-one)
+#+end_src
+Here are some additional functions/macros that could help you configure Doom:
+
+- `load!' for loading external *.el files relative to this one
+- `use-package!' for configuring packages
+- `after!' for running code after a package has loaded
+- `add-load-path!' for adding directories to the `load-path', relative to
+  this file. Emacs searches the `load-path' when you load packages with
+  `require' or `use-package'.
+- `map!' for binding new keys
+
+To get information about any of these functions/macros, move the cursor over
+the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+This will open documentation for it, including demos of how they are used.
+
+You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+they are implemented.
+
+** Projectile custom project name
+Source: [2021-08-01 Sun], [[https://github.com/bbatsov/projectile/pull/928][Enable custom project names by fvaresi · Pull Request #928 · bbatsov/projectile]] Captured On: 22:18
+ #+BEGIN_QUOTE
+if the custom project name is a function depending on the project root, you can set projectile-project-name-function as shown in the first comment of this pull request.
+
+If you want to customize the project name just for one project, it's easier to set the local variable projectile-project-name using directory variables. This is probably the simplest way, since you just need to add a .dir-locals.el file in the project root.
+
+For example:
+
+((nil . ((projectile-project-name . "my-super-project"))))
+#+END_QUOTE
