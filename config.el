@@ -6,6 +6,7 @@
       user-mail-address "nopanun@pm.me")
 
 (setq org-directory "~/org/")
+(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 (setq doom-theme 'alabaster)
 
 (defun synchronize-theme ()
@@ -46,4 +47,3 @@
                  "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] \nCaptured On: %U")
                 ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
                  "* %c :website:\n%U %?%:initial"))))
-
