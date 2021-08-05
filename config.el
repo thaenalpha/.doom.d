@@ -8,7 +8,7 @@
 (setq org-directory "~/org/")
 (setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 (setq doom-theme 'alabaster)
-
+(setq doom-font (font-spec :family "FiraCode" :size 12))
 (defun synchronize-theme ()
     (setq hour
         (string-to-number
@@ -18,8 +18,7 @@
         (setq now 'quartz))
     (if (equal now doom-theme)
         nil
-        (setq doom-theme now)
-         ) ) ;; end of (defun ...
+        (setq doom-theme now)))
 
 (run-with-timer 0 3600 'synchronize-theme)
 
@@ -29,21 +28,19 @@
 
 ;; turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 (defun turn-on-paredit () (paredit-mode 1))
-(add-hook 'clojure-mode-hook 'turn-on-paredit)
+(add-hook! 'clojure-mode-hook 'turn-on-paredit)
 
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
   (concat
-  (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
-  )
+   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
 (require 'org-protocol)
 (setq org-capture-templates
-      (append org-capture-templates
-              `(
-                ("P" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-                    "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-                 "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] \nCaptured On: %U")
-                ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
-                 "* %c :website:\n%U %?%:initial"))))
+  (append org-capture-templates
+    `(("P" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+       "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+      ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+       "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] \nCaptured On: %U")
+      ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
+       "* %c :website:\n%U %?%:initial"))))
