@@ -48,4 +48,12 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! edit-server)
+(package! edit-server :built-in 'prefer)
+(package! ligature
+  :built-in 'prefer
+  :recipe (:host github :repo "mickeynp/ligature.el"))
+(package! arrayify
+  :built-in 'prefer
+  :recipe (:local-repo "lisp"
+           :build (:not compile)))
+;; ~/.doom.d/lisp/arrayify.el
