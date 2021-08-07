@@ -18,7 +18,9 @@
         (setq now 'quartz))
     (if (equal now doom-theme)
         nil
-        (setq doom-theme now)))
+      (progn
+        (setq doom-theme now)
+        (doom/reload-theme))))
 
 (run-with-timer 0 3600 'synchronize-theme)
 
