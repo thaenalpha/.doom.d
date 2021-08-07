@@ -1,12 +1,12 @@
 ;;; lisp/arrayify.el -*- lexical-binding: t; -*-
 ;;;###autoload
-(defun arrayify (start end quote)
+(defun arrayify (start end quote join)
   "Turn strings on newlines into a QUOTEd, comma-separated one-liner."
-  (interactive "r\nMQuote: ")
+  (interactive "r\nMQuote: \nMJoin: ")
   (let ((insertion
          (mapconcat
           (lambda (x) (format "%s%s%s" quote x quote))
-          (split-string (buffer-substring start end)) ", ")))
+          (split-string (buffer-substring start end)) join)))
     (delete-region start end)
     (insert insertion)))
 
