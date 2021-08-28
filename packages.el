@@ -48,7 +48,6 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! edit-server :built-in 'prefer)
 (package! arrayify
   :built-in 'prefer
   :recipe (:local-repo "lisp"
