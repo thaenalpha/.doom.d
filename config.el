@@ -35,14 +35,22 @@
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
   (concat
-   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
+   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
+           string-to-transform)))
 
 (require 'org-protocol)
 (setq org-capture-templates
   (append org-capture-templates
-    `(("P" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+    `(("P" "Protocol" entry
+       (file+headline ,(concat org-directory "notes.org") "Inbox")
        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-      ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-       "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] \nCaptured On: %U")
-      ("w" "Web site" entry (file+olp "~/org/inbox.org" "Web")
+      ("L" "Protocol Link" entry
+       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       "* %? [[%:link][%(transform-square-brackets-to-round-ones
+                        \"%:description\")]] \nCaptured On: %U")
+      ("w" "Web site" entry
+       (file+olp "~/org/inbox.org" "Web")
        "* %c :website:\n%U %?%:initial"))))
+
+; a `fill-column' indicator
+(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
