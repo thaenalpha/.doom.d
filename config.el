@@ -54,3 +54,8 @@
 
 ; a `fill-column' indicator
 (add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
+(setq sendmail-program "/usr/bin/msmtp"
+        send-mail-function #'smtpmail-send-it
+        message-sendmail-f-is-evil t
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function #'message-send-mail-with-sendmail)
