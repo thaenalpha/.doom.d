@@ -12,4 +12,6 @@
                   (height . 25)
                   (minibuffer . t)
                   (menu-bar-lines . t)
-                  (window-system . x))))
+                  (window-system . x)))
+  (setq edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
