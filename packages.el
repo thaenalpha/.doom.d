@@ -53,3 +53,6 @@
   :recipe (:local-repo "lisp"
            :build (:not compile)))
 ;; ~/.doom.d/lisp/arrayify.el
+(package! tldr)
+(package! cheat-sh)
+(package! howdoi)
