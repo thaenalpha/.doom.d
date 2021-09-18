@@ -93,7 +93,10 @@
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)   ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
-       lookup            ; navigate your code and its documentation
+       (lookup            ; navigate your code and its documentation
+        +dictionary       ; word definition and thesaurus lookup functionality.
+        ;; +offline         ; Install and prefer offline dictionary/thesaurus.
+        +docsets)        ; ...or in Dash docsets locally
        lsp               ; M-x vscode
        (magit +forge)    ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
@@ -183,7 +186,7 @@
        ;;emms
        edit-server       ; Edit with Emacs server
        everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
+       irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
        twitter           ; twitter client https://twitter.com/vnought
 
