@@ -8,7 +8,8 @@
 (setq org-directory "~/org/")
 (setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 (setq doom-theme 'alabaster)
-(setq doom-font (font-spec :family "FiraCode" :size 17))
+(setq doom-font (font-spec :family "FiraCode" :size 16))
+
 (defun synchronize-theme ()
     (setq hour
         (string-to-number

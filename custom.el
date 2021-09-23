@@ -15,7 +15,7 @@
  '(jdee-db-requested-breakpoint-face-colors (cons "#1c1f2b" "#c3e88d"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f2b" "#676E95"))
  '(objed-cursor-color "#ff5370")
- '(package-selected-packages '(lsp-tailwindcss github-search howdoi))
+ '(package-selected-packages '(dap-mode lsp-tailwindcss github-search howdoi))
  '(pdf-view-midnight-colors (cons "#EEFFFF" "#292D3E"))
  '(rustic-ansi-faces
    ["#292D3E" "#ff5370" "#c3e88d" "#ffcb6b" "#82aaff" "#c792ea" "#89DDFF" "#EEFFFF"])
