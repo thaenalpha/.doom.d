@@ -1,1 +1,4 @@
 /modules
+/node_modules/
+/*.json
+/*.yaml

@@ -32,6 +32,7 @@
 (add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
 
 (put 'projectile-project-name 'safe-local-variable #'stringp)
+(put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
 
 ;; deft
 (setq deft-directory "~/notes")

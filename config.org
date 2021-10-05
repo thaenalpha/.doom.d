@@ -66,12 +66,17 @@ This config will let you custom project name in .dir-locals.el
 
 #+begin_src emacs-lisp
 (put 'projectile-project-name 'safe-local-variable #'stringp)
+(put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
 #+end_src
 
 and this code defines changes project name from .doom.d to
 
 #+begin_src emacs-lisp :tangle .dir-locals.el
-((nil . ((projectile-project-name . "oh-my-system"))))
+;;; Directory Local Variables
+;;; For more information see (info "(emacs) Directory Variables")
+
+((nil . ((projectile-project-name . "oh-my-system")))
+ (org-mode . ((flycheck-textlint-executable . "node_modules/.bin/textlint"))))
 #+end_src
 
 ** projectile-project-root-files-bottom-up
