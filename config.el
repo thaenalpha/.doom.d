@@ -1,37 +1,112 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(put 'projectile-project-name 'safe-local-variable #'stringp)
-
 ;; For e.g. GPG configuration, email clients, file templates and snippets.
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 
-(setq org-directory "~/org/")
-(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
-(setq doom-theme 'alabaster)
-(setq doom-font (font-spec :family "FiraCode" :size 16))
+(setq light 'alabaster)
+(setq dark 'quartz)
+
+(setq doom-theme light)            ; default in Light mode
 
 (defun synchronize-theme ()
-    (setq hour
-        (string-to-number
-            (substring (current-time-string) 11 13)))
-    (if (member hour (number-sequence 6 17))
-        (setq now 'alabaster)
-        (setq now 'quartz))
-    (if (equal now doom-theme)
-        nil
-      (progn
-        (setq doom-theme now)
-        (doom/reload-theme))))
+  (setq hour                          ; current hour
+      (string-to-number
+          (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
+      (setq now light)                     ; true: Light
+      (setq now dark))                     ; else: Dark
+  (if (equal now doom-theme)          ; if now is Light
+      nil                             ; do nothing
+    (progn                            ; else
+      (setq doom-theme now)           ; set to Dark
+      (doom/reload-theme))))          ; and reload
 
-(run-with-timer 0 3600 'synchronize-theme)
+(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
+
+(setq doom-font (font-spec :family "FiraCode" :size 16))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
+
 (setq display-line-numbers-type t)
 
-;; turn on paredit-mode (minor) after Clojure-mode was loaded (major)
-(defun turn-on-paredit () (paredit-mode 1))
-(add-hook! 'clojure-mode-hook 'turn-on-paredit)
+(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
+
+(put 'projectile-project-name 'safe-local-variable #'stringp)
+
+;; deft
+(setq deft-directory "~/notes")
+
+;; Each path is relative to the path of the maildir you passed to mu
+(set-email-account! "boliden@gmail.com"
+  '((mu4e-sent-folder       . "/boliden@gmail.com/[Gmail]/Sent Mail")
+    (mu4e-drafts-folder     . "/boliden@gmail.com/[Gmail]/Drafts")
+    (mu4e-spam-folder       . "/boliden@gmail.com/[Gmail]/Spam")
+    (mu4e-trash-folder      . "/boliden@gmail.com/[Gmail]/Trash")
+    (mu4e-refile-folder     . "/boliden@gmail.com/[Gmail]/All Mail")
+    (smtpmail-smtp-user     . "boliden@gmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "thaenalpha@gmail.com"
+  '((mu4e-sent-folder       . "/thaenalpha@gmail.com/[Gmail]/Sent Mail")
+    (mu4e-drafts-folder     . "/thaenalpha@gmail.com/[Gmail]/Drafts")
+    (mu4e-spam-folder       . "/thaenalpha@gmail.com/[Gmail]/Spam")
+    (mu4e-trash-folder      . "/thaenalpha@gmail.com/[Gmail]/Trash")
+    (mu4e-refile-folder     . "/thaenalpha@gmail.com/[Gmail]/All Mail")
+    (smtpmail-smtp-user     . "thaenalpha@gmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "bolidenx@hotmail.com"
+  '((mu4e-sent-folder       . "/bolidenx@hotmail.com/Sent")
+    (mu4e-drafts-folder     . "/bolidenx@hotmail.com/Drafts")
+    (mu4e-spam-folder       . "/bolidenx@hotmail.com/Junk")
+    (mu4e-trash-folder      . "/bolidenx@hotmail.com/Deleted")
+    (mu4e-refile-folder     . "/bolidenx@hotmail.com/Archive")
+    (smtpmail-smtp-user     . "bolidenx@hotmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "nopanun@live.com"
+  '((mu4e-sent-folder       . "/nopanun@live.com/Sent")
+    (mu4e-drafts-folder     . "/nopanun@live.com/Drafts")
+    (mu4e-spam-folder       . "/nopanun@live.com/Junk")
+    (mu4e-trash-folder      . "/nopanun@live.com/Deleted")
+    (mu4e-refile-folder     . "/nopanun@live.com/Archive")
+    (smtpmail-smtp-user     . "nopanun@live.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "tannarin26@yahoo.com"
+  '((mu4e-sent-folder       . "/tannarin26@yahoo.com/Sent")
+    (mu4e-drafts-folder     . "/tannarin26@yahoo.com/Draft")
+    (mu4e-spam-folder       . "/tannarin26@yahoo.com/Bulk Mail")
+    (mu4e-trash-folder      . "/tannarin26@yahoo.com/Trash")
+    (mu4e-refile-folder     . "/tannarin26@yahoo.com/Archive")
+    (smtpmail-smtp-user     . "tannarin26@yahoo.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+
+(setq mu4e-context-policy 'ask-if-none
+      mu4e-compose-context-policy 'always-ask)
+
+(after! mu4e
+ (setq sendmail-program (executable-find "msmtp")
+       send-mail-function #'smtpmail-send-it
+       message-sendmail-f-is-evil t
+       message-sendmail-extra-arguments '("--read-envelope-from")
+       message-send-mail-function #'message-send-mail-with-sendmail
+       mu4e-maildir-shortcuts '(("/thaenalpha@gmail.com/Job Applying".?j)))
+
+ (defun add-mu4e-bookmark (bookmark)
+   (add-to-list 'mu4e-bookmarks bookmark))
+
+ (mapc 'add-mu4e-bookmark
+   '(("m:/boliden@gmail.com/INBOX or m:/bolidenx@hotmail.com/Inbox or m:/nopanun@live.com/Inbox or m:/tannarin26@yahoo.com/Inbox or m:/thaenalpha@gmail.com/INBOX or m:/nopanun@live.com/IT Demands" "All Inboxes" ?i)
+     ("m:/boliden@gmail.com/[Gmail]/Sent Mail or m:/bolidenx@hotmail.com/Sent m:/thaenalpha@gmail.com/[Gmail]/Sent Mail or m:/nopanun@live.com/Sent or m:/tannarin26@yahoo.com/Sent" "All Sent" ?s)
+     ("m:/boliden@gmail.com/[Gmail]/Drafts or m:/bolidenx@hotmail.com/Drafts m:/thaenalpha@gmail.com/[Gmail]/Drafts or m:/nopanun@live.com/Drafts or m:/tannarin26@yahoo.com/Draft" "All Drafts" ?d)
+     ("m:/boliden@gmail.com/[Gmail]/All Mail or m:/bolidenx@hotmail.com/Archive m:/thaenalpha@gmail.com/[Gmail]/All Mail or m:/nopanun@live.com/Archive or m:/tannarin26@yahoo.com/Archive" "All Archives" ?a)
+     ("m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or m:/tannarin26@yahoo.com/Bulk Mail" "All Spams" ?p)
+     ("m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or m:/tannarin26@yahoo.com/Trash" "All Trashes" ?t))))
+
+(setq org-directory "~/org/")
+(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
@@ -53,12 +128,5 @@
        (file+olp "~/org/inbox.org" "Web")
        "* %c :website:\n%U %?%:initial"))))
 
-; a `fill-column' indicator
-(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
-
-(after! mu4e
-  (setq sendmail-program (executable-find "msmtp")
-        send-mail-function #'smtpmail-send-it
-        message-sendmail-f-is-evil t
-        message-sendmail-extra-arguments '("--read-envelope-from")
-        message-send-mail-function #'message-send-mail-with-sendmail))
+(defun turn-on-paredit () (paredit-mode 1))
+(add-hook! 'clojure-mode-hook 'turn-on-paredit)

@@ -1,0 +1,377 @@
+#+TITLE:   Doom configuration
+#+DATE: <2021-09-17 Fri>
+#+begin_src emacs-lisp
+;; For e.g. GPG configuration, email clients, file templates and snippets.
+(setq user-full-name "Nopanun Laochunhanun"
+      user-mail-address "nopanun@pm.me")
+#+end_src
+* Personalization
+** Themes
+Set your light and dark theme here
+
+#+begin_src emacs-lisp
+(setq light 'alabaster)
+(setq dark 'quartz)
+#+end_src
+
+Choose your mode
+
+#+begin_src emacs-lisp
+(setq doom-theme light)            ; default in Light mode
+#+end_src
+
+Or automatic (if it's not desired just add ~:tangle ~no~ to disable tangling)
+
+#+begin_src emacs-lisp
+(defun synchronize-theme ()
+  (setq hour                          ; current hour
+      (string-to-number
+          (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
+      (setq now light)                     ; true: Light
+      (setq now dark))                     ; else: Dark
+  (if (equal now doom-theme)          ; if now is Light
+      nil                             ; do nothing
+    (progn                            ; else
+      (setq doom-theme now)           ; set to Dark
+      (doom/reload-theme))))          ; and reload
+
+(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
+#+end_src
+
+** Fonts
+
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "FiraCode" :size 16))
+#+end_src
+
+** Line Numbers
+
+#+begin_src emacs-lisp
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+
+(setq display-line-numbers-type t)
+#+end_src
+
+** fill-column indicator
+
+#+begin_src emacs-lisp
+(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
+#+end_src
+
+* Projectile
+** projectile-project-name
+This config will let you custom project name in .dir-locals.el
+
+#+begin_src emacs-lisp
+(put 'projectile-project-name 'safe-local-variable #'stringp)
+#+end_src
+
+and this code defines changes project name from .doom.d to
+
+#+begin_src emacs-lisp :tangle .dir-locals.el
+((nil . ((projectile-project-name . "oh-my-system"))))
+#+end_src
+
+** projectile-project-root-files-bottom-up
+A list of files considered to mark the root of a project.
+
+#+begin_src emacs-lisp :tangle no
+(after! projectile
+   (setq projectile-project-root-files-bottom-up
+       (remove ".git" projectile-project-root-files-bottom-up)))
+#+end_src
+
+#+RESULTS:
+| .projectile | .project |
+
+#+Original Value:
+| .projectile |  .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
+
+* Deft
+** Configuration
+To use deft, you first need to specify the directory in which your notes are stored:
+
+#+begin_src emacs-lisp
+;; deft
+(setq deft-directory "~/notes")
+#+end_src
+
+The default note format is org-mode. You can change this by setting the value of
+the variable ~deft-default-extension~. Replacing the value with ~"md"~, for example,
+will change the default note format to markdown:
+
+#+begin_src emacs-lisp :tangle no
+(setq deft-default-extension "md")
+#+end_src
+
+You may also want to alter the way titles and file names are automatically created by editing ~deft-use-filename-as-title~ and/or ~deft-use-filter-string-for-filename~.
+
+Further customization options can be found here: https://github.com/jrblevin/deft#other-customizations
+
+* Email & accounts
+
+This is my personal configuration. I have multiple email addresses set like these
+
+#+BEGIN_SRC emacs-lisp
+;; Each path is relative to the path of the maildir you passed to mu
+(set-email-account! "boliden@gmail.com"
+  '((mu4e-sent-folder       . "/boliden@gmail.com/[Gmail]/Sent Mail")
+    (mu4e-drafts-folder     . "/boliden@gmail.com/[Gmail]/Drafts")
+    (mu4e-spam-folder       . "/boliden@gmail.com/[Gmail]/Spam")
+    (mu4e-trash-folder      . "/boliden@gmail.com/[Gmail]/Trash")
+    (mu4e-refile-folder     . "/boliden@gmail.com/[Gmail]/All Mail")
+    (smtpmail-smtp-user     . "boliden@gmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "thaenalpha@gmail.com"
+  '((mu4e-sent-folder       . "/thaenalpha@gmail.com/[Gmail]/Sent Mail")
+    (mu4e-drafts-folder     . "/thaenalpha@gmail.com/[Gmail]/Drafts")
+    (mu4e-spam-folder       . "/thaenalpha@gmail.com/[Gmail]/Spam")
+    (mu4e-trash-folder      . "/thaenalpha@gmail.com/[Gmail]/Trash")
+    (mu4e-refile-folder     . "/thaenalpha@gmail.com/[Gmail]/All Mail")
+    (smtpmail-smtp-user     . "thaenalpha@gmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "bolidenx@hotmail.com"
+  '((mu4e-sent-folder       . "/bolidenx@hotmail.com/Sent")
+    (mu4e-drafts-folder     . "/bolidenx@hotmail.com/Drafts")
+    (mu4e-spam-folder       . "/bolidenx@hotmail.com/Junk")
+    (mu4e-trash-folder      . "/bolidenx@hotmail.com/Deleted")
+    (mu4e-refile-folder     . "/bolidenx@hotmail.com/Archive")
+    (smtpmail-smtp-user     . "bolidenx@hotmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "nopanun@live.com"
+  '((mu4e-sent-folder       . "/nopanun@live.com/Sent")
+    (mu4e-drafts-folder     . "/nopanun@live.com/Drafts")
+    (mu4e-spam-folder       . "/nopanun@live.com/Junk")
+    (mu4e-trash-folder      . "/nopanun@live.com/Deleted")
+    (mu4e-refile-folder     . "/nopanun@live.com/Archive")
+    (smtpmail-smtp-user     . "nopanun@live.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "tannarin26@yahoo.com"
+  '((mu4e-sent-folder       . "/tannarin26@yahoo.com/Sent")
+    (mu4e-drafts-folder     . "/tannarin26@yahoo.com/Draft")
+    (mu4e-spam-folder       . "/tannarin26@yahoo.com/Bulk Mail")
+    (mu4e-trash-folder      . "/tannarin26@yahoo.com/Trash")
+    (mu4e-refile-folder     . "/tannarin26@yahoo.com/Archive")
+    (smtpmail-smtp-user     . "tannarin26@yahoo.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+#+END_SRC
+
+Change context behavior when opening mu4e and composing email with:
+~mu4e-context-policy~ and ~mu4e-compose-context-policy~
+
+#+begin_src emacs-lisp
+(setq mu4e-context-policy 'ask-if-none
+      mu4e-compose-context-policy 'always-ask)
+#+end_src
+
+** How to use contexts
+
+Examples:
+
+- Compose new mail in a context
+- Archive a message in a context (show which folder it goes to)
+- Reply to a message in a merged search
+
+You can create bookmarks to show merged views of folders across accounts:
+
+#+begin_src emacs-lisp
+(after! mu4e
+ (setq sendmail-program (executable-find "msmtp")
+       send-mail-function #'smtpmail-send-it
+       message-sendmail-f-is-evil t
+       message-sendmail-extra-arguments '("--read-envelope-from")
+       message-send-mail-function #'message-send-mail-with-sendmail
+       mu4e-maildir-shortcuts '(("/thaenalpha@gmail.com/Job Applying".?j)))
+
+ (defun add-mu4e-bookmark (bookmark)
+   (add-to-list 'mu4e-bookmarks bookmark))
+
+ (mapc 'add-mu4e-bookmark
+   '(("m:/boliden@gmail.com/INBOX or m:/bolidenx@hotmail.com/Inbox or m:/nopanun@live.com/Inbox or m:/tannarin26@yahoo.com/Inbox or m:/thaenalpha@gmail.com/INBOX or m:/nopanun@live.com/IT Demands" "All Inboxes" ?i)
+     ("m:/boliden@gmail.com/[Gmail]/Sent Mail or m:/bolidenx@hotmail.com/Sent m:/thaenalpha@gmail.com/[Gmail]/Sent Mail or m:/nopanun@live.com/Sent or m:/tannarin26@yahoo.com/Sent" "All Sent" ?s)
+     ("m:/boliden@gmail.com/[Gmail]/Drafts or m:/bolidenx@hotmail.com/Drafts m:/thaenalpha@gmail.com/[Gmail]/Drafts or m:/nopanun@live.com/Drafts or m:/tannarin26@yahoo.com/Draft" "All Drafts" ?d)
+     ("m:/boliden@gmail.com/[Gmail]/All Mail or m:/bolidenx@hotmail.com/Archive m:/thaenalpha@gmail.com/[Gmail]/All Mail or m:/nopanun@live.com/Archive or m:/tannarin26@yahoo.com/Archive" "All Archives" ?a)
+     ("m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or m:/tannarin26@yahoo.com/Bulk Mail" "All Spams" ?p)
+     ("m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or m:/tannarin26@yahoo.com/Trash" "All Trashes" ?t))))
+#+end_src
+
+This is your e-mail client to build!
+
+* Org-Mode
+** Configuration
+
+Put any basic configuration here
+
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
+#+end_src
+
+** Org Capture from Web browser
+
+To let this configuration works, =Org Capture= browser's extension and
+=org-protocol= handler is require. (For setting up =org-protocol= handler,
+if you're WSL user you can run ~org-protocol.reg~ file in my doom repository)
+Then set keys for ~Selected Template~ and ~Unselected Template~ in extension
+options to P&L.
+
+#+begin_src emacs-lisp
+(defun transform-square-brackets-to-round-ones(string-to-transform)
+  "Transforms [ into ( and ] into ), other chars left unchanged."
+  (concat
+   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
+           string-to-transform)))
+
+(require 'org-protocol)
+(setq org-capture-templates
+  (append org-capture-templates
+    `(("P" "Protocol" entry
+       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+      ("L" "Protocol Link" entry
+       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       "* %? [[%:link][%(transform-square-brackets-to-round-ones
+                        \"%:description\")]] \nCaptured On: %U")
+      ("w" "Web site" entry
+       (file+olp "~/org/inbox.org" "Web")
+       "* %c :website:\n%U %?%:initial"))))
+#+end_src
+
+* App
+** Telega --- full featured unofficial client for Telegram platform for GNU Emacs.
+*** Installation
+telega depends on the visual-fill-column and rainbow-identifiers packages. This dependency automatically
+installs if you install telega from MELPA or GNU Guix. Otherwise will you need to install these packages
+by hand.
+
+telega is built on top of the official library provided by Telegram TDLib. Most distributions do not
+provide this package in their repositories, in which case you will have to install it manually by
+following the instructions.
+
+GNU Guix, however, does have both telega and TDLib packaged. If you use GNU Guix you can skip
+directly to Installing from GNU Guix.
+
+**** Dependencies
+Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
+***** GNU gperf (for building TDLib)
+****** Guix users
+#+begin_src sh :tangle no
+  guix install gperf
+#+end_src
+
+**** Building TDLib
+
+TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
+Make sure you are using TDLib version greater or equal to 1.7.0.
+
+On MacOS you can install a pre-built TDLib package using homebrew from brew.sh. Just run:
+
+$ brew install tdlib
+
+On Linux, you will need to build TDLib from source.
+
+To get the source:
+
+#+begin_src sh :tangle no
+  git clone https://github.com/tdlib/td.git
+#+end_src
+
+Move into the folder with $ cd ./td or wherever you checked out td.
+
+Prepare a folder for building the library:
+
+#+begin_src sh :tangle no
+  cd ./td && mkdir build && cd build && cmake ../
+#+end_src
+
+Build the sources:
+
+#+begin_src sh :tangle no
+  cd ./td/build && make -jN # Change N first, read a description below.
+#+end_src
+
+with N number of cores that should be used for the compilation (the optimal value is the number of
+physical cores on the machine).
+
+Finally, to install the library system-wide:
+
+#+begin_src sh :tangle no
+  cd ./td/build && sudo make install # this one not works because it prompts you for password. Need to launchs from shell.
+#+end_src
+
+It will install headers to /usr/local/include and library itself into /usr/local/lib. If you have TDLib installed
+in other location, don't forget to modify telega-server-libs-prefix before starting telega.
+
+**** Installing telega from MELPA
+
++ ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
+
+#+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/telega/packages.el
+
+(package! telega :built-in 'prefer)
+#+end_src
+
+- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
+  #+begin_src sh :tangle no
+    rm -r modules/app/telega
+  #+end_src
+
+** Edit-Server --- server that responds to edit requests from Chrome
+*** Installation
+**** Dependencies
+***** Edit with Emacs Chrome/Firefox extension
+[[https://github.com/stsquad/emacs_chrome][GitHub - stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
+**** Installing edit-server from MELPA
+
++ ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
+
+#+begin_src emacs-lisp :tangle modules/app/edit-server/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/edit-server/packages.el
+
+(package! edit-server :built-in 'prefer)
+#+end_src
+
+- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
+  #+begin_src sh :tangle no
+    rm -r modules/app/edit-server
+  #+end_src
+
+**** Configuration
+#+begin_src emacs-lisp :tangle modules/app/edit-server/config.el
+;;; app/edit-server/config.el -*- lexical-binding: t; -*-
+
+(use-package! edit-server
+  :defer t
+  :commands edit-server-start
+  :init (edit-server-start)
+  :config (setq edit-server-new-frame-alist
+                '((name . "Edit with Emacs FRAME")
+                  (top . 200)
+                  (left . 200)
+                  (width . 80)
+                  (height . 25)
+                  (minibuffer . t)
+                  (menu-bar-lines . t)
+                  (window-system . x)))
+  (setq edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
+#+end_src
+
+* Programming language
+** Clojure
+turn on paredit-mode (minor) after Clojure-mode was loaded (major)
+#+begin_src emacs-lisp
+(defun turn-on-paredit () (paredit-mode 1))
+(add-hook! 'clojure-mode-hook 'turn-on-paredit)
+#+end_src
+
