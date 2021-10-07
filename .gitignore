@@ -1,4 +1,4 @@
-/modules
+/modules/app
 /node_modules/
 /*.json
 /*.yaml

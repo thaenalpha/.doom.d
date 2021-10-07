@@ -373,10 +373,31 @@ in other location, don't forget to modify telega-server-libs-prefix before start
 #+end_src
 
 * Programming language
+This section adds packages and configuration on top of Doom Lang modules
+
 ** Clojure
 turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 #+begin_src emacs-lisp
 (defun turn-on-paredit () (paredit-mode 1))
 (add-hook! 'clojure-mode-hook 'turn-on-paredit)
 #+end_src
+** JavaScript
+*** Description
+adds.
++ automatically import dependencies in your JavaScript project.
 
+**** Packages
++ [[https://github.com/Galooshi/emacs-import-js][import-js]]
+
+***** Prerequisites for
+****** Running ImportJS in Emacs
+1. Install the importjs binary:
+   #+begin_src sh :dir /sudo:: :tangle no
+   sudo npm install import-js -g
+   #+end_src
+2. Configure Import-Js
+3. Install import-js.el for Emacs
+   + Install via MELPA by adding import-js to the packages.el
+   + Install as [[file:modules/lang/javascript/packages.el][the new package in Doom JavaScript module(private custom)]]
+     by do relative symbolic links to Doom built-in JavaScript Module
+     except for packages.el (make sure links are correct)
