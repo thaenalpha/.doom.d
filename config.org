@@ -5,13 +5,14 @@
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 #+end_src
+
 * Personalization
 ** Themes
 Set your light and dark theme here
 
 #+begin_src emacs-lisp
-(setq light 'alabaster)
-(setq dark 'quartz)
+(setq light 'doom-acario-light)
+(setq dark 'doom-ayu-mirage)
 #+end_src
 
 Choose your mode
@@ -20,7 +21,7 @@ Choose your mode
 (setq doom-theme light)            ; default in Light mode
 #+end_src
 
-Or automatic (if it's not desired just add ~:tangle ~no~ to disable tangling)
+Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
 
 #+begin_src emacs-lisp
 (defun synchronize-theme ()
@@ -40,9 +41,16 @@ Or automatic (if it's not desired just add ~:tangle ~no~ to disable tangling)
 #+end_src
 
 ** Fonts
++ [[https://input.djr.com/download/][Input: Fonts for Code — Download]]  Free for private use
++ [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
+Arabic · Devanagari · Georgian · Hebrew · Thai
++ [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode][FiraCode NF]] free monospaced font with programming ligatures Nerd Font
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "FiraCode" :size 16))
+(setq doom-font (font-spec :family "Input" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
+      doom-unicode-font (font-spec :family "Input" :size 12)
+      doom-big-font (font-spec :family "FiraCode NF" :size 19))
 #+end_src
 
 ** Line Numbers

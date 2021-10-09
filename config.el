@@ -2,8 +2,8 @@
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 
-(setq light 'alabaster)
-(setq dark 'quartz)
+(setq light 'doom-acario-light)
+(setq dark 'doom-ayu-mirage)
 
 (setq doom-theme light)            ; default in Light mode
 
@@ -22,7 +22,10 @@
 
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 
-(setq doom-font (font-spec :family "FiraCode" :size 16))
+(setq doom-font (font-spec :family "Input" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
+      doom-unicode-font (font-spec :family "Input" :size 12)
+      doom-big-font (font-spec :family "FiraCode NF" :size 19))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
