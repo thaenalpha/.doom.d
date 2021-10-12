@@ -40,7 +40,9 @@
        (ligatures
         +extra +fira)    ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
-       modeline          ; snazzy, Atom-inspired modeline, plus API
+       (modeline         ; snazzy, Atom-inspired modeline, plus API
+        +nyan            ; Nyanyanyanyanyanyanya! ♬ ♫ ♪ ♩
+        +light)          ; less featureful version of the modeline
        nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -162,7 +164,6 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org                ; organize your plain life in plain text
-        +pretty
         +roam2)
        php              ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more

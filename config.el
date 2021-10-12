@@ -27,13 +27,6 @@
       doom-unicode-font (font-spec :family "Input" :size 12)
       doom-big-font (font-spec :family "FiraCode NF" :size 19))
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-
-(setq display-line-numbers-type t)
-
-(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
-
 (put 'projectile-project-name 'safe-local-variable #'stringp)
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
 

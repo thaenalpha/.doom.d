@@ -40,8 +40,11 @@ Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 #+end_src
 
+** Modeline
+I want to use [[https://github.com/TeMPOraL/nyan-mode][Nyan Mode]] with doom-modeline and I want to add =+nyan= flag to the modeline module, what I need to do is to hack the ~ui/modeline/packages.el~ file locates in .emacs.d/modules directory to add the nyan-mode package, add +nyan.el for config file and add some code into the module. (I've done this in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
+
 ** Fonts
-+ [[https://input.djr.com/download/][Input: Fonts for Code — Download]]  Free for private use
++ [[https://input.djr.com/download/][Input: Fonts for Code — Download]] Free for private use
 + [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
 Arabic · Devanagari · Georgian · Hebrew · Thai
 + [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode][FiraCode NF]] free monospaced font with programming ligatures Nerd Font
@@ -51,21 +54,6 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
       doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
       doom-unicode-font (font-spec :family "Input" :size 12)
       doom-big-font (font-spec :family "FiraCode NF" :size 19))
-#+end_src
-
-** Line Numbers
-
-#+begin_src emacs-lisp
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-
-(setq display-line-numbers-type t)
-#+end_src
-
-** fill-column indicator
-
-#+begin_src emacs-lisp
-(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
 #+end_src
 
 * Projectile
@@ -88,7 +76,7 @@ and this code defines changes project name from .doom.d to
 #+end_src
 
 ** projectile-project-root-files-bottom-up
-A list of files considered to mark the root of a project.
+A list of files considered marking the root of a project.
 
 #+begin_src emacs-lisp :tangle no
 (after! projectile
@@ -113,7 +101,7 @@ To use deft, you first need to specify the directory in which your notes are sto
 
 The default note format is org-mode. You can change this by setting the value of
 the variable ~deft-default-extension~. Replacing the value with ~"md"~, for example,
-will change the default note format to markdown:
+will change the default note format to Markdown:
 
 #+begin_src emacs-lisp :tangle no
 (setq deft-default-extension "md")
@@ -230,7 +218,7 @@ Put any basic configuration here
 ** Org Capture from Web browser
 
 To let this configuration works, =Org Capture= browser's extension and
-=org-protocol= handler is require. (For setting up =org-protocol= handler,
+=org-protocol= handler is required. (For setting up =org-protocol= handler,
 if you're WSL user you can run ~org-protocol.reg~ file in my doom repository)
 Then set keys for ~Selected Template~ and ~Unselected Template~ in extension
 options to P&L.
@@ -260,9 +248,7 @@ options to P&L.
 * App
 ** Telega --- full featured unofficial client for Telegram platform for GNU Emacs.
 *** Installation
-telega depends on the visual-fill-column and rainbow-identifiers packages. This dependency automatically
-installs if you install telega from MELPA or GNU Guix. Otherwise will you need to install these packages
-by hand.
+telega depends on the visual-fill-column and rainbow-identifiers packages. This dependency automatically installs if you install telega from MELPA or GNU Guix. Otherwise, you will need to install these packages by hand.
 
 telega is built on top of the official library provided by Telegram TDLib. Most distributions do not
 provide this package in their repositories, in which case you will have to install it manually by
@@ -284,7 +270,7 @@ Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual
 TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
 Make sure you are using TDLib version greater or equal to 1.7.0.
 
-On MacOS you can install a pre-built TDLib package using homebrew from brew.sh. Just run:
+On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh. Just run:
 
 $ brew install tdlib
 
@@ -310,7 +296,7 @@ Build the sources:
   cd ./td/build && make -jN # Change N first, read a description below.
 #+end_src
 
-with N number of cores that should be used for the compilation (the optimal value is the number of
+With N number of cores that should be used for the compilation (the optimal value is the number of
 physical cores on the machine).
 
 Finally, to install the library system-wide:
@@ -343,6 +329,7 @@ in other location, don't forget to modify telega-server-libs-prefix before start
 **** Dependencies
 ***** Edit with Emacs Chrome/Firefox extension
 [[https://github.com/stsquad/emacs_chrome][GitHub - stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
+
 **** Installing edit-server from MELPA
 
 + ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
@@ -389,9 +376,10 @@ turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 (defun turn-on-paredit () (paredit-mode 1))
 (add-hook! 'clojure-mode-hook 'turn-on-paredit)
 #+end_src
+
 ** JavaScript
 *** Description
-adds.
+adds
 + automatically import dependencies in your JavaScript project.
 
 **** Packages
