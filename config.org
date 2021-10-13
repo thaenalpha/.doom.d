@@ -50,10 +50,10 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
 + [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode][FiraCode NF]] free monospaced font with programming ligatures Nerd Font
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Input" :size 12 :weight 'semi-light)
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 12)
       doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
-      doom-unicode-font (font-spec :family "Input" :size 12)
-      doom-big-font (font-spec :family "FiraCode NF" :size 19))
+      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 #+end_src
 
 * Projectile

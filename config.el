@@ -22,10 +22,10 @@
 
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 
-(setq doom-font (font-spec :family "Input" :size 12 :weight 'semi-light)
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 12)
       doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
-      doom-unicode-font (font-spec :family "Input" :size 12)
-      doom-big-font (font-spec :family "FiraCode NF" :size 19))
+      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 
 (put 'projectile-project-name 'safe-local-variable #'stringp)
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
