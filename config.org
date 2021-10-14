@@ -55,6 +55,23 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 #+end_src
+** Dashboard quick actions config from Tecosaur's Emacs configuration
+When using the dashboard, there are often a small number of actions I will take.
+As the dashboard is it’s own major mode, there is no need to suffer the tyranny
+of unnecessary keystrokes — we can simply bind common actions to a single key!
+
+#+begin_src emacs-lisp
+(map! :map +doom-dashboard-mode-map
+      :ne "f" #'find-file
+      :ne "r" #'consult-recent-file
+      :ne "p" #'doom/open-private-config
+      :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
+      :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
+      :ne "b" #'+vertico/switch-workspace-buffer
+      :ne "B" #'consult-buffer
+      :ne "q" #'save-buffers-kill-terminal)
+#+end_src
+
 
 * Projectile
 ** projectile-project-name

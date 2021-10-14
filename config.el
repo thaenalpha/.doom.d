@@ -27,6 +27,16 @@
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 
+(map! :map +doom-dashboard-mode-map
+      :ne "f" #'find-file
+      :ne "r" #'consult-recent-file
+      :ne "p" #'doom/open-private-config
+      :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
+      :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
+      :ne "b" #'+vertico/switch-workspace-buffer
+      :ne "B" #'consult-buffer
+      :ne "q" #'save-buffers-kill-terminal)
+
 (put 'projectile-project-name 'safe-local-variable #'stringp)
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
 
