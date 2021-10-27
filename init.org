@@ -1,3 +1,26 @@
+#+TITLE:   init
+#+DATE:    Oct 27, 2021
+#+SINCE:   v3.0.0-alpha
+#+STARTUP: inlineimages fold
+
+* Description
+This file controls what Doom modules are enabled and what order they load
+in. Remember to run ~doom sync~ after modifying it!
+*** NOTE
+- Press =SPC h d h= (or =C-h d h= for non-vim users) to access Doom's
+  documentation. there you'll find a "module index" link where you'll find
+  a comprehensive list of doom's modules and what flags they support.
+
+- Move your cursor over a module's name (or its flags) and press =K= (or
+  =C-c c k= for non-vim users) to view its documentation. This works on
+  flags as well (those symbols that start with a plus).
+
+  Alternatively, press =gd= (or =C-c c d=) on a module to browse its
+  directory (for easy access to its source code).
+
+* Modules
+#+name: doom-completion
+#+begin_src emacs-lisp :tangle yes
 ;;; init.el -*- lexical-binding: t; -*-
 
 (doom! :completion
@@ -7,7 +30,9 @@
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
        (vertico +icons)  ; the search engine of the future
-
+#+end_src
+#+name: doom-ui
+#+begin_src emacs-lisp :tangle yes
        :ui
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
@@ -39,7 +64,9 @@
        window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
-
+#+end_src
+#+name: doom-editor
+#+begin_src emacs-lisp :tangle yes
        :editor
        (evil
         +everywhere)     ; come to the dark side, we have cookies
@@ -54,7 +81,9 @@
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
-
+#+end_src
+#+name: doom-emacs
+#+begin_src emacs-lisp :tangle yes
        :emacs
        (dired +icons
               +ranger)   ; making dired pretty [functional]
@@ -63,19 +92,25 @@
        (undo             ; persistent, smarter undo for your inevitable mistakes
         +tree)           ; branching undo history and a visualizer for navigating
        vc                ; version-control and Emacs, sitting in a tree
-
+#+end_src
+#+name: doom-term
+#+begin_src emacs-lisp :tangle yes
        :term
        eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
        vterm             ; the best terminal emulation in Emacs
-
+#+end_src
+#+name: doom-checkers
+#+begin_src emacs-lisp :tangle yes
        :checkers
        (syntax
         +childframe)     ; tasing you for every semicolon you forget
        (spell +flyspell) ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
-
+#+end_src
+#+name: doom-tools
+#+begin_src emacs-lisp :tangle yes
        :tools
        ;;ansible
        (debugger +lsp)   ; stepping through code, to help you add bugs
@@ -101,11 +136,15 @@
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
-
+#+end_src
+#+name: doom-os
+#+begin_src emacs-lisp :tangle yes
        :os
        (:if IS-MAC macos)  ; improve compatibility with macOS
        (tty +osc)          ; improve the terminal Emacs experience
-
+#+end_src
+#+name: doom-lang
+#+begin_src emacs-lisp :tangle yes
        :lang
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
@@ -178,12 +217,16 @@
        (web +css +html)  ; the tubes
        yaml              ; JSON, but readable
        ;;zig               ; C, but simpler
-
+#+end_src
+#+name: doom-email
+#+begin_src emacs-lisp :tangle yes
        :email
        (mu4e +org +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
-
+#+end_src
+#+name: doom-app
+#+begin_src emacs-lisp :tangle yes
        :app
        calendar
        ;;emms
@@ -193,7 +236,10 @@
        (rss +org)        ; emacs as an RSS reader
        twitter           ; twitter client https://twitter.com/vnought
        telega            ; telegram unofficial client
-
+#+end_src
+#+name: doom-config
+#+begin_src emacs-lisp :tangle yes
        :config
        literate
        (default +bindings +smartparens))
+#+end_src
