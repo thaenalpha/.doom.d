@@ -9,7 +9,8 @@
 (package! js2-refactor :built-in 'prefer)
 (package! npm-mode :built-in 'prefer)
 (package! add-node-modules-path :built-in 'prefer)
-(package! import-js :built-in 'prefer)
+(package! pnpm-mode)
+(package! import-js)
 
 ;; Eval
 (package! nodejs-repl :built-in 'prefer)

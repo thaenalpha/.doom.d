@@ -51,7 +51,7 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
 
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 12)
-      doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 #+end_src
@@ -62,14 +62,18 @@ of unnecessary keystrokes — we can simply bind common actions to a single key!
 
 #+begin_src emacs-lisp
 (map! :map +doom-dashboard-mode-map
+      :ne "l" #'doom/quickload-session
+      :ne "a" #'org-agenda
       :ne "f" #'find-file
       :ne "r" #'consult-recent-file
-      :ne "p" #'doom/open-private-config
+      :ne "p" #'projectile-switch-project
+      :ne "P" #'doom/open-private-config
       :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
       :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
       :ne "b" #'+vertico/switch-workspace-buffer
       :ne "B" #'consult-buffer
-      :ne "q" #'save-buffers-kill-terminal)
+      :ne "q" #'save-buffers-kill-terminal
+      :ne "h" #'doom/help)
 #+end_src
 
 
@@ -390,27 +394,224 @@ This section adds packages and configuration on top of Doom Lang modules
 ** Clojure
 turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 #+begin_src emacs-lisp
-(defun turn-on-paredit () (paredit-mode 1))
-(add-hook! 'clojure-mode-hook 'turn-on-paredit)
+(when (featurep! :lang clojure)
+   (add-hook 'clojure-mode-hook 'paredit-mode))
 #+end_src
 
 ** JavaScript
 *** Description
-adds
-+ automatically import dependencies in your JavaScript project.
+My Doom Emacs private JavaScript module with Add-on plugins.
+This was made by doing relative symbolic links to Doom built-in JavaScript Module except for packages.el.
 
-**** Packages
+**** Plugins
+#+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; lang/javascript/packages.el
+#+end_src
+[[https://github.com/defunkt/coffee-mode][coffee-mode]]
+[[https://github.com/mooz/js2-mode][js2-mode]]
+[[https://github.com/felipeochoa/rjsx-mode][rjsx-mode]]
+[[https://github.com/emacs-typescript/typescript.el][typescript-mode]]
+#+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el
+;; Major modes
+(package! rjsx-mode :built-in 'prefer)
+(package! typescript-mode :built-in 'prefer)
+#+end_src
+[[https://github.com/magnars/js2-refactor.el][js2-refactor]]
+[[https://github.com/mojochao/npm-mode][npm-mode]]
++ [[https://github.com/rajasegar/pnpm-mode][pnpm-mode]]
 + [[https://github.com/Galooshi/emacs-import-js][import-js]]
+#+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el
+;; Tools
+(package! js2-refactor :built-in 'prefer)
+(package! npm-mode :built-in 'prefer)
+(package! add-node-modules-path :built-in 'prefer)
+(package! pnpm-mode)
+(package! import-js)
+#+end_src
+[[https://github.com/abicky/nodejs-repl.el][nodejs-repl]]
+[[https://github.com/skeeto/skewer-mode][skewer-mode]]
+#+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el
+;; Eval
+(package! nodejs-repl :built-in 'prefer)
+(package! skewer-mode :built-in 'prefer)
+#+end_src
+[[https://github.com/ananthakumaran/tide][tide]]
+[[https://github.com/NicolasPetton/xref-js2][xref-js2]]*
+#+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el
+;; Programming environment
+(package! tide :built-in 'prefer)
+(when (featurep! :tools lookup)
+  (package! xref-js2 :built-in 'prefer))
+#+end_src
 
-***** Prerequisites for
-****** Running ImportJS in Emacs
+**** Appendix
+| symbolic    | description   |
+|-------------+---------------|
+| =PACKAGE=   | Doom original |
+| =+ PACKAGE= | Add-on plugin |
+
+*** New features
++ automatically import dependencies in your JavaScript project.
++ Minor mode for working with pnpm projects
+
+*** Prerequisites for
+**** This module
+You must open this doc in Emacs and run this code block by press enter:
+(this works only if your Emacs and Doom configs path are defaults)
+#+begin_src sh :tangle no
+ln -s ../../../../.emacs.d/modules/lang/javascript/README.org modules/lang/javascript/README.org
+ln -s ../../../../.emacs.d/modules/lang/javascript/autoload.el modules/lang/javascript/autoload.el
+ln -s ../../../../.emacs.d/modules/lang/javascript/config.el modules/lang/javascript/config.el
+ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javascript/doctor.el
+#+end_src
+**** Running ImportJS in Emacs
 1. Install the importjs binary:
    #+begin_src sh :dir /sudo:: :tangle no
    sudo npm install import-js -g
    #+end_src
 2. Configure Import-Js
-3. Install import-js.el for Emacs
-   + Install via MELPA by adding import-js to the packages.el
-   + Install as [[file:modules/lang/javascript/packages.el][the new package in Doom JavaScript module(private custom)]]
-     by do relative symbolic links to Doom built-in JavaScript Module
-     except for packages.el (make sure links are correct)
+3. Install Watchman as an performance booster to import-js daemon
+   - macOS or Linux
+    #+begin_src sh :tangle no
+     brew update && brew install watchman
+    #+end_src
+
+*** Configuration
+These configs live inside the =+config.el= file and some are located in =autoload/*.el= files.
+
+As the =+config.el= is an [[file:~/.emacs.d/docs/getting_started.org::*Additional files][Additional file]],
+This can be loaded with the ~load!~ macro, which will load an elisp file
+relative to the file it's used from which is =init.el= in our case.
+
+#+BEGIN_SRC emacs-lisp :tangle modules/lang/javascript/init.el
+;; Omitting the file extension allows Emacs to load the byte-compiled version,
+;; if it is available:
+(load! "+config")
+#+END_SRC
+**** import-js
+1. Run the import-js daemon
+   * =M-x=  ~run-import-js~
+   * The daemon will use watchman if installed to improve performance
+   * Configure ~run-import-js~ to run on open a JavaScript oriented buffer:
+
+#+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+;;; lang/javascript/+config.el -*- lexical-binding: t; -*-
+;;
+;;; Tools
+
+(add-hook! '(typescript-mode-local-vars-hook
+             typescript-tsx-mode-local-vars-hook
+             web-mode-local-vars-hook
+             rjsx-mode-local-vars-hook)
+  (defun import-js-setup ()
+    (when (derived-mode-p 'js-mode 'typescript-mode 'typescript-tsx-mode)
+     (if (executable-find "node")
+         (and (require 'import-js nil t)
+              (progn (import-js-mode 1) (run-import-js) import-js-mode))
+       (ignore
+        (doom-log
+         "Couldn't start the import-js daemon because 'node' is missing")))
+         )))
+#+end_src
+2. Import a file!
+   * You can use something like =M-x=  ~import-js-import~ with your cursor over the desired module
+   * It will be helpful to bind ~import-js-import~ to an easy-to-use binding, such as:
+
+#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el :mkdirp yes
+;;; lang/javascript/autoload/import-js.el -*- lexical-binding: t; -*-
+
+(defvar import-js-map (make-sparse-keymap) "Keymap for `import-js'.")
+(map! (:map import-js-map
+       "C-c i" (define-prefix-command #'import-js)
+       (:localleader "i" #'import-js)
+#+end_src
+3. Go directly to a file
+   * The ImportJS goto interface allows us to jump to a package
+   * =M-x=  ~import-js-goto~ will jump to the appropriate file found by ImportJS
+   * This should also be bound to something useful
+
+#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
+       "g <f4>" #'import-js-goto)
+   ;; and the rest.
+      (:map import-js
+       "f" #'import-js-fix
+       "g" #'import-js-goto
+       "i" #'import-js-import
+       "k" #'kill-import-js
+       "r" #'run-import-js))
+#+end_src
+4. Fix your imports
+  * Optionally, you can configure ImportJS to fix your imports for you, adding unknown variables and removing unused imports. ImportJS uses eslint to find these variables.
+  * `eslint` must be in your PATH.
+  * eslint plugins must be installed for that specific version of eslint (if
+    eslint is a global eslint, you may need to install the plugins globally)
+  * Run with =M-x=  ~import-js-fix~
+  * Configure ~import-js-fix~ to run on save:
+
+#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
+;;;###autoload
+(define-minor-mode import-js-mode
+  "Minor mode for automatically Import Javascript dependencies."
+  :lighter " importjs"
+  :keymap import-js-map
+  (if import-js-mode
+       (add-hook 'after-save-hook #'import-js-fix nil t)
+   (remove-hook 'after-save-hook #'import-js-fix t)))
+
+;; Hooks
+
+;;;###autoload
+(defun +javascript-cleanup-import-js-processes-h ()
+  "Clean up dangling import-js daemon process if there are no more buffers with `import-js-mode' active."
+  (when import-js-mode
+    (unless (cl-loop for buf in (delq (current-buffer) (buffer-list))
+                     if (buffer-local-value 'import-js-mode buf)
+                     return buf)
+      (kill-import-js))))
+#+end_src
+5. Cleanup importjsd process when no import-js buffers are left
+
+#+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+;;;###package import-js
+(use-package! import-js
+    :config
+    (add-hook! 'import-js-mode-hook
+      (add-hook 'kill-buffer-hook #'+javascript-cleanup-import-js-processes-h
+                nil 'local)))
+#+end_src
+
+**** pnpm-mode
+#+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+;;;###package pnpm-mode
+(use-package! pnpm-mode
+   :config
+   (map! :localleader
+         :map pnpm-mode-keymap
+          "n" pnpm-mode-command-keymap)
+   ;; Disable npm-mode when enabling pnpm
+   (add-hook 'pnpm-mode-hook
+      (defun turn-off-npm-mode () (npm-mode -1))))
+#+end_src
+***** Project Activation
+By adding ~.dir-locals.el~ file on the root directory of a project containing:
+#+begin_src emacs-lisp :tangle no
+((nil . ((mode . pnpm))))
+#+end_src
+****** For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
+Captured On: [2021-10-21 Thu 15:08]
+
+*** Troubleshooting
+**** TODO import-js-daemon not running
+After you M-x ~run-import-js~ command if there is an error about void symbol definition.
+This likely your import-js npm installation is not succeed. You can test by running:
+#+begin_src sh :tangle no
+importjsd start
+#+end_src
+If it succeed it will return this
+#+RESULTS:
+: ImportJS (v4.0.2) DAEMON active. Logs will go to: /tmp/importjs.log
+
+If not it will throw an error, the one I got is about it cannot find node_sqlite3 module.
+This case is come from =node-pre-gyp= cannot find the a pre-compiled binary in the first place.
+Then it uses `node-gyp` to build the extension but it failed without messages you anything.

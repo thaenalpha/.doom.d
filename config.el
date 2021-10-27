@@ -23,19 +23,23 @@
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 
 (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 12)
-      doom-variable-pitch-font (font-spec :family "FiraGO") ; inherits `doom-font''s :size
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 
 (map! :map +doom-dashboard-mode-map
+      :ne "l" #'doom/quickload-session
+      :ne "a" #'org-agenda
       :ne "f" #'find-file
       :ne "r" #'consult-recent-file
-      :ne "p" #'doom/open-private-config
+      :ne "p" #'projectile-switch-project
+      :ne "P" #'doom/open-private-config
       :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
       :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
       :ne "b" #'+vertico/switch-workspace-buffer
       :ne "B" #'consult-buffer
-      :ne "q" #'save-buffers-kill-terminal)
+      :ne "q" #'save-buffers-kill-terminal
+      :ne "h" #'doom/help)
 
 (put 'projectile-project-name 'safe-local-variable #'stringp)
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
@@ -135,5 +139,5 @@
        (file+olp "~/org/inbox.org" "Web")
        "* %c :website:\n%U %?%:initial"))))
 
-(defun turn-on-paredit () (paredit-mode 1))
-(add-hook! 'clojure-mode-hook 'turn-on-paredit)
+(when (featurep! :lang clojure)
+   (add-hook 'clojure-mode-hook 'paredit-mode))
