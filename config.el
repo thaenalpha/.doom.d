@@ -1,3 +1,4 @@
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 ;; For e.g. GPG configuration, email clients, file templates and snippets.
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
@@ -116,7 +117,6 @@
      ("m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or m:/tannarin26@yahoo.com/Bulk Mail" "All Spams" ?p)
      ("m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or m:/tannarin26@yahoo.com/Trash" "All Trashes" ?t))))
 
-(setq org-directory "~/org/")
 (setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 
 (defun transform-square-brackets-to-round-ones(string-to-transform)

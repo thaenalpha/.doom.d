@@ -1,12 +1,48 @@
-#+TITLE:   Doom configuration
-#+DATE: <2021-09-17 Fri>
+#+TITLE:   Doom Emacs configuration
+#+author:  Nopanun Laochunhanun
+#+DATE:    Sep 17, 2021
+#+SINCE:   v3.0.0-alpha
+#+STARTUP: inlineimages fold
+
+* Table of Contents :TOC_3:noexport:
+- [[#personalization][Personalization]]
+  - [[#personal-information][Personal Information]]
+  - [[#themes][Themes]]
+  - [[#modeline][Modeline]]
+  - [[#fonts][Fonts]]
+  - [[#dashboard-quick-actions-config-from-tecosaurs-emacs-configuration][Dashboard quick actions config from Tecosaur's Emacs configuration]]
+- [[#projectile][Projectile]]
+  - [[#projectile-project-name][projectile-project-name]]
+  - [[#projectile-project-root-files-bottom-up][projectile-project-root-files-bottom-up]]
+- [[#deft][Deft]]
+  - [[#configuration][Configuration]]
+- [[#email--accounts][Email & accounts]]
+  - [[#how-to-use-contexts][How to use contexts]]
+- [[#org-mode][Org-Mode]]
+  - [[#configuration-1][Configuration]]
+  - [[#org-capture-from-web-browser][Org Capture from Web browser]]
+- [[#app][App]]
+  - [[#telega-----full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega --- full featured unofficial client for Telegram platform for GNU Emacs.]]
+    - [[#installation][Installation]]
+  - [[#edit-server-----server-that-responds-to-edit-requests-from-chrome][Edit-Server --- server that responds to edit requests from Chrome]]
+    - [[#installation-1][Installation]]
+- [[#programming-language][Programming language]]
+  - [[#clojure][Clojure]]
+  - [[#javascript][JavaScript]]
+    - [[#description][Description]]
+    - [[#new-features][New features]]
+    - [[#prerequisites-for][Prerequisites for]]
+    - [[#configuration-2][Configuration]]
+    - [[#troubleshooting][Troubleshooting]]
+
+* Personalization
+** Personal Information
 #+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 ;; For e.g. GPG configuration, email clients, file templates and snippets.
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 #+end_src
-
-* Personalization
 ** Themes
 Set your light and dark theme here
 
@@ -232,7 +268,6 @@ This is your e-mail client to build!
 Put any basic configuration here
 
 #+begin_src emacs-lisp
-(setq org-directory "~/org/")
 (setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 #+end_src
 
