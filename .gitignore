@@ -1,5 +1,5 @@
-/modules/app
+/modules/
 /node_modules/
-/*.json
-/*.yaml
+*.json
+*.yaml
 *.el
