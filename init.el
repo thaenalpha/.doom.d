@@ -71,16 +71,19 @@
        vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       (syntax
-        +childframe)     ; tasing you for every semicolon you forget
-       (spell +flyspell) ; tasing you for misspelling mispelling
+       (syntax           ; tasing you for every semicolon you forget
+        +childframe)
+       (:if
+        (executable-find
+         "aspell") spell ; tasing you for misspelling mispelling
+        (spell +flyspell))
        grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
        (debugger +lsp)   ; stepping through code, to help you add bugs
        ;;direnv
-       docker
+       (docker +lsp)
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)   ; run code, run (also, repls)
@@ -89,11 +92,12 @@
         +dictionary      ; word definition and thesaurus lookup functionality.
         ;;+offline         ; Install and prefer offline dictionary/thesaurus.
         +docsets)        ; ...or in Dash docsets locally
-       lsp               ; M-x vscode
-       magit             ; a git porcelain for Emacs
-       ;;+forge)         ; TODO
+       (lsp              ; M-x vscode
+        +peek)           ; =lsp-ui-peek= when looking up def and references
+       (magit            ; a git porcelain for Emacs
+        +forge)          ; interface with git forges
        make              ; run make tasks from Emacs
-       pass              ; password manager for nerds
+       (pass +auth)      ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; managing external services & code builders
        rgb               ; creating color strings
@@ -103,8 +107,8 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
-       (:if IS-MAC macos)  ; improve compatibility with macOS
-       (tty +osc)          ; improve the terminal Emacs experience
+       (:if IS-MAC macos); improve compatibility with macOS
+       (tty +osc)        ; improve the terminal Emacs experience
 
        :lang
        ;;agda              ; types of types of types of types...
@@ -175,8 +179,8 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       (web +css +html)  ; the tubes
-       yaml              ; JSON, but readable
+       (web +lsp)        ; the tubes
+       (yaml +lsp)       ; JSON, but readable
        ;;zig               ; C, but simpler
 
        :email
