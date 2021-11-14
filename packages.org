@@ -8,7 +8,8 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 (package! arrayify
-  :recipe (:local-repo "lisp"))
+  :recipe (:host github :repo "thaenalpha/.doom.d"
+           :files ("lisp/arrayify.el")))
 ;; ~/.doom.d/lisp/arrayify.el
 (package! tldr)
 (package! cheat-sh) ; tldr but more detail, weaker syntax highlight
