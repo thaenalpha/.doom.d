@@ -10,7 +10,8 @@
   - [[#themes][Themes]]
   - [[#modeline][Modeline]]
   - [[#fonts][Fonts]]
-  - [[#dashboard-quick-actions-config-from-tecosaurs-emacs-configuration][Dashboard quick actions config from Tecosaur's Emacs configuration]]
+  - [[#dashboard-quick-actions][Dashboard quick actions]]
+- [[#load-keychain-environment-variables][Load keychain environment variables]]
 - [[#projectile][Projectile]]
   - [[#projectile-project-name][projectile-project-name]]
   - [[#projectile-project-root-files-bottom-up][projectile-project-root-files-bottom-up]]
@@ -91,11 +92,13 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 #+end_src
-** Dashboard quick actions config from Tecosaur's Emacs configuration
+** Dashboard quick actions
+The config idea is come from Tecosaur's Emacs configuration.
+#+begin_quote
 When using the dashboard, there are often a small number of actions I will take.
 As the dashboard is it’s own major mode, there is no need to suffer the tyranny
 of unnecessary keystrokes — we can simply bind common actions to a single key!
-
+#+end_quote
 #+begin_src emacs-lisp
 (map! :map +doom-dashboard-mode-map
       :ne "l" #'doom/quickload-session
@@ -109,9 +112,29 @@ of unnecessary keystrokes — we can simply bind common actions to a single key!
       :ne "b" #'+vertico/switch-workspace-buffer
       :ne "B" #'consult-buffer
       :ne "q" #'save-buffers-kill-terminal
-      :ne "h" #'doom/help)
+      :ne "h" #'doom/help
+      :ne "v" #'+vterm/here
+      :ne "t" #'telega
+      :ne "T" #'=twitter
+      :ne "m" #'=mu4e
+      :ne "n" #'+default/find-in-notes)
 #+end_src
 
+* Load keychain environment variables
+[[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
+Captured On: [2021-11-12 Fri 23:05]
+
+#+begin_src emacs-lisp :tangle packages.el
+;; -*- no-byte-compile: t; -*-
+;;; $DOOMDIR/packages.el
+(package! keychain-environment)
+#+end_src
+#+begin_src emacs-lisp
+(use-package! keychain-environment
+  :init (keychain-refresh-environment)
+  :config (map! :map help-map
+                "rk" #'keychain-refresh-environment))
+#+end_src
 
 * Projectile
 ** projectile-project-name
@@ -463,6 +486,8 @@ This was made by doing relative symbolic links to Doom built-in JavaScript Modul
 (package! add-node-modules-path :built-in 'prefer)
 (package! pnpm-mode)
 (package! import-js)
+(package! yarn
+ :recipe (:host github :repo "thaenalpha/yarn.el"))
 #+end_src
 [[https://github.com/abicky/nodejs-repl.el][nodejs-repl]]
 [[https://github.com/skeeto/skewer-mode][skewer-mode]]
@@ -489,6 +514,7 @@ This was made by doing relative symbolic links to Doom built-in JavaScript Modul
 *** New features
 + automatically import dependencies in your JavaScript project.
 + Minor mode for working with pnpm projects
++ Minor mode for working with yarn projects
 
 *** Prerequisites for
 **** This module
@@ -540,15 +566,24 @@ relative to the file it's used from which is =init.el= in our case.
              web-mode-local-vars-hook
              rjsx-mode-local-vars-hook)
   (defun import-js-setup ()
-    (when (derived-mode-p 'js-mode 'typescript-mode 'typescript-tsx-mode)
-     (if (executable-find "node")
-         (and (require 'import-js nil t)
-              (progn (import-js-mode 1) (run-import-js) import-js-mode))
-       (ignore
-        (doom-log
-         "Couldn't start the import-js daemon because 'node' is missing")))
-         )))
+    "Start `import-js' in the current buffer."
+    (let ((buffer-file-name (buffer-file-name (buffer-base-buffer))))
+      (when (derived-mode-p 'js-mode 'typescript-mode 'typescript-tsx-mode)
+        (if (null buffer-file-name)
+            ;; necessary because `tide-setup' and `lsp' will error if not a
+            ;; file-visiting buffer
+            (add-hook 'after-save-hook #'import-js-setup
+                      nil 'local)
+          (if (executable-find "node")
+              (and (require 'import-js nil t)
+                   (progn (import-js-mode 1) (run-import-js) import-js-mode))
+            (ignore
+             (doom-log
+              "Couldn't start the import-js daemon because 'node' is missing")))
+          (remove-hook 'after-save-hook #'import-js-setup
+                       'local))))))
 #+end_src
+         
 2. Import a file!
    * You can use something like =M-x=  ~import-js-import~ with your cursor over the desired module
    * It will be helpful to bind ~import-js-import~ to an easy-to-use binding, such as:
@@ -567,7 +602,7 @@ relative to the file it's used from which is =init.el= in our case.
    * This should also be bound to something useful
 
 #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
-       "g <f4>" #'import-js-goto)
+       :nv "g <f4>" #'import-js-goto)
    ;; and the rest.
       (:map import-js
        "f" #'import-js-fix
@@ -632,6 +667,113 @@ relative to the file it's used from which is =init.el= in our case.
 By adding ~.dir-locals.el~ file on the root directory of a project containing:
 #+begin_src emacs-lisp :tangle no
 ((nil . ((mode . pnpm))))
+#+end_src
+****** For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
+Captured On: [2021-10-21 Thu 15:08]
+
+**** yarn
+***** keyboard bindings
+
+This package doesn't provide keyboard bindings, so, I have to add them to my own module scripts.
+
+#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/yarn.el :mkdirp yes
+;;; lang/javascript/autoload/yarn.el -*- lexical-binding: t; -*-
+
+(defvar yarn--project-file-name "package.json"
+  "The name of yarn project files.")
+
+(defun yarn--project-file ()
+  "Return path to the project file, or nil.
+If project file exists in the current working directory, or a
+parent directory recursively, return its path.  Otherwise, return
+nil."
+  (let ((dir (locate-dominating-file default-directory yarn--project-file-name)))
+    (unless dir
+      (error (concat "Error: cannot find " yarn--project-file-name)))
+    (concat dir yarn--project-file-name)))
+
+(defun yarn--get-project-property (prop)
+  "Get the given PROP from the current project file."
+  (let* ((project-file (yarn--project-file))
+         (json-object-type 'hash-table)
+         (json-contents (with-temp-buffer
+                          (insert-file-contents project-file)
+                          (buffer-string)))
+         (json-hash (json-read-from-string json-contents))
+         (value (gethash prop json-hash))
+         (commands (list)))
+    (cond ((hash-table-p value)
+           (maphash (lambda (key value)
+                      (setq commands
+                            (append commands
+                                    (list (list key (format "%s %s" "yarn" key))))))
+                    value)
+           commands)
+          (t value))))
+
+(defun yarn--exec-process (cmd &optional comint)
+  "Execute a process running CMD.
+Optional argument COMINT ."
+  (let ((compilation-buffer-name-function
+         (lambda (mode)
+           (format "*yarn:%s - %s*"
+                   (yarn--get-project-property "name") cmd))))
+    (message (concat "Running " cmd))
+    (compile cmd comint)))
+
+(defun yarn-list ()
+  "Run the 'yarn list' command."
+  (interactive)
+  (yarn--exec-process "yarn list --depth=0"))
+
+(defun yarn-visit-project-file ()
+  "Visit the project file."
+  (interactive)
+  (find-file (yarn--project-file)))
+
+(defvar yarn-map (make-sparse-keymap) "Keymap for the `Yarn' package manager.")
+(map! (:map yarn-map
+       "C-c n" (define-prefix-command #'yarn)
+       (:localleader "n" #'yarn))
+      (:map yarn
+       "i" #'yarn-install
+       "n" #'yarn-init
+       "a" #'yarn-add
+       "d" #'yarn-add-dev
+       "r" #'yarn-run
+       "p" #'yarn-publish
+       "t" #'yarn-test
+       "v" #'yarn-visit-project-file
+       "V" #'yarn-version
+       "g" #'yarn-upgrade
+       "u" #'yarn-update
+       "U" #'yarn-remove
+       "l" #'yarn-list))
+
+;;;###autoload
+(define-minor-mode yarn-mode
+  "Minor mode for working with yarn projects."
+  :lighter " yarn"
+  :keymap yarn-map
+  :group 'yarn)
+
+;;;###autoload
+(define-globalized-minor-mode yarn-global-mode
+  yarn-mode
+  yarn-mode)
+#+end_src
+#+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+;;;###package yarn
+(use-package! yarn
+   :config
+   ;; Disable npm-mode when enabling yarn-mode
+   (add-hook 'yarn-mode-hook #'turn-off-npm-mode))
+#+end_src
+
+***** Project Activation
+By adding ~.dir-locals.el~ file on the root directory of a project containing:
+#+begin_src emacs-lisp :tangle no
+((nil . ((mode . yarn))))
 #+end_src
 ****** For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
 Captured On: [2021-10-21 Thu 15:08]

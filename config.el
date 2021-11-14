@@ -40,7 +40,17 @@
       :ne "b" #'+vertico/switch-workspace-buffer
       :ne "B" #'consult-buffer
       :ne "q" #'save-buffers-kill-terminal
-      :ne "h" #'doom/help)
+      :ne "h" #'doom/help
+      :ne "v" #'+vterm/here
+      :ne "t" #'telega
+      :ne "T" #'=twitter
+      :ne "m" #'=mu4e
+      :ne "n" #'+default/find-in-notes)
+
+(use-package! keychain-environment
+  :init (keychain-refresh-environment)
+  :config (map! :map help-map
+                "rk" #'keychain-refresh-environment))
 
 (put 'projectile-project-name 'safe-local-variable #'stringp)
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)

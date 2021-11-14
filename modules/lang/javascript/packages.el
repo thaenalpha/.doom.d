@@ -11,6 +11,8 @@
 (package! add-node-modules-path :built-in 'prefer)
 (package! pnpm-mode)
 (package! import-js)
+(package! yarn
+ :recipe (:host github :repo "thaenalpha/yarn.el"))
 
 ;; Eval
 (package! nodejs-repl :built-in 'prefer)
