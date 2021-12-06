@@ -7,6 +7,7 @@
    '("1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "65e56b533de4a739e09561c357e78dc971e6b8c4617d3f49848419eaccba7b7d" "bd3b9675010d472170c5d540dded5c3d37d83b7c5414462737b60f44351fb3ed" "f6d4146ee7bffebac4882b5952efa65b871de67ec97f4283277f104b72418db6" default))
  '(package-selected-packages
    '(keychain-environment decide nano-agenda nyan-mode org-beautify-theme eziam-theme rand-theme telega dap-mode))
+ '(safe-local-variable-values '((projectile-project-name . "oh-my-system")))
  '(warning-suppress-types
    '((find-file-hook)
      (find-file-hook)
@@ -18,3 +19,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-level-1 ((t (:inherit outline-1 :extend t :background "#F0F0F0" :foreground "#3C3C3C" :overline "#A7A7A7" :weight bold :height 1.3)))))
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+(put 'scroll-left 'disabled nil)
