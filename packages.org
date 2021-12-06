@@ -3,23 +3,32 @@
 #+SINCE:   v3.0.0-alpha
 #+STARTUP: inlineimages nofold
 
-* Packages in use
+* Packages in Use
 #+begin_src emacs-lisp :tangle yes
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
+
 (package! arrayify
   :recipe (:host github :repo "thaenalpha/.doom.d"
            :files ("lisp/arrayify.el")))
 ;; ~/.doom.d/lisp/arrayify.el
-(package! tldr)
-(package! cheat-sh) ; tldr but more detail, weaker syntax highlight
-;; (package! howdoi) Not working now, I almost fixed it, but I have mistaken lost it when I upgrade Doom. Due to I edit src in straight package repo and Doom enforcing to discard or stash changes before upgrade and then my changes were gone.
 (package! github-search)
-;; (package! lsp-tailwindcss)
-;; (package! exec-path-from-shell) ensure environment variables inside Emacs look the same as in the user's shell.
+(package! keychain-environment)
+(package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+end_src
+#+name: tools/brief
+#+begin_src emacs-lisp :tangle modules/tools/brief/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; tools/brief/packages.el
 
-* Doom packages.el's documentation
+(package! cheat-sh) ; tldr but more detail, weaker syntax highlight
+(package! howdoyou
+  :recipe (:host github :repo "thanhvg/emacs-howdoyou"))
+(package! tldr)
+;; (package! howdoi) Not working now, I almost fixed it, but I have mistaken lost it when I upgrade Doom. Due to I edit src in straight package repo and Doom enforcing to discard or stash changes before upgrade and then my changes were gone.
+#+end_src 
+
+* Doom packages.el's Documentation
 To install a package with Doom you must declare them here and run 'doom sync'
 on the command line, then restart Emacs for the changes to take effect -- or
 use 'M-x doom/reload'.
