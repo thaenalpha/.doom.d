@@ -47,16 +47,32 @@
       :ne "m" #'=mu4e
       :ne "n" #'+default/find-in-notes)
 
+(map! :n  "g+"    #'evil-numbers/inc-at-pt
+      :v  "g+"    #'evil-numbers/inc-at-pt-incremental
+      :nv "g="    #'er/expand-region
+      :i  "C-+"   #'er/expand-region
+      :n  "C-0"   #'doom/reset-font-size
+      :n  "C-+"   #'text-scale-increase
+      :n  "M-C-+" #'doom/increase-font-size
+      (:when (featurep! :tools eval)
+       :vi "C-="   #'+eval:region
+       :vi "M-C-=" #'+eval:replace-region))
+
 (use-package! keychain-environment
   :init (keychain-refresh-environment)
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
 
-(put 'projectile-project-name 'safe-local-variable #'stringp)
-(put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
+(setq +lsp-company-backends '(company-capf :with company-yasnippet))
 
 ;; deft
 (setq deft-directory "~/notes")
+
+(setq-hook! '(js-mode
+              js2-mode
+              rjsx-mode
+              typescript-mode
+              typescript-tsx-mode) +format-with-lsp nil)
 
 ;; Each path is relative to the path of the maildir you passed to mu
 (set-email-account! "boliden@gmail.com"
@@ -139,15 +155,44 @@
 (setq org-capture-templates
   (append org-capture-templates
     `(("P" "Protocol" entry
-       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       (file+headline +org-capture-notes-file "Inbox")
        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
       ("L" "Protocol Link" entry
-       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       (file+headline +org-capture-notes-file "Inbox")
        "* %? [[%:link][%(transform-square-brackets-to-round-ones
                         \"%:description\")]] \nCaptured On: %U")
+      ("l" "Web site" entry
+       (file+headline (lambda () (concat org-directory "/webnotes.org")) "Inbox")
+       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+      ("m" "meetup" entry (file "~/org/caldav.org")
+       "* %?%:description \n%i\n%l")
       ("w" "Web site" entry
        (file+olp "~/org/inbox.org" "Web")
        "* %c :website:\n%U %?%:initial"))))
 
+(setq  org-roam-capture-ref-templates
+       '(("l" "Web site" plain (function org-roam-capture--get-point)
+          "${body}\n%?"
+          :file-name "%<%Y%m%d>-${slug}"
+          :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+          :unnarrowed t)))
+
+(when (featurep! :ui hydra)
+  (when (featurep! :completion vertico)
+    (define-key!
+      [remap +hydra/window-nav/idomenu] #'consult-imenu))
+  (map! "<menu>" #'+hydra/window-nav/body))
+
 (when (featurep! :lang clojure)
    (add-hook 'clojure-mode-hook 'paredit-mode))
+
+(use-package! lsp-tailwindcss
+  :init
+  (setq! lsp-tailwindcss-add-on-mode t)
+  :custom
+  (lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode)))
+
+(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
+
+(put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
+(put 'quickrun-option-command 'safe-local-variable #'stringp)

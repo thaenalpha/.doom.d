@@ -1,8 +1,9 @@
 #+TITLE:   Doom Emacs configuration
 #+author:  Nopanun Laochunhanun
-#+DATE:    Sep 17, 2021
+#+DATE:    name
+#+PROPERTY: header-args :lexical yes :results silent
 #+SINCE:   v3.0.0-alpha
-#+STARTUP: inlineimages fold
+#+STARTUP: content
 
 * Table of Contents :TOC_3:noexport:
 - [[#personalization][Personalization]]
@@ -10,31 +11,52 @@
   - [[#themes][Themes]]
   - [[#modeline][Modeline]]
   - [[#fonts][Fonts]]
-  - [[#dashboard-quick-actions][Dashboard quick actions]]
-- [[#load-keychain-environment-variables][Load keychain environment variables]]
-- [[#projectile][Projectile]]
-  - [[#projectile-project-name][projectile-project-name]]
-  - [[#projectile-project-root-files-bottom-up][projectile-project-root-files-bottom-up]]
-- [[#deft][Deft]]
+  - [[#dashboard-quick-actions][Dashboard Quick Actions]]
+  - [[#keyboard-shortcuts][Keyboard Shortcuts]]
+- [[#load-key-chain-environment-variables][Load Key-chain Environment Variables]]
+- [[#completioncorfu][Completion/Corfu]]
+  - [[#description][Description]]
+    - [[#module-flags][Module Flags]]
+    - [[#plugins][Plugins]]
+  - [[#source_code][Source_code]]
   - [[#configuration][Configuration]]
-- [[#email--accounts][Email & accounts]]
+- [[#tools][Tools]]
+  - [[#arrayify][Arrayify]]
+  - [[#brief][Brief]]
+    - [[#description-1][Description]]
+    - [[#source-code][Source Code]]
+  - [[#fzf][fzf]]
+    - [[#description-2][Description]]
+    - [[#source-code-1][Source Code]]
+- [[#ui][UI]]
+  - [[#deft][Deft]]
+    - [[#configuration-1][Configuration]]
+- [[#editor][Editor]]
+  - [[#format][Format]]
+    - [[#disabling-the-lsp-formatter][Disabling the LSP formatter]]
+- [[#email--accounts][Email & Accounts]]
   - [[#how-to-use-contexts][How to use contexts]]
 - [[#org-mode][Org-Mode]]
-  - [[#configuration-1][Configuration]]
+  - [[#configuration-2][Configuration]]
   - [[#org-capture-from-web-browser][Org Capture from Web browser]]
+- [[#window-navigation][Window Navigation]]
 - [[#app][App]]
-  - [[#telega-----full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega --- full featured unofficial client for Telegram platform for GNU Emacs.]]
+  - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
     - [[#installation][Installation]]
-  - [[#edit-server-----server-that-responds-to-edit-requests-from-chrome][Edit-Server --- server that responds to edit requests from Chrome]]
+  - [[#edit-server---server-that-responds-to-edit-requests-from-chrome][Edit-Server - server that responds to edit requests from Chrome]]
     - [[#installation-1][Installation]]
-- [[#programming-language][Programming language]]
+- [[#programming-language][Programming Language]]
   - [[#clojure][Clojure]]
   - [[#javascript][JavaScript]]
-    - [[#description][Description]]
+    - [[#description-3][Description]]
     - [[#new-features][New features]]
     - [[#prerequisites-for][Prerequisites for]]
-    - [[#configuration-2][Configuration]]
     - [[#troubleshooting][Troubleshooting]]
+  - [[#tailwind-lsp][Tailwind LSP]]
+- [[#local-configures][Local Configures]]
+  - [[#directory-local-variables][Directory Local Variables]]
+  - [[#safe-local-variables][safe-local-variables]]
+  - [[#marking-the-root-of-a-project][Marking the root of a project]]
 
 * Personalization
 ** Personal Information
@@ -92,7 +114,7 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
 #+end_src
-** Dashboard quick actions
+** Dashboard Quick Actions
 The config idea is come from Tecosaur's Emacs configuration.
 #+begin_quote
 When using the dashboard, there are often a small number of actions I will take.
@@ -120,58 +142,353 @@ of unnecessary keystrokes — we can simply bind common actions to a single key!
       :ne "n" #'+default/find-in-notes)
 #+end_src
 
-* Load keychain environment variables
+** Keyboard Shortcuts
+#+begin_quote
+Wow, I wish I knew these things before
+#+end_quote
+
+#+begin_src emacs-lisp
+(map! :n  "g+"    #'evil-numbers/inc-at-pt
+      :v  "g+"    #'evil-numbers/inc-at-pt-incremental
+      :nv "g="    #'er/expand-region
+      :i  "C-+"   #'er/expand-region
+      :n  "C-0"   #'doom/reset-font-size
+      :n  "C-+"   #'text-scale-increase
+      :n  "M-C-+" #'doom/increase-font-size
+      (:when (featurep! :tools eval)
+       :vi "C-="   #'+eval:region
+       :vi "M-C-=" #'+eval:replace-region))
+#+end_src
+* Load Key-chain Environment Variables
 [[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
 Captured On: [2021-11-12 Fri 23:05]
 
-#+begin_src emacs-lisp :tangle packages.el
-;; -*- no-byte-compile: t; -*-
-;;; $DOOMDIR/packages.el
-(package! keychain-environment)
-#+end_src
 #+begin_src emacs-lisp
 (use-package! keychain-environment
   :init (keychain-refresh-environment)
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
 #+end_src
+* Completion/Corfu :completion:
+** Description
+[[https://github.com/minad/corfu][GitHub - minad/corfu: corfu.el - Completion Overlay Region FUnction]]
+in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]]. The primary packages are:
 
-* Projectile
-** projectile-project-name
-This config will let you custom project name in .dir-locals.el
++ Corfu, which provides a completion overlay region function
++ Cape, which provides a bunch of Completion At Point Extensions
++ kind-icon, which provides an colorful icon/text prefix based on :company-kind
 
-#+begin_src emacs-lisp
-(put 'projectile-project-name 'safe-local-variable #'stringp)
-(put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
-#+end_src
+*** Module Flags
++ =+orderless= filter through candidates those match regular expressions,
+  which provides better filtering methods
 
-and this code defines changes project name from .doom.d to
+*** Plugins
++ [[https://github.com/minad/corfu][corfu]]
++ [[https://github.com/minad/cape][cape]]
++ [[https://github.com/jdtsmith/kind-icon][kind-icon]]
++ [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
 
-#+begin_src emacs-lisp :tangle .dir-locals.el
-;;; Directory Local Variables
-;;; For more information see (info "(emacs) Directory Variables")
+** Source_code
++ corfu/
+  + autoload/
+    #+name: extra.el
+    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/extra.el :mkdirp yes
+    ;;; completion/corfu/autoload/extra.el -*- lexical-binding: t; -*-
 
-((nil . ((projectile-project-name . "oh-my-system")))
- (org-mode . ((flycheck-textlint-executable . "node_modules/.bin/textlint"))))
-#+end_src
+    ;;;###autoload
+    (defun +corfu-complete-file-at-point ()
+      "Complete a file path from scratch at point"
+      (interactive)
+      (completion-in-region (point) (point) #'read-file-name-internal))
 
-** projectile-project-root-files-bottom-up
-A list of files considered marking the root of a project.
+    ;;;###autoload
+    (defun +corfu-files ()
+      "Complete using files source"
+      (interactive)
+      (let ((completion-at-point-functions (list #'+file-completion-at-point-function)))
+        (completion-at-point)))
 
-#+begin_src emacs-lisp :tangle no
-(after! projectile
-   (setq projectile-project-root-files-bottom-up
-       (remove ".git" projectile-project-root-files-bottom-up)))
-#+end_src
+    ;;;###autoload
+    (defun +corfu-dabbrev ()
+      "Complete using dabbrev source"
+      (interactive)
+      (let ((completion-at-point-functions (list #'+dabbrev-completion-at-point-function)))
+        (completion-at-point)))
 
-#+RESULTS:
-| .projectile | .project |
+    ;;;###autoload
+    (defun +corfu-ispell ()
+      "Complete using ispell source.
 
-#+Original Value:
-| .projectile |  .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
+    See `ispell-lookup-words' for more info"
+      (interactive)
+      (let ((completion-at-point-functions (list #'+ispell-completion-at-point-function)))
+        (completion-at-point)))
 
-* Deft
+    ;;;###autoload
+    (defun +corfu-dict ()
+      "Complete using dict source.
+
+    See `+dict--words' for extra words, and `+dict-file' for a wordslist source "
+      (interactive)
+      (let ((completion-at-point-functions (list #'+dict-completion-at-point-function)))
+        (completion-at-point)))
+    #+end_src
+    #+name: minad-capf.el
+    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/minad-capf.el
+    ;;; completion/corfu/autoload/minad-capf.el -*- lexical-binding: t; -*-
+    ;;; Daniel "minad" Mendler extra capfs
+    ;;; Source : https://github.com/minad/corfu/issues/9#issuecomment-945090516
+
+    (require 'dabbrev)
+
+    ;;;###autoload
+    (defun +file-completion-at-point-function ()
+      "File name completion-at-point-function."
+      (when-let (bounds (bounds-of-thing-at-point 'filename))
+        (list (car bounds) (cdr bounds)
+              'read-file-name-internal
+              :exclusive 'no
+              :annotation-function (lambda (_) " (File)"))))
+
+    ;;;###autoload
+    (defun +dabbrev-completion-at-point-function ()
+      (let ((dabbrev-check-all-buffers nil)
+            (dabbrev-check-other-buffers nil))
+        (dabbrev--reset-global-variables))
+      (let ((abbrev (ignore-errors (dabbrev--abbrev-at-point))))
+        (when (and abbrev (not (string-match-p "[ \t]" abbrev)))
+          (pcase ;; Interruptible scanning
+              (while-no-input
+                (let ((inhibit-message t)
+                      (message-log-max nil))
+                  (or (dabbrev--find-all-expansions
+                       abbrev (dabbrev--ignore-case-p abbrev))
+                      t)))
+            ('nil (keyboard-quit))
+            ('t nil)
+            (words
+             ;; Ignore completions which are too short
+             (let ((min-len (+ 4 (length abbrev))))
+               (setq words (seq-remove (lambda (x) (< (length x) min-len)) words)))
+             (when words
+               (let ((beg (progn (search-backward abbrev) (point)))
+                     (end (progn (search-forward abbrev) (point))))
+                 (unless (string-match-p "\n" (buffer-substring beg end))
+                   (list beg end words
+                         :exclusive 'no
+                         :annotation-function (lambda (_) " (Dabbrev)"))))))))))
+
+    (autoload 'ispell-lookup-words "ispell")
+
+    ;;;###autoload
+    (defun +ispell-completion-at-point-function ()
+      (when-let* ((bounds (bounds-of-thing-at-point 'word))
+                  (table (with-demoted-errors
+                             (let ((message-log-max nil)
+                                   (inhibit-message t))
+                               (ispell-lookup-words
+                                (format "*%s*"
+                                        (buffer-substring-no-properties (car bounds) (cdr bounds))))))))
+        (list (car bounds) (cdr bounds) table
+              :exclusive 'no
+              :annotation-function (lambda (_) " (Ispell)"))))
+
+    (defun +word-completion-at-point-function (words)
+      (when-let (bounds (bounds-of-thing-at-point 'word))
+        (list (car bounds) (cdr bounds) words
+              :exclusive 'no
+              :annotation-function (lambda (_) " (Words)"))))
+
+    (defvar +dict--words nil)
+    (defvar +dict-file "/etc/dictionaries-common/words")
+
+    ;;;###autoload
+    (defun +dict-completion-at-point-function ()
+      (+word-completion-at-point-function
+       (or +dict--words
+           (setq +dict--words
+                 (split-string (with-temp-buffer
+                                 (insert-file-contents-literally +dict-file)
+                                 (buffer-string))
+                               "\n")))))
+    #+end_src
+  #+name: config.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el
+  ;;; completion/corfu/config.el -*- lexical-binding: t; -*-
+
+  ;; Reset lsp-completion provider
+  (add-hook 'doom-init-modules-hook
+            (lambda ()
+              (after! lsp-mode
+                (setq lsp-completion-provider :none))))
+
+  ;; Pad before lsp modeline error info
+  (add-hook 'lsp-mode-hook
+            (lambda ()
+              (setf (caadr
+                     (assq 'global-mode-string mode-line-misc-info))
+                    " ")))
+
+  ;; Set orderless filtering for LSP-mode completions
+  (add-hook 'lsp-completion-mode-hook
+            (lambda ()
+              (setf (alist-get 'lsp-capf completion-category-defaults) '((styles . (orderless))))))
+
+  ;; Set bindings
+  (add-hook 'doom-init-modules-hook
+            (lambda ()
+              (map! :i "C-@" (cmds! (not (minibufferp)) #'corfu-complete)
+                    :i "C-SPC" (cmds! (not (minibufferp)) #'corfu-complete)
+                    (:prefix "C-x"
+                     :i "C-k" #'cape-dict
+                     :i "C-f" #'cape-file
+                     :i "s" #'cape-ispell
+                     :i "C-n" #'cape-keyword
+                     :i "C-s" #'dabbrev-completion))))
+
+  ;; Fallback cleanly to consult in TUI
+  (setq-default completion-in-region-function #'consult-completion-in-region)
+
+  (use-package corfu
+    :hook
+    (doom-first-buffer . corfu-global-mode)
+    :bind (:map corfu-map
+           ("TAB" . corfu-next)
+           ([tab] . corfu-next)
+           ("S-TAB" . corfu-previous)
+           ([backtab] . corfu-previous)))
+
+  (use-package orderless
+    :when (featurep! +orderless)
+    :init
+    (setq completion-styles '(orderless)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles . (partial-completion))))))
+
+  (use-package kind-icon
+    :after corfu
+    :custom
+    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+  (use-package cape
+    :defer t
+    :init
+    (add-to-list 'completion-at-point-functions #'cape-file)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-keyword))
+
+  (setq completion-cycle-threshold 3)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; Completion is often bound to M-TAB.
+  (setq tab-always-indent 'complete)
+
+  ;; Dirty hack to get c completion running
+  ;; Discussion in https://github.com/minad/corfu/issues/34
+  (when (equal tab-always-indent 'complete)
+    (map! :map c-mode-base-map
+          :i [remap c-indent-line-or-region] #'completion-at-point))
+  #+end_src
+  #+name: packages.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
+  ;; -*- no-byte-compile: t; -*-
+  ;;; completion/corfu/packages.el
+
+  (package! corfu)
+  (when (featurep! +orderless)
+    (package! orderless))
+  (package! kind-icon)
+  (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
+  #+end_src
 ** Configuration
+#+begin_src emacs-lisp
+(setq +lsp-company-backends '(company-capf :with company-yasnippet))
+#+end_src
+
+
+* Tools
+** Arrayify
+** Brief :tools:
+*** Description
+Module for brief help
+**** Plugins
++ [[https://github.com/davep/cheat-sh.el][cheat-sh]]
++ [[https://github.com/thanhvg/emacs-howdoyou][howdoyou]]
++ [[https://github.com/kuanyui/tldr.el][tldr]]
+
+*** Source Code
++ brief/
+  #+name: config.el
+  #+begin_src emacs-lisp :tangle modules/tools/brief/config.el :mkdirp yes
+  (use-package! howdoyou
+    :commands (howdoyou-query aj/howdoyou-hydra/body)
+    :config
+    (set-popup-rule! "*How Do You" :vslot 3 :size 0.5  :side 'top :select t
+      :ttl nil :modeline t :autosave t :quit t)
+
+    (add-hook 'howdoyou-mode-hook
+              (lambda () (doom-mark-buffer-as-real-h)
+                (persp-add-buffer (current-buffer))
+                (solaire-mode +1)
+                (mkdir "/tmp/howdoyou" t)
+                (setq-local org-src-fontify-natively nil)
+                (setq-local buffer-file-name "/tmp/howdoyou/latest.org"))))
+  #+end_src
+  #+name: packages.el
+  [[file:packages.org::tools/brief][tools/brief]]
+
+** fzf :tools:
+*** Description
+Command-line fuzzy finder written in Go
+
+**** Plugins
++ [[https://github.com/bling/fzf.el][fzf]]
+
+*** Source Code
++ fzf/
+  #+name: config.el
+  #+begin_src emacs-lisp :tangle modules/tools/fzf/config.el :mkdirp yes
+  ;;; tools/fzf/config.el -*- lexical-binding: t; -*-
+
+  (after! evil
+    (evil-define-key 'insert fzf-mode-map (kbd "ESC") #'term-kill-subjob))
+
+  (define-minor-mode fzf-mode
+    "Minor mode for the FZF buffer"
+    :init-value nil
+    :lighter " FZF"
+    :keymap '(("C-c" . term-kill-subjob)))
+
+  (defadvice! doom-fzf--override-start-args-a (original-fn &rest args)
+    "Set the FZF minor mode with the fzf buffer."
+    :around #'fzf/start
+    (message "called with args %S" args)
+    (apply original-fn args)
+
+    ;; set the FZF buffer to fzf-mode so we can hook ctrl+c
+    (set-buffer "*fzf*")
+    (fzf-mode))
+
+  (defvar fzf/args
+    "-x --print-query -m --tiebreak=index --expect=ctrl-v,ctrl-x,ctrl-t")
+
+  (use-package! fzf
+    :commands (fzf fzf-projectile fzf-hg fzf-git fzf-git-files fzf-directory
+                   fzf-git-grep))
+  #+end_src
+  #+name: packages.el
+  #+begin_src emacs-lisp :tangle modules/tools/fzf/packages.el
+  ;; -*- no-byte-compile: t; -*-
+  ;;; tools/fzf/packages.el
+
+  (package! fzf)
+  #+end_src
+
+* UI
+** Deft
+*** Configuration
 To use deft, you first need to specify the directory in which your notes are stored:
 
 #+begin_src emacs-lisp
@@ -191,7 +508,27 @@ You may also want to alter the way titles and file names are automatically creat
 
 Further customization options can be found here: https://github.com/jrblevin/deft#other-customizations
 
-* Email & accounts
+* Editor
+** Format
+*** Disabling the LSP formatter
+According to [[file:~/.emacs.d/modules/editor/format/README.org::*Disabling the LSP formatter][Disabling the LSP formatter]]
+#+begin_quote
+    If you are in a buffer with ~lsp-mode~ enabled and a server that
+    supports =textDocument/formatting=, it will be used instead of
+    =format-all='s formatter.
+#+end_quote
+
+To disable this behavior on ts and js modes in favor of prettier:
+#+begin_src emacs-lisp
+(setq-hook! '(js-mode
+              js2-mode
+              rjsx-mode
+              typescript-mode
+              typescript-tsx-mode) +format-with-lsp nil)
+#+end_src
+
+
+* Email & Accounts
 
 This is my personal configuration. I have multiple email addresses set like these
 
@@ -285,6 +622,7 @@ You can create bookmarks to show merged views of folders across accounts:
 
 This is your e-mail client to build!
 
+
 * Org-Mode
 ** Configuration
 
@@ -297,11 +635,43 @@ Put any basic configuration here
 ** Org Capture from Web browser
 
 To let this configuration works, =Org Capture= browser's extension and
-=org-protocol= handler is required. (For setting up =org-protocol= handler,
-if you're WSL user you can run ~org-protocol.reg~ file in my doom repository)
-Then set keys for ~Selected Template~ and ~Unselected Template~ in extension
-options to P&L.
+=org-protocol= handler is required.
 
+If you're a WSL user, you can run the one that matches how your emacs launches:
+#+begin_src sh :tangle no
+powershell.exe ./org-protocol.reg
+#+end_src
+#+begin_src sh :tangle no
+powershell.exe ./org-protocol-omz-emacs-plugin.reg
+#+end_src
+
+#+begin_src conf :tangle org-protocol.reg :tangle-mode (identity #o777)
+REGEDIT4
+
+[HKEY_CLASSES_ROOT\org-protocol]
+@="URL:Org Protocol"
+"URL Protocol"=""
+[HKEY_CLASSES_ROOT\org-protocol\shell]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
+@="\"C:\\Windows\\System32\\wsl.exe\" emacsclient \"%1\""
+#+end_src
+#+begin_src conf :tangle org-protocol-omz-emacs-plugin.reg :tangle-mode (identity #o777)
+REGEDIT4
+
+[HKEY_CLASSES_ROOT\org-protocol]
+@="URL:Org Protocol"
+"URL Protocol"=""
+[HKEY_CLASSES_ROOT\org-protocol\shell]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
+@="\"C:\\Windows\\System32\\wsl.exe\" zsh -l ~/.oh-my-zsh/plugins/emacs/emacsclient.sh --no-wait \"%1\""
+#+end_src
+
+Then set keys for =Selected Template= and =Unselected Template= in extension
+options to P&L to match with org-capture-templates for =org-protocol= set below.
+
+#+name: Capture templates
 #+begin_src emacs-lisp
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
@@ -313,28 +683,56 @@ options to P&L.
 (setq org-capture-templates
   (append org-capture-templates
     `(("P" "Protocol" entry
-       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       (file+headline +org-capture-notes-file "Inbox")
        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
       ("L" "Protocol Link" entry
-       (file+headline ,(concat org-directory "notes.org") "Inbox")
+       (file+headline +org-capture-notes-file "Inbox")
        "* %? [[%:link][%(transform-square-brackets-to-round-ones
                         \"%:description\")]] \nCaptured On: %U")
+      ("l" "Web site" entry
+       (file+headline (lambda () (concat org-directory "/webnotes.org")) "Inbox")
+       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+      ("m" "meetup" entry (file "~/org/caldav.org")
+       "* %?%:description \n%i\n%l")
       ("w" "Web site" entry
        (file+olp "~/org/inbox.org" "Web")
        "* %c :website:\n%U %?%:initial"))))
 #+end_src
+#+name: Org-roam roam-ref templates
+#+begin_src emacs-lisp
+(setq  org-roam-capture-ref-templates
+       '(("l" "Web site" plain (function org-roam-capture--get-point)
+          "${body}\n%?"
+          :file-name "%<%Y%m%d>-${slug}"
+          :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+          :unnarrowed t)))
+#+end_src
+
+
+* Window Navigation
+When =:ui hydra= is enabled, use ~+hydra/window-nav/body~~ to control windows with single key commands.
+
+#+begin_src emacs-lisp
+(when (featurep! :ui hydra)
+  (when (featurep! :completion vertico)
+    (define-key!
+      [remap +hydra/window-nav/idomenu] #'consult-imenu))
+  (map! "<menu>" #'+hydra/window-nav/body))
+#+end_src
 
 * App
-** Telega --- full featured unofficial client for Telegram platform for GNU Emacs.
+** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
 *** Installation
-telega depends on the visual-fill-column and rainbow-identifiers packages. This dependency automatically installs if you install telega from MELPA or GNU Guix. Otherwise, you will need to install these packages by hand.
+telega depends on the visual-fill-column and rainbow-identifiers packages.
+This dependency automatically installs if you install telega from MELPA or
+GNU Guix. Otherwise, you will need to install these packages by hand.
 
-telega is built on top of the official library provided by Telegram TDLib. Most distributions do not
-provide this package in their repositories, in which case you will have to install it manually by
-following the instructions.
+telega is built on top of the official library provided by Telegram TDLib.
+Most distributions do not provide this package in their repositories, in
+which case you will have to install it manually by following the instructions.
 
-GNU Guix, however, does have both telega and TDLib packaged. If you use GNU Guix you can skip
-directly to Installing from GNU Guix.
+GNU Guix, however, does have both telega and TDLib packaged.
+If you use GNU Guix you can skip directly to Installing from GNU Guix.
 
 **** Dependencies
 Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
@@ -380,8 +778,8 @@ physical cores on the machine).
 
 Finally, to install the library system-wide:
 
-#+begin_src sh :tangle no
-  cd ./td/build && sudo make install # this one not works because it prompts you for password. Need to launchs from shell.
+#+begin_src sh :dir (concat "/sudo::/home/" user-login-name "/.doom.d") :tangle no
+cd ./td/build && sudo make install
 #+end_src
 
 It will install headers to /usr/local/include and library itself into /usr/local/lib. If you have TDLib installed
@@ -403,11 +801,11 @@ in other location, don't forget to modify telega-server-libs-prefix before start
     rm -r modules/app/telega
   #+end_src
 
-** Edit-Server --- server that responds to edit requests from Chrome
+** Edit-Server - server that responds to edit requests from Chrome
 *** Installation
 **** Dependencies
 ***** Edit with Emacs Chrome/Firefox extension
-[[https://github.com/stsquad/emacs_chrome][GitHub - stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
+[[https://github.com/stsquad/emacs_chrome][stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
 
 **** Installing edit-server from MELPA
 
@@ -446,7 +844,7 @@ in other location, don't forget to modify telega-server-libs-prefix before start
         '(("github\\.com" . markdown-mode))))
 #+end_src
 
-* Programming language
+* Programming Language
 This section adds packages and configuration on top of Doom Lang modules
 
 ** Clojure
@@ -538,7 +936,7 @@ ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javasc
      brew update && brew install watchman
     #+end_src
 
-*** Configuration
+:nv "g <f4>" #'import-js-goto)*** Configuration
 These configs live inside the =+config.el= file and some are located in =autoload/*.el= files.
 
 As the =+config.el= is an [[file:~/.emacs.d/docs/getting_started.org::*Additional files][Additional file]],
@@ -792,3 +1190,82 @@ If it succeed it will return this
 If not it will throw an error, the one I got is about it cannot find node_sqlite3 module.
 This case is come from =node-pre-gyp= cannot find the a pre-compiled binary in the first place.
 Then it uses `node-gyp` to build the extension but it failed without messages you anything.
+
+** Tailwind LSP :tools:css:lsp:
+#+begin_comment
+
+    This sub-tree was taken from Jay Zawrotny's Doom Configures
+    [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
+#+end_comment
+
+Provide tailwind class name completions as an extra LSP package.
+
+Install the lsp-tailwindcss emacs package:
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! lsp-tailwindcss
+  :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+#+end_src
+
+Set add-on mode. This ensures both tailwind-lsp and the js or ts lsp servers
+run in parallel. Set ~lsp-tailwindcss-add-on-mode~ before the package loads.
+
+#+begin_src emacs-lisp
+(use-package! lsp-tailwindcss
+  :init
+  (setq! lsp-tailwindcss-add-on-mode t)
+  :custom
+  (lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode)))
+#+end_src
+
+Lastly associate various template language files with html so that
+lsp-tailwindcss runs when editing .liquid files for example.
+
+#+begin_src emacs-lisp
+(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
+#+end_src
+
+Make sure to add the =+lsp= flag to the =:lang web= module in [[./init.el][init.el]]!
+
+
+
+* Local Configures
+** Directory Local Variables
+=SPC p e= ~projectile-edit-dir-locals~
+This command let you custom project variables in =.dir-locals.el=
+For more information see (info "(emacs) Directory Variables")
+
+#+begin_src emacs-lisp :tangle .dir-locals.el
+((nil . ((projectile-project-name . "oh-my-system") ; Edit project name .doom.d
+         (indent-tabs-mode . nil)
+         (fill-column . 80)
+         (sentence-end-double-space . t)
+         (emacs-lisp-docstring-fill-column . 75)
+         (project-vc-merge-submodules . nil)))
+ (org-mode . ((flycheck-textlint-executable . "node_modules/.bin/textlint"))))
+#+end_src
+
+** safe-local-variables
+Emacs treat some variable as a risky-local-variable and will request your
+permission to apply these variables every time when accessing a file within a
+directory that contains settings for these variable in =.dir-locals.el= file.
+#+begin_src emacs-lisp
+(put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
+(put 'quickrun-option-command 'safe-local-variable #'stringp)
+#+end_src
+
+** Marking the root of a project
+~projectile-project-root-files-bottom-up~
+A list of files considered marking the root of a project.
+
+#+begin_src emacs-lisp :tangle no
+(after! projectile
+   (setq projectile-project-root-files-bottom-up
+       (remove ".git" projectile-project-root-files-bottom-up)))
+#+end_src
+
+#+RESULTS:
+| .projectile | .project |
+
+#+Original Value:
+| .projectile |  .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
