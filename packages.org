@@ -14,7 +14,8 @@
 ;; ~/.doom.d/lisp/arrayify.el
 (package! github-search)
 (package! keychain-environment)
-(package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+(package! lsp-tailwindcss 
+  :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+end_src
 #+name: tools/brief
 #+begin_src emacs-lisp :tangle modules/tools/brief/packages.el :mkdirp yes
