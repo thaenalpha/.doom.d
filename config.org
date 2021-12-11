@@ -173,7 +173,9 @@ Captured On: [2021-11-12 Fri 23:05]
 ** vterm
 In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 #+begin_src emacs-lisp
-(after! vterm (evil-collection-vterm-toggle-send-escape))
+(after! vterm (evil-collection-vterm-toggle-send-escape)
+  (evil-collection-define-key 'insert 'vterm-mode-map
+    (kbd "C-j") 'vterm--self-insert))
 #+end_src
 * Completion/Corfu :completion:
 ** Source_code

@@ -67,7 +67,9 @@
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
 
-(after! vterm (evil-collection-vterm-toggle-send-escape))
+(after! vterm (evil-collection-vterm-toggle-send-escape)
+  (evil-collection-define-key 'insert 'vterm-mode-map
+    (kbd "C-j") 'vterm--self-insert))
 
 ;; deft
 (setq deft-directory "~/notes")
