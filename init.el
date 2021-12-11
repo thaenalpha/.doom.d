@@ -117,7 +117,7 @@
        rest              ; Emacs as a REST client
        (scheme +guile)   ; a fully conniving family of lisps
        (sh +lsp          ; she sells {ba,z,fi}sh shells on the C xor
-           +powershell)  ; Microsoft shell
+           +powershell)  ; the Microsoft shell
        (web +lsp)        ; the tubes
        (yaml +lsp)       ; JSON, but readable
 

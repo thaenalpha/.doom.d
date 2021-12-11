@@ -3,6 +3,23 @@
 #+SINCE:   v3.0.0-alpha
 #+STARTUP: fold
 
+* Table of Contents :TOC:
+- [[#description][Description]]
+  - [[#file-structure][File Structure]]
+- [[#modules][Modules]]
+  - [[#app][:app]]
+  - [[#checkers][:checkers]]
+  - [[#completion][:completion]]
+  - [[#config][:config]]
+  - [[#editor][:editor]]
+  - [[#emacs][:emacs]]
+  - [[#email][:email]]
+  - [[#lang][:lang]]
+  - [[#os][:os]]
+  - [[#term][:term]]
+  - [[#tools][:tools]]
+  - [[#ui][:ui]]
+
 * Description
 This file controls what Doom modules are enabled and what order they load
 in. Remember to run ~doom sync~ after modifying it!
@@ -63,7 +80,30 @@ in. Remember to run ~doom sync~ after modifying it!
        <<doom-config>>)
 #+end_src
 * Modules
-** completion
+** :app
+#+name: doom-app
+#+begin_src emacs-lisp
+calendar
+;;emms            ; The Emacs Multimedia System
+edit-server       ; Edit with Emacs server
+everywhere        ; *leave* Emacs!? You must be joking
+irc               ; how neckbeards socialize
+(rss +org)        ; emacs as an RSS reader
+twitter           ; twitter client https://twitter.com/vnought
+telega            ; telegram unofficial client
+#+end_src
+** :checkers
+#+name: doom-checkers
+#+begin_src emacs-lisp
+(syntax           ; tasing you for every semicolon you forget
+ +childframe)
+(:if
+ (executable-find
+  "aspell") spell ; tasing you for misspelling mispelling
+ (spell +flyspell))
+grammar           ; tasing grammar mistake every you make
+#+end_src
+** :completion
 #+name: doom-completion
 #+begin_src emacs-lisp
 (company          ; the ultimate code completion backend
@@ -81,40 +121,13 @@ ido               ; the other *other* search engine...
 ivy               ; a search engine for love and life
 (vertico +icons)  ; the search engine of the future
 #+end_src
-** ui
-#+name: doom-ui
+** :config
+#+name: doom-config
 #+begin_src emacs-lisp
-deft              ; notational velocity for Emacs
-doom              ; what makes DOOM look the way it does
-doom-dashboard    ; a nifty splash screen for Emacs
-doom-quit         ; DOOM quit-message prompts when you quit Emacs
-(emoji +ascii     ; Include plain text emojis like =:)=.
-       +github    ; Include Github-style emojis like =:smile:=.
-       +unicode)  ; 🙂
-hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-hydra
-indent-guides     ; highlighted indent columns
-(ligatures
- +extra +fira)    ; ligatures and symbols to make your code pretty again
-minimap           ; show a map of the code on the side
-(modeline         ; snazzy, Atom-inspired modeline, plus API
- +nyan            ; Nyanyanyanyanyanyanya! ♬ ♫ ♪ ♩
- +light)          ; less featureful version of the modeline
-nav-flash         ; blink cursor line after big motions
-ophints           ; highlight the region an operation acts on
-(popup            ; tame sudden yet inevitable temporary windows
- +all             ; ensure all buffers (*name*) are treated as popups
- +defaults)       ; default popup rules for a variety of buffers.
-tabs              ; a tab bar for Emacs
-(treemacs +lsp)   ; a project drawer, like neotree but cooler
-unicode           ; extended unicode support for various languages
-vc-gutter         ; vcs diff in the fringe
-vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-window-select     ; visually switch windows
-workspaces        ; tab emulation, persistence & separate workspaces
-zen               ; distraction-free coding or writing
+literate
+(default +bindings +smartparens)
 #+end_src
-** editor
+** :editor
 #+name: doom-editor
 #+begin_src emacs-lisp
 (evil
@@ -134,7 +147,7 @@ god               ; run Emacs commands without modifier keys
 lispy             ; vim for lisp, for people who don't like vim
 objed             ; text object editing for the innocent
 #+end_src
-** emacs
+** :emacs
 #+name: doom-emacs
 #+begin_src emacs-lisp
 (dired +icons     ; making dired pretty [functional]
@@ -145,91 +158,17 @@ electric          ; smarter, keyword-based electric-indent
  +tree)           ; branching undo history and a visualizer for navigating
 vc                ; version-control and Emacs, sitting in a tree
 #+end_src
-** term
-#+name: doom-term
+** :email
+#+name: doom-email
 #+begin_src emacs-lisp
-eshell            ; the elisp shell that works everywhere
-vterm             ; the best terminal emulation in Emacs
+(mu4e +org +gmail)
 #+end_src
-*** All Terminal support
+*** Other clients
 #+begin_src emacs-lisp
-eshell            ; the elisp shell that works everywhere
-shell             ; simple shell REPL for Emacs
-term              ; basic terminal emulator for Emacs
-vterm             ; the best terminal emulation in Emacs
+notmuch
+(wanderlust +gmail)
 #+end_src
-** checkers
-#+name: doom-checkers
-#+begin_src emacs-lisp
-(syntax           ; tasing you for every semicolon you forget
- +childframe)
-(:if
- (executable-find
-  "aspell") spell ; tasing you for misspelling mispelling
- (spell +flyspell))
-grammar           ; tasing grammar mistake every you make
-#+end_src
-** tools
-#+name: doom-tools
-#+begin_src emacs-lisp
-brief             ; tldr +cheat-sh
-(debugger +lsp)   ; stepping through code, to help you add bugs
-(docker +lsp)
-editorconfig
-(eval +overlay)   ; run code, run (also, repls)
-fzf               ; Command-line fuzzy finder written in Go
-(lookup           ; navigate your code and its documentation
- +docsets         ; ...or in Dash docsets locally
- +dictionary)     ; word definition and thesaurus lookup functionality.
-(lsp              ; M-x vscode
- +peek)           ; =lsp-ui-peek= when looking up def and references
-(magit            ; a git porcelain for Emacs
- +forge)          ; interface with git forges
-make              ; run make tasks from Emacs
-(pass +auth)      ; password manager for nerds
-pdf               ; pdf enhancements
-rgb               ; creating color strings
-#+end_src
-*** All Available-Tools
-#+begin_src emacs-lisp
-ansible
-biblio            ; Writes a PhD for you (citation needed)
-brief             ; tldr +cheat-sh
-(debugger +lsp)   ; stepping through code, to help you add bugs
-direnv
-(docker +lsp)
- ; let someone else argue about tabs vs spaces
-ein               ; tame Jupyter notebooks with emacs
-(eval +overlay)   ; run code, run (also, repls)
-fzf               ; Command-line fuzzy finder written in Go
-gist              ; interacting with github gists
-(lookup           ; navigate your code and its documentation
- +docsets         ; ...or in Dash docsets locally
- +dictionary      ; word definition and thesaurus lookup functionality.
- +offline         ; Install and prefer offline dictionary/thesaurus.
-)
-(lsp              ; M-x vscode
- +peek)           ; =lsp-ui-peek= when looking up def and references
-(magit            ; a git porcelain for Emacs
- +forge)          ; interface with git forges
-make              ; run make tasks from Emacs
-(pass +auth)      ; password manager for nerds
-pdf               ; pdf enhancements
-prodigy           ; managing external services & code builders
-rgb               ; creating color strings
-taskrunner        ; taskrunner for all your projects
-terraform         ; infrastructure as code
-tmux              ; an API for interacting with tmux
-upload            ; map local to remote projects via ssh/ftp
-#+end_src
-** os
-#+name: doom-os
-#+begin_src emacs-lisp
-(:if IS-MAC macos); improve compatibility with macOS
-(tty +osc)        ; improve the terminal Emacs experience
-#+end_src
-
-** lang
+** :lang
 #+name: doom-lang
 #+begin_src emacs-lisp
 (clojure +lsp)    ; java with a lisp
@@ -251,7 +190,7 @@ php               ; perl's insecure younger brother
 rest              ; Emacs as a REST client
 (scheme +guile)   ; a fully conniving family of lisps
 (sh +lsp          ; she sells {ba,z,fi}sh shells on the C xor
-    +powershell)  ; Microsoft shell
+    +powershell)  ; the Microsoft shell
 (web +lsp)        ; the tubes
 (yaml +lsp)       ; JSON, but readable
 #+end_src
@@ -319,6 +258,7 @@ rst               ; ReST in peace
 (scala +lsp)      ; java, but good
 (scheme +guile)   ; a fully conniving family of lisps
 (sh +lsp          ; she sells {ba,z,fi}sh shells on the C xor
+    +powershell)  ; the Microsoft shell
 sml
 solidity          ; do you need a blockchain? No.
 swift             ; who asked for emoji variables?
@@ -327,31 +267,109 @@ terra             ; Earth and Moon in alignment for performance.
 (yaml +lsp)       ; JSON, but readable
 zig               ; C, but simpler
 #+end_src
-** email
-#+name: doom-email
+** :os
+#+name: doom-os
 #+begin_src emacs-lisp
-(mu4e +org +gmail)
+(:if IS-MAC macos); improve compatibility with macOS
+(tty +osc)        ; improve the terminal Emacs experience
 #+end_src
-*** Other clients
+
+** :term
+#+name: doom-term
 #+begin_src emacs-lisp
-notmuch
-(wanderlust +gmail)
+eshell            ; the elisp shell that works everywhere
+vterm             ; the best terminal emulation in Emacs
 #+end_src
-** app
-#+name: doom-app
+*** All Terminal support
 #+begin_src emacs-lisp
-calendar
-;;emms            ; The Emacs Multimedia System
-edit-server       ; Edit with Emacs server
-everywhere        ; *leave* Emacs!? You must be joking
-irc               ; how neckbeards socialize
-(rss +org)        ; emacs as an RSS reader
-twitter           ; twitter client https://twitter.com/vnought
-telega            ; telegram unofficial client
+eshell            ; the elisp shell that works everywhere
+shell             ; simple shell REPL for Emacs
+term              ; basic terminal emulator for Emacs
+vterm             ; the best terminal emulation in Emacs
 #+end_src
-** config
-#+name: doom-config
+** :tools
+#+name: doom-tools
 #+begin_src emacs-lisp
-literate
-(default +bindings +smartparens)
+brief             ; tldr +cheat-sh
+(debugger +lsp)   ; stepping through code, to help you add bugs
+(docker +lsp)
+editorconfig
+(eval +overlay)   ; run code, run (also, repls)
+fzf               ; Command-line fuzzy finder written in Go
+(lookup           ; navigate your code and its documentation
+ +docsets         ; ...or in Dash docsets locally
+ +dictionary)     ; word definition and thesaurus lookup functionality.
+(lsp              ; M-x vscode
+ +peek)           ; =lsp-ui-peek= when looking up def and references
+(magit            ; a git porcelain for Emacs
+ +forge)          ; interface with git forges
+make              ; run make tasks from Emacs
+(pass +auth)      ; password manager for nerds
+pdf               ; pdf enhancements
+rgb               ; creating color strings
+#+end_src
+*** All Available-Tools
+#+begin_src emacs-lisp
+ansible
+biblio            ; Writes a PhD for you (citation needed)
+brief             ; tldr +cheat-sh
+(debugger +lsp)   ; stepping through code, to help you add bugs
+direnv
+(docker +lsp)
+ ; let someone else argue about tabs vs spaces
+ein               ; tame Jupyter notebooks with emacs
+(eval +overlay)   ; run code, run (also, repls)
+fzf               ; Command-line fuzzy finder written in Go
+gist              ; interacting with github gists
+(lookup           ; navigate your code and its documentation
+ +docsets         ; ...or in Dash docsets locally
+ +dictionary      ; word definition and thesaurus lookup functionality.
+ +offline         ; Install and prefer offline dictionary/thesaurus.
+)
+(lsp              ; M-x vscode
+ +peek)           ; =lsp-ui-peek= when looking up def and references
+(magit            ; a git porcelain for Emacs
+ +forge)          ; interface with git forges
+make              ; run make tasks from Emacs
+(pass +auth)      ; password manager for nerds
+pdf               ; pdf enhancements
+prodigy           ; managing external services & code builders
+rgb               ; creating color strings
+taskrunner        ; taskrunner for all your projects
+terraform         ; infrastructure as code
+tmux              ; an API for interacting with tmux
+upload            ; map local to remote projects via ssh/ftp
+#+end_src
+** :ui
+#+name: doom-ui
+#+begin_src emacs-lisp
+deft              ; notational velocity for Emacs
+doom              ; what makes DOOM look the way it does
+doom-dashboard    ; a nifty splash screen for Emacs
+doom-quit         ; DOOM quit-message prompts when you quit Emacs
+(emoji +ascii     ; Include plain text emojis like =:)=.
+       +github    ; Include Github-style emojis like =:smile:=.
+       +unicode)  ; 🙂
+hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+hydra
+indent-guides     ; highlighted indent columns
+(ligatures
+ +extra +fira)    ; ligatures and symbols to make your code pretty again
+minimap           ; show a map of the code on the side
+(modeline         ; snazzy, Atom-inspired modeline, plus API
+ +nyan            ; Nyanyanyanyanyanyanya! ♬ ♫ ♪ ♩
+ +light)          ; less featureful version of the modeline
+nav-flash         ; blink cursor line after big motions
+ophints           ; highlight the region an operation acts on
+(popup            ; tame sudden yet inevitable temporary windows
+ +all             ; ensure all buffers (*name*) are treated as popups
+ +defaults)       ; default popup rules for a variety of buffers.
+tabs              ; a tab bar for Emacs
+(treemacs +lsp)   ; a project drawer, like neotree but cooler
+unicode           ; extended unicode support for various languages
+vc-gutter         ; vcs diff in the fringe
+vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+window-select     ; visually switch windows
+workspaces        ; tab emulation, persistence & separate workspaces
+zen               ; distraction-free coding or writing
 #+end_src
