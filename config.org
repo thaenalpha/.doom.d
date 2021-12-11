@@ -1,9 +1,9 @@
-#+TITLE:   Doom Emacs configuration
-#+author:  Nopanun Laochunhanun
-#+DATE:    name
-#+PROPERTY: header-args :lexical yes :results silent
-#+SINCE:   v3.0.0-alpha
-#+STARTUP: content
+#+TITLE:    Doom Emacs configuration
+#+author:   Nopanun Laochunhanun
+#+DATE:     Fri Dec 10 15:38:47 2021
+#+PROPERTY: header-args :results silent
+#+SINCE:    v3.0.0-alpha
+#+STARTUP:  content
 
 * Table of Contents :TOC_3:noexport:
 - [[#personalization][Personalization]]
@@ -13,46 +13,43 @@
   - [[#fonts][Fonts]]
   - [[#dashboard-quick-actions][Dashboard Quick Actions]]
   - [[#keyboard-shortcuts][Keyboard Shortcuts]]
-- [[#load-key-chain-environment-variables][Load Key-chain Environment Variables]]
+  - [[#load-key-chain-environment-variables][Load Key-chain Environment Variables]]
+  - [[#vterm][vterm]]
 - [[#completioncorfu][Completion/Corfu]]
-  - [[#description][Description]]
-    - [[#module-flags][Module Flags]]
-    - [[#plugins][Plugins]]
   - [[#source_code][Source_code]]
-  - [[#configuration][Configuration]]
-- [[#tools][Tools]]
-  - [[#arrayify][Arrayify]]
-  - [[#brief][Brief]]
-    - [[#description-1][Description]]
-    - [[#source-code][Source Code]]
-  - [[#fzf][fzf]]
-    - [[#description-2][Description]]
-    - [[#source-code-1][Source Code]]
 - [[#ui][UI]]
   - [[#deft][Deft]]
-    - [[#configuration-1][Configuration]]
+    - [[#configuration][Configuration]]
+  - [[#window-navigation][Window Navigation]]
 - [[#editor][Editor]]
   - [[#format][Format]]
     - [[#disabling-the-lsp-formatter][Disabling the LSP formatter]]
+- [[#tools][Tools]]
+  - [[#arrayify][Arrayify]]
+  - [[#brief][Brief]]
+    - [[#description][Description]]
+    - [[#source-code][Source Code]]
+  - [[#fzf][fzf]]
+    - [[#description-1][Description]]
+    - [[#source-code-1][Source Code]]
+- [[#org-mode][Org-Mode]]
+  - [[#configuration-1][Configuration]]
+  - [[#org-capture-from-web-browser][Org Capture from Web browser]]
+- [[#programming-language][Programming Language]]
+  - [[#clojure][Clojure]]
+  - [[#javascript][JavaScript]]
+    - [[#description-2][Description]]
+    - [[#new-features][New features]]
+    - [[#prerequisites-for][Prerequisites for]]
+    - [[#troubleshooting][Troubleshooting]]
+  - [[#tailwind-lsp][Tailwind LSP]]
 - [[#email--accounts][Email & Accounts]]
   - [[#how-to-use-contexts][How to use contexts]]
-- [[#org-mode][Org-Mode]]
-  - [[#configuration-2][Configuration]]
-  - [[#org-capture-from-web-browser][Org Capture from Web browser]]
-- [[#window-navigation][Window Navigation]]
 - [[#app][App]]
   - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
     - [[#installation][Installation]]
   - [[#edit-server---server-that-responds-to-edit-requests-from-chrome][Edit-Server - server that responds to edit requests from Chrome]]
     - [[#installation-1][Installation]]
-- [[#programming-language][Programming Language]]
-  - [[#clojure][Clojure]]
-  - [[#javascript][JavaScript]]
-    - [[#description-3][Description]]
-    - [[#new-features][New features]]
-    - [[#prerequisites-for][Prerequisites for]]
-    - [[#troubleshooting][Troubleshooting]]
-  - [[#tailwind-lsp][Tailwind LSP]]
 - [[#local-configures][Local Configures]]
   - [[#directory-local-variables][Directory Local Variables]]
   - [[#safe-local-variables][safe-local-variables]]
@@ -117,9 +114,9 @@ Arabic · Devanagari · Georgian · Hebrew · Thai
 ** Dashboard Quick Actions
 The config idea is come from Tecosaur's Emacs configuration.
 #+begin_quote
-When using the dashboard, there are often a small number of actions I will take.
-As the dashboard is it’s own major mode, there is no need to suffer the tyranny
-of unnecessary keystrokes — we can simply bind common actions to a single key!
+When using the dashboard, there are often a small number of actions I will
+take. As the dashboard is it’s own major mode, there is no need to suffer
+the tyranny of unnecessary keystrokes — we can simply bind common actions to a single key!
 #+end_quote
 #+begin_src emacs-lisp
 (map! :map +doom-dashboard-mode-map
@@ -139,7 +136,8 @@ of unnecessary keystrokes — we can simply bind common actions to a single key!
       :ne "t" #'telega
       :ne "T" #'=twitter
       :ne "m" #'=mu4e
-      :ne "n" #'+default/find-in-notes)
+      :ne "n" #'+default/find-in-notes
+      :ne "d" #'+workspace/delete)
 #+end_src
 
 ** Keyboard Shortcuts
@@ -151,26 +149,272 @@ Wow, I wish I knew these things before
 (map! :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
-      :i  "C-+"   #'er/expand-region
+      :gi "C-+"   #'er/expand-region
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
       (:when (featurep! :tools eval)
        :vi "C-="   #'+eval:region
-       :vi "M-C-=" #'+eval:replace-region))
+       :vi "M-C-=" #'+eval:replace-region)
+      (:when (featurep! :tools fzf)
+       :map search-map
+       "SPC" #'fzf-projectile))
 #+end_src
-* Load Key-chain Environment Variables
+** Load Key-chain Environment Variables
 [[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
 Captured On: [2021-11-12 Fri 23:05]
 
 #+begin_src emacs-lisp
-(use-package! keychain-environment
+(use-package keychain-environment
   :init (keychain-refresh-environment)
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
 #+end_src
+** vterm
+In Vterm I prefer =ESC= to be a ~vterm--self-insert~
+#+begin_src emacs-lisp
+(after! vterm (evil-collection-vterm-toggle-send-escape))
+#+end_src
 * Completion/Corfu :completion:
-** Description
+** Source_code
++ corfu/
+  + autoload/
+    #+name: extra.el
+    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/extra.el :mkdirp yes
+;;; completion/corfu/autoload/extra.el -*- lexical-binding: t; -*-
+
+;;;###autoload
+(defun +corfu-complete-file-at-point ()
+  "Complete a file path from scratch at point"
+  (interactive)
+  (completion-in-region (point) (point) #'read-file-name-internal))
+
+;;;###autoload
+(defun +corfu-files ()
+  "Complete using files source"
+  (interactive)
+  (let ((completion-at-point-functions 
+         (list #'+file-completion-at-point-function)))
+    (completion-at-point)))
+
+;;;###autoload
+(defun +corfu-dabbrev ()
+  "Complete using dabbrev source"
+  (interactive)
+  (let ((completion-at-point-functions 
+         (list #'+dabbrev-completion-at-point-function)))
+    (completion-at-point)))
+
+;;;###autoload
+(defun +corfu-ispell ()
+  "Complete using ispell source.
+
+    See `ispell-lookup-words' for more info"
+  (interactive)
+  (let ((completion-at-point-functions 
+         (list #'+ispell-completion-at-point-function)))
+    (completion-at-point)))
+
+;;;###autoload
+(defun +corfu-dict ()
+  "Complete using dict source.
+
+    See `+dict--words' for extra words, 
+    and `+dict-file' for a wordslist source"
+  (interactive)
+  (let ((completion-at-point-functions 
+         (list #'+dict-completion-at-point-function)))
+    (completion-at-point)))
+    #+end_src
+    #+name: minad-capf.el
+    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/minad-capf.el
+;;; completion/corfu/autoload/minad-capf.el -*- lexical-binding: t; -*-
+;;; Daniel "minad" Mendler extra capfs
+;;; Source : https://github.com/minad/corfu/issues/9#issuecomment-945090516
+
+(require 'dabbrev)
+
+;;;###autoload
+(defun +file-completion-at-point-function ()
+  "File name completion-at-point-function."
+  (when-let (bounds (bounds-of-thing-at-point 'filename))
+    (list (car bounds) (cdr bounds)
+          'read-file-name-internal
+          :exclusive 'no
+          :annotation-function (lambda (_) " (File)"))))
+
+;;;###autoload
+(defun +dabbrev-completion-at-point-function ()
+  (let ((dabbrev-check-all-buffers nil)
+        (dabbrev-check-other-buffers nil))
+    (dabbrev--reset-global-variables))
+  (let ((abbrev (ignore-errors (dabbrev--abbrev-at-point))))
+    (when (and abbrev (not (string-match-p "[ \t]" abbrev)))
+      (pcase ;; Interruptible scanning
+          (while-no-input
+            (let ((inhibit-message t)
+                  (message-log-max nil))
+              (or (dabbrev--find-all-expansions
+                   abbrev (dabbrev--ignore-case-p abbrev))
+                  t)))
+        ('nil (keyboard-quit))
+        ('t nil)
+        (words
+         ;; Ignore completions which are too short
+         (let ((min-len (+ 4 (length abbrev))))
+           (setq words (seq-remove (lambda (x) (< (length x) min-len)) words)))
+         (when words
+           (let ((beg (progn (search-backward abbrev) (point)))
+                 (end (progn (search-forward abbrev) (point))))
+             (unless (string-match-p "\n" (buffer-substring beg end))
+               (list beg end words
+                     :exclusive 'no
+                     :annotation-function (lambda (_) " (Dabbrev)"))))))))))
+
+(autoload 'ispell-lookup-words "ispell")
+
+;;;###autoload
+(defun +ispell-completion-at-point-function ()
+  (when-let* ((bounds (bounds-of-thing-at-point 'word))
+              (table (with-demoted-errors
+                         (let ((message-log-max nil)
+                               (inhibit-message t))
+                           (ispell-lookup-words
+                            (format "*%s*"
+                                    (buffer-substring-no-properties 
+                                     (car bounds) (cdr bounds))))))))
+    (list (car bounds) (cdr bounds) table
+          :exclusive 'no
+          :annotation-function (lambda (_) " (Ispell)"))))
+
+(defun +word-completion-at-point-function (words)
+  (when-let (bounds (bounds-of-thing-at-point 'word))
+    (list (car bounds) (cdr bounds) words
+          :exclusive 'no
+          :annotation-function (lambda (_) " (Words)"))))
+
+(defvar +dict--words nil)
+(defvar +dict-file "/etc/dictionaries-common/words")
+
+;;;###autoload
+(defun +dict-completion-at-point-function ()
+  (+word-completion-at-point-function
+   (or +dict--words
+       (setq +dict--words
+             (split-string (with-temp-buffer
+                             (insert-file-contents-literally +dict-file)
+                             (buffer-string))
+                           "\n")))))
+    #+end_src
+  #+name: config.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el
+;;; completion/corfu/config.el -*- lexical-binding: t; -*-
+
+;; Reset lsp-completion provider
+(add-hook 'doom-init-modules-hook
+          (lambda ()
+            (after! lsp-mode
+              (setq lsp-completion-provider :none))))
+
+;; Pad before lsp modeline error info
+(add-hook 'lsp-mode-hook
+          (lambda ()
+            (setf (caadr
+                   (assq 'global-mode-string mode-line-misc-info))
+                  " ")))
+
+;; Set orderless filtering for LSP-mode completions
+(add-hook 'lsp-completion-mode-hook
+          (lambda ()
+            (setf (alist-get 'lsp-capf completion-category-defaults) '((styles . (orderless))))))
+
+;; Set bindings
+(add-hook 'doom-init-modules-hook
+          (lambda ()
+            (map! :i "C-@" (cmds! (not (minibufferp)) #'corfu-complete)
+                  :i "C-SPC" (cmds! (not (minibufferp)) #'corfu-complete)
+                  (:prefix "C-x"
+                   :i "C-k" #'cape-dict
+                   :i "C-f" #'cape-file
+                   :i "s" #'cape-ispell
+                   :i "C-n" #'cape-keyword
+                   :i "C-s" #'dabbrev-completion))))
+
+;; Fallback cleanly to consult in TUI
+(setq-default completion-in-region-function #'consult-completion-in-region)
+
+(use-package! corfu
+  :hook
+  (doom-first-buffer . corfu-global-mode)
+  :bind (:map corfu-map
+         ("TAB" . corfu-next)
+         ([tab] . corfu-next)
+         ("S-TAB" . corfu-previous)
+         ([backtab] . corfu-previous)))
+
+(use-package! orderless
+  :when (featurep! +orderless)
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
+(use-package! kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package! cape
+  :defer t
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
+
+(setq completion-cycle-threshold 3)
+
+;; Enable indentation+completion using the TAB key.
+;; Completion is often bound to M-TAB.
+(setq tab-always-indent 'complete)
+
+;; Dirty hack to get c completion running
+;; Discussion in https://github.com/minad/corfu/issues/34
+(when (equal tab-always-indent 'complete)
+  (map! :map c-mode-base-map
+        :i [remap c-indent-line-or-region] #'completion-at-point))
+  #+end_src
+  #+name: packages.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; completion/corfu/packages.el
+
+(package! corfu)
+(when (featurep! +orderless)
+  (package! orderless))
+(package! kind-icon)
+(package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
+  #+end_src
+  #+name: README.org
+  #+begin_src org :tangle modules/completion/corfu/README.org
+,#+TITLE:   completion/corfu
+,#+DATE:    December 6, 2021
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+  - [[#hacks][Hacks]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
 [[https://github.com/minad/corfu][GitHub - minad/corfu: corfu.el - Completion Overlay Region FUnction]]
 in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]]. The primary packages are:
 
@@ -178,235 +422,90 @@ in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master
 + Cape, which provides a bunch of Completion At Point Extensions
 + kind-icon, which provides an colorful icon/text prefix based on :company-kind
 
-*** Module Flags
+,** Maintainers
++ [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]] (Author)
++ [[https://github.com/thaenalpha][@thaenalpha]]
+
+,** Module Flags
 + =+orderless= filter through candidates those match regular expressions,
   which provides better filtering methods
 
-*** Plugins
+,** Plugins
 + [[https://github.com/minad/corfu][corfu]]
 + [[https://github.com/minad/cape][cape]]
 + [[https://github.com/jdtsmith/kind-icon][kind-icon]]
 + [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
 
-** Source_code
-+ corfu/
-  + autoload/
-    #+name: extra.el
-    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/extra.el :mkdirp yes
-    ;;; completion/corfu/autoload/extra.el -*- lexical-binding: t; -*-
+,** Hacks
+# A list of internal modifications to included packages; omit if unneeded
 
-    ;;;###autoload
-    (defun +corfu-complete-file-at-point ()
-      "Complete a file path from scratch at point"
-      (interactive)
-      (completion-in-region (point) (point) #'read-file-name-internal))
+,* Prerequisites
+This module has no prerequisites.
 
-    ;;;###autoload
-    (defun +corfu-files ()
-      "Complete using files source"
-      (interactive)
-      (let ((completion-at-point-functions (list #'+file-completion-at-point-function)))
-        (completion-at-point)))
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
 
-    ;;;###autoload
-    (defun +corfu-dabbrev ()
-      "Complete using dabbrev source"
-      (interactive)
-      (let ((completion-at-point-functions (list #'+dabbrev-completion-at-point-function)))
-        (completion-at-point)))
+,* Configuration
+# How to configure this module, including common problems and how to address them.
 
-    ;;;###autoload
-    (defun +corfu-ispell ()
-      "Complete using ispell source.
-
-    See `ispell-lookup-words' for more info"
-      (interactive)
-      (let ((completion-at-point-functions (list #'+ispell-completion-at-point-function)))
-        (completion-at-point)))
-
-    ;;;###autoload
-    (defun +corfu-dict ()
-      "Complete using dict source.
-
-    See `+dict--words' for extra words, and `+dict-file' for a wordslist source "
-      (interactive)
-      (let ((completion-at-point-functions (list #'+dict-completion-at-point-function)))
-        (completion-at-point)))
-    #+end_src
-    #+name: minad-capf.el
-    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/minad-capf.el
-    ;;; completion/corfu/autoload/minad-capf.el -*- lexical-binding: t; -*-
-    ;;; Daniel "minad" Mendler extra capfs
-    ;;; Source : https://github.com/minad/corfu/issues/9#issuecomment-945090516
-
-    (require 'dabbrev)
-
-    ;;;###autoload
-    (defun +file-completion-at-point-function ()
-      "File name completion-at-point-function."
-      (when-let (bounds (bounds-of-thing-at-point 'filename))
-        (list (car bounds) (cdr bounds)
-              'read-file-name-internal
-              :exclusive 'no
-              :annotation-function (lambda (_) " (File)"))))
-
-    ;;;###autoload
-    (defun +dabbrev-completion-at-point-function ()
-      (let ((dabbrev-check-all-buffers nil)
-            (dabbrev-check-other-buffers nil))
-        (dabbrev--reset-global-variables))
-      (let ((abbrev (ignore-errors (dabbrev--abbrev-at-point))))
-        (when (and abbrev (not (string-match-p "[ \t]" abbrev)))
-          (pcase ;; Interruptible scanning
-              (while-no-input
-                (let ((inhibit-message t)
-                      (message-log-max nil))
-                  (or (dabbrev--find-all-expansions
-                       abbrev (dabbrev--ignore-case-p abbrev))
-                      t)))
-            ('nil (keyboard-quit))
-            ('t nil)
-            (words
-             ;; Ignore completions which are too short
-             (let ((min-len (+ 4 (length abbrev))))
-               (setq words (seq-remove (lambda (x) (< (length x) min-len)) words)))
-             (when words
-               (let ((beg (progn (search-backward abbrev) (point)))
-                     (end (progn (search-forward abbrev) (point))))
-                 (unless (string-match-p "\n" (buffer-substring beg end))
-                   (list beg end words
-                         :exclusive 'no
-                         :annotation-function (lambda (_) " (Dabbrev)"))))))))))
-
-    (autoload 'ispell-lookup-words "ispell")
-
-    ;;;###autoload
-    (defun +ispell-completion-at-point-function ()
-      (when-let* ((bounds (bounds-of-thing-at-point 'word))
-                  (table (with-demoted-errors
-                             (let ((message-log-max nil)
-                                   (inhibit-message t))
-                               (ispell-lookup-words
-                                (format "*%s*"
-                                        (buffer-substring-no-properties (car bounds) (cdr bounds))))))))
-        (list (car bounds) (cdr bounds) table
-              :exclusive 'no
-              :annotation-function (lambda (_) " (Ispell)"))))
-
-    (defun +word-completion-at-point-function (words)
-      (when-let (bounds (bounds-of-thing-at-point 'word))
-        (list (car bounds) (cdr bounds) words
-              :exclusive 'no
-              :annotation-function (lambda (_) " (Words)"))))
-
-    (defvar +dict--words nil)
-    (defvar +dict-file "/etc/dictionaries-common/words")
-
-    ;;;###autoload
-    (defun +dict-completion-at-point-function ()
-      (+word-completion-at-point-function
-       (or +dict--words
-           (setq +dict--words
-                 (split-string (with-temp-buffer
-                                 (insert-file-contents-literally +dict-file)
-                                 (buffer-string))
-                               "\n")))))
-    #+end_src
-  #+name: config.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el
-  ;;; completion/corfu/config.el -*- lexical-binding: t; -*-
-
-  ;; Reset lsp-completion provider
-  (add-hook 'doom-init-modules-hook
-            (lambda ()
-              (after! lsp-mode
-                (setq lsp-completion-provider :none))))
-
-  ;; Pad before lsp modeline error info
-  (add-hook 'lsp-mode-hook
-            (lambda ()
-              (setf (caadr
-                     (assq 'global-mode-string mode-line-misc-info))
-                    " ")))
-
-  ;; Set orderless filtering for LSP-mode completions
-  (add-hook 'lsp-completion-mode-hook
-            (lambda ()
-              (setf (alist-get 'lsp-capf completion-category-defaults) '((styles . (orderless))))))
-
-  ;; Set bindings
-  (add-hook 'doom-init-modules-hook
-            (lambda ()
-              (map! :i "C-@" (cmds! (not (minibufferp)) #'corfu-complete)
-                    :i "C-SPC" (cmds! (not (minibufferp)) #'corfu-complete)
-                    (:prefix "C-x"
-                     :i "C-k" #'cape-dict
-                     :i "C-f" #'cape-file
-                     :i "s" #'cape-ispell
-                     :i "C-n" #'cape-keyword
-                     :i "C-s" #'dabbrev-completion))))
-
-  ;; Fallback cleanly to consult in TUI
-  (setq-default completion-in-region-function #'consult-completion-in-region)
-
-  (use-package corfu
-    :hook
-    (doom-first-buffer . corfu-global-mode)
-    :bind (:map corfu-map
-           ("TAB" . corfu-next)
-           ([tab] . corfu-next)
-           ("S-TAB" . corfu-previous)
-           ([backtab] . corfu-previous)))
-
-  (use-package orderless
-    :when (featurep! +orderless)
-    :init
-    (setq completion-styles '(orderless)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles . (partial-completion))))))
-
-  (use-package kind-icon
-    :after corfu
-    :custom
-    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-    :config
-    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-  (use-package cape
-    :defer t
-    :init
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-keyword))
-
-  (setq completion-cycle-threshold 3)
-
-  ;; Enable indentation+completion using the TAB key.
-  ;; Completion is often bound to M-TAB.
-  (setq tab-always-indent 'complete)
-
-  ;; Dirty hack to get c completion running
-  ;; Discussion in https://github.com/minad/corfu/issues/34
-  (when (equal tab-always-indent 'complete)
-    (map! :map c-mode-base-map
-          :i [remap c-indent-line-or-region] #'completion-at-point))
-  #+end_src
-  #+name: packages.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
-  ;; -*- no-byte-compile: t; -*-
-  ;;; completion/corfu/packages.el
-
-  (package! corfu)
-  (when (featurep! +orderless)
-    (package! orderless))
-  (package! kind-icon)
-  (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
-  #+end_src
-** Configuration
-#+begin_src emacs-lisp
-(setq +lsp-company-backends '(company-capf :with company-yasnippet))
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
 #+end_src
 
+* UI
+** Deft
+*** Configuration
+To use deft, you first need to specify the directory in which your notes are stored:
+
+#+begin_src emacs-lisp
+;; deft
+(setq deft-directory "~/notes")
+#+end_src
+
+The default note format is org-mode. You can change this by setting the value of
+the variable ~deft-default-extension~. Replacing the value with ~"md"~, for example,
+will change the default note format to Markdown:
+
+#+begin_src emacs-lisp :tangle no
+(setq deft-default-extension "md")
+#+end_src
+
+You may also want to alter the way titles and file names are automatically created by editing ~deft-use-filename-as-title~ and/or ~deft-use-filter-string-for-filename~.
+
+Further customization options can be found here: https://github.com/jrblevin/deft#other-customizations
+
+** Window Navigation
+When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/text-zoom/body~ to control text/window with single key commands.
+
+#+begin_src emacs-lisp
+(when (featurep! :ui hydra)
+  (when (featurep! :completion vertico)
+    (define-key!
+      [remap +hydra/window-nav/idomenu] #'consult-imenu))
+  (map! :desc "Interactive menu" 
+        "<menu>" #'+hydra/window-nav/body
+        :leader :desc "zoom"             
+        "z"      #'+hydra/text-zoom/body))
+#+end_src
+
+* Editor
+** Format
+*** Disabling the LSP formatter
+According to [[file:~/.emacs.d/modules/editor/format/README.org::*Disabling the LSP formatter][Disabling the LSP formatter]]
+#+begin_quote
+    If you are in a buffer with ~lsp-mode~ enabled and a server that
+    supports =textDocument/formatting=, it will be used instead of
+    =format-all='s formatter.
+#+end_quote
+
+To disable this behavior on ts and js modes in favor of prettier:
+#+begin_src emacs-lisp
+(setq-hook! '(js-mode
+              js2-mode
+              rjsx-mode
+              typescript-mode
+              typescript-tsx-mode) +format-with-lsp nil)
+#+end_src
 
 * Tools
 ** Arrayify
@@ -422,19 +521,25 @@ Module for brief help
 + brief/
   #+name: config.el
   #+begin_src emacs-lisp :tangle modules/tools/brief/config.el :mkdirp yes
-  (use-package! howdoyou
-    :commands (howdoyou-query aj/howdoyou-hydra/body)
-    :config
-    (set-popup-rule! "*How Do You" :vslot 3 :size 0.5  :side 'top :select t
-      :ttl nil :modeline t :autosave t :quit t)
+(use-package! howdoyou
+  :commands (howdoyou-query aj/howdoyou-hydra/body)
+  :config
+  (set-popup-rule! "*How Do You" :vslot 3 :size 0.5 :side 'top 
+    :select t :ttl nil :modeline t :autosave t :quit t)
 
-    (add-hook 'howdoyou-mode-hook
-              (lambda () (doom-mark-buffer-as-real-h)
-                (persp-add-buffer (current-buffer))
-                (solaire-mode +1)
-                (mkdir "/tmp/howdoyou" t)
-                (setq-local org-src-fontify-natively nil)
-                (setq-local buffer-file-name "/tmp/howdoyou/latest.org"))))
+  (add-hook 'howdoyou-mode-hook 
+            (lambda () (doom-mark-buffer-as-real-h)
+              (persp-add-buffer (current-buffer))
+              (solaire-mode +1)
+              (mkdir "/tmp/howdoyou" t)
+              (setq-local org-src-fontify-natively nil)
+              (setq-local buffer-file-name 
+                          "/tmp/howdoyou/latest.org"))))
+
+(map! :map search-map
+      "M-a" #'howdoyou-query
+      "M-s" #'cheat-sh
+      "M-d" #'tldr)
   #+end_src
   #+name: packages.el
   [[file:packages.org::tools/brief][tools/brief]]
@@ -485,143 +590,6 @@ Command-line fuzzy finder written in Go
 
   (package! fzf)
   #+end_src
-
-* UI
-** Deft
-*** Configuration
-To use deft, you first need to specify the directory in which your notes are stored:
-
-#+begin_src emacs-lisp
-;; deft
-(setq deft-directory "~/notes")
-#+end_src
-
-The default note format is org-mode. You can change this by setting the value of
-the variable ~deft-default-extension~. Replacing the value with ~"md"~, for example,
-will change the default note format to Markdown:
-
-#+begin_src emacs-lisp :tangle no
-(setq deft-default-extension "md")
-#+end_src
-
-You may also want to alter the way titles and file names are automatically created by editing ~deft-use-filename-as-title~ and/or ~deft-use-filter-string-for-filename~.
-
-Further customization options can be found here: https://github.com/jrblevin/deft#other-customizations
-
-* Editor
-** Format
-*** Disabling the LSP formatter
-According to [[file:~/.emacs.d/modules/editor/format/README.org::*Disabling the LSP formatter][Disabling the LSP formatter]]
-#+begin_quote
-    If you are in a buffer with ~lsp-mode~ enabled and a server that
-    supports =textDocument/formatting=, it will be used instead of
-    =format-all='s formatter.
-#+end_quote
-
-To disable this behavior on ts and js modes in favor of prettier:
-#+begin_src emacs-lisp
-(setq-hook! '(js-mode
-              js2-mode
-              rjsx-mode
-              typescript-mode
-              typescript-tsx-mode) +format-with-lsp nil)
-#+end_src
-
-
-* Email & Accounts
-
-This is my personal configuration. I have multiple email addresses set like these
-
-#+BEGIN_SRC emacs-lisp
-;; Each path is relative to the path of the maildir you passed to mu
-(set-email-account! "boliden@gmail.com"
-  '((mu4e-sent-folder       . "/boliden@gmail.com/[Gmail]/Sent Mail")
-    (mu4e-drafts-folder     . "/boliden@gmail.com/[Gmail]/Drafts")
-    (mu4e-spam-folder       . "/boliden@gmail.com/[Gmail]/Spam")
-    (mu4e-trash-folder      . "/boliden@gmail.com/[Gmail]/Trash")
-    (mu4e-refile-folder     . "/boliden@gmail.com/[Gmail]/All Mail")
-    (smtpmail-smtp-user     . "boliden@gmail.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "thaenalpha@gmail.com"
-  '((mu4e-sent-folder       . "/thaenalpha@gmail.com/[Gmail]/Sent Mail")
-    (mu4e-drafts-folder     . "/thaenalpha@gmail.com/[Gmail]/Drafts")
-    (mu4e-spam-folder       . "/thaenalpha@gmail.com/[Gmail]/Spam")
-    (mu4e-trash-folder      . "/thaenalpha@gmail.com/[Gmail]/Trash")
-    (mu4e-refile-folder     . "/thaenalpha@gmail.com/[Gmail]/All Mail")
-    (smtpmail-smtp-user     . "thaenalpha@gmail.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "bolidenx@hotmail.com"
-  '((mu4e-sent-folder       . "/bolidenx@hotmail.com/Sent")
-    (mu4e-drafts-folder     . "/bolidenx@hotmail.com/Drafts")
-    (mu4e-spam-folder       . "/bolidenx@hotmail.com/Junk")
-    (mu4e-trash-folder      . "/bolidenx@hotmail.com/Deleted")
-    (mu4e-refile-folder     . "/bolidenx@hotmail.com/Archive")
-    (smtpmail-smtp-user     . "bolidenx@hotmail.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "nopanun@live.com"
-  '((mu4e-sent-folder       . "/nopanun@live.com/Sent")
-    (mu4e-drafts-folder     . "/nopanun@live.com/Drafts")
-    (mu4e-spam-folder       . "/nopanun@live.com/Junk")
-    (mu4e-trash-folder      . "/nopanun@live.com/Deleted")
-    (mu4e-refile-folder     . "/nopanun@live.com/Archive")
-    (smtpmail-smtp-user     . "nopanun@live.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "tannarin26@yahoo.com"
-  '((mu4e-sent-folder       . "/tannarin26@yahoo.com/Sent")
-    (mu4e-drafts-folder     . "/tannarin26@yahoo.com/Draft")
-    (mu4e-spam-folder       . "/tannarin26@yahoo.com/Bulk Mail")
-    (mu4e-trash-folder      . "/tannarin26@yahoo.com/Trash")
-    (mu4e-refile-folder     . "/tannarin26@yahoo.com/Archive")
-    (smtpmail-smtp-user     . "tannarin26@yahoo.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-#+END_SRC
-
-Change context behavior when opening mu4e and composing email with:
-~mu4e-context-policy~ and ~mu4e-compose-context-policy~
-
-#+begin_src emacs-lisp
-(setq mu4e-context-policy 'ask-if-none
-      mu4e-compose-context-policy 'always-ask)
-#+end_src
-
-** How to use contexts
-
-Examples:
-
-- Compose new mail in a context
-- Archive a message in a context (show which folder it goes to)
-- Reply to a message in a merged search
-
-You can create bookmarks to show merged views of folders across accounts:
-
-#+begin_src emacs-lisp
-(after! mu4e
- (setq sendmail-program (executable-find "msmtp")
-       send-mail-function #'smtpmail-send-it
-       message-sendmail-f-is-evil t
-       message-sendmail-extra-arguments '("--read-envelope-from")
-       message-send-mail-function #'message-send-mail-with-sendmail
-       mu4e-maildir-shortcuts '(("/thaenalpha@gmail.com/Job Applying".?j)))
-
- (defun add-mu4e-bookmark (bookmark)
-   (add-to-list 'mu4e-bookmarks bookmark))
-
- (mapc 'add-mu4e-bookmark
-   '(("m:/boliden@gmail.com/INBOX or m:/bolidenx@hotmail.com/Inbox or m:/nopanun@live.com/Inbox or m:/tannarin26@yahoo.com/Inbox or m:/thaenalpha@gmail.com/INBOX or m:/nopanun@live.com/IT Demands" "All Inboxes" ?i)
-     ("m:/boliden@gmail.com/[Gmail]/Sent Mail or m:/bolidenx@hotmail.com/Sent m:/thaenalpha@gmail.com/[Gmail]/Sent Mail or m:/nopanun@live.com/Sent or m:/tannarin26@yahoo.com/Sent" "All Sent" ?s)
-     ("m:/boliden@gmail.com/[Gmail]/Drafts or m:/bolidenx@hotmail.com/Drafts m:/thaenalpha@gmail.com/[Gmail]/Drafts or m:/nopanun@live.com/Drafts or m:/tannarin26@yahoo.com/Draft" "All Drafts" ?d)
-     ("m:/boliden@gmail.com/[Gmail]/All Mail or m:/bolidenx@hotmail.com/Archive m:/thaenalpha@gmail.com/[Gmail]/All Mail or m:/nopanun@live.com/Archive or m:/tannarin26@yahoo.com/Archive" "All Archives" ?a)
-     ("m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or m:/tannarin26@yahoo.com/Bulk Mail" "All Spams" ?p)
-     ("m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or m:/tannarin26@yahoo.com/Trash" "All Trashes" ?t))))
-#+end_src
-
-This is your e-mail client to build!
-
 
 * Org-Mode
 ** Configuration
@@ -706,142 +674,6 @@ options to P&L to match with org-capture-templates for =org-protocol= set below.
           :file-name "%<%Y%m%d>-${slug}"
           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
           :unnarrowed t)))
-#+end_src
-
-
-* Window Navigation
-When =:ui hydra= is enabled, use ~+hydra/window-nav/body~~ to control windows with single key commands.
-
-#+begin_src emacs-lisp
-(when (featurep! :ui hydra)
-  (when (featurep! :completion vertico)
-    (define-key!
-      [remap +hydra/window-nav/idomenu] #'consult-imenu))
-  (map! "<menu>" #'+hydra/window-nav/body))
-#+end_src
-
-* App
-** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
-*** Installation
-telega depends on the visual-fill-column and rainbow-identifiers packages.
-This dependency automatically installs if you install telega from MELPA or
-GNU Guix. Otherwise, you will need to install these packages by hand.
-
-telega is built on top of the official library provided by Telegram TDLib.
-Most distributions do not provide this package in their repositories, in
-which case you will have to install it manually by following the instructions.
-
-GNU Guix, however, does have both telega and TDLib packaged.
-If you use GNU Guix you can skip directly to Installing from GNU Guix.
-
-**** Dependencies
-Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
-***** GNU gperf (for building TDLib)
-****** Guix users
-#+begin_src sh :tangle no
-  guix install gperf
-#+end_src
-
-**** Building TDLib
-
-TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
-Make sure you are using TDLib version greater or equal to 1.7.0.
-
-On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh. Just run:
-
-$ brew install tdlib
-
-On Linux, you will need to build TDLib from source.
-
-To get the source:
-
-#+begin_src sh :tangle no
-  git clone https://github.com/tdlib/td.git
-#+end_src
-
-Move into the folder with $ cd ./td or wherever you checked out td.
-
-Prepare a folder for building the library:
-
-#+begin_src sh :tangle no
-  cd ./td && mkdir build && cd build && cmake ../
-#+end_src
-
-Build the sources:
-
-#+begin_src sh :tangle no
-  cd ./td/build && make -jN # Change N first, read a description below.
-#+end_src
-
-With N number of cores that should be used for the compilation (the optimal value is the number of
-physical cores on the machine).
-
-Finally, to install the library system-wide:
-
-#+begin_src sh :dir (concat "/sudo::/home/" user-login-name "/.doom.d") :tangle no
-cd ./td/build && sudo make install
-#+end_src
-
-It will install headers to /usr/local/include and library itself into /usr/local/lib. If you have TDLib installed
-in other location, don't forget to modify telega-server-libs-prefix before starting telega.
-
-**** Installing telega from MELPA
-
-+ ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
-
-#+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
-;; -*- no-byte-compile: t; -*-
-;;; app/telega/packages.el
-
-(package! telega :built-in 'prefer)
-#+end_src
-
-- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
-  #+begin_src sh :tangle no
-    rm -r modules/app/telega
-  #+end_src
-
-** Edit-Server - server that responds to edit requests from Chrome
-*** Installation
-**** Dependencies
-***** Edit with Emacs Chrome/Firefox extension
-[[https://github.com/stsquad/emacs_chrome][stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
-
-**** Installing edit-server from MELPA
-
-+ ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
-
-#+begin_src emacs-lisp :tangle modules/app/edit-server/packages.el :mkdirp yes
-;; -*- no-byte-compile: t; -*-
-;;; app/edit-server/packages.el
-
-(package! edit-server :built-in 'prefer)
-#+end_src
-
-- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
-  #+begin_src sh :tangle no
-    rm -r modules/app/edit-server
-  #+end_src
-
-**** Configuration
-#+begin_src emacs-lisp :tangle modules/app/edit-server/config.el
-;;; app/edit-server/config.el -*- lexical-binding: t; -*-
-
-(use-package! edit-server
-  :defer t
-  :commands edit-server-start
-  :init (edit-server-start)
-  :config (setq edit-server-new-frame-alist
-                '((name . "Edit with Emacs FRAME")
-                  (top . 200)
-                  (left . 200)
-                  (width . 80)
-                  (height . 25)
-                  (minibuffer . t)
-                  (menu-bar-lines . t)
-                  (window-system . x)))
-  (setq edit-server-url-major-mode-alist
-        '(("github\\.com" . markdown-mode))))
 #+end_src
 
 * Programming Language
@@ -981,7 +813,7 @@ relative to the file it's used from which is =init.el= in our case.
           (remove-hook 'after-save-hook #'import-js-setup
                        'local))))))
 #+end_src
-         
+
 2. Import a file!
    * You can use something like =M-x=  ~import-js-import~ with your cursor over the desired module
    * It will be helpful to bind ~import-js-import~ to an easy-to-use binding, such as:
@@ -1200,12 +1032,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 
 Provide tailwind class name completions as an extra LSP package.
 
-Install the lsp-tailwindcss emacs package:
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! lsp-tailwindcss
-  :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
-#+end_src
+Install the lsp-tailwindcss emacs package: [[file:packages.org::*Packages in Use][Packages in Use]]
 
 Set add-on mode. This ensures both tailwind-lsp and the js or ts lsp servers
 run in parallel. Set ~lsp-tailwindcss-add-on-mode~ before the package loads.
@@ -1228,6 +1055,223 @@ lsp-tailwindcss runs when editing .liquid files for example.
 Make sure to add the =+lsp= flag to the =:lang web= module in [[./init.el][init.el]]!
 
 
+* Email & Accounts
+
+This is my personal configuration. I have multiple email addresses set like these
+
+#+BEGIN_SRC emacs-lisp
+;; Each path is relative to the path of the maildir you passed to mu
+(set-email-account! "boliden@gmail.com"
+  '((mu4e-sent-folder       . "/boliden@gmail.com/[Gmail]/Sent Mail")
+    (mu4e-drafts-folder     . "/boliden@gmail.com/[Gmail]/Drafts")
+    (mu4e-spam-folder       . "/boliden@gmail.com/[Gmail]/Spam")
+    (mu4e-trash-folder      . "/boliden@gmail.com/[Gmail]/Trash")
+    (mu4e-refile-folder     . "/boliden@gmail.com/[Gmail]/All Mail")
+    (smtpmail-smtp-user     . "boliden@gmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "thaenalpha@gmail.com"
+  '((mu4e-sent-folder       . "/thaenalpha@gmail.com/[Gmail]/Sent Mail")
+    (mu4e-drafts-folder     . "/thaenalpha@gmail.com/[Gmail]/Drafts")
+    (mu4e-spam-folder       . "/thaenalpha@gmail.com/[Gmail]/Spam")
+    (mu4e-trash-folder      . "/thaenalpha@gmail.com/[Gmail]/Trash")
+    (mu4e-refile-folder     . "/thaenalpha@gmail.com/[Gmail]/All Mail")
+    (smtpmail-smtp-user     . "thaenalpha@gmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "bolidenx@hotmail.com"
+  '((mu4e-sent-folder       . "/bolidenx@hotmail.com/Sent")
+    (mu4e-drafts-folder     . "/bolidenx@hotmail.com/Drafts")
+    (mu4e-spam-folder       . "/bolidenx@hotmail.com/Junk")
+    (mu4e-trash-folder      . "/bolidenx@hotmail.com/Deleted")
+    (mu4e-refile-folder     . "/bolidenx@hotmail.com/Archive")
+    (smtpmail-smtp-user     . "bolidenx@hotmail.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "nopanun@live.com"
+  '((mu4e-sent-folder       . "/nopanun@live.com/Sent")
+    (mu4e-drafts-folder     . "/nopanun@live.com/Drafts")
+    (mu4e-spam-folder       . "/nopanun@live.com/Junk")
+    (mu4e-trash-folder      . "/nopanun@live.com/Deleted")
+    (mu4e-refile-folder     . "/nopanun@live.com/Archive")
+    (smtpmail-smtp-user     . "nopanun@live.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+(set-email-account! "tannarin26@yahoo.com"
+  '((mu4e-sent-folder       . "/tannarin26@yahoo.com/Sent")
+    (mu4e-drafts-folder     . "/tannarin26@yahoo.com/Draft")
+    (mu4e-spam-folder       . "/tannarin26@yahoo.com/Bulk Mail")
+    (mu4e-trash-folder      . "/tannarin26@yahoo.com/Trash")
+    (mu4e-refile-folder     . "/tannarin26@yahoo.com/Archive")
+    (smtpmail-smtp-user     . "tannarin26@yahoo.com")
+    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+  t)
+#+END_SRC
+
+Change context behavior when opening mu4e and composing email with:
+~mu4e-context-policy~ and ~mu4e-compose-context-policy~
+
+#+begin_src emacs-lisp
+(setq mu4e-context-policy 'ask-if-none
+      mu4e-compose-context-policy 'always-ask)
+#+end_src
+
+** How to use contexts
+
+Examples:
+
+- Compose new mail in a context
+- Archive a message in a context (show which folder it goes to)
+- Reply to a message in a merged search
+
+You can create bookmarks to show merged views of folders across accounts:
+
+#+begin_src emacs-lisp
+(after! mu4e
+ (setq sendmail-program (executable-find "msmtp")
+       send-mail-function #'smtpmail-send-it
+       message-sendmail-f-is-evil t
+       message-sendmail-extra-arguments '("--read-envelope-from")
+       message-send-mail-function #'message-send-mail-with-sendmail
+       mu4e-maildir-shortcuts '(("/thaenalpha@gmail.com/Job Applying".?j)))
+
+ (defun add-mu4e-bookmark (bookmark)
+   (add-to-list 'mu4e-bookmarks bookmark))
+
+ (mapc 'add-mu4e-bookmark
+   '(("m:/boliden@gmail.com/INBOX or m:/bolidenx@hotmail.com/Inbox or m:/nopanun@live.com/Inbox or m:/tannarin26@yahoo.com/Inbox or m:/thaenalpha@gmail.com/INBOX or m:/nopanun@live.com/IT Demands" "All Inboxes" ?i)
+     ("m:/boliden@gmail.com/[Gmail]/Sent Mail or m:/bolidenx@hotmail.com/Sent m:/thaenalpha@gmail.com/[Gmail]/Sent Mail or m:/nopanun@live.com/Sent or m:/tannarin26@yahoo.com/Sent" "All Sent" ?s)
+     ("m:/boliden@gmail.com/[Gmail]/Drafts or m:/bolidenx@hotmail.com/Drafts m:/thaenalpha@gmail.com/[Gmail]/Drafts or m:/nopanun@live.com/Drafts or m:/tannarin26@yahoo.com/Draft" "All Drafts" ?d)
+     ("m:/boliden@gmail.com/[Gmail]/All Mail or m:/bolidenx@hotmail.com/Archive m:/thaenalpha@gmail.com/[Gmail]/All Mail or m:/nopanun@live.com/Archive or m:/tannarin26@yahoo.com/Archive" "All Archives" ?a)
+     ("m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or m:/tannarin26@yahoo.com/Bulk Mail" "All Spams" ?p)
+     ("m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or m:/tannarin26@yahoo.com/Trash" "All Trashes" ?t))))
+#+end_src
+
+This is your e-mail client to build!
+
+* App
+** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
+*** Installation
+telega depends on the visual-fill-column and rainbow-identifiers packages.
+This dependency automatically installs if you install telega from MELPA or
+GNU Guix. Otherwise, you will need to install these packages by hand.
+
+telega is built on top of the official library provided by Telegram TDLib.
+Most distributions do not provide this package in their repositories, in
+which case you will have to install it manually by following the instructions.
+
+GNU Guix, however, does have both telega and TDLib packaged.
+If you use GNU Guix you can skip directly to Installing from GNU Guix.
+
+**** Dependencies
+Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
+***** GNU gperf (for building TDLib)
+****** Guix users
+#+begin_src sh :tangle no
+  guix install gperf
+#+end_src
+
+**** Building TDLib
+
+TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
+Make sure you are using TDLib version greater or equal to 1.7.0.
+
+On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh. Just run:
+
+$ brew install tdlib
+
+On Linux, you will need to build TDLib from source.
+
+To get the source:
+
+#+begin_src sh :tangle no
+  git clone https://github.com/tdlib/td.git
+#+end_src
+
+Move into the folder with $ cd ./td or wherever you checked out td.
+
+Prepare a folder for building the library:
+
+#+begin_src sh :tangle no
+  cd ./td && mkdir build && cd build && cmake ../
+#+end_src
+
+Build the sources:
+
+#+begin_src sh :tangle no
+  cd ./td/build && make -jN # Change N first, read a description below.
+#+end_src
+
+With N number of cores that should be used for the compilation (the optimal value is the number of
+physical cores on the machine).
+
+Finally, to install the library system-wide:
+
+#+begin_src sh :dir (concat "/sudo::/home/" user-login-name "/.doom.d") :tangle no
+cd ./td/build && sudo make install
+#+end_src
+
+It will install headers to /usr/local/include and library itself into /usr/local/lib. If you have TDLib installed
+in other location, don't forget to modify telega-server-libs-prefix before starting telega.
+
+**** Installing telega from MELPA
+
++ ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
+
+#+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/telega/packages.el
+
+(package! telega :built-in 'prefer)
+#+end_src
+
+- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
+  #+begin_src sh :tangle no
+    rm -r modules/app/telega
+  #+end_src
+
+** Edit-Server - server that responds to edit requests from Chrome
+*** Installation
+**** Dependencies
+***** Edit with Emacs Chrome/Firefox extension
+[[https://github.com/stsquad/emacs_chrome][stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
+
+**** Installing edit-server from MELPA
+
++ ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
+
+#+begin_src emacs-lisp :tangle modules/app/edit-server/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/edit-server/packages.el
+
+(package! edit-server :built-in 'prefer)
+#+end_src
+
+- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
+  #+begin_src sh :tangle no
+    rm -r modules/app/edit-server
+  #+end_src
+
+**** Configuration
+#+begin_src emacs-lisp :tangle modules/app/edit-server/config.el
+;;; app/edit-server/config.el -*- lexical-binding: t; -*-
+
+(use-package! edit-server
+  :defer t
+  :commands edit-server-start
+  :init (edit-server-start)
+  :config (setq edit-server-new-frame-alist
+                '((name . "Edit with Emacs FRAME")
+                  (top . 200)
+                  (left . 200)
+                  (width . 80)
+                  (height . 25)
+                  (minibuffer . t)
+                  (menu-bar-lines . t)
+                  (window-system . x)))
+  (setq edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
+#+end_src
 
 * Local Configures
 ** Directory Local Variables
