@@ -9,4 +9,4 @@
 (package! keychain-environment)
 (package! lsp-tailwindcss 
   :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
-(package! info-colos)
+(package! info-colors)
