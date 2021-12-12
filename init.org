@@ -6,7 +6,7 @@
 * Table of Contents :TOC:
 - [[#description][Description]]
   - [[#file-structure][File Structure]]
-- [[#modules][Modules]]
+- [[#module][Module]]
   - [[#app][:app]]
   - [[#checkers][:checkers]]
   - [[#completion][:completion]]
@@ -19,6 +19,9 @@
   - [[#term][:term]]
   - [[#tools][:tools]]
   - [[#ui][:ui]]
+- [[#disable-some-of-dooms-slowest-modules][Disable some of Doom’s slowest modules.]]
+  - [[#editor-1][:editor]]
+  - [[#ui-1][:ui]]
 
 * Description
 This file controls what Doom modules are enabled and what order they load
@@ -79,7 +82,7 @@ in. Remember to run ~doom sync~ after modifying it!
        :config
        <<doom-config>>)
 #+end_src
-* Modules
+* Module
 ** :app
 #+name: doom-app
 #+begin_src emacs-lisp
@@ -139,7 +142,6 @@ multiple-cursors  ; editing in many places at once
 parinfer          ; turn lisp into python, sort of
 rotate-text       ; cycle region at point between text candidates
 snippets          ; my elves. They type so I don't have to
-word-wrap         ; soft wrapping with language-aware indent
 #+end_src
 *** Conflict modules
 #+begin_src emacs-lisp
@@ -352,9 +354,6 @@ doom-quit         ; DOOM quit-message prompts when you quit Emacs
        +unicode)  ; 🙂
 hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
 hydra
-indent-guides     ; highlighted indent columns
-(ligatures
- +extra +fira)    ; ligatures and symbols to make your code pretty again
 minimap           ; show a map of the code on the side
 (modeline         ; snazzy, Atom-inspired modeline, plus API
  +nyan            ; Nyanyanyanyanyanyanya! ♬ ♫ ♪ ♩
@@ -364,12 +363,23 @@ ophints           ; highlight the region an operation acts on
 (popup            ; tame sudden yet inevitable temporary windows
  +all             ; ensure all buffers (*name*) are treated as popups
  +defaults)       ; default popup rules for a variety of buffers.
-tabs              ; a tab bar for Emacs
 (treemacs +lsp)   ; a project drawer, like neotree but cooler
 unicode           ; extended unicode support for various languages
-vc-gutter         ; vcs diff in the fringe
 vi-tilde-fringe   ; fringe tildes to mark beyond EOB
 window-select     ; visually switch windows
 workspaces        ; tab emulation, persistence & separate workspaces
 zen               ; distraction-free coding or writing
+#+end_src
+* Disable some of Doom’s slowest modules.
+** :editor
+#+begin_src emacs-lisp
+word-wrap         ; soft wrapping with language-aware indent
+#+end_src
+** :ui
+#+begin_src emacs-lisp
+tabs              ; a tab bar for Emacs
+indent-guides     ; highlighted indent columns
+(ligatures
+ +extra +fira)    ; ligatures and symbols to make your code pretty again
+vc-gutter         ; vcs diff in the fringe
 #+end_src

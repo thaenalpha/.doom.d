@@ -8,12 +8,15 @@
 * Table of Contents :TOC_3:noexport:
 - [[#personalization][Personalization]]
   - [[#personal-information][Personal Information]]
-  - [[#themes][Themes]]
-  - [[#modeline][Modeline]]
-  - [[#fonts][Fonts]]
+  - [[#adjust-for-speed][Adjust for speed]]
   - [[#dashboard-quick-actions][Dashboard Quick Actions]]
+  - [[#extra-colors-for-info-mode][Extra colors for Info-mode]]
+  - [[#fonts][Fonts]]
   - [[#keyboard-shortcuts][Keyboard Shortcuts]]
   - [[#load-key-chain-environment-variables][Load Key-chain Environment Variables]]
+  - [[#modeline][Modeline]]
+  - [[#themes][Themes]]
+  - [[#treemacs][Treemacs]]
   - [[#vterm][vterm]]
 - [[#completioncorfu][Completion/Corfu]]
   - [[#source_code][Source_code]]
@@ -41,6 +44,7 @@
     - [[#description-2][Description]]
     - [[#new-features][New features]]
     - [[#prerequisites-for][Prerequisites for]]
+    - [[#configuration-2][Configuration]]
     - [[#troubleshooting][Troubleshooting]]
   - [[#tailwind-lsp][Tailwind LSP]]
 - [[#email--accounts][Email & Accounts]]
@@ -57,66 +61,62 @@
 
 * Personalization
 ** Personal Information
+For e.g. GPG configuration, email clients, file templates and snippets.
 #+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-;; For e.g. GPG configuration, email clients, file templates and snippets.
+
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 #+end_src
-** Themes
-Set your light and dark theme here
+** Adjust for speed
+Some advice from @hlissner on [[https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83/3][Why is Emacs/Doom slow? - Discussion / Doom Emacs - Doom Emacs Discourse]]
+Captured On: [2021-12-11 Sat 14:35]
 
-#+begin_src emacs-lisp
-(setq light 'doom-acario-light)
-(setq dark 'doom-ayu-mirage)
-#+end_src
+1. Disable idle code-completion (i.e. completion-as-you-type).
+   #+begin_src emacs-lisp
+(setq company-idle-delay nil)
+   #+end_src
+   #+begin_quote
+Add the above sexp to make code completion manual (on =C-SPC=, by default)
+That way, you only need to suffer that slowness once, when it is needed.
+   #+end_quote
+2. [[file:init.org::*Disable some of Doom’s slowest modules.][Disable some of Doom’s slowest modules.]]
+3. Turn off line numbers:
+   #+begin_src emacs-lisp
+(setq display-line-numbers-type nil)
+   #+end_src
+   #+begin_quote
+It’s known to slow down scrolling, in particular.
+   #+end_quote
+4. Turn off the “prettification” of org-mode, by disabling the =+pretty=
+   flag on the =:lang org= module (if you have it on).
 
-Choose your mode
+   You can go to an extreme by disabling more of its eye-candy:
+   #+begin_src emacs-lisp
+(after! org
+  (setq org-fontify-quote-and-verse-blocks nil
+        org-fontify-whole-heading-line nil
+        org-hide-leading-stars nil
+        org-startup-indented nil))
+   #+end_src
+5. Change your font(s). Emacs struggles to display some unicode characters
+   with certain fonts. It sometimes struggles to display multiple fonts at
+   once – as is the case if your primary font doesn’t support certain symbols
+   (Emacs will fall back to another font to try to display them, which
+   appears to be more expensive on some systems than others – or with some
+   fonts, more than others)
+6. Replace the =:ui modeline= module with =:ui (modeline +light)=. The
+   doom-modeline can be unpredictably slow in some edge cases. The =+light=
+   variant is a work-in-progress replacement aiming to provide a lighter
+   (albeit less featureful) mode line.
+7. Check out “[[https://discourse.doomemacs.org/t/119][Common configuration mistakes]]”.
 
-#+begin_src emacs-lisp
-(setq doom-theme light)            ; default in Light mode
-#+end_src
-
-Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
-
-#+begin_src emacs-lisp
-(defun synchronize-theme ()
-  (setq hour                          ; current hour
-      (string-to-number
-          (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
-      (setq now light)                     ; true: Light
-      (setq now dark))                     ; else: Dark
-  (if (equal now doom-theme)          ; if now is Light
-      nil                             ; do nothing
-    (progn                            ; else
-      (setq doom-theme now)           ; set to Dark
-      (doom/reload-theme))))          ; and reload
-
-(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
-#+end_src
-
-** Modeline
-I want to use [[https://github.com/TeMPOraL/nyan-mode][Nyan Mode]] with doom-modeline and I want to add =+nyan= flag to the modeline module, what I need to do is to hack the ~ui/modeline/packages.el~ file locates in .emacs.d/modules directory to add the nyan-mode package, add +nyan.el for config file and add some code into the module. (I've done this in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
-
-** Fonts
-+ [[https://input.djr.com/download/][Input: Fonts for Code — Download]] Free for private use
-+ [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
-Arabic · Devanagari · Georgian · Hebrew · Thai
-+ [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode][FiraCode NF]] free monospaced font with programming ligatures Nerd Font
-
-#+begin_src emacs-lisp
-(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 12)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
-      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
-      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
-#+end_src
 ** Dashboard Quick Actions
 The config idea is come from Tecosaur's Emacs configuration.
 #+begin_quote
-When using the dashboard, there are often a small number of actions I will
-take. As the dashboard is it’s own major mode, there is no need to suffer
-the tyranny of unnecessary keystrokes — we can simply bind common actions to a single key!
+When using the dashboard, there are often some actions I will take. As the
+dashboard is its own major mode, there is no need to suffer the tyranny of
+unnecessary keystrokes — we can simply bind common actions to a single key!
 #+end_quote
 #+begin_src emacs-lisp
 (map! :map +doom-dashboard-mode-map
@@ -140,6 +140,27 @@ the tyranny of unnecessary keystrokes — we can simply bind common actions to a
       :ne "d" #'+workspace/delete)
 #+end_src
 
+** Extra colors for Info-mode
+#+begin_src emacs-lisp
+;;;; Info colors
+(use-package! info-colors
+  :hook (Info-selection . info-colors-fontify-node))
+#+end_src
+** Fonts
++ JetBrains Mono
++ Cascadia Code
++ 'Courier New'
+- [[https://input.djr.com/download/][Input: Fonts for Code — Download]] Free for private use
+- [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
+  Arabic · Devanagari · Georgian · Hebrew · Thai
+- [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode][FiraCode NF]] free monospaced font with programming ligatures Nerd Font
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'light)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 19)
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
+      doom-unicode-font (font-spec :family "Courier New")
+      doom-serif-font (font-spec :family "Cascadia Code" :weight 'semi-light))
+#+end_src
 ** Keyboard Shortcuts
 #+begin_quote
 Wow, I wish I knew these things before
@@ -160,6 +181,7 @@ Wow, I wish I knew these things before
        :map search-map
        "SPC" #'fzf-projectile))
 #+end_src
+
 ** Load Key-chain Environment Variables
 [[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
 Captured On: [2021-11-12 Fri 23:05]
@@ -170,6 +192,52 @@ Captured On: [2021-11-12 Fri 23:05]
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
 #+end_src
+
+** Modeline
+I want to use [[https://github.com/TeMPOraL/nyan-mode][Nyan Mode]] with doom-modeline and I want to add =+nyan= flag to
+the modeline module. What I need to do is hack the =ui/modeline/packages.el=
+file locates in .emacs.d/modules directory to add the nyan-mode package, add
+=+nyan.el= for config file and add some code into the module. (I've done this
+in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
+** Themes
+Set your light and dark theme here
+
+#+begin_src emacs-lisp
+(setq light 'doom-acario-light)
+(setq dark 'doom-ayu-mirage)
+#+end_src
+
+Choose your mode
+
+#+begin_src emacs-lisp
+(setq doom-theme light             ; default in Light mode
+      doom-acario-light-brighter-modeline t
+      doom-ayu-mirage-brighter-comments t)
+#+end_src
+
+Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
+
+#+begin_src emacs-lisp
+(defun synchronize-theme ()
+  (setq hour                          ; current hour
+      (string-to-number
+          (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
+      (setq now light)                     ; true: Light
+      (setq now dark))                     ; else: Dark
+  (if (equal now doom-theme)          ; if now is Light
+      nil                             ; do nothing
+    (progn                            ; else
+      (setq doom-theme now)           ; set to Dark
+      (doom/reload-theme))))          ; and reload
+
+(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
+#+end_src
+** Treemacs
+#+begin_src emacs-lisp
+(setq doom-themes-treemacs-theme 'doom-colors 
+      treemacs-width 26)
+#+end_src
 ** vterm
 In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 #+begin_src emacs-lisp
@@ -177,6 +245,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
   (evil-collection-define-key 'insert 'vterm-mode-map
     (kbd "C-j") 'vterm--self-insert))
 #+end_src
+
 * Completion/Corfu :completion:
 ** Source_code
 + corfu/
@@ -195,7 +264,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 (defun +corfu-files ()
   "Complete using files source"
   (interactive)
-  (let ((completion-at-point-functions 
+  (let ((completion-at-point-functions
          (list #'+file-completion-at-point-function)))
     (completion-at-point)))
 
@@ -203,7 +272,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 (defun +corfu-dabbrev ()
   "Complete using dabbrev source"
   (interactive)
-  (let ((completion-at-point-functions 
+  (let ((completion-at-point-functions
          (list #'+dabbrev-completion-at-point-function)))
     (completion-at-point)))
 
@@ -213,7 +282,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 
     See `ispell-lookup-words' for more info"
   (interactive)
-  (let ((completion-at-point-functions 
+  (let ((completion-at-point-functions
          (list #'+ispell-completion-at-point-function)))
     (completion-at-point)))
 
@@ -221,10 +290,10 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 (defun +corfu-dict ()
   "Complete using dict source.
 
-    See `+dict--words' for extra words, 
+    See `+dict--words' for extra words,
     and `+dict-file' for a wordslist source"
   (interactive)
-  (let ((completion-at-point-functions 
+  (let ((completion-at-point-functions
          (list #'+dict-completion-at-point-function)))
     (completion-at-point)))
     #+end_src
@@ -283,7 +352,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
                                (inhibit-message t))
                            (ispell-lookup-words
                             (format "*%s*"
-                                    (buffer-substring-no-properties 
+                                    (buffer-substring-no-properties
                                      (car bounds) (cdr bounds))))))))
     (list (car bounds) (cdr bounds) table
           :exclusive 'no
@@ -484,9 +553,9 @@ When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/t
   (when (featurep! :completion vertico)
     (define-key!
       [remap +hydra/window-nav/idomenu] #'consult-imenu))
-  (map! :desc "Interactive menu" 
+  (map! :desc "Interactive menu"
         "<menu>" #'+hydra/window-nav/body
-        :leader :desc "zoom"             
+        :leader :desc "zoom"
         "z"      #'+hydra/text-zoom/body))
 #+end_src
 
@@ -526,16 +595,16 @@ Module for brief help
 (use-package! howdoyou
   :commands (howdoyou-query aj/howdoyou-hydra/body)
   :config
-  (set-popup-rule! "*How Do You" :vslot 3 :size 0.5 :side 'top 
+  (set-popup-rule! "*How Do You" :vslot 3 :size 0.5 :side 'top
     :select t :ttl nil :modeline t :autosave t :quit t)
 
-  (add-hook 'howdoyou-mode-hook 
+  (add-hook 'howdoyou-mode-hook
             (lambda () (doom-mark-buffer-as-real-h)
               (persp-add-buffer (current-buffer))
               (solaire-mode +1)
               (mkdir "/tmp/howdoyou" t)
               (setq-local org-src-fontify-natively nil)
-              (setq-local buffer-file-name 
+              (setq-local buffer-file-name
                           "/tmp/howdoyou/latest.org"))))
 
 (map! :map search-map
@@ -767,11 +836,12 @@ ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javasc
 3. Install Watchman as an performance booster to import-js daemon
    - macOS or Linux
     #+begin_src sh :tangle no
-     brew update && brew install watchman
+    brew update && brew install watchman
     #+end_src
 
-:nv "g <f4>" #'import-js-goto)*** Configuration
-These configs live inside the =+config.el= file and some are located in =autoload/*.el= files.
+*** Configuration
+These configs live inside the =+config.el= file and some are located in
+=autoload/*.el= files.
 
 As the =+config.el= is an [[file:~/.emacs.d/docs/getting_started.org::*Additional files][Additional file]],
 This can be loaded with the ~load!~ macro, which will load an elisp file
@@ -896,7 +966,7 @@ relative to the file it's used from which is =init.el= in our case.
       (defun turn-off-npm-mode () (npm-mode -1))))
 #+end_src
 ***** Project Activation
-By adding ~.dir-locals.el~ file on the root directory of a project containing:
+By adding =.dir-locals.el= file on the root directory of a project containing:
 #+begin_src emacs-lisp :tangle no
 ((nil . ((mode . pnpm))))
 #+end_src
@@ -1003,7 +1073,7 @@ Optional argument COMINT ."
 #+end_src
 
 ***** Project Activation
-By adding ~.dir-locals.el~ file on the root directory of a project containing:
+By adding =.dir-locals.el= file on the root directory of a project containing:
 #+begin_src emacs-lisp :tangle no
 ((nil . ((mode . yarn))))
 #+end_src
@@ -1295,6 +1365,7 @@ For more information see (info "(emacs) Directory Variables")
 Emacs treat some variable as a risky-local-variable and will request your
 permission to apply these variables every time when accessing a file within a
 directory that contains settings for these variable in =.dir-locals.el= file.
+
 #+begin_src emacs-lisp
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
 (put 'quickrun-option-command 'safe-local-variable #'stringp)

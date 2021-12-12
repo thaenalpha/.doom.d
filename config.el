@@ -1,32 +1,17 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-;; For e.g. GPG configuration, email clients, file templates and snippets.
+
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 
-(setq light 'doom-acario-light)
-(setq dark 'doom-ayu-mirage)
+(setq company-idle-delay nil)
 
-(setq doom-theme light)            ; default in Light mode
+(setq display-line-numbers-type nil)
 
-(defun synchronize-theme ()
-  (setq hour                          ; current hour
-      (string-to-number
-          (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
-      (setq now light)                     ; true: Light
-      (setq now dark))                     ; else: Dark
-  (if (equal now doom-theme)          ; if now is Light
-      nil                             ; do nothing
-    (progn                            ; else
-      (setq doom-theme now)           ; set to Dark
-      (doom/reload-theme))))          ; and reload
-
-(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
-
-(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 12)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
-      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
-      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
+(after! org
+  (setq org-fontify-quote-and-verse-blocks nil
+        org-fontify-whole-heading-line nil
+        org-hide-leading-stars nil
+        org-startup-indented nil))
 
 (map! :map +doom-dashboard-mode-map
       :ne "l" #'doom/quickload-session
@@ -48,6 +33,16 @@
       :ne "n" #'+default/find-in-notes
       :ne "d" #'+workspace/delete)
 
+;;;; Info colors
+(use-package! info-colors
+  :hook (Info-selection . info-colors-fontify-node))
+
+(setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'light)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 19)
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
+      doom-unicode-font (font-spec :family "Courier New")
+      doom-serif-font (font-spec :family "Cascadia Code" :weight 'semi-light))
+
 (map! :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
@@ -67,6 +62,31 @@
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
 
+(setq light 'doom-acario-light)
+(setq dark 'doom-ayu-mirage)
+
+(setq doom-theme light             ; default in Light mode
+      doom-acario-light-brighter-modeline t
+      doom-ayu-mirage-brighter-comments t)
+
+(defun synchronize-theme ()
+  (setq hour                          ; current hour
+      (string-to-number
+          (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
+      (setq now light)                     ; true: Light
+      (setq now dark))                     ; else: Dark
+  (if (equal now doom-theme)          ; if now is Light
+      nil                             ; do nothing
+    (progn                            ; else
+      (setq doom-theme now)           ; set to Dark
+      (doom/reload-theme))))          ; and reload
+
+(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
+
+(setq doom-themes-treemacs-theme 'doom-colors 
+      treemacs-width 26)
+
 (after! vterm (evil-collection-vterm-toggle-send-escape)
   (evil-collection-define-key 'insert 'vterm-mode-map
     (kbd "C-j") 'vterm--self-insert))
@@ -78,9 +98,9 @@
   (when (featurep! :completion vertico)
     (define-key!
       [remap +hydra/window-nav/idomenu] #'consult-imenu))
-  (map! :desc "Interactive menu" 
+  (map! :desc "Interactive menu"
         "<menu>" #'+hydra/window-nav/body
-        :leader :desc "zoom"             
+        :leader :desc "zoom"
         "z"      #'+hydra/text-zoom/body))
 
 (setq-hook! '(js-mode
