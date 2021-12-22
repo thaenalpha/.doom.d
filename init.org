@@ -109,16 +109,18 @@ grammar           ; tasing grammar mistake every you make
 ** :completion
 #+name: doom-completion
 #+begin_src emacs-lisp
-(company          ; the ultimate code completion backend
- +childframe)     ; displaying completion candidates in a child frame
-(corfu +orderless); Completion Overlay Region FUnction
+(corfu +orderless ; Completion Overlay Region FUnction
+       +tabnine)  ; cape-tabnine-to-capf
 (vertico +icons)  ; the search engine of the future
 #+end_src
 *** All Completion support
 #+begin_src emacs-lisp
 (company          ; the ultimate code completion backend
- +childframe)     ; displaying completion candidates in a child frame
-(corfu +orderless); Completion Overlay Region FUnction
+ +childframe      ; displaying completion candidates in a child frame
+ +tabnine)        ; the all-language autocompleter that uses machine learning
+(corfu +orderless ; Completion Overlay Region FUnction
+       +company   ; Wrap Company backend in a Cape and turn it into a Capf!
+       +tabnine)  ; cape-tabnine-to-capf
 helm              ; the *other* search engine for love and life
 ido               ; the other *other* search engine...
 ivy               ; a search engine for love and life
@@ -133,7 +135,7 @@ literate
 ** :editor
 #+name: doom-editor
 #+begin_src emacs-lisp
-(evil
+(evil +tree-sitter; Provides evil textobjects using tree-sitter
  +everywhere)     ; come to the dark side, we have cookies
 file-templates    ; auto-snippets for empty files
 fold              ; (nigh) universal code folding
@@ -193,7 +195,8 @@ rest              ; Emacs as a REST client
 (scheme +guile)   ; a fully conniving family of lisps
 (sh +lsp          ; she sells {ba,z,fi}sh shells on the C xor
     +powershell)  ; the Microsoft shell
-(web +lsp)        ; the tubes
+(web +lsp         ; the tubes
+     +tailwind)   ;
 (yaml +lsp)       ; JSON, but readable
 #+end_src
 *** All Language support
@@ -309,6 +312,7 @@ make              ; run make tasks from Emacs
 (pass +auth)      ; password manager for nerds
 pdf               ; pdf enhancements
 rgb               ; creating color strings
+tree-sitter       ; PRIVATE syntax-tree at speed of light
 #+end_src
 *** All Available-Tools
 #+begin_src emacs-lisp
@@ -369,6 +373,10 @@ vi-tilde-fringe   ; fringe tildes to mark beyond EOB
 window-select     ; visually switch windows
 workspaces        ; tab emulation, persistence & separate workspaces
 zen               ; distraction-free coding or writing
+#+end_src
+*** Disabled modules
+#+begin_src emacs-lisp
+tab-workspaces    ; tab emulation, persistence & separate workspaces
 #+end_src
 * Disable some of Doom’s slowest modules.
 ** :editor

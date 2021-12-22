@@ -4,9 +4,8 @@
 ;; Press 'K' on a module to view its documentation, and 'gd' to browse its directory.
 
 (doom! :completion
-       (company          ; the ultimate code completion backend
-        +childframe)     ; displaying completion candidates in a child frame
-       (corfu +orderless); Completion Overlay Region FUnction
+       (corfu +orderless ; Completion Overlay Region FUnction
+              +tabnine)  ; cape-tabnine-to-capf
        (vertico +icons)  ; the search engine of the future
 
        :ui
@@ -36,7 +35,7 @@
        zen               ; distraction-free coding or writing
 
        :editor
-       (evil
+       (evil +tree-sitter; Provides evil textobjects using tree-sitter
         +everywhere)     ; come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
@@ -86,6 +85,7 @@
        (pass +auth)      ; password manager for nerds
        pdf               ; pdf enhancements
        rgb               ; creating color strings
+       tree-sitter       ; PRIVATE syntax-tree at speed of light
 
        :os
        (:if IS-MAC macos); improve compatibility with macOS
@@ -112,7 +112,8 @@
        (scheme +guile)   ; a fully conniving family of lisps
        (sh +lsp          ; she sells {ba,z,fi}sh shells on the C xor
            +powershell)  ; the Microsoft shell
-       (web +lsp)        ; the tubes
+       (web +lsp         ; the tubes
+            +tailwind)   ;
        (yaml +lsp)       ; JSON, but readable
 
        :email
