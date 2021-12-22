@@ -31,7 +31,7 @@
       :ne "T" #'=twitter
       :ne "m" #'=mu4e
       :ne "n" #'+default/find-in-notes
-      :ne "d" #'+workspace/delete)
+      :ne "d" #'+workspace/close-window-or-workspace)
 
 ;;;; Info colors
 (use-package! info-colors
@@ -41,7 +41,9 @@
       doom-big-font (font-spec :family "JetBrains Mono" :size 19)
       doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
       doom-unicode-font (font-spec :family "Courier New")
-      doom-serif-font (font-spec :family "Cascadia Code" :weight 'semi-light))
+      doom-serif-font (font-spec :family "Cascadia Code"))
+
+(setq byte-compile-warnings '(cl-functions))
 
 (map! :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
@@ -58,6 +60,7 @@
        "SPC" #'fzf-projectile))
 
 (use-package keychain-environment
+  :defer t
   :init (keychain-refresh-environment)
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
@@ -66,30 +69,54 @@
 (setq dark 'doom-ayu-mirage)
 
 (setq doom-theme light             ; default in Light mode
-      doom-acario-light-brighter-modeline t
-      doom-ayu-mirage-brighter-comments t)
+      doom-acario-light-brighter-modeline t)
 
 (defun synchronize-theme ()
   (setq hour                          ; current hour
-      (string-to-number
-          (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
-      (setq now light)                     ; true: Light
-      (setq now dark))                     ; else: Dark
-  (if (equal now doom-theme)          ; if now is Light
-      nil                             ; do nothing
-    (progn                            ; else
-      (setq doom-theme now)           ; set to Dark
-      (doom/reload-theme))))          ; and reload
+        (string-to-number
+         (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 17)) ; if current hour is in daytime's period
+      (setq now light)                     ; now is light
+    (setq now dark))                     ; else now is dark
+  (unless (equal now doom-theme)           ; if doom-theme isn't equal to now
+    (setq doom-theme now)                ; set to now theme
+    (doom/reload-theme)))                ; and reload
 
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 
-(setq doom-themes-treemacs-theme 'doom-colors 
+(setq doom-themes-treemacs-theme 'doom-colors
       treemacs-width 26)
 
 (after! vterm (evil-collection-vterm-toggle-send-escape)
   (evil-collection-define-key 'insert 'vterm-mode-map
     (kbd "C-j") 'vterm--self-insert))
+
+;; evil Omni-completion, Bind dedicated completion commands
+(map! (:when (and (featurep! :editor evil) (featurep! :completion corfu))
+       (:prefix "C-x"
+        :i "C-p"  #'completion-at-point  ; capf
+        :i "C-l"  #'cape-line
+        :i "C-k"  #'+cape/dict-or-keywords
+        :i "C-a"  #'cape-abbrev
+        :i "s"    #'cape-ispell
+        (:unless (featurep! :completion company)
+         :i "C-s" #'+cape/yasnippet)
+        :i "C-d"  #'cape-dabbrev
+        :i "C-f"  #'cape-file
+        :i "C-n"  #'dabbrev-completion
+        :i "C-'"  #'cape-symbol
+        :i "C-]"  #'complete-tag         ; etags
+        :i "C-\\" #'cape-tex
+        :i "&"    #'cape-sgml
+        :i "C-r"  #'cape-rfc1345)))
+
+(when (featurep! :completion company +tabnine)
+  (add-to-list 'company-backends #'company-tabnine)
+  (after! company
+   (setq +lsp-company-backends
+            '(company-tabnine :separate company-capf company-yasnippet))
+   (setq company-show-numbers t)
+   (setq company-idle-delay 0)))
 
 ;; deft
 (setq deft-directory "~/notes")
@@ -108,6 +135,13 @@
               rjsx-mode
               typescript-mode
               typescript-tsx-mode) +format-with-lsp nil)
+
+(use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
+
+(global-fixmee-mode 1)
+
+(after! lsp-mode
+  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
 
 (setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
 

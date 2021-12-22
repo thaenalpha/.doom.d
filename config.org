@@ -12,17 +12,24 @@
   - [[#dashboard-quick-actions][Dashboard Quick Actions]]
   - [[#extra-colors-for-info-mode][Extra colors for Info-mode]]
   - [[#fonts][Fonts]]
+  - [[#inhibit-cl-warning][Inhibit cl warning]]
   - [[#keyboard-shortcuts][Keyboard Shortcuts]]
   - [[#load-key-chain-environment-variables][Load Key-chain Environment Variables]]
   - [[#modeline][Modeline]]
   - [[#themes][Themes]]
   - [[#treemacs][Treemacs]]
   - [[#vterm][vterm]]
-- [[#completioncorfu][Completion/Corfu]]
-  - [[#source_code][Source_code]]
+- [[#completion][Completion]]
+  - [[#corfu][Corfu]]
+    - [[#source_code][Source_code]]
+  - [[#tabnine][Tabnine]]
+    - [[#with-company][With Company]]
+    - [[#with-corfu][With Corfu]]
 - [[#ui][UI]]
   - [[#deft][Deft]]
     - [[#configuration][Configuration]]
+  - [[#tab-workspaces-work-in-progress][Tab-Workspaces (work in progress)]]
+    - [[#source_code-1][Source_code]]
   - [[#window-navigation][Window Navigation]]
 - [[#editor][Editor]]
   - [[#format][Format]]
@@ -32,9 +39,13 @@
   - [[#brief][Brief]]
     - [[#description][Description]]
     - [[#source-code][Source Code]]
+  - [[#fixmee][fixmee]]
   - [[#fzf][fzf]]
     - [[#description-1][Description]]
     - [[#source-code-1][Source Code]]
+  - [[#tree-sitter][Tree-sitter]]
+  - [[#lsp][LSP]]
+    - [[#troubleshooting][Troubleshooting]]
 - [[#org-mode][Org-Mode]]
   - [[#configuration-1][Configuration]]
   - [[#org-capture-from-web-browser][Org Capture from Web browser]]
@@ -45,8 +56,9 @@
     - [[#new-features][New features]]
     - [[#prerequisites-for][Prerequisites for]]
     - [[#configuration-2][Configuration]]
-    - [[#troubleshooting][Troubleshooting]]
-  - [[#tailwind-lsp][Tailwind LSP]]
+    - [[#troubleshooting-1][Troubleshooting]]
+  - [[#web][Web]]
+    - [[#tailwind-lsp][Tailwind LSP]]
 - [[#email--accounts][Email & Accounts]]
   - [[#how-to-use-contexts][How to use contexts]]
 - [[#app][App]]
@@ -137,7 +149,7 @@ unnecessary keystrokes — we can simply bind common actions to a single key!
       :ne "T" #'=twitter
       :ne "m" #'=mu4e
       :ne "n" #'+default/find-in-notes
-      :ne "d" #'+workspace/delete)
+      :ne "d" #'+workspace/close-window-or-workspace)
 #+end_src
 
 ** Extra colors for Info-mode
@@ -159,7 +171,11 @@ unnecessary keystrokes — we can simply bind common actions to a single key!
       doom-big-font (font-spec :family "JetBrains Mono" :size 19)
       doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
       doom-unicode-font (font-spec :family "Courier New")
-      doom-serif-font (font-spec :family "Cascadia Code" :weight 'semi-light))
+      doom-serif-font (font-spec :family "Cascadia Code"))
+#+end_src
+** Inhibit cl warning
+#+begin_src emacs-lisp
+(setq byte-compile-warnings '(cl-functions))
 #+end_src
 ** Keyboard Shortcuts
 #+begin_quote
@@ -188,6 +204,7 @@ Captured On: [2021-11-12 Fri 23:05]
 
 #+begin_src emacs-lisp
 (use-package keychain-environment
+  :defer t
   :init (keychain-refresh-environment)
   :config (map! :map help-map
                 "rk" #'keychain-refresh-environment))
@@ -199,6 +216,7 @@ the modeline module. What I need to do is hack the =ui/modeline/packages.el=
 file locates in .emacs.d/modules directory to add the nyan-mode package, add
 =+nyan.el= for config file and add some code into the module. (I've done this
 in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
+
 ** Themes
 Set your light and dark theme here
 
@@ -211,8 +229,7 @@ Choose your mode
 
 #+begin_src emacs-lisp
 (setq doom-theme light             ; default in Light mode
-      doom-acario-light-brighter-modeline t
-      doom-ayu-mirage-brighter-comments t)
+      doom-acario-light-brighter-modeline t)
 #+end_src
 
 Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
@@ -220,24 +237,24 @@ Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
 #+begin_src emacs-lisp
 (defun synchronize-theme ()
   (setq hour                          ; current hour
-      (string-to-number
-          (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 17)) ; Check if daytime's period
-      (setq now light)                     ; true: Light
-      (setq now dark))                     ; else: Dark
-  (if (equal now doom-theme)          ; if now is Light
-      nil                             ; do nothing
-    (progn                            ; else
-      (setq doom-theme now)           ; set to Dark
-      (doom/reload-theme))))          ; and reload
+        (string-to-number
+         (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 17)) ; if current hour is in daytime's period
+      (setq now light)                     ; now is light
+    (setq now dark))                     ; else now is dark
+  (unless (equal now doom-theme)           ; if doom-theme isn't equal to now
+    (setq doom-theme now)                ; set to now theme
+    (doom/reload-theme)))                ; and reload
 
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 #+end_src
 ** Treemacs
+Set theme and width
 #+begin_src emacs-lisp
-(setq doom-themes-treemacs-theme 'doom-colors 
+(setq doom-themes-treemacs-theme 'doom-colors
       treemacs-width 26)
 #+end_src
+
 ** vterm
 In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 #+begin_src emacs-lisp
@@ -246,204 +263,144 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
     (kbd "C-j") 'vterm--self-insert))
 #+end_src
 
-* Completion/Corfu :completion:
-** Source_code
+* Completion :completion:
+** Corfu
+Set bindings
+#+begin_src emacs-lisp
+;; evil Omni-completion, Bind dedicated completion commands
+(map! (:when (and (featurep! :editor evil) (featurep! :completion corfu))
+       (:prefix "C-x"
+        :i "C-p"  #'completion-at-point  ; capf
+        :i "C-l"  #'cape-line
+        :i "C-k"  #'+cape/dict-or-keywords
+        :i "C-a"  #'cape-abbrev
+        :i "s"    #'cape-ispell
+        (:unless (featurep! :completion company)
+         :i "C-s" #'+cape/yasnippet)
+        :i "C-d"  #'cape-dabbrev
+        :i "C-f"  #'cape-file
+        :i "C-n"  #'dabbrev-completion
+        :i "C-'"  #'cape-symbol
+        :i "C-]"  #'complete-tag         ; etags
+        :i "C-\\" #'cape-tex
+        :i "&"    #'cape-sgml
+        :i "C-r"  #'cape-rfc1345)))
+#+end_src
+*** Source_code
 + corfu/
-  + autoload/
-    #+name: extra.el
-    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/extra.el :mkdirp yes
-;;; completion/corfu/autoload/extra.el -*- lexical-binding: t; -*-
+  #+name: autoload.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el :mkdirp yes
+;;; completion/company/autoload.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defun +corfu-complete-file-at-point ()
-  "Complete a file path from scratch at point"
-  (interactive)
-  (completion-in-region (point) (point) #'read-file-name-internal))
+(defun +cape/dict-or-keywords (&optional interactive)
+  "`corfu-mode' completion combining `cape-dict' and `cape-keywords'.
+If INTERACTIVE is nil the function acts like a capf."
+  (interactive (list t))
+  (if interactive
+      (cape--interactive #'+cape/dict-or-keywords)
+    (funcall (cape-super-capf #'cape-keyword #'cape-dict))))
 
 ;;;###autoload
-(defun +corfu-files ()
-  "Complete using files source"
-  (interactive)
-  (let ((completion-at-point-functions
-         (list #'+file-completion-at-point-function)))
-    (completion-at-point)))
-
-;;;###autoload
-(defun +corfu-dabbrev ()
-  "Complete using dabbrev source"
-  (interactive)
-  (let ((completion-at-point-functions
-         (list #'+dabbrev-completion-at-point-function)))
-    (completion-at-point)))
-
-;;;###autoload
-(defun +corfu-ispell ()
-  "Complete using ispell source.
-
-    See `ispell-lookup-words' for more info"
-  (interactive)
-  (let ((completion-at-point-functions
-         (list #'+ispell-completion-at-point-function)))
-    (completion-at-point)))
-
-;;;###autoload
-(defun +corfu-dict ()
-  "Complete using dict source.
-
-    See `+dict--words' for extra words,
-    and `+dict-file' for a wordslist source"
-  (interactive)
-  (let ((completion-at-point-functions
-         (list #'+dict-completion-at-point-function)))
-    (completion-at-point)))
-    #+end_src
-    #+name: minad-capf.el
-    #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload/minad-capf.el
-;;; completion/corfu/autoload/minad-capf.el -*- lexical-binding: t; -*-
-;;; Daniel "minad" Mendler extra capfs
-;;; Source : https://github.com/minad/corfu/issues/9#issuecomment-945090516
-
-(require 'dabbrev)
-
-;;;###autoload
-(defun +file-completion-at-point-function ()
-  "File name completion-at-point-function."
-  (when-let (bounds (bounds-of-thing-at-point 'filename))
-    (list (car bounds) (cdr bounds)
-          'read-file-name-internal
-          :exclusive 'no
-          :annotation-function (lambda (_) " (File)"))))
-
-;;;###autoload
-(defun +dabbrev-completion-at-point-function ()
-  (let ((dabbrev-check-all-buffers nil)
-        (dabbrev-check-other-buffers nil))
-    (dabbrev--reset-global-variables))
-  (let ((abbrev (ignore-errors (dabbrev--abbrev-at-point))))
-    (when (and abbrev (not (string-match-p "[ \t]" abbrev)))
-      (pcase ;; Interruptible scanning
-          (while-no-input
-            (let ((inhibit-message t)
-                  (message-log-max nil))
-              (or (dabbrev--find-all-expansions
-                   abbrev (dabbrev--ignore-case-p abbrev))
-                  t)))
-        ('nil (keyboard-quit))
-        ('t nil)
-        (words
-         ;; Ignore completions which are too short
-         (let ((min-len (+ 4 (length abbrev))))
-           (setq words (seq-remove (lambda (x) (< (length x) min-len)) words)))
-         (when words
-           (let ((beg (progn (search-backward abbrev) (point)))
-                 (end (progn (search-forward abbrev) (point))))
-             (unless (string-match-p "\n" (buffer-substring beg end))
-               (list beg end words
-                     :exclusive 'no
-                     :annotation-function (lambda (_) " (Dabbrev)"))))))))))
-
-(autoload 'ispell-lookup-words "ispell")
-
-;;;###autoload
-(defun +ispell-completion-at-point-function ()
-  (when-let* ((bounds (bounds-of-thing-at-point 'word))
-              (table (with-demoted-errors
-                         (let ((message-log-max nil)
-                               (inhibit-message t))
-                           (ispell-lookup-words
-                            (format "*%s*"
-                                    (buffer-substring-no-properties
-                                     (car bounds) (cdr bounds))))))))
-    (list (car bounds) (cdr bounds) table
-          :exclusive 'no
-          :annotation-function (lambda (_) " (Ispell)"))))
-
-(defun +word-completion-at-point-function (words)
-  (when-let (bounds (bounds-of-thing-at-point 'word))
-    (list (car bounds) (cdr bounds) words
-          :exclusive 'no
-          :annotation-function (lambda (_) " (Words)"))))
-
-(defvar +dict--words nil)
-(defvar +dict-file "/etc/dictionaries-common/words")
-
-;;;###autoload
-(defun +dict-completion-at-point-function ()
-  (+word-completion-at-point-function
-   (or +dict--words
-       (setq +dict--words
-             (split-string (with-temp-buffer
-                             (insert-file-contents-literally +dict-file)
-                             (buffer-string))
-                           "\n")))))
-    #+end_src
+(defun +cape/yasnippet (&optional interactive)
+  "`corfu-mode' completion for `yasnippet'
+If INTERACTIVE is nil the function acts like a capf."
+  (interactive (list t))
+  (if interactive
+      (cape--interactive #'+cape/yasnippet)
+    (funcall (cape-company-to-capf #'company-yasnippet))))
+  #+end_src
   #+name: config.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el :noweb no-export
 ;;; completion/corfu/config.el -*- lexical-binding: t; -*-
 
 ;; Reset lsp-completion provider
-(add-hook 'doom-init-modules-hook
-          (lambda ()
-            (after! lsp-mode
-              (setq lsp-completion-provider :none))))
+(add-hook! 'doom-init-modules-hook
+  (after! lsp-mode
+    (setq lsp-completion-provider :none)))
 
 ;; Pad before lsp modeline error info
-(add-hook 'lsp-mode-hook
-          (lambda ()
-            (setf (caadr
-                   (assq 'global-mode-string mode-line-misc-info))
-                  " ")))
+(add-hook! 'lsp-mode-hook
+  (setf (caadr (assq 'global-mode-string mode-line-misc-info)) " "))
 
 ;; Set orderless filtering for LSP-mode completions
-(add-hook 'lsp-completion-mode-hook
-          (lambda ()
-            (setf (alist-get 'lsp-capf completion-category-defaults) '((styles . (orderless))))))
-
-;; Set bindings
-(add-hook 'doom-init-modules-hook
-          (lambda ()
-            (map! :i "C-@" (cmds! (not (minibufferp)) #'corfu-complete)
-                  :i "C-SPC" (cmds! (not (minibufferp)) #'corfu-complete)
-                  (:prefix "C-x"
-                   :i "C-k" #'cape-dict
-                   :i "C-f" #'cape-file
-                   :i "s" #'cape-ispell
-                   :i "C-n" #'cape-keyword
-                   :i "C-s" #'dabbrev-completion))))
+(add-hook! 'lsp-completion-mode-hook
+  (setf (alist-get 'lsp-capf completion-category-defaults)
+        '((styles . (orderless)))))
 
 ;; Fallback cleanly to consult in TUI
 (setq-default completion-in-region-function #'consult-completion-in-region)
 
 (use-package! corfu
-  :hook
-  (doom-first-buffer . corfu-global-mode)
+  :commands (corfu-complete)
+  :hook (doom-first-input . corfu-global-mode)
   :bind (:map corfu-map
-         ("TAB" . corfu-next)
-         ([tab] . corfu-next)
-         ("S-TAB" . corfu-previous)
-         ([backtab] . corfu-previous)))
+         ("C-SPC"   . corfu-complete)
+         ("TAB"     . corfu-next)
+         ([tab]     . corfu-next)
+         ("S-TAB"   . corfu-previous)
+         ([backtab] . corfu-previous))
+  :init
+  (setq corfu-cycle t              ; Enable cycling for `corfu-next/previous'
+        corfu-auto  t              ; Enable auto completion
+        corfu-commit-predicate nil ; Do not commit selected candidates on
+                                        ; next input
+        corfu-quit-no-match t)     ; Automatically quit if there is no match
+
+  :config
+  (when (featurep! :editor evil)
+    ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
+    (advice-add #'corfu--setup :after #'evil-normalize-keymaps)
+    (advice-add #'corfu--teardown :after #'evil-normalize-keymaps)
+    (evil-make-intercept-map corfu-map)
+    ;; Don't persist corfu popups when switching back to normal mode.
+    (add-hook! 'evil-normal-state-entry-hook
+      (defun +corfu-quit-h () (when corfu--candidates (corfu-quit))))
+    (map! (:map corfu-map
+           "C-n"    #'corfu-next
+           "C-p"    #'corfu-previous
+           "C-j"    #'corfu-next
+           "C-k"    #'corfu-previous
+           "C-h"    #'corfu-show-documentation
+           "C-u"    #'corfu-scroll-down
+           "C-d"    #'corfu-scroll-up
+           "C-v"    #'corfu-scroll-up
+           [escape] #'corfu-reset
+           [return] #'corfu-insert)))
+
+  (after! eldoc
+    (eldoc-add-command 'corfu-complete
+                       'corfu-insert
+                       'completion-at-point
+                       'corfu-abort)))
 
 (use-package! orderless
+  :defer t
   :when (featurep! +orderless)
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
+        completion-category-overrides '((file
+                                         (styles . (partial-completion))))))
 
 (use-package! kind-icon
   :after corfu
   :custom
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  ;; to compute blended backgrounds correctly
+  (kind-icon-default-face 'corfu-default)
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package! cape
   :defer t
   :init
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-keyword))
+  (add-to-list
+   'completion-at-point-functions
+   (cape-super-capf #'cape-file #'cape-dabbrev #'cape-keyword #'cape-symbol
+                    #'+cape/yasnippet))
+  <<tabnine>>)
 
+;; TAB CYCLE if there are only a few candidates, otherwise show menu
 (setq completion-cycle-threshold 3)
 
 ;; Enable indentation+completion using the TAB key.
@@ -455,7 +412,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 (when (equal tab-always-indent 'complete)
   (map! :map c-mode-base-map
         :i [remap c-indent-line-or-region] #'completion-at-point))
-  #+end_src
+#+end_src
   #+name: packages.el
   #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
 ;; -*- no-byte-compile: t; -*-
@@ -466,9 +423,10 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
   (package! orderless))
 (package! kind-icon)
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
+(unless (featurep! :completion company) (package! company))
   #+end_src
   #+name: README.org
-  #+begin_src org :tangle modules/completion/corfu/README.org
+  #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export
 ,#+TITLE:   completion/corfu
 ,#+DATE:    December 6, 2021
 ,#+SINCE:   v3.0.0-alpha
@@ -500,12 +458,14 @@ in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master
 ,** Module Flags
 + =+orderless= filter through candidates those match regular expressions,
   which provides better filtering methods
++ =+tabnine= use Tabnine code completion for backend
 
 ,** Plugins
 + [[https://github.com/minad/corfu][corfu]]
 + [[https://github.com/minad/cape][cape]]
 + [[https://github.com/jdtsmith/kind-icon][kind-icon]]
 + [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
+<<company-tabnine>>
 
 ,** Hacks
 # A list of internal modifications to included packages; omit if unneeded
@@ -517,11 +477,72 @@ This module has no prerequisites.
 # An in-depth list of features, how to use them, and their dependencies.
 
 ,* Configuration
-# How to configure this module, including common problems and how to address them.
+Optional customizations
+,#+begin_src emacs-lisp
+(use-package corfu
+ :custom
+ (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+ (corfu-auto t)                 ;; Enable auto completion
+ (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
+ (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+ (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+ (corfu-preview-current nil)    ;; Disable current candidate preview
+ (corfu-preselect-first nil)    ;; Disable candidate preselection
+ (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+ (corfu-scroll-margin 5)        ;; Use scroll margin)
+,#+end_src
 
+You may want to enable Corfu only for certain modes.
+,#+begin_src emacs-lisp
+(use-package corfu
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+,#+end_src
 ,* Troubleshooting
 # Common issues and their solution, or places to look for help.
 #+end_src
+
+** Tabnine
++ [[https://github.com/tommyX12/company-tabnine][company-tabnine]] (=+tabnine=)
+
+*** With Company
+This configuration come as a flag but it isn't bundled with company module.
+I put the flag for my convenient to enable/disable package.
+
+Install package in =packages.el=. Enable by add flag to =:completion company=
+**** Configuration code
+#+begin_src emacs-lisp
+(when (featurep! :completion company +tabnine)
+  (add-to-list 'company-backends #'company-tabnine)
+  (after! company
+   (setq +lsp-company-backends
+            '(company-tabnine :separate company-capf company-yasnippet))
+   (setq company-show-numbers t)
+   (setq company-idle-delay 0)))
+#+end_src
+
+*** With Corfu
+This configuration come as a flag and is bundled with corfu module.
+Enable by add =+tabnine= flag to =:completion corfu=
+**** Tabnine part in Doom's Corfu module source code
++ tabnine/
+  #+name: company-tabnine
+  #+begin_src org :tangle no
++ [[https://github.com/tommyx12/company-tabnine][company-tabnine]]
+  #+end_src
+  #+name: tabnine
+  #+begin_src emacs-lisp :tangle no
+(when (featurep! +tabnine)
+  (add-to-list 'completion-at-point-functions
+               (cape-company-to-capf #'company-tabnine)))
+  #+end_src
+  #+name: packages.el
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
+(when (featurep! +tabnine)
+  (package! company-tabnine
+    :recipe (:host github :repo "tommyX12/company-tabnine")))
+  #+end_src
 
 * UI
 ** Deft
@@ -544,7 +565,665 @@ will change the default note format to Markdown:
 You may also want to alter the way titles and file names are automatically created by editing ~deft-use-filename-as-title~ and/or ~deft-use-filter-string-for-filename~.
 
 Further customization options can be found here: https://github.com/jrblevin/deft#other-customizations
+** Tab-Workspaces (work in progress)
+*** Source_code
++ tab-workspaces/
+  #+name: README.org
+  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
+,#+TITLE:   ui/tab-workspaces
+,#+DATE:    november 15, 2020
+,#+SINCE:   3.0
+,#+STARTUP: inlineimages nofold
 
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+  - [[#hacks][Hacks]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
+
+Provide persistent workspaces using Emacs 27+ tab-bar feature
+
+,** Maintainers
++ @gagbo (Author)
+
+,** Module Flags
+This module provides no flags.
+
+,** Plugins
++ [[https://github.com/alphapapa/burly.el][burly.el]]
++ [[https://github.com/alphapapa/bufler.el][bufler.el]]
+
+,** Hacks
+The =bufler-tabs-mode= is very carefully avoided, because it uses tabs in a way
+that is not compatible with this module's goal (changing tabs should change your
+window configuration entirely)
+
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+
+A workspace is a group of buffers sharing the same bufler-workspace (which is
+the =bufler-workspace-path= buffer-local variable).
+
+Those workspaces are shown in tabs, whose name match the
+=bufler-workspace-path=
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+  #+end_src
+  #+name: bindings.el
+  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/bindings.el
+(map!  :n "C-t"   #'+workspace/new
+       :n "C-S-t" #'+workspace/display
+       :g "M-1"   #'+workspace/switch-to-0
+       :g "M-2"   #'+workspace/switch-to-1
+       :g "M-3"   #'+workspace/switch-to-2
+       :g "M-4"   #'+workspace/switch-to-3
+       :g "M-5"   #'+workspace/switch-to-4
+       :g "M-6"   #'+workspace/switch-to-5
+       :g "M-7"   #'+workspace/switch-to-6
+       :g "M-8"   #'+workspace/switch-to-7
+       :g "M-9"   #'+workspace/switch-to-8
+       :g "M-0"   #'+workspace/switch-to-final
+       (:when IS-MAC
+        :g "s-t"   #'+workspace/new
+        :g "s-T"   #'+workspace/display
+        :n "s-1"   #'+workspace/switch-to-0
+        :n "s-2"   #'+workspace/switch-to-1
+        :n "s-3"   #'+workspace/switch-to-2
+        :n "s-4"   #'+workspace/switch-to-3
+        :n "s-5"   #'+workspace/switch-to-4
+        :n "s-6"   #'+workspace/switch-to-5
+        :n "s-7"   #'+workspace/switch-to-6
+        :n "s-8"   #'+workspace/switch-to-7
+        :n "s-9"   #'+workspace/switch-to-8
+        :n "s-0"   #'+workspace/switch-to-final))
+
+(map! :leader
+      :desc "Switch workspace buffer" "," #'persp-switch-to-buffer
+      :desc "Switch buffer"           "<" #'switch-to-buffer
+      (:prefix-map ("TAB" . "workspace")
+       :desc "Delete this workspace"     "d"   #'+workspace/delete
+       :desc "Switch workspace"          "g"   #'+workspace/switch-to
+       :desc "Restore workspace"         "G"   #'+workspace/restore
+       :desc "Load workspace from file"  "l"   #'+workspace/load
+       :desc "New workspace"             "n"   #'+workspace/new
+       :desc "Rename workspace"          "r"   #'+workspace/rename
+       :desc "Restore last session"      "R"   #'+workspace/restore-last-session
+       :desc "Save workspace to file"    "s"   #'+workspace/save
+       :desc "Delete session"            "x"   #'+workspace/kill-session
+       :desc "Display tab bar"           "TAB" #'+workspace/display
+       :desc "Switch workspace"          "."   #'+workspace/switch-to
+       :desc "Switch to last workspace"  "`"   #'+workspace/other
+       :desc "Next workspace"            "]"   #'+workspace/switch-right
+       :desc "Previous workspace"        "["   #'+workspace/switch-left
+       :desc "Switch to 1st workspace"   "1"   #'+workspace/switch-to-0
+       :desc "Switch to 2nd workspace"   "2"   #'+workspace/switch-to-1
+       :desc "Switch to 3rd workspace"   "3"   #'+workspace/switch-to-2
+       :desc "Switch to 4th workspace"   "4"   #'+workspace/switch-to-3
+       :desc "Switch to 5th workspace"   "5"   #'+workspace/switch-to-4
+       :desc "Switch to 6th workspace"   "6"   #'+workspace/switch-to-5
+       :desc "Switch to 7th workspace"   "7"   #'+workspace/switch-to-6
+       :desc "Switch to 8th workspace"   "8"   #'+workspace/switch-to-7
+       :desc "Switch to 9th workspace"   "9"   #'+workspace/switch-to-8
+       :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final)
+
+      (:prefix-map ("b" . "buffer")
+       :desc "Switch workspace buffer" "b" #'bufler-switch-buffer
+       :desc "Switch buffer"           "B" #'switch-to-buffer))
+#+end_src
+  #+name: config.el
+  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/config.el
+;;; ui/tab-workspaces/config.el -*- lexical-binding: t; -*-
+
+(load! "generic")
+(load! "bindings")
+
+(defvar +workspaces--bufler-path-prefix "Workspace: "
+  "The prefix in front of the workspace name, in the inner representation of a bufler path.
+
+This prefix is used to correctly set the workspace context in the various hooks here,
+using `doom-workspaces--workspace-frame-set-a'.")
+
+(defadvice! doom-workspaces--workspace-frame-set-a (orig-fn &rest args)
+  "Set the workspace of current frame based on the given named workspace name"
+  :around #'bufler-workspace-frame-set
+  (apply orig-fn (list (list (concat +workspaces--bufler-path-prefix (caar args))))))
+
+;; (defvar +workspaces-on-switch-project-behavior 'non-empty
+;;   "Controls the behavior of workspaces when switching to a new project.
+
+;; Can be one of the following:
+
+;; t           Always create a new workspace for the project
+;; 'non-empty  Only create a new workspace if the current one already has buffers
+;;             associated with it.
+;; nil         Never create a new workspace on project switch.")
+
+(defvar +workspaces-switch-project-function #'doom-project-find-file
+  "The function to run after `projectile-switch-project' or
+`counsel-projectile-switch-project'. This function must take one argument: the
+new project directory.")
+
+;; We need to find the correct hook to change the bufler workspace
+;; (which is frame-local and not tab-local) to the tab we are choosing.
+(defun +workspaces-set-bufler-workspace-a (&rest _)
+  "Advice to set the workspace of the frame on tab changes"
+  (let ((tab-name (alist-get 'name (tab-bar--current-tab))))
+    (if (eq tab-name +workspaces-main)
+        (bufler-workspace-frame-set)
+      (bufler-workspace-frame-set (list tab-name)))))
+
+(advice-add #'tab-bar-select-tab :after #'+workspaces-set-bufler-workspace-a)
+
+(defun +doom-tab-bar--tab-name-function ()
+  "A Doom specific tab-bar-tab-name-function.
+Unless the tab name has been specifically set through `tab-rename', return `+workspaces-main'.
+Therefore this function only needs to return the default value."
+  +workspaces-main)
+
+(setq tab-bar-tab-name-function #'+doom-tab-bar--tab-name-function)
+
+(when EMACS28+
+  (setq tab-bar-format '(tab-bar-format-history
+                         tab-bar-format-tabs
+                         tab-bar-separator
+                         tab-bar-format-add-tab
+                         tab-bar-format-align-right
+                         tab-bar-format-global)))
+
+;; TODO: check that the switch-to-buffer action (when listing all buffers) correctly
+;; goes through tabs first, before opening the buffer in the current tab ??
+
+;; Add 'doom-switch-buffer-hook that calls `bufler-workspace-buffer-set
+;; so that the buffers interactively opened are put in the workspace
+;; The current workspace is `(frame-parameter nil 'bufler-workspace-path)`,
+;; but this is actually also the tab name by convention now, and it is easier to fetch
+(add-hook! '(doom-switch-buffer-hook server-visit-hook)
+  (defun +workspaces-add-current-buffer-h ()
+    "Add current buffer to focused workspace."
+    (when (or (not (+workspace-current-name))
+              (eq (+workspace-current-name) +workspaces-main))
+      (+workspaces-switch-to-project-h))
+    (bufler-workspace-buffer-name-workspace (+workspace-current-name))))
+
+(defvar +workspaces--project-dir nil)
+(defun +workspaces-set-project-action-fn ()
+  "A `projectile-switch-project-action' that sets the project directory for
+`+workspaces-switch-to-project-h'."
+  (+workspaces-switch-to-project-h default-directory)
+  (funcall +workspaces-switch-project-function (or +workspaces--project-dir default-directory)))
+
+;; TODO: properly reuse "main" if it's empty/free
+(defun +workspaces-switch-to-project-h (&optional dir)
+  (unwind-protect
+      (progn
+        (when dir
+          (setq +workspaces--project-dir dir))
+        (let ((projectile-project-root)
+              (tab-name (doom-project-name +workspaces--project-dir)))
+          (if (string= tab-name "-")
+              (+workspace/switch-to-or-create +workspaces-main)
+            (+workspace/switch-to-or-create tab-name))))
+    (setq +workspaces--project-dir nil)))
+
+(setq projectile-switch-project-action #'+workspaces-set-project-action-fn)
+;; (when (featurep! :completion ivy)
+;;   (setq
+;;    counsel-projectile-switch-project-action
+;;    '(1 ("o" +workspaces-switch-to-project-h "open project in new workspace")
+;;        ("O" counsel-projectile-switch-project-action "jump to a project buffer or file")
+;;        ("f" counsel-projectile-switch-project-action-find-file "jump to a project file")
+;;        ("d" counsel-projectile-switch-project-action-find-dir "jump to a project directory")
+;;        ("D" counsel-projectile-switch-project-action-dired "open project in dired")
+;;        ("b" counsel-projectile-switch-project-action-switch-to-buffer "jump to a project buffer")
+;;        ("m" counsel-projectile-switch-project-action-find-file-manually "find file manually from project root")
+;;        ("w" counsel-projectile-switch-project-action-save-all-buffers "save all project buffers")
+;;        ("k" counsel-projectile-switch-project-action-kill-buffers "kill all project buffers")
+;;        ("r" counsel-projectile-switch-project-action-remove-known-project "remove project from known projects")
+;;        ("c" counsel-projectile-switch-project-action-compile "run project compilation command")
+;;        ("C" counsel-projectile-switch-project-action-configure "run project configure command")
+;;        ("e" counsel-projectile-switch-project-action-edit-dir-locals "edit project dir-locals")
+;;        ("v" counsel-projectile-switch-project-action-vc "open project in vc-dir / magit / monky")
+;;        ("s" (lambda (project)
+;;               (let ((projectile-switch-project-action
+;;                      (lambda () (call-interactively #'+ivy/project-search))))
+;;                 (counsel-projectile-switch-project-by-name project))) "search project")
+;;        ("xs" counsel-projectile-switch-project-action-run-shell "invoke shell from project root")
+;;        ("xe" counsel-projectile-switch-project-action-run-eshell "invoke eshell from project root")
+;;        ("xt" counsel-projectile-switch-project-action-run-term "invoke term from project root")
+;;        ("X" counsel-projectile-switch-project-action-org-capture "org-capture into project"))))
+
+(use-package burly
+  :init
+  ;; Add hook to fix https://github.com/alphapapa/burly.el/issues/21
+  (add-hook 'after-init-hook #'bookmark-maybe-load-default-file)
+
+  ;; Blacklist a few frame-parameters
+  ;; Discussion : https://github.com/alphapapa/burly.el/issues/23
+  (setq burly-frameset-filter-alist
+        '((name . nil)
+          (posframe-parent-buffer . :never)
+          (posframe-buffer . :never)))
+
+  ;; Custom code to blacklist childframes from being saved in burly
+  ;; Discussion : https://github.com/alphapapa/burly.el/issues/23
+  (defun doom--not-childframep (&optional frame)
+    "Return t if FRAME is a childframe. If FRAME is `nil', call for current frame."
+    (unless (frame-parameter frame 'parent-frame)
+      t))
+
+  (defvar doom-burly-frames-filter-predicate #'doom--not-childframep
+    "A predicate function to call of frames when saving them")
+
+  (defun doom--burly-bookmark-frames-a (name)
+    "Bookmark the current frames as NAME. Override of `burly-bookmark-frames' to filter frames with `doom-burly-frames-save-predicate'."
+    (interactive (let ((bookmark-names (cl-loop for bookmark in bookmark-alist
+                                                for (_name . params) = bookmark
+                                                when (equal #'burly-bookmark-handler (alist-get 'handler params))
+                                                collect (car bookmark))))
+                   (list (completing-read "Save Burly bookmark: " bookmark-names nil nil burly-bookmark-prefix))))
+
+    (let ((record (list (cons 'url (burly-frames-url (cl-remove-if-not doom-burly-frames-filter-predicate (frame-list))))
+                        (cons 'handler #'burly-bookmark-handler))))
+      (bookmark-store name record nil)))
+
+  (advice-add 'burly-bookmark-frames :override #'doom--burly-bookmark-frames-a))
+
+(use-package bufler
+  :hook ((after-init . bufler-workspace-mode)) ; Set the frame name to the workspace name
+  :init
+  (setq tab-bar-show 1)
+  :config
+  ;; disable tab-{bar,line}-mode in Company childframes
+  (after! company-box
+    (add-to-list 'company-box-frame-parameters '(tab-bar-lines . 0)))
+
+  ;; Set the bufler grouping strategy
+  (setf bufler-groups
+        (bufler-defgroups
+          ;; Grouping the named workspace first means that interactively
+          ;; opening a special shared buffer like *Messages* will steal the
+          ;; buffer from everyone else. Therefore all special-mode buffers are
+          ;; handled first.
+
+          (group
+           ;; Subgroup collecting all `help-mode' and `info-mode' buffers.
+           (group-or "*Help/Info*"
+                     (mode-match "*Help*" (rx bos "help-"))
+                     (mode-match "*Info*" (rx bos "info-"))))
+
+          ;; TODO: some special buffers should not fall into this category,
+          ;; like compilation buffers or interpreter buffers
+          (group
+           ;; Subgroup collecting all special buffers (i.e. ones that are not
+           ;; file-backed), except `magit-status-mode' buffers (which are allowed to fall
+           ;; through to other groups, so they end up grouped with their project buffers).
+           (group-and "*Special*"
+                      (lambda (buffer)
+                        (unless (or (funcall (mode-match "Magit" (rx bos "magit-status"))
+                                             buffer)
+                                    (funcall (mode-match "Dired" (rx bos "dired"))
+                                             buffer)
+                                    (funcall (auto-file) buffer))
+                          "*Special*")))
+
+           ;; Subgroup collecting these "special special" buffers
+           ;; separately for convenience.
+           (group
+            (name-match "**Special**"
+                        (rx bos "*" (or "Messages" "Warnings" "scratch" "Backtrace") "*")))
+
+           ;; TODO: Magit buffers should get to a project workspace before being put
+           ;; in a magit catchall category
+           (group
+            ;; Subgroup collecting all other Magit buffers, grouped by directory.
+            (mode-match "*Magit* (non-status)" (rx bos (or "magit" "forge") "-"))
+            (auto-directory))
+
+           ;; Subgroup for Helm buffers.
+           (mode-match "*Helm*" (rx bos "helm-"))
+
+           ;; Remaining special buffers are grouped automatically by mode.
+           (auto-mode))
+
+          ;; Subgroup collecting all named workspaces.
+          (group
+           (auto-workspace))
+
+          ;; NOTE: Past this line, we enter fallback territory
+          (group
+           ;; Subgroup collecting buffers in `org-directory' (or "~/org" if
+           ;; `org-directory' is not yet defined).
+           (dir (if (bound-and-true-p org-directory)
+                    org-directory
+                  "~/org"))
+           (group
+            ;; Subgroup collecting indirect Org buffers, grouping them by file.
+            ;; This is very useful when used with `org-tree-to-indirect-buffer'.
+            (auto-indirect)
+            (auto-file))
+           ;; Group remaining buffers by whether they're file backed, then by mode.
+           (group-not "*special*" (auto-file))
+           (auto-mode))
+          (group
+           ;; Subgroup collecting buffers in a projectile project.
+           (auto-projectile))
+          (group
+           ;; Subgroup collecting buffers in a version-control project,
+           ;; grouping them by directory.
+           (auto-project))
+          ;; All buffers under "~/.emacs.d" (or wherever it is).
+          (dir user-emacs-directory)
+          ;; All buffers under "~/.doom.d" (or wherever it is).
+          (dir doom-private-dir)
+          ;; Group remaining buffers by directory, then major mode.
+          (auto-directory)
+          (auto-mode))))
+  #+end_src
+  #+name: generic.el
+  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/generic.el
+;;; ui/tab-workspaces/generic.el -- Generic interface for workspaces -*- lexical-binding: t; -*-
+
+(defvar +workspaces-main "main"
+  "The name of the primary and initial workspace, which cannot be deleted.")
+
+;; (defun +workspaces-switch-to-project-h (&optional dir)
+;;   "Creates a workspace dedicated to a new project. If one already exists, switch
+;; to it. If in the main workspace and it's empty, recycle that workspace, without
+;; renaming it.
+
+;; Afterwords, runs `+workspaces-switch-project-function'. By default, this prompts
+;; the user to open a file in the new project.
+
+;; This be hooked to `projectile-after-switch-project-hook'."
+;;   (when dir
+;;     (setq +workspaces--project-dir dir))
+;;   ;; HACK Clear projectile-project-root, otherwise cached roots may interfere
+;;   ;;      with project switch (see #3166)
+;;   (let (projectile-project-root)
+;;     (when +workspaces--project-dir
+;;       (when projectile-before-switch-project-hook
+;;         (with-temp-buffer
+;;           ;; Load the project dir-local variables into the switch buffer, so the
+;;           ;; action can make use of them
+;;           (setq default-directory +workspaces--project-dir)
+;;           (hack-dir-local-variables-non-file-buffer)
+;;           (run-hooks 'projectile-before-switch-project-hook)))
+;;       (unwind-protect
+;;           (if (and (not (null +workspaces-on-switch-project-behavior))
+;;                    (or (eq +workspaces-on-switch-project-behavior t)
+;;                        (equal (alist-get 'name (tab-bar--current-tab)) +workspaces-main)))
+;;               (let* ((project-name (doom-project-name +workspaces--project-dir)))
+;;                 (+workspace/switch-to-or-create project-name)
+;;                 (with-current-buffer (doom-fallback-buffer)
+;;                   (setq default-directory +workspaces--project-dir)
+;;                   (hack-dir-local-variables-non-file-buffer))
+;;                 (unless current-prefix-arg
+;;                   (funcall +workspaces-switch-project-function +workspaces--project-dir))
+;;                 (+workspace-message
+;;                  (format "Switched to '%s' in new workspace" project-name)
+;;                  'success))
+;;             (with-current-buffer (doom-fallback-buffer)
+;;               (setq default-directory +workspaces--project-dir)
+;;               (hack-dir-local-variables-non-file-buffer)
+;;               (message "Switched to '%s'" (doom-project-name +workspaces--project-dir)))
+;;             (with-demoted-errors "Workspace error: %s"
+;;               (+workspace-rename (+workspace-current-name) (doom-project-name +workspaces--project-dir)))
+;;             (unless current-prefix-arg
+;;               (funcall +workspaces-switch-project-function +workspaces--project-dir)))
+;;         (run-hooks 'projectile-after-switch-project-hook)
+;;         (setq +workspaces--project-dir nil)))))
+
+(defun +workspace--message-body (message &optional type)
+  (concat "Workspaces"
+          (propertize " | " 'face 'font-lock-comment-face)
+          (propertize (format "%s" message)
+                      'face (pcase type
+                              ('error 'error)
+                              ('warn 'warning)
+                              ('success 'success)
+                              ('info 'font-lock-comment-face)))))
+
+(defun +workspace-message (message &optional type)
+  "Show an 'elegant' message in the echo area next to a listing of workspaces."
+  (message "%s" (+workspace--message-body message type)))
+
+(defun +workspace-error (message &optional noerror)
+  "Show an 'elegant' error in the echo area next to a listing of workspaces."
+  (funcall (if noerror #'message #'error)
+           "%s" (+workspace--message-body message 'error)))
+
+;;; API from :ui workspaces readme
+
+;;;; General functions
+(defun +workspace-list ()
+  ""
+  (error "+workspace-list is unimplemented"))
+
+(defun +workspace-list-names ()
+  ""
+  (error "+workspace-list-names is unimplemented"))
+
+(defun +workspace-buffer-list (&optional ws-name)
+  ""
+  (error "+workspace-buffer-list is unimplemented"))
+
+(defun +workspace-p (obj)
+  ""
+  (error "+workspace-buffer-list is unimplemented"))
+
+(defun +workspace-exists-p (&optional ws-name)
+  ""
+  (error "+workspace-exists-p is unimplemented"))
+
+;;;; Accessors
+(defun +workspace-get (name &optional noerror)
+  "Return the index of the tab-bar where workspace NAME lives."
+  (tab-bar--tab-index-by-name name))
+
+(defun +workspace/get ()
+  ""
+  (interactive)
+  ;; TODO Use +workspace-list-names for the completing-read candidates
+  (error "+workspace/get is unimplemented"))
+
+(defun +workspace-current (&optional frame window)
+  ""
+  (error "+workspace-current is unimplemented"))
+
+(defun +workspace-current-name ()
+  "Get the name of the current workspace."
+  (alist-get 'name (tab-bar--current-tab)))
+
+;;;; Persistence
+(defun +workspace-load (name)
+  ""
+  (error "+workspace-load is unimplemented"))
+
+(defun +workspace/load ()
+  "Load a previously saved workspace"
+  (interactive)
+  (error "+workspace/load is unimplemented"))
+
+(defun +workspace/restore ()
+  (interactive)
+  (call-interactively #'burly-open-bookmark))
+
+(defun +workspace-load-session (name)
+  ""
+  (error "+workspace-load-session is unimplemented"))
+
+(defun +workspace/restore-last-session ()
+  (interactive)
+  (error "+workspace/restore-last-session is unimplemented"))
+
+(defun +workspace-save (name)
+  ""
+  (error "+workspace-save is unimplemented"))
+
+(defun +workspace/save ()
+  "Save the workspace configuration for later loading"
+  (interactive)
+  (call-interactively #'burly-bookmark-windows))
+
+(defun +workspace-save-session (name)
+  ""
+  (error "+workspace-save-session is unimplemented"))
+
+;;;; Creation
+(defalias #'+workspace-new #'+workspace-create)
+(defun +workspace-create (name)
+  "Create a workspace with name NAME."
+  (+workspace/create-then-switch-to name)
+  (tab-recent))
+
+(defun +workspace/new ()
+  (interactive)
+  (+workspace/create-then-switch-to +workspaces-main))
+
+;;;; Renaming
+(defun +workspace-rename (name new-name)
+  "Rename the current workspace named NAME to NEW-NAME. Returns old name on
+success, nil otherwise."
+  (error "+workspace-rename is unimplemented"))
+
+(defun +workspace/rename ()
+  (interactive)
+  (error "+workspace/rename is unimplemented"))
+
+;;;; Deleting
+(defun +workspace-delete (name &optional inhibit-kill-p)
+  ""
+  (error "+workspace-delete is unimplemented"))
+
+(defun +workspace/delete ()
+  "Kill all buffers associated to the workspace, and remove the workspace"
+  (interactive)
+  ;; TODO: to implement this, we would need a bufler-remove-group-maybe-kill function,
+  ;; and a bufler-buffer-list-by-workspace function (= bufler-workspace-buffers)
+  (error "+workspace/delete is unimplemented"))
+
+;;;; Switching
+(defun +workspace-switch (name &optional auto-create-p)
+  ""
+  (error "+workspace-delete is unimplemented"))
+
+(defun +workspace/switch-to-or-create (name)
+  "Get or create a workspace with name NAME."
+  (interactive
+   (list
+    (completing-read "Workspaces: "
+                     (bufler-workspace-list-named-workspaces))))
+  (if-let ((index (tab-bar--tab-index-by-name name)))
+      (tab-select (1+ index))
+    (+workspace/create-then-switch-to name)))
+
+(defun +workspace/create-then-switch-to (name)
+  "Create a workspace with name NAME."
+  (interactive "sWorkspace Name: ")
+  (tab-new)
+  ;; FIXME: the "tab-new" did also switch tab, but the tab was nameless then
+  ;; (and defaulted to +workspaces-main from tab-bar-tab-name-function)
+  ;; so the tab switching hooks did not properly set the workspace for the frame
+  (bufler-workspace-frame-set (list name))
+  (tab-rename name))
+
+;;;; Misc
+(defun +workspace-protected-p (name)
+  ""
+  (error "+workspace-protected-p is unimplemented"))
+
+;;; Extra interactive functions
+(defun +workspace/other ()
+  (interactive)
+  (call-interactively #'tab-recent))
+
+(defun +workspace/kill-session ()
+  (interactive)
+  (error "+workspace/kill-session is unimplemented"))
+
+(defun +workspace/switch-to-buffer ()
+  (interactive)
+  (call-interactively #'bufler-switch-buffer))
+
+(defun +workspace/display ()
+  (interactive)
+  (error "+workspace/display is unimplemented"))
+
+;;; Switch to a given workspace
+(defun +workspace/switch-right ()
+  (interactive)
+  (tab-next))
+
+(defun +workspace/switch-left ()
+  (interactive)
+  (tab-previous))
+
+(defun +workspace/switch-to ()
+  (interactive)
+  (call-interactively #'+workspace/switch-to-or-create))
+
+(defun +workspace/switch-to-0 ()
+  (interactive)
+  (error "+workspace/switch-to-0 is unimplemented"))
+
+(defun +workspace/switch-to-1 ()
+  (interactive)
+  (error "+workspace/switch-to-1 is unimplemented"))
+
+(defun +workspace/switch-to-2 ()
+  (interactive)
+  (error "+workspace/switch-to-2 is unimplemented"))
+
+(defun +workspace/switch-to-3 ()
+  (interactive)
+  (error "+workspace/switch-to-3 is unimplemented"))
+
+(defun +workspace/switch-to-4 ()
+  (interactive)
+  (error "+workspace/switch-to-4 is unimplemented"))
+
+(defun +workspace/switch-to-5 ()
+  (interactive)
+  (error "+workspace/switch-to-5 is unimplemented"))
+
+(defun +workspace/switch-to-6 ()
+  (interactive)
+  (error "+workspace/switch-to-6 is unimplemented"))
+
+(defun +workspace/switch-to-7 ()
+  (interactive)
+  (error "+workspace/switch-to-7 is unimplemented"))
+
+(defun +workspace/switch-to-8 ()
+  (interactive)
+  (error "+workspace/switch-to-8 is unimplemented"))
+
+(defun +workspace/switch-to-final ()
+  (interactive)
+  (error "+workspace/switch-to-final is unimplemented"))
+  #+end_src
+  #+name: packages.el
+  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; ui/tab-workspaces/packages.el
+
+(package! bufler)
+(package! burly)
+  #+end_src
 ** Window Navigation
 When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/text-zoom/body~ to control text/window with single key commands.
 
@@ -580,6 +1259,9 @@ To disable this behavior on ts and js modes in favor of prettier:
 
 * Tools
 ** Arrayify
+#+begin_src emacs-lisp
+(use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
+#+end_src
 ** Brief :tools:
 *** Description
 Module for brief help
@@ -614,6 +1296,10 @@ Module for brief help
   #+end_src
   #+name: packages.el
   [[file:packages.org::tools/brief][tools/brief]]
+** fixmee :navigation:convenience:
+#+begin_src emacs-lisp
+(global-fixmee-mode 1)
+#+end_src
 
 ** fzf :tools:
 *** Description
@@ -661,6 +1347,105 @@ Command-line fuzzy finder written in Go
 
   (package! fzf)
   #+end_src
+** Tree-sitter
++ tree-sitter/
+  #+name: README.org
+  #+begin_src emacs-lisp :tangle modules/tools/tree-sitter/README.org :mkdirp yes
+,#+TITLE:   tools/tree-sitter
+,#+DATE:    October 26, 2020
+,#+SINCE:   v3.0.0
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+  - [[#face-remapping][Face remapping]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
+# A summary of what this module does.
+=:tools tree-sitter= sets up an Emacs binding for [[https://tree-sitter.github.io/][Tree-sitter]], an incremental
+parsing system.
+
+From the [[https://ubolonton.github.io/emacs-tree-sitter/][main package author]]:
+,#+begin_quote
+It aims to be the foundation for a new breed of Emacs packages that understand
+code structurally. For example:
+
+  - Faster, fine-grained code highlighting.
+  - More flexible code folding.
+  - Structural editing (like Paredit, or even better) for non-Lisp code.
+  - More informative indexing for imenu.
+
+The author of Tree-sitter articulated its merits a lot better in this Strange Loop talk.
+,#+end_quote
+
+The [[https://www.thestrangeloop.com/2018/tree-sitter---a-new-parsing-system-for-programming-tools.html][Strange Loop talk]]
+
+,** Maintainers
++ @gagbo (Author)
+
+,** Module Flags
+# If this module has no flags, then...
+This module provides no flags.
+
+,** Plugins
+# A list of linked plugins
++ [[https://github.com/ubolonton/emacs-tree-sitter/][emacs-tree-sitter]]
+
+
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+,** Face remapping
+Tree sitter provides a lot more granular and language-specific faces. If you
+want to remap some of them you can either customize the
+=tree-sitter-hl-face:CAPTURE-NAME= face or advice the
+=tree-sitter-hl-face-mapping-function= function as in the examples in
+[[https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/#face-mappings][emacs-tree-sitter docs]]
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+  #+end_src
+  #+name: config.el
+  #+begin_src emacs-lisp :tangle modules/tools/tree-sitter/config.el
+;;; tools/tree-sitter/config.el -*- lexical-binding: t; -*-
+
+;; Does deferring loading to prog-mode-hook work ?
+(use-package! tree-sitter-langs)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  #+end_src
+  #+name: packages.el
+  #+begin_src emacs-lisp :tangle modules/tools/tree-sitter/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; tools/tree-sitter/packages.el
+
+(package! tree-sitter)
+(package! tree-sitter-langs)
+  #+end_src
+** LSP
+*** Troubleshooting
+[[https://github.com/hlissner/doom-emacs/issues/5904][#5904 lsp-mode throws error void-function lsp--matching-clients?]]
+#+begin_quote
+I will close this since it isn't a bug, but I will bump the module (and remove the advice) soon anyway. In the meantime, you can use this as a workaround:
+    @hlissner
+#+end_quote
+#+begin_src emacs-lisp
+(after! lsp-mode
+  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
+#+end_src
 
 * Org-Mode
 ** Configuration
@@ -1095,9 +1880,9 @@ If not it will throw an error, the one I got is about it cannot find node_sqlite
 This case is come from =node-pre-gyp= cannot find the a pre-compiled binary in the first place.
 Then it uses `node-gyp` to build the extension but it failed without messages you anything.
 
-** Tailwind LSP :tools:css:lsp:
+** Web
+*** Tailwind LSP :tools:css:lsp:
 #+begin_comment
-
     This sub-tree was taken from Jay Zawrotny's Doom Configures
     [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
 #+end_comment
@@ -1124,7 +1909,7 @@ lsp-tailwindcss runs when editing .liquid files for example.
 (add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
 #+end_src
 
-Make sure to add the =+lsp= flag to the =:lang web= module in [[./init.el][init.el]]!
+Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
 
 
 * Email & Accounts
@@ -1316,7 +2101,7 @@ in other location, don't forget to modify telega-server-libs-prefix before start
 ;; -*- no-byte-compile: t; -*-
 ;;; app/edit-server/packages.el
 
-(package! edit-server :built-in 'prefer)
+(package! edit-server)
 #+end_src
 
 - ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
@@ -1329,7 +2114,6 @@ in other location, don't forget to modify telega-server-libs-prefix before start
 ;;; app/edit-server/config.el -*- lexical-binding: t; -*-
 
 (use-package! edit-server
-  :defer t
   :commands edit-server-start
   :init (edit-server-start)
   :config (setq edit-server-new-frame-alist
@@ -1354,13 +2138,18 @@ For more information see (info "(emacs) Directory Variables")
 #+begin_src emacs-lisp :tangle .dir-locals.el
 ((nil . ((projectile-project-name . "oh-my-system") ; Edit project name .doom.d
          (indent-tabs-mode . nil)
+         (git-commit-major-mode . git-commit-elisp-text-mode)
          (fill-column . 80)
          (sentence-end-double-space . t)
          (emacs-lisp-docstring-fill-column . 75)
          (project-vc-merge-submodules . nil)))
  (org-mode . ((flycheck-textlint-executable . "node_modules/.bin/textlint"))))
 #+end_src
+To makes README.org buffer read-only
 
+#+begin_src emacs-lisp :tangle modules/.dir-locals.el
+((org-mode (buffer-read-only . t)))
+#+end_src
 ** safe-local-variables
 Emacs treat some variable as a risky-local-variable and will request your
 permission to apply these variables every time when accessing a file within a
@@ -1385,4 +2174,4 @@ A list of files considered marking the root of a project.
 | .projectile | .project |
 
 #+Original Value:
-| .projectile |  .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
+| .projectile | .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
