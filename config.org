@@ -268,26 +268,143 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 Set bindings
 #+begin_src emacs-lisp
 ;; evil Omni-completion, Bind dedicated completion commands
-(map! (:when (and (featurep! :editor evil) (featurep! :completion corfu))
-       (:prefix "C-x"
-        :i "C-p"  #'completion-at-point  ; capf
-        :i "C-l"  #'cape-line
-        :i "C-k"  #'+cape/dict-or-keywords
-        :i "C-a"  #'cape-abbrev
-        :i "s"    #'cape-ispell
-        (:unless (featurep! :completion company)
-         :i "C-s" #'+cape/yasnippet)
-        :i "C-d"  #'cape-dabbrev
-        :i "C-f"  #'cape-file
-        :i "C-n"  #'dabbrev-completion
-        :i "C-'"  #'cape-symbol
-        :i "C-]"  #'complete-tag         ; etags
-        :i "C-\\" #'cape-tex
-        :i "&"    #'cape-sgml
-        :i "C-r"  #'cape-rfc1345)))
+(map! :when (and (featurep! :editor evil)
+                 (featurep! :completion corfu))
+      :i "C-@" (cmds! (not (minibufferp)) #'completion-at-point)
+      :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
+      :prefix "C-x"
+      :i "C-p"  #'completion-at-point  ; capf
+      :i "C-l"  #'cape-line
+      :i "C-k"  #'+cape/dict-or-keywords
+      :i "C-a"  #'cape-abbrev
+      :i "s"    #'cape-ispell
+      (:unless (featurep! :completion company)
+       :i "C-s" #'+cape/yasnippet)
+      :i "C-d"  #'cape-dabbrev
+      :i "C-f"  #'cape-file
+      :i "C-n"  #'dabbrev-completion
+      :i "C-'"  #'cape-symbol
+      :i "C-]"  #'complete-tag         ; etags
+      :i "C-\\" #'cape-tex
+      :i "&"    #'cape-sgml
+      :i "C-r"  #'cape-rfc1345)
 #+end_src
 *** Source_code
 + corfu/
+  #+name: README.org
+  #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export
+,#+TITLE:   completion/corfu
+,#+DATE:    December 6, 2021
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+  - [[#hacks][Hacks]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
+[[https://github.com/minad/corfu][GitHub - minad/corfu: corfu.el - Completion Overlay Region FUnction]]
+in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]]. The primary packages are:
+
++ Corfu, which provides a completion overlay region function
++ Cape, which provides a bunch of Completion At Point Extensions
++ kind-icon, which provides an colorful icon/text prefix based on :company-kind
++ company, which provides a completion backend for yasnippet to be converted to Capf
+
+,** Maintainers
++ [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]] (Author)
++ [[https://github.com/thaenalpha][@thaenalpha]]
+
+,** Module Flags
++ =+orderless= filter through candidates those match regular expressions,
+  which provides better filtering methods
++ =+tabnine= use Tabnine code completion for capf
+
+,** Plugins
++ [[https://github.com/minad/corfu][corfu]]
++ [[https://github.com/minad/cape][cape]]
++ [[https://github.com/jdtsmith/kind-icon][kind-icon]]
++ [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
++ [[https://github.com/company-mode/company-mode][company-mode]]
+<<company-tabnine>>
+
+,** Hacks
+# A list of internal modifications to included packages; omit if unneeded
+
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+,** Code completion
+By default, completion is triggered after a short idle period or with the
+=C-SPC= key. While the popup is visible, the following keys are available:
+
+| Keybind | Description                              |
+|---------+------------------------------------------|
+| =C-n=   | Go to next candidate                     |
+| =C-p=   | Go to previous candidate                 |
+| =C-j=   | (evil) Go to next candidate              |
+| =C-k=   | (evil) Go to previous candidate          |
+| =C-h=   | Display documentation (if available)     |
+| =C-u=   | Move to previous page of candidates      |
+| =C-d=   | Move to next page of candidates          |
+| =C-s=   | Filter candidates                        |
+| =C-S-s= | Search candidates with helm/ivy          |
+| =C-SPC= | Complete common                          |
+| =TAB=   | Complete common or select next candidate |
+| =S-TAB= | Select previous candidate                |
+
+,** Vim-esque omni-completion prefix (C-x)
+In the spirit of Vim's omni-completion, the following insert mode keybinds are
+available to evil users to access specific company backends:
+
+| Keybind   | Description                       |
+|-----------+-----------------------------------|
+| =C-x C-]= | Complete etags                    |
+| =C-x C-f= | Complete file path                |
+| =C-x C-k= | Complete from dictionary/keyword  |
+| =C-x C-l= | Complete full line                |
+| =C-x C-o= | Invoke complete-at-point function |
+| =C-x C-n= | Complete next symbol at point     |
+| =C-x C-p= | Complete previous symbol at point |
+| =C-x C-s= | Complete snippet                  |
+| =C-x s=   | Complete spelling suggestions     |
+
+,* Configuration
+Optional customizations
+
+,#+begin_src emacs-lisp
+(use-package corfu
+ :custom
+ (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+ (corfu-auto t)                 ;; Enable auto completion
+ (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
+ (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+ (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+ (corfu-preview-current nil)    ;; Disable current candidate preview
+ (corfu-preselect-first nil)    ;; Disable candidate preselection
+ (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+ (corfu-scroll-margin 5)        ;; Use scroll margin)
+,#+end_src
+
+You may want to enable Corfu only for certain modes.
+,#+begin_src emacs-lisp
+(use-package corfu
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+,#+end_src
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+#+end_src
   #+name: autoload.el
   #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el :mkdirp yes
 ;;; completion/company/autoload.el -*- lexical-binding: t; -*-
@@ -365,7 +482,6 @@ If INTERACTIVE is nil the function acts like a capf."
            "C-u"    #'corfu-scroll-down
            "C-d"    #'corfu-scroll-up
            "C-v"    #'corfu-scroll-up
-           [escape] #'corfu-reset
            [return] #'corfu-insert)))
 
   (after! eldoc
@@ -425,83 +541,6 @@ If INTERACTIVE is nil the function acts like a capf."
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
 (unless (featurep! :completion company) (package! company))
   #+end_src
-  #+name: README.org
-  #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export
-,#+TITLE:   completion/corfu
-,#+DATE:    December 6, 2021
-,#+SINCE:   v3.0.0-alpha
-,#+STARTUP: inlineimages nofold
-
-,* Table of Contents :TOC_3:noexport:
-- [[#description][Description]]
-  - [[#maintainers][Maintainers]]
-  - [[#module-flags][Module Flags]]
-  - [[#plugins][Plugins]]
-  - [[#hacks][Hacks]]
-- [[#prerequisites][Prerequisites]]
-- [[#features][Features]]
-- [[#configuration][Configuration]]
-- [[#troubleshooting][Troubleshooting]]
-
-,* Description
-[[https://github.com/minad/corfu][GitHub - minad/corfu: corfu.el - Completion Overlay Region FUnction]]
-in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]]. The primary packages are:
-
-+ Corfu, which provides a completion overlay region function
-+ Cape, which provides a bunch of Completion At Point Extensions
-+ kind-icon, which provides an colorful icon/text prefix based on :company-kind
-
-,** Maintainers
-+ [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]] (Author)
-+ [[https://github.com/thaenalpha][@thaenalpha]]
-
-,** Module Flags
-+ =+orderless= filter through candidates those match regular expressions,
-  which provides better filtering methods
-+ =+tabnine= use Tabnine code completion for backend
-
-,** Plugins
-+ [[https://github.com/minad/corfu][corfu]]
-+ [[https://github.com/minad/cape][cape]]
-+ [[https://github.com/jdtsmith/kind-icon][kind-icon]]
-+ [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
-<<company-tabnine>>
-
-,** Hacks
-# A list of internal modifications to included packages; omit if unneeded
-
-,* Prerequisites
-This module has no prerequisites.
-
-,* Features
-# An in-depth list of features, how to use them, and their dependencies.
-
-,* Configuration
-Optional customizations
-,#+begin_src emacs-lisp
-(use-package corfu
- :custom
- (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
- (corfu-auto t)                 ;; Enable auto completion
- (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
- (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
- (corfu-quit-no-match t)        ;; Automatically quit if there is no match
- (corfu-preview-current nil)    ;; Disable current candidate preview
- (corfu-preselect-first nil)    ;; Disable candidate preselection
- (corfu-echo-documentation nil) ;; Disable documentation in the echo area
- (corfu-scroll-margin 5)        ;; Use scroll margin)
-,#+end_src
-
-You may want to enable Corfu only for certain modes.
-,#+begin_src emacs-lisp
-(use-package corfu
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
-,#+end_src
-,* Troubleshooting
-# Common issues and their solution, or places to look for help.
-#+end_src
 
 ** Tabnine
 + [[https://github.com/tommyX12/company-tabnine][company-tabnine]] (=+tabnine=)
@@ -569,7 +608,7 @@ Further customization options can be found here: https://github.com/jrblevin/def
 *** Source_code
 + tab-workspaces/
   #+name: README.org
-  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
+  #+begin_src org :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
 ,#+TITLE:   ui/tab-workspaces
 ,#+DATE:    november 15, 2020
 ,#+SINCE:   3.0
@@ -1350,7 +1389,7 @@ Command-line fuzzy finder written in Go
 ** Tree-sitter
 + tree-sitter/
   #+name: README.org
-  #+begin_src emacs-lisp :tangle modules/tools/tree-sitter/README.org :mkdirp yes
+  #+begin_src org :tangle modules/tools/tree-sitter/README.org :mkdirp yes
 ,#+TITLE:   tools/tree-sitter
 ,#+DATE:    October 26, 2020
 ,#+SINCE:   v3.0.0

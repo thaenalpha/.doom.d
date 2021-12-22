@@ -92,23 +92,26 @@
     (kbd "C-j") 'vterm--self-insert))
 
 ;; evil Omni-completion, Bind dedicated completion commands
-(map! (:when (and (featurep! :editor evil) (featurep! :completion corfu))
-       (:prefix "C-x"
-        :i "C-p"  #'completion-at-point  ; capf
-        :i "C-l"  #'cape-line
-        :i "C-k"  #'+cape/dict-or-keywords
-        :i "C-a"  #'cape-abbrev
-        :i "s"    #'cape-ispell
-        (:unless (featurep! :completion company)
-         :i "C-s" #'+cape/yasnippet)
-        :i "C-d"  #'cape-dabbrev
-        :i "C-f"  #'cape-file
-        :i "C-n"  #'dabbrev-completion
-        :i "C-'"  #'cape-symbol
-        :i "C-]"  #'complete-tag         ; etags
-        :i "C-\\" #'cape-tex
-        :i "&"    #'cape-sgml
-        :i "C-r"  #'cape-rfc1345)))
+(map! :when (and (featurep! :editor evil)
+                 (featurep! :completion corfu))
+      :i "C-@" (cmds! (not (minibufferp)) #'completion-at-point)
+      :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
+      :prefix "C-x"
+      :i "C-p"  #'completion-at-point  ; capf
+      :i "C-l"  #'cape-line
+      :i "C-k"  #'+cape/dict-or-keywords
+      :i "C-a"  #'cape-abbrev
+      :i "s"    #'cape-ispell
+      (:unless (featurep! :completion company)
+       :i "C-s" #'+cape/yasnippet)
+      :i "C-d"  #'cape-dabbrev
+      :i "C-f"  #'cape-file
+      :i "C-n"  #'dabbrev-completion
+      :i "C-'"  #'cape-symbol
+      :i "C-]"  #'complete-tag         ; etags
+      :i "C-\\" #'cape-tex
+      :i "&"    #'cape-sgml
+      :i "C-r"  #'cape-rfc1345)
 
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
