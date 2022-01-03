@@ -5,7 +5,8 @@
 
 (doom! :completion
        (corfu +orderless ; Completion Overlay Region FUnction
-              +tabnine)  ; cape-tabnine-to-capf
+              +tabnine   ; cape-tabnine-to-capf
+              +tng)      ; TAB-and-Go completion
        (vertico +icons)  ; the search engine of the future
 
        :ui
@@ -100,10 +101,11 @@
        (markdown +grip)  ; writing docs for people to ignore
        (org              ; organize your plain life in plain text
         +dragndrop       ; drag & drop files/images into org buffers
-        +noter           ; enhanced PDF notetaking
-        +jupyter         ; ipython/jupyter support for babel
-        +pandoc          ; export-with-pandoc support
         +gnuplot         ; who doesn't like pretty pictures
+        +jupyter         ; ipython/jupyter support for babel
+        +noter           ; enhanced PDF notetaking
+        +pandoc          ; export-with-pandoc support
+        +pomodoro        ; timer for clocking time on tasks.
         +present         ; using org-mode for presentations
         +roam2)          ; wander around notes
        php               ; perl's insecure younger brother
@@ -121,13 +123,11 @@
 
        :app
        calendar
-       ;;emms            ; The Emacs Multimedia System
        edit-server       ; Edit with Emacs server
        everywhere        ; *leave* Emacs!? You must be joking
        irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
        twitter           ; twitter client https://twitter.com/vnought
-       telega            ; telegram unofficial client
 
        :config
        literate

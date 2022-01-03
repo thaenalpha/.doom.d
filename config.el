@@ -13,25 +13,10 @@
         org-hide-leading-stars nil
         org-startup-indented nil))
 
-(map! :map +doom-dashboard-mode-map
-      :ne "l" #'doom/quickload-session
-      :ne "a" #'org-agenda
-      :ne "f" #'find-file
-      :ne "r" #'consult-recent-file
-      :ne "p" #'projectile-switch-project
-      :ne "P" #'doom/open-private-config
-      :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
-      :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
-      :ne "b" #'+vertico/switch-workspace-buffer
-      :ne "B" #'consult-buffer
-      :ne "q" #'save-buffers-kill-terminal
-      :ne "h" #'doom/help
-      :ne "v" #'+vterm/here
-      :ne "t" #'telega
-      :ne "T" #'=twitter
-      :ne "m" #'=mu4e
-      :ne "n" #'+default/find-in-notes
-      :ne "d" #'+workspace/close-window-or-workspace)
+(use-package dabbrev
+      ;; Swap M-/ and C-M-/
+      :bind (("M-/" . dabbrev-completion)
+             ("C-M-/" . dabbrev-expand)))
 
 ;;;; Info colors
 (use-package! info-colors
@@ -48,16 +33,41 @@
 (map! :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
-      :gi "C-+"   #'er/expand-region
+      :gi "C-="   #'er/expand-region
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
       (:when (featurep! :tools eval)
-       :vi "C-="   #'+eval:region
-       :vi "M-C-=" #'+eval:replace-region)
+       :map mode-specific-map
+       :desc "Evaluate line/region"      "e" #'+eval/line-or-region
+       :desc "Evaluate & replace region" "E" #'+eval/region-and-replace)
       (:when (featurep! :tools fzf)
        :map search-map
-       "SPC" #'fzf-projectile))
+       "SPC" #'fzf-projectile)
+      (:when (featurep! :ui doom-dashboard)
+       (:map doom-leader-open-map
+        "0" #'+doom-dashboard/open)
+       :map +doom-dashboard-mode-map
+       :ne "l" #'push-button
+       :ne "u" #'doom/quickload-session
+       :ne "a" #'org-agenda
+       :ne "f" #'find-file
+       :ne "r" #'consult-recent-file
+       :ne "p" #'projectile-switch-project
+       :ne "P" #'doom/open-private-config
+       :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
+       :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
+       :ne "b" #'+vertico/switch-workspace-buffer
+       :ne "B" #'consult-buffer
+       :ne "q" #'save-buffers-kill-terminal
+       :ne "h" #'doom/help
+       :ne "v" #'+vterm/here
+       :ne "t" #'telega
+       :ne "T" #'=twitter
+       :ne "m" #'=mu4e
+       :ne "n" #'+default/find-in-notes
+       :ne "d" #'+workspace/close-window-or-workspace
+       :ne "x" #'org-capture))
 
 (use-package keychain-environment
   :defer t
@@ -84,17 +94,18 @@
 
 (run-with-timer 0 3600 'synchronize-theme) ; check for every hour
 
-(setq doom-themes-treemacs-theme 'doom-colors
-      treemacs-width 26)
+(setq! doom-themes-treemacs-theme 'doom-colors
+       treemacs-width 26)
 
 (after! vterm (evil-collection-vterm-toggle-send-escape)
   (evil-collection-define-key 'insert 'vterm-mode-map
-    (kbd "C-j") 'vterm--self-insert))
+    (kbd "C-j") 'vterm--self-insert
+    (kbd "C-x") 'vterm--self-insert))
 
 ;; evil Omni-completion, Bind dedicated completion commands
 (map! :when (and (featurep! :editor evil)
                  (featurep! :completion corfu))
-      :i "C-@" (cmds! (not (minibufferp)) #'completion-at-point)
+      :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
       :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
       :prefix "C-x"
       :i "C-p"  #'completion-at-point  ; capf
@@ -105,8 +116,8 @@
       (:unless (featurep! :completion company)
        :i "C-s" #'+cape/yasnippet)
       :i "C-d"  #'cape-dabbrev
+      :i "d"    #'dabbrev-completion
       :i "C-f"  #'cape-file
-      :i "C-n"  #'dabbrev-completion
       :i "C-'"  #'cape-symbol
       :i "C-]"  #'complete-tag         ; etags
       :i "C-\\" #'cape-tex
@@ -141,6 +152,7 @@
 
 (use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
 
+(require 'button-lock)
 (global-fixmee-mode 1)
 
 (after! lsp-mode

@@ -87,12 +87,15 @@ in. Remember to run ~doom sync~ after modifying it!
 #+name: doom-app
 #+begin_src emacs-lisp
 calendar
-;;emms            ; The Emacs Multimedia System
 edit-server       ; Edit with Emacs server
 everywhere        ; *leave* Emacs!? You must be joking
 irc               ; how neckbeards socialize
 (rss +org)        ; emacs as an RSS reader
 twitter           ; twitter client https://twitter.com/vnought
+#+end_src
+*** disabled
+#+begin_src emacs-lisp
+emms              ; The Emacs Multimedia System
 telega            ; telegram unofficial client
 #+end_src
 ** :checkers
@@ -110,13 +113,15 @@ grammar           ; tasing grammar mistake every you make
 #+name: doom-completion
 #+begin_src emacs-lisp
 (corfu +orderless ; Completion Overlay Region FUnction
-       +tabnine)  ; cape-tabnine-to-capf
+       +tabnine   ; cape-tabnine-to-capf
+       +tng)      ; TAB-and-Go completion
 (vertico +icons)  ; the search engine of the future
 #+end_src
 *** All Completion support
 #+begin_src emacs-lisp
 (company          ; the ultimate code completion backend
  +childframe      ; displaying completion candidates in a child frame
+;;+tng            ; TAB-and-Go completion, incompatible with the `+childframe'
  +tabnine)        ; the all-language autocompleter that uses machine learning
 (corfu +orderless ; Completion Overlay Region FUnction
        +company   ; Wrap Company backend in a Cape and turn it into a Capf!
@@ -183,10 +188,11 @@ emacs-lisp        ; drown in parentheses
 (markdown +grip)  ; writing docs for people to ignore
 (org              ; organize your plain life in plain text
  +dragndrop       ; drag & drop files/images into org buffers
- +noter           ; enhanced PDF notetaking
- +jupyter         ; ipython/jupyter support for babel
- +pandoc          ; export-with-pandoc support
  +gnuplot         ; who doesn't like pretty pictures
+ +jupyter         ; ipython/jupyter support for babel
+ +noter           ; enhanced PDF notetaking
+ +pandoc          ; export-with-pandoc support
+ +pomodoro        ; timer for clocking time on tasks.
  +present         ; using org-mode for presentations
  +roam2)          ; wander around notes
 php               ; perl's insecure younger brother

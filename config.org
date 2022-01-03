@@ -9,6 +9,7 @@
 - [[#personalization][Personalization]]
   - [[#personal-information][Personal Information]]
   - [[#adjust-for-speed][Adjust for speed]]
+  - [[#dabbrev][Dabbrev]]
   - [[#dashboard-quick-actions][Dashboard Quick Actions]]
   - [[#extra-colors-for-info-mode][Extra colors for Info-mode]]
   - [[#fonts][Fonts]]
@@ -22,6 +23,10 @@
 - [[#completion][Completion]]
   - [[#corfu][Corfu]]
     - [[#source_code][Source_code]]
+    - [[#set-bindings-evil][Set bindings (evil)]]
+    - [[#additional-movement-commands][Additional movement commands]]
+    - [[#transfer-to-the-minibuffer][Transfer to the minibuffer]]
+    - [[#auto-commit][Auto-commit]]
   - [[#tabnine][Tabnine]]
     - [[#with-company][With Company]]
     - [[#with-corfu][With Corfu]]
@@ -122,6 +127,14 @@ It’s known to slow down scrolling, in particular.
    variant is a work-in-progress replacement aiming to provide a lighter
    (albeit less featureful) mode line.
 7. Check out “[[https://discourse.doomemacs.org/t/119][Common configuration mistakes]]”.
+** Dabbrev
+Swap =M-/= and =C-M-/=
+#+begin_src emacs-lisp
+(use-package dabbrev
+      ;; Swap M-/ and C-M-/
+      :bind (("M-/" . dabbrev-completion)
+             ("C-M-/" . dabbrev-expand)))
+#+end_src
 
 ** Dashboard Quick Actions
 The config idea is come from Tecosaur's Emacs configuration.
@@ -130,26 +143,32 @@ When using the dashboard, there are often some actions I will take. As the
 dashboard is its own major mode, there is no need to suffer the tyranny of
 unnecessary keystrokes — we can simply bind common actions to a single key!
 #+end_quote
-#+begin_src emacs-lisp
-(map! :map +doom-dashboard-mode-map
-      :ne "l" #'doom/quickload-session
-      :ne "a" #'org-agenda
-      :ne "f" #'find-file
-      :ne "r" #'consult-recent-file
-      :ne "p" #'projectile-switch-project
-      :ne "P" #'doom/open-private-config
-      :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
-      :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
-      :ne "b" #'+vertico/switch-workspace-buffer
-      :ne "B" #'consult-buffer
-      :ne "q" #'save-buffers-kill-terminal
-      :ne "h" #'doom/help
-      :ne "v" #'+vterm/here
-      :ne "t" #'telega
-      :ne "T" #'=twitter
-      :ne "m" #'=mu4e
-      :ne "n" #'+default/find-in-notes
-      :ne "d" #'+workspace/close-window-or-workspace)
+#+name: dashboard
+#+begin_src emacs-lisp :tangle no
+(:when (featurep! :ui doom-dashboard)
+ (:map doom-leader-open-map
+  "0" #'+doom-dashboard/open)
+ :map +doom-dashboard-mode-map
+ :ne "l" #'push-button
+ :ne "u" #'doom/quickload-session
+ :ne "a" #'org-agenda
+ :ne "f" #'find-file
+ :ne "r" #'consult-recent-file
+ :ne "p" #'projectile-switch-project
+ :ne "P" #'doom/open-private-config
+ :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
+ :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
+ :ne "b" #'+vertico/switch-workspace-buffer
+ :ne "B" #'consult-buffer
+ :ne "q" #'save-buffers-kill-terminal
+ :ne "h" #'doom/help
+ :ne "v" #'+vterm/here
+ :ne "t" #'telega
+ :ne "T" #'=twitter
+ :ne "m" #'=mu4e
+ :ne "n" #'+default/find-in-notes
+ :ne "d" #'+workspace/close-window-or-workspace
+ :ne "x" #'org-capture)
 #+end_src
 
 ** Extra colors for Info-mode
@@ -182,20 +201,22 @@ unnecessary keystrokes — we can simply bind common actions to a single key!
 Wow, I wish I knew these things before
 #+end_quote
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb no-export
 (map! :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
-      :gi "C-+"   #'er/expand-region
+      :gi "C-="   #'er/expand-region
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
       (:when (featurep! :tools eval)
-       :vi "C-="   #'+eval:region
-       :vi "M-C-=" #'+eval:replace-region)
+       :map mode-specific-map
+       :desc "Evaluate line/region"      "e" #'+eval/line-or-region
+       :desc "Evaluate & replace region" "E" #'+eval/region-and-replace)
       (:when (featurep! :tools fzf)
        :map search-map
-       "SPC" #'fzf-projectile))
+       "SPC" #'fzf-projectile)
+      <<dashboard>>)
 #+end_src
 
 ** Load Key-chain Environment Variables
@@ -251,8 +272,8 @@ Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
 ** Treemacs
 Set theme and width
 #+begin_src emacs-lisp
-(setq doom-themes-treemacs-theme 'doom-colors
-      treemacs-width 26)
+(setq! doom-themes-treemacs-theme 'doom-colors
+       treemacs-width 26)
 #+end_src
 
 ** vterm
@@ -260,39 +281,16 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 #+begin_src emacs-lisp
 (after! vterm (evil-collection-vterm-toggle-send-escape)
   (evil-collection-define-key 'insert 'vterm-mode-map
-    (kbd "C-j") 'vterm--self-insert))
+    (kbd "C-j") 'vterm--self-insert
+    (kbd "C-x") 'vterm--self-insert))
 #+end_src
 
 * Completion :completion:
 ** Corfu
-Set bindings
-#+begin_src emacs-lisp
-;; evil Omni-completion, Bind dedicated completion commands
-(map! :when (and (featurep! :editor evil)
-                 (featurep! :completion corfu))
-      :i "C-@" (cmds! (not (minibufferp)) #'completion-at-point)
-      :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
-      :prefix "C-x"
-      :i "C-p"  #'completion-at-point  ; capf
-      :i "C-l"  #'cape-line
-      :i "C-k"  #'+cape/dict-or-keywords
-      :i "C-a"  #'cape-abbrev
-      :i "s"    #'cape-ispell
-      (:unless (featurep! :completion company)
-       :i "C-s" #'+cape/yasnippet)
-      :i "C-d"  #'cape-dabbrev
-      :i "C-f"  #'cape-file
-      :i "C-n"  #'dabbrev-completion
-      :i "C-'"  #'cape-symbol
-      :i "C-]"  #'complete-tag         ; etags
-      :i "C-\\" #'cape-tex
-      :i "&"    #'cape-sgml
-      :i "C-r"  #'cape-rfc1345)
-#+end_src
 *** Source_code
 + corfu/
   #+name: README.org
-  #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export
+  #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export :mkdirp yes
 ,#+TITLE:   completion/corfu
 ,#+DATE:    December 6, 2021
 ,#+SINCE:   v3.0.0-alpha
@@ -316,15 +314,16 @@ in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master
 + Corfu, which provides a completion overlay region function
 + Cape, which provides a bunch of Completion At Point Extensions
 + kind-icon, which provides an colorful icon/text prefix based on :company-kind
-+ company, which provides a completion backend for yasnippet to be converted to Capf
++ Company, which provides completion backends to be converted to Capf
 
 ,** Maintainers
 + [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]] (Author)
 + [[https://github.com/thaenalpha][@thaenalpha]]
 
 ,** Module Flags
-+ =+orderless= filter through candidates those match regular expressions,
-  which provides better filtering methods
++ =+orderless= optionally use the [[https://github.com/oantolin/orderless][orderless]] completion style which provides
+  better filtering methods by filters through candidates those match space-
+  separated regular expressions.
 + =+tabnine= use Tabnine code completion for capf
 
 ,** Plugins
@@ -333,7 +332,7 @@ in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master
 + [[https://github.com/jdtsmith/kind-icon][kind-icon]]
 + [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
 + [[https://github.com/company-mode/company-mode][company-mode]]
-<<company-tabnine>>
++ <<company-tabnine>>
 
 ,** Hacks
 # A list of internal modifications to included packages; omit if unneeded
@@ -342,6 +341,10 @@ in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master
 This module has no prerequisites.
 
 ,* Features
+,** TAB-and-Go completion
+Pressing TAB moves to the next candidate and further input will then commit the
+selection.
+
 ,** Code completion
 By default, completion is triggered after a short idle period or with the
 =C-SPC= key. While the popup is visible, the following keys are available:
@@ -355,8 +358,6 @@ By default, completion is triggered after a short idle period or with the
 | =C-h=   | Display documentation (if available)     |
 | =C-u=   | Move to previous page of candidates      |
 | =C-d=   | Move to next page of candidates          |
-| =C-s=   | Filter candidates                        |
-| =C-S-s= | Search candidates with helm/ivy          |
 | =C-SPC= | Complete common                          |
 | =TAB=   | Complete common or select next candidate |
 | =S-TAB= | Select previous candidate                |
@@ -371,30 +372,45 @@ available to evil users to access specific company backends:
 | =C-x C-f= | Complete file path                |
 | =C-x C-k= | Complete from dictionary/keyword  |
 | =C-x C-l= | Complete full line                |
-| =C-x C-o= | Invoke complete-at-point function |
-| =C-x C-n= | Complete next symbol at point     |
-| =C-x C-p= | Complete previous symbol at point |
+| =C-x C-p= | Invoke complete-at-point function |
+| =C-x C-'= | Complete symbol at point          |
 | =C-x C-s= | Complete snippet                  |
 | =C-x s=   | Complete spelling suggestions     |
+| =C-x C-d= | Complete Corfu dabbrev at point   |
+| =C-x d=   | dabbrev-completion at point       |
 
 ,* Configuration
-Optional customizations
+
+,#+begin_quote
+Corfu is highly flexible and customizable via ~corfu-*~ customization variables.
+For filtering I recommend to give Orderless completion a try, which is
+different from the familiar prefix TAB completion. Corfu can be used with the
+default completion styles, the use of Orderless is not a necessity. See also
+the [[https://github.com/minad/corfu/wiki][Corfu Wiki]] for additional configuration tips. In particular the Lsp-mode
+configuration is documented in the Wiki.
+    @minad (Author of Cape, Corfu, Vertico)
+,#+end_quote
+Here is an example configuration:
+
+,** Optional customizations
 
 ,#+begin_src emacs-lisp
 (use-package corfu
- :custom
- (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
- (corfu-auto t)                 ;; Enable auto completion
- (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
- (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
- (corfu-quit-no-match t)        ;; Automatically quit if there is no match
- (corfu-preview-current nil)    ;; Disable current candidate preview
- (corfu-preselect-first nil)    ;; Disable candidate preselection
- (corfu-echo-documentation nil) ;; Disable documentation in the echo area
- (corfu-scroll-margin 5)        ;; Use scroll margin)
+  :custom
+  (corfu-cycle t)                ; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ; Enable auto completion
+  (corfu-commit-predicate nil)   ; Do not commit selected candidates on next input
+  (corfu-quit-at-boundary t)     ; Automatically quit at word boundary
+  (corfu-quit-no-match t)        ; Automatically quit if there is no match
+  (corfu-preview-current nil)    ; Disable current candidate preview
+  (corfu-preselect-first nil)    ; Disable candidate preselection
+  (corfu-echo-documentation nil) ; Disable documentation in the echo area
+  (corfu-scroll-margin 5)        ; Use scroll margin)
 ,#+end_src
 
-You may want to enable Corfu only for certain modes.
+,** Enable Corfu only for certain modes.
+This module enable ~corfu-global-mode~ by default. You may want to enable Corfu
+only for certain modes.
 ,#+begin_src emacs-lisp
 (use-package corfu
   :hook ((prog-mode . corfu-mode)
@@ -402,12 +418,101 @@ You may want to enable Corfu only for certain modes.
          (eshell-mode . corfu-mode))
 ,#+end_src
 
+,** Completion style
+Tune the global completion style settings to your liking!
+This affects the minibuffer and non-lsp completion at point.
+,#+begin_src emacs-lisp :noweb no-export
+(use-package orderless
+  :defer t
+  :when (featurep! :completion corfu +orderless)
+  :init
+  <​<optional>​>
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '(<​<file-styles>​>)))
+,#+end_src
+
+The =+orderless= feature enable ~partial-completion~ for files to allow path
+expansion by default. You may prefer to use ~initials~ instead.
+
+,#+name: file-styles
+,#+begin_src emacs-lisp :tangle no
+(file (styles . (initials)))
+,#+end_src
+
+See ~+orderless-dispatch~ in the Consult wiki for an advanced Orderless style
+dispatcher.
+
+,#+name: optional
+,#+begin_src emacs-lisp :tangle no
+(setq orderless-style-dispatchers '(+orderless-dispatch)
+      orderless-component-separator #'orderless-escapable-split-on-space)
+,#+end_src
+
+,** Auto-Commit
+
+<<auto-commit>>
+
+,#+begin_src emacs-lisp
+<<auto-commit.el>>
+,#+end_src
+
+,** More additional
+See also the [[https://github.com/minad/corfu/wiki][Corfu Wiki]] for additional configuration tips. For more general
+documentation read the chapter about completion in the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Completion.html][Emacs manual]]. If you want
+to create your own Capfs, you can find documentation about completion in
+the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion.html][Elisp manual]].
+
 ,* Troubleshooting
-# Common issues and their solution, or places to look for help.
+,** Auto trigger commands
+
+If Corfu is not triggering completion with ~corfu-auto~ it can be the case that the command was not called with ~self-insert-command~ or one of the other commands registered in the list ~corfu-auto-commands~. You can fix this by adding the commands you are missing to the list.
+
+,#+begin_src emacs-lisp
+(add-to-list 'corfu-auto-commands 'some-special-insert-command)
+,#+end_src
 #+end_src
   #+name: autoload.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el :mkdirp yes
+  #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el
 ;;; completion/company/autoload.el -*- lexical-binding: t; -*-
+
+;;;###autoload
+(defvar +completion-at-point-function-alist
+  '((text-mode cape-dabbrev +cape/yasnippet cape-ispell)
+    (prog-mode +cape/yasnippet)
+    (conf-mode company-dabbrev-code +cape/yasnippet))
+  "An alist matching modes to completion-at-point-functions. The capfs for any mode is
+built from this.")
+
+;;;###autodef
+(defun set-completion-at-point-function! (modes &rest capfs)
+  "Prepends CAPFS (in order) to `completion-at-point-functions' in MODES.
+
+MODES should be one symbol or a list of them, representing major or minor modes.
+This will overwrite capfs for MODES on consecutive uses.
+
+If the car of CAPFS is nil, unset the capfs for MODES.
+
+Examples:
+
+  (set-completion-at-point-function! 'js2-mode
+    'company-tide 'company-yasnippet)
+
+  (set-completion-at-point-function! 'sh-mode
+    '(company-shell :with +cape/yasnippet))
+
+  (set-completion-at-point-function! '(c-mode c++-mode)
+    '(:separate company-irony-c-headers company-irony))
+
+  (set-completion-at-point-function! 'sh-mode nil)  ; unsets capfs for sh-mode"
+  (declare (indent defun))
+  (dolist (mode (doom-enlist modes))
+    (if (null (car capfs))
+        (setq +completion-at-point-function-alist
+              (delq (assq mode +completion-at-point-function-alist)
+                    +completion-at-point-function-alist))
+      (setf (alist-get mode +completion-at-point-function-alist)
+            capfs))))
 
 ;;;###autoload
 (defun +cape/dict-or-keywords (&optional interactive)
@@ -431,10 +536,12 @@ If INTERACTIVE is nil the function acts like a capf."
   #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el :noweb no-export
 ;;; completion/corfu/config.el -*- lexical-binding: t; -*-
 
-;; Reset lsp-completion provider
+;; Reset lsp-completion provider and optionally configure the cape-capf-buster.
 (add-hook! 'doom-init-modules-hook
   (after! lsp-mode
-    (setq lsp-completion-provider :none)))
+    (setq lsp-completion-provider :none)
+    (setq-local completion-at-point-functions
+                (list (cape-capf-buster #'lsp-completion-at-point)))))
 
 ;; Pad before lsp modeline error info
 (add-hook! 'lsp-mode-hook
@@ -449,30 +556,35 @@ If INTERACTIVE is nil the function acts like a capf."
 (setq-default completion-in-region-function #'consult-completion-in-region)
 
 (use-package! corfu
-  :commands (corfu-complete)
+  :commands corfu-complete
   :hook (doom-first-input . corfu-global-mode)
   :bind (:map corfu-map
-         ("C-SPC"   . corfu-complete)
-         ("TAB"     . corfu-next)
-         ([tab]     . corfu-next)
-         ("S-TAB"   . corfu-previous)
-         ([backtab] . corfu-previous))
+         ("TAB"                          . corfu-next)
+         ([tab]                          . corfu-next)
+         ("S-TAB"                        . corfu-previous)
+         ([backtab]                      . corfu-previous)
+         ([remap move-beginning-of-line] . corfu-beginning-of-prompt)
+         ([remap move-end-of-line]       . corfu-end-of-prompt)
+         ("M-m"                          . corfu-move-to-minibuffer))
+  :custom
+  (corfu-cycle t)              ; Enable cycling for `corfu-next/previous'
+  (corfu-auto  t)              ; Enable auto completion
+  (corfu-quit-no-match t)      ; Automatically quit if there is no match
+  (corfu-preselect-first nil)  ; Disable candidate preselection
+
   :init
-  (setq corfu-cycle t              ; Enable cycling for `corfu-next/previous'
-        corfu-auto  t              ; Enable auto completion
-        corfu-commit-predicate nil ; Do not commit selected candidates on
-                                        ; next input
-        corfu-quit-no-match t)     ; Automatically quit if there is no match
+  <<additional-move-cmds>>
+
+  <<to-minibuffer>>
 
   :config
-  (when (featurep! :editor evil)
+  (when (and (featurep 'evil) (featurep! :config default +bindings))
     ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
     (advice-add #'corfu--setup :after #'evil-normalize-keymaps)
     (advice-add #'corfu--teardown :after #'evil-normalize-keymaps)
     (evil-make-intercept-map corfu-map)
     ;; Don't persist corfu popups when switching back to normal mode.
-    (add-hook! 'evil-normal-state-entry-hook
-      (defun +corfu-quit-h () (when corfu--candidates (corfu-quit))))
+    (add-hook! 'evil-normal-state-entry-hook (when corfu--candidates (corfu-quit)))
     (map! (:map corfu-map
            "C-n"    #'corfu-next
            "C-p"    #'corfu-previous
@@ -482,19 +594,22 @@ If INTERACTIVE is nil the function acts like a capf."
            "C-u"    #'corfu-scroll-down
            "C-d"    #'corfu-scroll-up
            "C-v"    #'corfu-scroll-up
+           "C-S-s"  #'corfu-move-to-minibuffer
            [return] #'corfu-insert)))
 
-  (after! eldoc
-    (eldoc-add-command 'corfu-complete
-                       'corfu-insert
-                       'completion-at-point
-                       'corfu-abort)))
+  <<auto-commit.el>>)
 
+;; Enable `partial-completion' for files to allow path expansion.
+;; You may prefer to use `initials' instead of `partial-completion'.
 (use-package! orderless
   :defer t
   :when (featurep! +orderless)
   :init
-  (setq completion-styles '(orderless)
+  ;; Optionally configure the first word as flex filtered.
+  (add-hook 'orderless-style-dispatchers
+            (defun my/orderless-dispatch-flex-first (_pattern index _total)
+              (and (eq index 0) 'orderless-flex)) nil 'local)
+  (setq completion-styles '(orderless partial-completion)
         completion-category-defaults nil
         completion-category-overrides '((file
                                          (styles . (partial-completion))))))
@@ -510,17 +625,21 @@ If INTERACTIVE is nil the function acts like a capf."
 (use-package! cape
   :defer t
   :init
-  (add-to-list
-   'completion-at-point-functions
-   (cape-super-capf #'cape-file #'cape-dabbrev #'cape-keyword #'cape-symbol
-                    #'+cape/yasnippet))
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'+cape/yasnippet)
   <<tabnine>>)
 
 ;; TAB CYCLE if there are only a few candidates, otherwise show menu
 (setq completion-cycle-threshold 3)
+(when EMACS28+    ; Hide commands in M-x which do not apply to the current mode.
+  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+  (setq read-extended-command-predicate #'command-completion-default-include-p))
 
 ;; Enable indentation+completion using the TAB key.
-;; Completion is often bound to M-TAB.
+;; `completion-at-point' is often bound to M-TAB.
 (setq tab-always-indent 'complete)
 
 ;; Dirty hack to get c completion running
@@ -541,6 +660,95 @@ If INTERACTIVE is nil the function acts like a capf."
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
 (unless (featurep! :completion company) (package! company))
   #+end_src
+
+*** Set bindings (evil)
+
+#+begin_src emacs-lisp
+;; evil Omni-completion, Bind dedicated completion commands
+(map! :when (and (featurep! :editor evil)
+                 (featurep! :completion corfu))
+      :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
+      :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
+      :prefix "C-x"
+      :i "C-p"  #'completion-at-point  ; capf
+      :i "C-l"  #'cape-line
+      :i "C-k"  #'+cape/dict-or-keywords
+      :i "C-a"  #'cape-abbrev
+      :i "s"    #'cape-ispell
+      (:unless (featurep! :completion company)
+       :i "C-s" #'+cape/yasnippet)
+      :i "C-d"  #'cape-dabbrev
+      :i "d"    #'dabbrev-completion
+      :i "C-f"  #'cape-file
+      :i "C-'"  #'cape-symbol
+      :i "C-]"  #'complete-tag         ; etags
+      :i "C-\\" #'cape-tex
+      :i "&"    #'cape-sgml
+      :i "C-r"  #'cape-rfc1345)
+#+end_src
+
+*** Additional movement commands
+#+name: additional-move-cmds
+#+begin_src emacs-lisp :tangle no
+(defun corfu-beginning-of-prompt ()
+  "Move to beginning of completion input."
+  (interactive)
+  (corfu--goto -1)
+  (goto-char (car completion-in-region--data)))
+
+(defun corfu-end-of-prompt ()
+  "Move to end of completion input."
+  (interactive)
+  (corfu--goto -1)
+  (goto-char (cadr completion-in-region--data)))
+#+end_src
+
+*** Transfer to the minibuffer
+#+name: to-minibuffer
+#+begin_src emacs-lisp :tangle no
+(defun corfu-move-to-minibuffer ()
+  (interactive)
+  (let ((completion-extra-properties corfu--extra)
+        completion-cycle-threshold completion-cycling)
+    (apply #'consult-completion-in-region completion-in-region--data)))
+#+end_src
+
+*** Auto-commit
+#+name: auto-commit
+#+begin_src org :tangle no
+Corfu allows you to specify a ~corfu-commit-predicate~, which you can use to
+instruct corfu whether to auto-commit completion candidates. It's run after
+every new key event. In the example below, the candidate is auto-committed when
+"." is entered, but not after a space (e.g. for orderless regexps), on any key
+aside from space if only one candidate exists, and when the 1st candidate is an
+exact match for what you have typed in the buffer on a wide variety of key
+presses
+#+end_src
+#+name: auto-commit.el
+#+begin_src emacs-lisp :tangle no
+(defun my/corfu-commit-predicate ()
+  "Auto-commit candidates if:
+1. A `.' is typed, except after a SPACE.
+2. A selection was made, aside from entering SPACE.
+3. Just one candidate exists, and we continue to non-symbol info.
+4. The 1st match is exact."
+  (cond
+   ((seq-contains-p (this-command-keys-vector) ?.)
+    (or (string-empty-p (car corfu--input))
+        (not (string= (substring (car corfu--input) -1) " "))))
+
+   ((/= corfu--index corfu--preselect) ; a selection was made
+    (not (seq-contains-p (this-command-keys-vector) ? )))
+
+   ((eq corfu--total 1) ;just one candidate
+    (seq-intersection (this-command-keys-vector) [?: ?, ?\) ?\] ?\( ? ]))
+
+   ((and corfu--input ; exact 1st match
+         (string-equal (substring (car corfu--input) corfu--base)
+                       (car corfu--candidates)))
+    (seq-intersection (this-command-keys-vector) [?: ?. ?, ?\) ?\] ?\" ?' ? ]))))
+(setq corfu-commit-predicate #'my/corfu-commit-predicate)
+#+end_src
 
 ** Tabnine
 + [[https://github.com/tommyX12/company-tabnine][company-tabnine]] (=+tabnine=)
@@ -568,7 +776,7 @@ Enable by add =+tabnine= flag to =:completion corfu=
 + tabnine/
   #+name: company-tabnine
   #+begin_src org :tangle no
-+ [[https://github.com/tommyx12/company-tabnine][company-tabnine]]
+[[https://github.com/tommyx12/company-tabnine][company-tabnine]] (=+tabnine=)
   #+end_src
   #+name: tabnine
   #+begin_src emacs-lisp :tangle no
@@ -1337,6 +1545,7 @@ Module for brief help
   [[file:packages.org::tools/brief][tools/brief]]
 ** fixmee :navigation:convenience:
 #+begin_src emacs-lisp
+(require 'button-lock)
 (global-fixmee-mode 1)
 #+end_src
 
@@ -1682,7 +1891,7 @@ relative to the file it's used from which is =init.el= in our case.
    * The daemon will use watchman if installed to improve performance
    * Configure ~run-import-js~ to run on open a JavaScript oriented buffer:
 
-#+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+    #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;; lang/javascript/+config.el -*- lexical-binding: t; -*-
 ;;
 ;;; Tools
@@ -1709,33 +1918,34 @@ relative to the file it's used from which is =init.el= in our case.
           (remove-hook 'after-save-hook #'import-js-setup
                        'local))))))
 #+end_src
-
 2. Import a file!
-   * You can use something like =M-x=  ~import-js-import~ with your cursor over the desired module
-   * It will be helpful to bind ~import-js-import~ to an easy-to-use binding, such as:
+   * You can use something like =M-x=  ~import-js-import~ with your cursor over
+    the desired module
+   * It will be helpful to bind ~import-js-import~ to an easy-to-use binding,
+    such as:
 
-#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el :mkdirp yes
+    #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el :mkdirp yes :noweb no-export
 ;;; lang/javascript/autoload/import-js.el -*- lexical-binding: t; -*-
 
 (defvar import-js-map (make-sparse-keymap) "Keymap for `import-js'.")
 (map! (:map import-js-map
+       <<import-js-goto>>
        "C-c i" (define-prefix-command #'import-js)
-       (:localleader "i" #'import-js)
-#+end_src
-3. Go directly to a file
-   * The ImportJS goto interface allows us to jump to a package
-   * =M-x=  ~import-js-goto~ will jump to the appropriate file found by ImportJS
-   * This should also be bound to something useful
-
-#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
-       :nv "g <f4>" #'import-js-goto)
-   ;; and the rest.
+       :localleader "i" #'import-js)
       (:map import-js
        "f" #'import-js-fix
        "g" #'import-js-goto
        "i" #'import-js-import
        "k" #'kill-import-js
        "r" #'run-import-js))
+#+end_src
+3. Go directly to a file
+   * The ImportJS goto interface allows us to jump to a package
+   * =M-x=  ~import-js-goto~ will jump to the appropriate file found by ImportJS
+   * This should also be bound to something useful
+    #+name: import-js-goto
+    #+begin_src emacs-lisp :tangle no
+:nv "g <f4>" #'import-js-goto
 #+end_src
 4. Fix your imports
   * Optionally, you can configure ImportJS to fix your imports for you, adding unknown variables and removing unused imports. ImportJS uses eslint to find these variables.
@@ -1745,7 +1955,7 @@ relative to the file it's used from which is =init.el= in our case.
   * Run with =M-x=  ~import-js-fix~
   * Configure ~import-js-fix~ to run on save:
 
-#+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
+    #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
 ;;;###autoload
 (define-minor-mode import-js-mode
   "Minor mode for automatically Import Javascript dependencies."
@@ -1768,7 +1978,7 @@ relative to the file it's used from which is =init.el= in our case.
 #+end_src
 5. Cleanup importjsd process when no import-js buffers are left
 
-#+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+    #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;;###package import-js
 (use-package! import-js
     :config
@@ -2109,7 +2319,14 @@ cd ./td/build && sudo make install
 
 It will install headers to /usr/local/include and library itself into /usr/local/lib. If you have TDLib installed
 in other location, don't forget to modify telega-server-libs-prefix before starting telega.
-
+#+begin_src emacs-lisp :tangle no
+;; I'm a Guix user.
+(use-package telega-server
+  :defer t
+  :when (featurep! :app telega)
+  :config
+  (setq! telega-server-libs-prefix "~/.guix-profile"))
+#+end_src
 **** Installing telega from MELPA
 
 + ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
@@ -2118,7 +2335,7 @@ in other location, don't forget to modify telega-server-libs-prefix before start
 ;; -*- no-byte-compile: t; -*-
 ;;; app/telega/packages.el
 
-(package! telega :built-in 'prefer)
+(package! telega)
 #+end_src
 
 - ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
