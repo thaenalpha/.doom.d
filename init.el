@@ -28,11 +28,12 @@
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; ensure all buffers (*name*) are treated as popups
         +defaults)       ; default popup rules for a variety of buffers.
+       tab-workspaces    ; tab emulation, persistence & separate workspaces
        (treemacs +lsp)   ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
+       vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
-       workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
 
        :editor
@@ -40,7 +41,7 @@
         +everywhere)     ; come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       (format +onsave)  ; automated prettiness
+       format            ; automated prettiness
        multiple-cursors  ; editing in many places at once
        parinfer          ; turn lisp into python, sort of
        rotate-text       ; cycle region at point between text candidates
@@ -72,7 +73,7 @@
        brief             ; tldr +cheat-sh
        (debugger +lsp)   ; stepping through code, to help you add bugs
        (docker +lsp)
-       editorconfig
+       editorconfig      ; let someone else argue about tabs vs spaces
        (eval +overlay)   ; run code, run (also, repls)
        fzf               ; Command-line fuzzy finder written in Go
        (lookup           ; navigate your code and its documentation
