@@ -3,49 +3,90 @@
 #+SINCE:   v3.0.0-alpha
 #+STARTUP: inlineimages nofold
 
-* Packages in Use
+* Packages inbox
 #+begin_src emacs-lisp :tangle yes
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
 (unpin! t)                              ; Unpin packages
+#+end_src
 
+* System administration
+#+begin_src emacs-lisp :tangle yes
 ;;
-;;; Completions
+;;; Tools
+
+(package! debian-el)
+(package! dtache
+  ;; run shell cmds in sessions that are isolated from Emacs
+  :recipe (:host gitlab :repo "niklaseklund/dtache"))
+(package! keychain-environment)
+(package! trashed)
+#+end_src
+* Personalization
+#+begin_src emacs-lisp :tangle yes
+;;
+;;; UI
+#+end_src
+
+** Themes
+#+begin_src emacs-lisp :tangle no
+;;; Themes
+(package! alabaster
+  :recipe (:host github :repo "wandersoncferreira/alabaster-theme"))
+(package! quartz :recipe (:host github :repo "fm0xb/quartz-theme.el"))
+(package! moe-theme)
+(package! gotham-theme)
+(package! vs-dark-theme)
+#+end_src
+
+** Miscellaneous
+#+begin_src emacs-lisp :tangle yes
+;;; Miscellaneous
+(package! info-colors)
+#+end_src
+* Modules
+Private or extra to the Doom modules
+#+begin_src emacs-lisp :tangle yes
+;;
+;;; Modules
+#+end_src
+** App
+*** Reddit :reddit:browse:news:
+#+begin_src emacs-lisp :tangle modules/app/reddit/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/reddit/packages.el
+
+(package! md4rd)
+#+end_src
+** completion
+*** Company
+#+begin_src emacs-lisp :tangle yes
+;;; :completion company +tabnine
 (when (featurep! :completion company +tabnine)
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
-;;
-;;; Tools
-(package! keychain-environment)
-(when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
-  (package! lsp-tailwindcss
-    :recipe (:host github :repo "merrickluo/lsp-tailwindcss")))
+#+end_src
+*** Vertico
+#+begin_src emacs-lisp :tangle yes
+;;; :completion vertico +childframe
+(when (featurep! :completion vertico +childframe)
+  (package! vertico-posframe))
+#+end_src
+** editor
+*** evil
+#+begin_src emacs-lisp :tangle yes
+;;; :editor evil +tree-sitter
 (when (and (featurep! :editor evil +tree-sitter)
            (featurep! :tools tree-sitter))
   (package! evil-textobj-tree-sitter
     :recipe (:host github
              :repo "meain/evil-textobj-tree-sitter"
              :files (:defaults "queries"))))
-(package! debian-el)
-(package! dtache ; run shell cmds in sessions that are isolated from Emacs
-  :recipe (:host gitlab :repo "niklaseklund/dtache"))
-(package! fixmee)
-(package! trashed)
-;;
-;;; Themes
-(package! alabaster
-  :recipe (:host github :repo "wandersoncferreira/alabaster-theme"))
-(package! quartz
-  :recipe (:host github :repo "fm0xb/quartz-theme.el"))
-(package! moe-theme)
-(package! gotham-theme)
-
-;;; UI
-(package! info-colors)
 #+end_src
-#+name: tools/brief
-#+begin_src emacs-lisp :tangle modules/tools/brief/packages.el :mkdirp yes
+** Tools
+*** Brief
+#+begin_src emacs-lisp :tangle modules/tools/brief/packages.el
 ;; -*- no-byte-compile: t; -*-
 ;;; tools/brief/packages.el
 
@@ -54,9 +95,35 @@
   :recipe (:host github :repo "thanhvg/emacs-howdoyou"))
 (package! tldr)
 (package! devdocs)
-;; (package! howdoi) Not working now, I almost fixed it, but I have mistaken lost it when I upgrade Doom. Due to I edit src in straight package repo and Doom enforcing to discard or stash changes before upgrade and then my changes were gone.
 #+end_src
+*** Magit
+#+begin_src emacs-lisp :tangle yes
+;;; :tools magit +forge
+(when (and EMACS29+ (featurep! :tools magit +forge))
+ (package! emacsql-sqlite-builtin
+  :recipe (:host github :repo "tarsiiformes/emacsql" :branch "sqlite-backends")))
+#+end_src
+** Lang
+*** Org
+#+begin_src emacs-lisp :tangle yes
+;;; :lang org
+(package! org-ref)
+#+end_src
+*** Web
+#+begin_src emacs-lisp :tangle yes
+;;; :lang web +tailwind
+(when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+  (package! lsp-tailwindcss
+    :recipe (:host github :repo "merrickluo/lsp-tailwindcss")))
+#+end_src
+** UI
+*** Fixmee :navigation:convenience:
+#+begin_src emacs-lisp :tangle modules/ui/fixmee/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; ui/fixmee/packages.el
 
+(package! fixmee)
+#+end_src
 * Doom packages.el's Documentation
 To install a package with Doom you must declare them here and run 'doom sync'
 on the command line, then restart Emacs for the changes to take effect -- or

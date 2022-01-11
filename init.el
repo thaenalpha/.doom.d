@@ -7,7 +7,9 @@
        (corfu +orderless ; Completion Overlay Region FUnction
               +tabnine   ; cape-tabnine-to-capf
               +tng)      ; TAB-and-Go completion
-       (vertico +icons)  ; the search engine of the future
+       (vertico          ; the search engine of the future
+        +childframe      ; Using posframe to show Vertico
+        +icons)
 
        :ui
        deft              ; notational velocity for Emacs
@@ -17,6 +19,7 @@
        (emoji +ascii     ; Include plain text emojis like =:)=.
               +github    ; Include Github-style emojis like =:smile:=.
               +unicode)  ; 🙂
+       fixmee            ; Quickly navigate to FIXME notices in code
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
        minimap           ; show a map of the code on the side
@@ -76,6 +79,7 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        (eval +overlay)   ; run code, run (also, repls)
        fzf               ; Command-line fuzzy finder written in Go
+       gist              ; interacting with github gists
        (lookup           ; navigate your code and its documentation
         +docsets         ; ...or in Dash docsets locally
         +dictionary)     ; word definition and thesaurus lookup functionality.
@@ -112,6 +116,7 @@
        php               ; perl's insecure younger brother
        (python +lsp)     ; beautiful is better than ugly
        rest              ; Emacs as a REST client
+       (scala +lsp)      ; java, but good
        (scheme +guile)   ; a fully conniving family of lisps
        (sh +lsp          ; she sells {ba,z,fi}sh shells on the C xor
            +powershell)  ; the Microsoft shell
@@ -127,6 +132,8 @@
        edit-server       ; Edit with Emacs server
        everywhere        ; *leave* Emacs!? You must be joking
        irc               ; how neckbeards socialize
+       mastodon          ; Client for Mastodon
+       reddit            ; read from Emacs
        (rss +org)        ; emacs as an RSS reader
        twitter           ; twitter client https://twitter.com/vnought
 

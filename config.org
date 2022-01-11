@@ -16,25 +16,24 @@
 * Table of Contents :TOC_3:noexport:
 - [[#system][System]]
   - [[#emacs][Emacs]]
+  - [[#multitasking][Multitasking]]
+    - [[#split-windows][Split windows]]
   - [[#power][Power]]
     - [[#battery-usage][Battery usage]]
   - [[#trash][Trash]]
   - [[#troubleshoot][Troubleshoot]]
     - [[#inhibit-cl-warning][Inhibit cl warning]]
-    - [[#github-remote-ssh-always-ask-for-password][Github remote SSH always ask for password]]
+    - [[#github-remote-ssh-always-ask-for-passphrase][Github remote SSH always ask for passphrase]]
     - [[#why-is-emacsdoom-slow][Why is Emacs/Doom slow?]]
 - [[#personalization][Personalization]]
-  - [[#dashboard-quick-actions][Dashboard Quick Actions]]
-  - [[#extra-colors-for-info-mode][Extra colors for Info-mode]]
   - [[#colors][Colors]]
+    - [[#choose-your-mode][Choose your mode:]]
   - [[#themes][Themes]]
   - [[#fonts][Fonts]]
-  - [[#keyboard-shortcuts][Keyboard Shortcuts]]
   - [[#modeline][Modeline]]
-  - [[#treemacs][Treemacs]]
-  - [[#vterm][vterm]]
   - [[#window--frame][Window & frame]]
-    - [[#window-split-behavior][Window split behavior]]
+  - [[#miscellaneous][Miscellaneous]]
+- [[#keyboard-shortcuts][Keyboard Shortcuts]]
 - [[#apps][Apps]]
 - [[#time--language][Time & language]]
   - [[#date--time][Date & time]]
@@ -48,30 +47,41 @@
   - [[#completion][Completion]]
     - [[#corfu][Corfu]]
     - [[#tabnine][Tabnine]]
+    - [[#vertico][Vertico]]
   - [[#ui][UI]]
     - [[#deft][Deft]]
+    - [[#doom-dashboard][doom-dashboard]]
     - [[#tab-workspaces-work-in-progress][Tab-Workspaces (work in progress)]]
     - [[#window-navigation][Window Navigation]]
     - [[#modus][modus]]
+    - [[#treemacs][Treemacs]]
+    - [[#fixmee][fixmee]]
   - [[#editor][Editor]]
     - [[#evil][Evil]]
     - [[#format][Format]]
+  - [[#emacs-1][emacs]]
+    - [[#dired][dired]]
   - [[#tools][Tools]]
     - [[#arrayify][Arrayify]]
     - [[#brief][Brief]]
-    - [[#fixmee][fixmee]]
     - [[#fzf][fzf]]
+    - [[#magit-forge][magit +forge]]
     - [[#tree-sitter][Tree-sitter]]
   - [[#programming-language][Programming Language]]
     - [[#clojure][Clojure]]
     - [[#javascript][JavaScript]]
     - [[#web][Web]]
-    - [[#org-mode][Org-Mode]]
-  - [[#email--accounts-email][Email & Accounts :email:]]
-    - [[#how-to-use-contexts][How to use contexts]]
+    - [[#org-mode][Org-mode]]
+  - [[#email-email][Email :email:]]
+    - [[#mu4e][mu4e]]
   - [[#apps-1][Apps]]
+    - [[#edit-server][Edit-Server]]
+    - [[#mastodon][Mastodon]]
     - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
-    - [[#edit-server---server-that-responds-to-edit-requests-from-chrome][Edit-Server - server that responds to edit requests from Chrome]]
+  - [[#terminal][Terminal]]
+    - [[#vterm][vterm]]
+  - [[#configure][Configure]]
+    - [[#default][default]]
 - [[#local-configures][Local Configures]]
   - [[#directory-local-variables][Directory Local Variables]]
   - [[#safe-local-variables][safe-local-variables]]
@@ -83,10 +93,25 @@
 ;;; System
 #+end_src
 ** Emacs
-#+begin_src emacs-lisp
-(setq truncate-string-ellipsis "…")     ; Unicode ellispis are nicer than "...",
+#+begin_src emacs-lisp :noweb no-export
+(setq <<split-windows>>
+      truncate-string-ellipsis  "…")    ; Unicode ellispis are nicer than "...",
                                         ; and also save /precious/ space
 (global-subword-mode 1)                 ; Iterate through CamelCase words
+#+end_src
+** Multitasking
+*** Split windows
+Automatically resize and arrange windows on your screen
+#+name: split-windows
+#+begin_src emacs-lisp :tangle no
+window-combination-resize t ; take new window space from all other windows
+#+end_src
+
+When I split a window, show prompt for which buffer I want to see
+#+begin_src emacs-lisp
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
 #+end_src
 ** Power
 *** Battery usage
@@ -103,7 +128,7 @@
 #+begin_src emacs-lisp
 (setq byte-compile-warnings '(not cl-functions))
 #+end_src
-*** Github remote SSH always ask for password
+*** Github remote SSH always ask for passphrase
 Troubleshoot by load Key-chain Environment Variables
 [[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
 Captured On: [2021-11-12 Fri 23:05]
@@ -111,9 +136,7 @@ Captured On: [2021-11-12 Fri 23:05]
 #+begin_src emacs-lisp
 (use-package keychain-environment
   :defer t
-  :init (keychain-refresh-environment)
-  :config (map! :map help-map
-                "rk" #'keychain-refresh-environment))
+  :init (keychain-refresh-environment))
 #+end_src
 
 *** Why is Emacs/Doom slow?
@@ -121,35 +144,35 @@ Some advice from @hlissner on [[https://discourse.doomemacs.org/t/why-is-emacs-d
 Captured On: [2021-12-11 Sat 14:35]
 
 1. Disable idle code-completion (i.e. completion-as-you-type).
- #+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (setq company-idle-delay nil)
-#+end_src
+   #+end_src
    #+begin_quote
-Add the above sexp to make code completion manual (on =C-SPC=, by default)
-That way, you only need to suffer that slowness once, when it is needed.
+   Add the above sexp to make code completion manual (on =C-SPC=, by default)
+   That way, you only need to suffer that slowness once, when it is needed.
    #+end_quote
 2. [[file:init.org::*Disable some of Doom’s slowest modules.][Disable some of Doom’s slowest modules.]]
 3. Turn off line numbers:
    #+name: my-line-numbers-setting
- #+begin_src emacs-lisp :tangle no
+   #+begin_src emacs-lisp :tangle no
 display-line-numbers-type  nil
-#+end_src
+   #+end_src
    #+begin_quote
-It’s known to slow down scrolling, in particular. Line numbers are pretty slow
-all around. The performance boost of disabling them outweighs the utility of
-always keeping them on.
+   It’s known to slow down scrolling, in particular. Line numbers are pretty slow
+   all around. The performance boost of disabling them outweighs the utility of
+   always keeping them on.
    #+end_quote
 4. Turn off the “prettification” of org-mode, by disabling the =+pretty=
    flag on the =:lang org= module (if you have it on).
 
    You can go to an extreme by disabling more of its eye-candy:
- #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle no
 (after! org
   (setq org-fontify-quote-and-verse-blocks nil
         org-fontify-whole-heading-line nil
         org-hide-leading-stars nil
         org-startup-indented nil))
- #+end_src
+   #+end_src
 5. Change your font(s). Emacs struggles to display some unicode characters
    with certain fonts. It sometimes struggles to display multiple fonts at
    once – as is the case if your primary font doesn’t support certain symbols
@@ -171,105 +194,74 @@ UI stuff
 ;;; UI
 
 (setq <<my-line-numbers-setting>>
+      <<my-treemacs-settings>>
       <<my-fonts-settings>>
-      <<my-window-settings>>
-      <<my-treemacs-settings>>)
+      <<my-frame-settings>>)
 
 <<my-theme-script>>
 #+end_src
 
-** Dashboard Quick Actions
-The config idea is come from Tecosaur's Emacs configuration.
-#+begin_quote
-When using the dashboard, there are often some actions I will take. As the
-dashboard is its own major mode, there is no need to suffer the tyranny of
-unnecessary keystrokes — we can simply bind common actions to a single key!
-#+end_quote
-#+name: dashboard
-#+begin_src emacs-lisp :tangle no
-(:when (featurep! :ui doom-dashboard)
- (:map doom-leader-open-map
-  "0" #'+doom-dashboard/open)
- :map +doom-dashboard-mode-map
- :ne "l" #'push-button
- :ne "u" #'doom/quickload-session
- :ne "a" #'org-agenda
- :ne "f" #'find-file
- :ne "r" #'consult-recent-file
- :ne "p" #'projectile-switch-project
- :ne "P" #'doom/open-private-config
- :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
- :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
- :ne "b" #'+vertico/switch-workspace-buffer
- :ne "B" #'consult-buffer
- :ne "q" #'save-buffers-kill-terminal
- :ne "h" #'doom/help
- :ne "v" #'+vterm/here
- :ne "t" #'telega
- :ne "T" #'=twitter
- :ne "m" #'mu4e
- :ne "n" #'+default/find-in-notes
- :ne "d" #'+workspace/close-window-or-workspace
- :ne "x" #'org-capture)
-#+end_src
-
-** Extra colors for Info-mode
-#+begin_src emacs-lisp
-(use-package! info-colors
-  :hook (Info-selection . info-colors-fontify-node))
-#+end_src
 ** Colors
 Look at the options and choose your [[mode][mode]]
-: default, light, dark, custom, auto
+#+name:     my-theme-modes
+#+begin_src emacs-lisp :tangle no
+(default    'doom-one)
+(light      'doom-one-light)
+(dark       'doom-dracula)
+(custom     'doom-vibrant)
+#+end_src
 
-*Choose your mode*
+: default, light, dark, custom
+
+or
+
+#+name:     auto-dark-mode
+#+begin_src emacs-lisp :tangle no
+auto       'auto
+#+end_src
+
+: auto
+
+#+name: auto-mode-settings
+#+begin_src emacs-lisp :tangle no
+(light-theme-begin 6)   ; Hour to turn on  `light' theme
+(light-theme-end   17)  ; Hour to turn off `light' theme
+#+end_src
+
+~auto~ mode is the automatic theme switching. If ~auto~ mode was
+set, ~doom-theme~ will be set to the ~light~ or ~dark~ theme according to
+the hour in the current time, ~light-theme-begin~ and ~light-theme-end~.
+
+*** Choose your mode:
 #+name: mode
 #+begin_src emacs-lisp :tangle no
 auto
-#+end_src
-
-#+name: my-theme-modes
-#+begin_src emacs-lisp :tangle no
-(default 'doom-one)
-(dark    'doom-vibrant)
-(light   'doom-one-light)
-(custom  'doom-dracula)
-#+end_src
-
-+ src_elisp{'auto} mode is the automatic theme switching. If auto mode was set,
- ~doom-theme~ will be set to the ~light~ or ~dark~ theme according to the hour
- in the current time, ~light-theme-begin~ and ~light-theme-end~.
-
- #+name: auto-mode-settings
- #+begin_src emacs-lisp :tangle no
-(dark  'doom-vibrant)
-(light 'doom-one-light)
-(light-theme-begin 6)   ; Hour to turn on  `light' theme
-(light-theme-end   17)  ; Hour to turn off `light' theme
 #+end_src
 
 ** Themes
 #+name: my-theme-script
 #+begin_src emacs-lisp :noweb no-export :tangle no
 (let ((my-doom-color '<<mode>>))
-  (if (eq my-doom-color 'auto)
-      (run-with-timer
-       0 3600                             ; check for every hour
-       (defun synchronize-theme ()
-         "Sets the theme according to the hour in the current time.
+  (eval                           ; theme varies to the value of `my-doom-color'
+   `(let ((<<auto-dark-mode>>)
+          <<my-theme-modes>>)
+      (if (eq ,my-doom-color 'auto)
+          (run-with-timer
+           0 3600                       ; check for every hour
+           (defun synchronize-theme (light dark)
+             "Sets the theme according to the hour in the current time.
 If the hour is (both inclusive) in `light-theme-hours' then
 `light' theme is loaded, otherwise `dark' theme is loaded."
-         (interactive)
-         (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
-                <<auto-mode-settings>>
-                (light-theme-hours (number-sequence
-                                    light-theme-begin light-theme-end))
-                (now (if (member hour light-theme-hours) light dark)))
-           (unless (equal now doom-theme)  ; if doom-theme isn't equal to now
-             (doom--load-theme-a #'load-theme now t))))) ; set to now and load
-    (let ((f (lambda (x) (doom--load-theme-a #'load-theme x t)))
-          <<my-theme-modes>>)
-      (funcall f (eval my-doom-color)))))
+             (let* ((hour (string-to-number
+                           (substring (current-time-string) 11 13)))
+                    <<auto-mode-settings>>
+                    (light-theme-hours (number-sequence
+                                        light-theme-begin light-theme-end))
+                    (now (if (member hour light-theme-hours) light dark)))
+               (unless (equal now doom-theme)
+                 (setq doom-theme now) (doom-init-theme-h)))) light dark)
+        ;; Specific color mode
+        (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
 #+end_src
 
 ** Fonts
@@ -282,40 +274,10 @@ If the hour is (both inclusive) in `light-theme-hours' then
 doom-font                  (font-spec :family "JetBrains Mono"
                                       :size 12 :weight 'light)
 doom-variable-pitch-font   (font-spec :family "Noto Serif"     :size 13)
-doom-big-font              (font-spec :family "JetBrains Mono" :size 15)
+vertico-posframe-font      (font-spec :family "JetBrains Mono" :size 15)
 doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
 doom-serif-font            doom-variable-pitch-font
 #+end_src
-** Keyboard Shortcuts
-#+begin_quote
-Wow, I wish I knew these things before
-#+end_quote
-
-#+begin_src emacs-lisp :noweb no-export
-;;
-;;; keybinds
-
-(map! "<f5>"      #'synchronize-theme
-      :n  "g+"    #'evil-numbers/inc-at-pt
-      :v  "g+"    #'evil-numbers/inc-at-pt-incremental
-      :nv "g="    #'er/expand-region
-      :gi "C-="   #'er/expand-region
-      :n  "C-0"   #'doom/reset-font-size
-      :n  "C-+"   #'text-scale-increase
-      :n  "M-C-+" #'doom/increase-font-size
-      :n  "C-SPC" #'just-one-space
-      <<dashboard>>
-      (:prefix "C-x"
-       :when (featurep! :ui popup)
-       :desc "Open this buffer in a popup" "j" #'+popup/buffer)
-      :map mode-specific-map            ; C-c
-      (:when (featurep! :tools eval)
-       :desc "Evaluate line/region"      "e"   #'+eval/line-or-region
-       :desc "Evaluate & replace region" "E"   #'+eval/region-and-replace)
-      (:when (featurep! :tools fzf)
-       :desc "Fuzzy find file in project" "t"  #'fzf-projectile))
-#+end_src
-
 ** Modeline
 I want to use [[https://github.com/TeMPOraL/nyan-mode][Nyan Mode]] with doom-modeline and I want to add =+nyan= flag to
 the modeline module. What I need to do is hack the =ui/modeline/packages.el=
@@ -323,28 +285,53 @@ file locates in .emacs.d/modules directory to add the nyan-mode package, add
 =+nyan.el= for config file and add some code into the module. (I've done this
 in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
 
-** Treemacs
-Set theme and width
-#+name: my-treemacs-settings
+** Window & frame
+#+name: my-frame-settings
 #+begin_src emacs-lisp :tangle no
-treemacs-width             25
-doom-themes-treemacs-theme 'doom-colors
+default-frame-alist        (append default-frame-alist
+                                   '((height . 48)
+                                     (width  . 160)
+                                     (inhibit-double-buffering . t)))
+#+end_src
+** Miscellaneous
+Extra colors for Info-mode
+#+begin_src emacs-lisp
+(use-package! info-colors
+  :hook (Info-selection . info-colors-fontify-node))
 #+end_src
 
-** vterm
-In Vterm I prefer =ESC= to be a ~vterm--self-insert~
-#+begin_src emacs-lisp
-(after! vterm (evil-collection-vterm-toggle-send-escape)
-  (evil-collection-define-key 'insert 'vterm-mode-map
-    (kbd "C-j") 'vterm--self-insert
-    (kbd "C-x") 'vterm--self-insert))
+* Keyboard Shortcuts :keybinds:
+For the speed of expressions
+#+begin_src emacs-lisp :noweb no-export
+;;
+;;; keybinds
+
+(map! :n  "g+"    #'evil-numbers/inc-at-pt
+      :v  "g+"    #'evil-numbers/inc-at-pt-incremental
+      :nv "g="    #'er/expand-region
+      :gi "C-="   #'er/expand-region
+      :n  "C-0"   #'doom/reset-font-size
+      :n  "C-+"   #'text-scale-increase
+      :n  "M-C-+" #'doom/increase-font-size
+      :n  "C-SPC" #'just-one-space
+      <<cape-bindings>>
+      <<dashboard>>
+      <<:ui hydra>>
+      (:when (featurep! :config default)
+       <<default>>)
+      <<vterm-kbd>>
+      :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
+      (:prefix "C-x"
+       :when (featurep! :ui popup)
+       :desc "Open this buffer in a popup" "j" #'+popup/buffer)
+      :map mode-specific-map            ; C-c
+      (:when (featurep! :tools eval)
+       :desc "Evaluate line/region"        "e" #'+eval/line-or-region
+       :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace)
+      (:when (featurep! :tools fzf)
+       :desc "Fuzzy find file in project"  "t" #'fzf-projectile))
 #+end_src
-** Window & frame
-*** Window split behavior
-#+name: my-window-settings
-#+begin_src emacs-lisp
-window-combination-resize  t ; take new window space from all other windows
-#+end_src
+
 * Apps
 * Time & language
 #+begin_src emacs-lisp
@@ -371,7 +358,7 @@ Swap =M-/= and =C-M-/=
 #+end_src
 ** Visual effects
 #+name: visual-effects-settings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (setq scroll-margin 2)                  ; It's nice to maintain a little margin
 ;;scroll-preserve-screen-position 'always ; Don't have `point' jump around
 #+end_src
@@ -394,6 +381,97 @@ Swap =M-/= and =C-M-/=
 #+end_src
 ** Completion :completion:
 *** Corfu
+*Configuration*
+- Set bindings (evil)
+  #+name: cape-bindings
+  #+begin_src emacs-lisp :tangle no
+;; evil Omni-completion, Bind dedicated completion commands
+(:when (and (featurep! :editor evil)
+            (featurep! :completion corfu))
+ :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
+ :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
+ :prefix "C-x"
+ :i "C-p"   #'completion-at-point  ; capf
+ :i "C-l"   #'cape-line
+ :i "C-k"   #'+cape/dict-or-keywords
+ :i "C-a"   #'cape-abbrev
+ :i "s"     #'cape-ispell
+ (:unless (featurep! :completion company)
+  :i "C-s"  #'+cape/yasnippet)
+ :i "C-d"   #'cape-dabbrev
+ :i "d"     #'dabbrev-completion
+ :i "C-f"   #'cape-file
+ :i "C-'"   #'cape-symbol
+ :i "C-]"   #'complete-tag         ; etags
+ :i "C-\\"  #'cape-tex
+ :i "&"     #'cape-sgml
+ :i "C-r"   #'cape-rfc1345)
+  #+end_src
+
+- Additional movement commands
+  #+name: additional-move-cmds
+  #+begin_src emacs-lisp :tangle no
+(defun corfu-beginning-of-prompt ()
+  "Move to beginning of completion input."
+  (interactive)
+  (corfu--goto -1)
+  (goto-char (car completion-in-region--data)))
+
+(defun corfu-end-of-prompt ()
+  "Move to end of completion input."
+  (interactive)
+  (corfu--goto -1)
+  (goto-char (cadr completion-in-region--data)))
+  #+end_src
+
+- Transfer to the minibuffer
+  #+name: to-minibuffer
+  #+begin_src emacs-lisp :tangle no
+(defun corfu-move-to-minibuffer ()
+  (interactive)
+  (let ((completion-extra-properties corfu--extra)
+        completion-cycle-threshold completion-cycling)
+    (apply #'consult-completion-in-region completion-in-region--data)))
+  #+end_src
+
+- Auto-commit
+  #+name: auto-commit
+  #+begin_src org :tangle no
+Corfu allows you to specify a ~corfu-commit-predicate~, which you can use to
+instruct corfu whether to auto-commit completion candidates. It's run after
+every new key event. In the example below, the candidate is auto-committed when
+"." is entered, but not after a space (e.g. for orderless regexps), on any key
+aside from space if only one candidate exists, and when the 1st candidate is an
+exact match for what you have typed in the buffer on a wide variety of key
+presses
+  #+end_src
+  #+name: auto-commit.el
+  #+begin_src emacs-lisp :tangle no
+(defun my/corfu-commit-predicate ()
+  "Auto-commit candidates if:
+1. A `.' is typed, except after a SPACE.
+2. A selection was made, aside from entering SPACE.
+3. Just one candidate exists, and we continue to non-symbol info.
+4. The 1st match is exact."
+  (cond
+   ((seq-contains-p (this-command-keys-vector) ?.)
+    (or (string-empty-p (car corfu--input))
+        (not (string= (substring (car corfu--input) -1) " "))))
+
+   ((/= corfu--index corfu--preselect) ; a selection was made
+    (not (seq-contains-p (this-command-keys-vector) ? )))
+
+   ((eq corfu--total 1) ;just one candidate
+    (seq-intersection (this-command-keys-vector) [?: ?, ?\) ?\] ?\( ? ]))
+
+   ((and corfu--input ; exact 1st match
+         (string-equal (substring (car corfu--input) corfu--base)
+                       (car corfu--candidates)))
+    (seq-intersection (this-command-keys-vector) [?: ?. ?, ?\) ?\] ?\" ?' ? ]))))
+
+(setq corfu-commit-predicate #'my/corfu-commit-predicate)
+  #+end_src
+
 **** README.org
 #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export :mkdirp yes
 ,#+TITLE:   completion/corfu
@@ -414,7 +492,7 @@ Swap =M-/= and =C-M-/=
 
 ,* Description
 [[https://github.com/minad/corfu][GitHub - minad/corfu: corfu.el - Completion Overlay Region FUnction]]
-in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]]. The primary packages are:
+in the form of doom module by [[https://git.sr.ht/~gagbo][@Gerry_Agbobada]]. The primary packages are:
 
 + Corfu, which provides a completion overlay region function
 + Cape, which provides a bunch of Completion At Point Extensions
@@ -422,7 +500,7 @@ in the form of doom module by [[https://git.sr.ht/~gagbo/doom-config/tree/master
 + Company, which provides completion backends to be converted to Capf
 
 ,** Maintainers
-+ [[https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/completion/corfu][@Gerry_Agbobada]] (Author)
++ [[https://git.sr.ht/~gagbo][@Gerry_Agbobada]] (Author)
 + [[https://github.com/thaenalpha][@thaenalpha]]
 
 ,** Module Flags
@@ -576,7 +654,7 @@ If Corfu is not triggering completion with ~corfu-auto~ it can be the case that 
 ,#+begin_src emacs-lisp
 (add-to-list 'corfu-auto-commands 'some-special-insert-command)
 ,#+end_src
-  #+end_src
+#+end_src
 **** autoload.el
 #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el
 ;;; completion/company/autoload.el -*- lexical-binding: t; -*-
@@ -636,7 +714,7 @@ If INTERACTIVE is nil the function acts like a capf."
   (if interactive
       (cape--interactive #'+cape/yasnippet)
     (funcall (cape-company-to-capf #'company-yasnippet))))
-  #+end_src
+#+end_src
 **** config.el
 #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el :noweb no-export
 ;;; completion/corfu/config.el -*- lexical-binding: t; -*-
@@ -756,7 +834,7 @@ If INTERACTIVE is nil the function acts like a capf."
 (when (equal tab-always-indent 'complete)
   (map! :map c-mode-base-map
         :i [remap c-indent-line-or-region] #'completion-at-point))
-  #+end_src
+#+end_src
 **** packages.el
 #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
 ;; -*- no-byte-compile: t; -*-
@@ -768,96 +846,6 @@ If INTERACTIVE is nil the function acts like a capf."
 (package! kind-icon)
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
 (unless (featurep! :completion company) (package! company))
-#+end_src
-
-**** Set bindings (evil)
-
-#+begin_src emacs-lisp
-;;; :completion corfu
-;; evil Omni-completion, Bind dedicated completion commands
-(map! :when (and (featurep! :editor evil)
-                 (featurep! :completion corfu))
-      :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
-      :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
-      :prefix "C-x"
-      :i "C-p"  #'completion-at-point  ; capf
-      :i "C-l"  #'cape-line
-      :i "C-k"  #'+cape/dict-or-keywords
-      :i "C-a"  #'cape-abbrev
-      :i "s"    #'cape-ispell
-      (:unless (featurep! :completion company)
-       :i "C-s" #'+cape/yasnippet)
-      :i "C-d"  #'cape-dabbrev
-      :i "d"    #'dabbrev-completion
-      :i "C-f"  #'cape-file
-      :i "C-'"  #'cape-symbol
-      :i "C-]"  #'complete-tag         ; etags
-      :i "C-\\" #'cape-tex
-      :i "&"    #'cape-sgml
-      :i "C-r"  #'cape-rfc1345)
-#+end_src
-
-**** Additional movement commands
-#+name: additional-move-cmds
-#+begin_src emacs-lisp :tangle no
-(defun corfu-beginning-of-prompt ()
-  "Move to beginning of completion input."
-  (interactive)
-  (corfu--goto -1)
-  (goto-char (car completion-in-region--data)))
-
-(defun corfu-end-of-prompt ()
-  "Move to end of completion input."
-  (interactive)
-  (corfu--goto -1)
-  (goto-char (cadr completion-in-region--data)))
-#+end_src
-
-**** Transfer to the minibuffer
-#+name: to-minibuffer
-#+begin_src emacs-lisp :tangle no
-(defun corfu-move-to-minibuffer ()
-  (interactive)
-  (let ((completion-extra-properties corfu--extra)
-        completion-cycle-threshold completion-cycling)
-    (apply #'consult-completion-in-region completion-in-region--data)))
-#+end_src
-
-**** Auto-commit
-#+name: auto-commit
-#+begin_src org :tangle no
-Corfu allows you to specify a ~corfu-commit-predicate~, which you can use to
-instruct corfu whether to auto-commit completion candidates. It's run after
-every new key event. In the example below, the candidate is auto-committed when
-"." is entered, but not after a space (e.g. for orderless regexps), on any key
-aside from space if only one candidate exists, and when the 1st candidate is an
-exact match for what you have typed in the buffer on a wide variety of key
-presses
-#+end_src
-#+name: auto-commit.el
-#+begin_src emacs-lisp :tangle no
-(defun my/corfu-commit-predicate ()
-  "Auto-commit candidates if:
-1. A `.' is typed, except after a SPACE.
-2. A selection was made, aside from entering SPACE.
-3. Just one candidate exists, and we continue to non-symbol info.
-4. The 1st match is exact."
-  (cond
-   ((seq-contains-p (this-command-keys-vector) ?.)
-    (or (string-empty-p (car corfu--input))
-        (not (string= (substring (car corfu--input) -1) " "))))
-
-   ((/= corfu--index corfu--preselect) ; a selection was made
-    (not (seq-contains-p (this-command-keys-vector) ? )))
-
-   ((eq corfu--total 1) ;just one candidate
-    (seq-intersection (this-command-keys-vector) [?: ?, ?\) ?\] ?\( ? ]))
-
-   ((and corfu--input ; exact 1st match
-         (string-equal (substring (car corfu--input) corfu--base)
-                       (car corfu--candidates)))
-    (seq-intersection (this-command-keys-vector) [?: ?. ?, ?\) ?\] ?\" ?' ? ]))))
-(setq corfu-commit-predicate #'my/corfu-commit-predicate)
 #+end_src
 
 *** Tabnine
@@ -874,10 +862,10 @@ Install package in =packages.el=. Enable by add flag to =:completion company=
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
   (after! company
-   (setq +lsp-company-backends
-            '(company-tabnine :separate company-capf company-yasnippet))
-   (setq company-show-numbers t)
-   (setq company-idle-delay 0)))
+    (setq +lsp-company-backends
+          '(company-tabnine :separate company-capf company-yasnippet))
+    (setq company-show-numbers t)
+    (setq company-idle-delay 0)))
 #+end_src
 
 **** With Corfu
@@ -901,28 +889,76 @@ Enable by add =+tabnine= flag to =:completion corfu=
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
   #+end_src
+*** Vertico
++ =+childframe=
+  _Enable vertico-posframe extension_
+  #+begin_src emacs-lisp :noweb no-export
+;;; :completion vertico
+(when (featurep! :completion vertico +childframe)
+  (require 'vertico-posframe)
+  (vertico-posframe-mode 1)
+  (setq vertico-posframe-border-width 10
+        vertico-posframe-parameters
+        '((min-width . 90)
+          <<show-fringe>>)))
+  #+end_src
 
+  _show fringe to vertico-posframe_
+  #+name: show-fringe
+  #+begin_src emacs-lisp :tangle no
+(left-fringe  . 8)
+(right-fringe . 8)
+  #+end_src
 ** UI :ui:
 *** Deft
 **** Configuration
 Specify the directory in which your notes are stored:
 
 #+begin_src emacs-lisp
-;; deft
+;;; ui: deft
 (setq deft-directory "~/notes")
 #+end_src
-
-#+begin_src emacs-lisp :tangle no
-(setq deft-default-extension "md")
-#+end_src
+*** doom-dashboard
+- *Dashboard Quick Actions*
+  The config idea is come from Tecosaur's Emacs configuration.
+  #+begin_quote
+  When using the dashboard, there are often some actions I will take. As the
+  dashboard is its own major mode, there is no need to suffer the tyranny of
+  unnecessary keystrokes — we can simply bind common actions to a single key!
+  #+end_quote
+  #+name: dashboard
+  #+begin_src emacs-lisp :tangle no
+(:when (featurep! :ui doom-dashboard)
+ (:map doom-leader-open-map
+  "0"       #'+doom-dashboard/open)
+ :map +doom-dashboard-mode-map
+ :ne "h"    #'+treemacs/toggle
+ :ne "l"    #'push-button
+ :ne "u"    #'doom/quickload-session
+ :ne "a"    #'org-agenda
+ :ne "f"    #'find-file
+ :ne "e"    #'eww
+ :ne "r"    #'consult-recent-file
+ :ne "p"    #'projectile-switch-project
+ :ne "P"    #'doom/open-private-config
+ :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
+ :ne "." (defun find-dotfile () (interactive) (doom-project-find-file "~/.config"))
+ :ne "b"    #'consult-buffer
+ :ne "q"    #'save-buffers-kill-terminal
+ :ne "v"    #'+vterm/here
+ :ne "t"    #'telega
+ :ne "T"    #'=twitter
+ :ne "m"    #'mu4e
+ :ne "n"    #'+default/find-in-notes
+ :ne "d"    #'+workspace/close-window-or-workspace
+ :ne "x"    #'org-capture)
+  #+end_src
 
 *** Tab-Workspaces (work in progress) :ui:tab_workspaces:
-**** Source_code
-+ tab-workspaces/
-  #+name: README.org
-  #+begin_src org :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
+**** README.org
+#+begin_src org :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
 ,#+TITLE:   ui/tab-workspaces
-,#+DATE:    november 15, 2020
+,#+DATE:    November 15, 2020
 ,#+SINCE:   3.0
 ,#+STARTUP: inlineimages nofold
 
@@ -973,9 +1009,9 @@ Those workspaces are shown in tabs, whose name match the
 
 ,* Troubleshooting
 # Common issues and their solution, or places to look for help.
-  #+end_src
-  #+name: bindings.el
-  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/bindings.el
+#+end_src
+**** bindings.el
+#+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/bindings.el
 (map!  :n "C-t"   #'+workspace/new
        :n "C-S-t" #'+workspace/display
        :g "M-1"   #'+workspace/switch-to-0
@@ -1035,8 +1071,8 @@ Those workspaces are shown in tabs, whose name match the
        :desc "Switch workspace buffer" "b" #'bufler-switch-buffer
        :desc "Switch buffer"           "B" #'switch-to-buffer))
 #+end_src
-  #+name: config.el
-  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/config.el
+**** config.el
+#+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/config.el
 ;;; ui/tab-workspaces/config.el -*- lexical-binding: t; -*-
 
 (load! "generic")
@@ -1283,9 +1319,9 @@ Therefore this function only needs to return the default value."
           ;; Group remaining buffers by directory, then major mode.
           (auto-directory)
           (auto-mode))))
-  #+end_src
-  #+name: generic.el
-  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/generic.el
+#+end_src
+**** generic.el
+#+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/generic.el
 ;;; ui/tab-workspaces/generic.el -- Generic interface for workspaces -*- lexical-binding: t; -*-
 
 (defvar +workspaces-main "main"
@@ -1566,27 +1602,25 @@ success, nil otherwise."
 (defun +workspace/switch-to-final ()
   (interactive)
   (error "+workspace/switch-to-final is unimplemented"))
-  #+end_src
-  #+name: packages.el
-  #+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/packages.el
+#+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/ui/tab-workspaces/packages.el
 ;; -*- no-byte-compile: t; -*-
 ;;; ui/tab-workspaces/packages.el
 
 (package! bufler)
 (package! burly)
-  #+end_src
+#+end_src
 *** Window Navigation :ui:hydra:
 When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/text-zoom/body~ to control text/window with single key commands.
 
-#+begin_src emacs-lisp
-(when (featurep! :ui hydra)
-  (when (featurep! :completion vertico)
-    (define-key!
-      [remap +hydra/window-nav/idomenu] #'consult-imenu))
-  (map! :desc "Interactive menu"
-        "<menu>" #'+hydra/window-nav/body
-        :leader :desc "zoom"
-        "z"      #'+hydra/text-zoom/body))
+#+name: :ui hydra
+#+begin_src emacs-lisp :tangle no
+(:when (featurep! :ui hydra)
+ :desc "Interactive menu" "<menu>" #'+hydra/window-nav/body
+ :leader     :desc "zoom"    "z"   #'+hydra/text-zoom/body
+ :when (featurep! :completion vertico)
+ [remap +hydra/window-nav/idomenu] #'consult-imenu)
 #+end_src
 
 *** modus :faces:theme:accessibility:
@@ -1638,13 +1672,117 @@ When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/t
 
 (package! modus-themes :built-in 'prefer)
 #+end_src
+*** Treemacs
+Set theme, git-mode and width
+#+name: my-treemacs-settings
+#+begin_src emacs-lisp :tangle no
++treemacs-git-mode         'deferred
+doom-themes-treemacs-theme 'doom-colors
+#+end_src
+*** fixmee :navigation:convenience:
+**** README.org
+#+begin_src org :tangle modules/ui/fixmee/README.org :mkdirp yes
+,#+TITLE:   :ui fixmee
+,#+DATE:    January 23, 2022
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+  - [[#urgency-of-fixme-notices][Urgency of "fixme" notices]]
+  - [[#how-to-use-this-module][How to use this module]]
+  - [[#key-bindings][Key Bindings]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
+This module tracks "fixme" notices in code comments, highlights
+them, ranks them by urgency, and lets you navigate to them quickly.
+
+,** Maintainers
++ [[https://github.com/thaenalpha][@thaenalpha]] (Author)
+
+,** Module Flags
+This module provides no flags.
+
+,** Plugins
++ [[https://github.com/rolandwalker/fixmee][fixmee]]
+
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+,** Urgency of "fixme" notices
+Is indicated by repetitions of the final character. For example,
+one might write "FIXMEEEEEEEEE" for an important issue. The
+~fixmee-goto-nextmost-urgent~ command will navigate to the longest notice first.
+
+,** How to use this module
+open some buffers and right-click on the word "fixme" in a comment
+
+or press
+
+=C-c f=
+
+or
+
+=M-x fixmee RET=
+
+or
+
+roll the mouse wheel when hovering over the text "fixm"
+in the modeline.
+
+or
+
+execute ~fixmee-view-listing~ to navigate using
+`next-error' conventions.
+
+
+,** Key Bindings
+| keybind     | description                                                |
+|-------------+------------------------------------------------------------|
+| =C-c f=     | ~fixmee-goto-nextmost-urgent~                              |
+| =C-c F=     | ~fixmee-goto-prevmost-urgent~                              |
+| =C-c v=     | ~fixmee-view-listing~                                      |
+| =M-n=       | ~fixmee-goto-next-by-position~     only when the point is  |
+| =M-p=       | ~fixmee-goto-previous-by-position~ inside a "fixme" notice |
+| =C-u C-c f= | go to the nextmost urgent item in the current buffer       |
+| =C-u C-c F= | go to the previousmost urgent item in the current buffer   |
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+#+end_src
+
+**** config.el
+#+begin_src emacs-lisp :tangle modules/ui/fixmee/config.el
+;;; ui/fixmee/config.el -*- lexical-binding: t; -*-
+
+(use-package! fixmee :defer t :config (global-fixmee-mode 1))
+#+end_src
+
+**** packages.el
+[[file:packages.org::*Fixmee][Fixmee]]
+
 ** Editor :editor:
 *** Evil :editor:evil:
 #+name: evil-settings
 #+begin_src emacs-lisp
 ;;; :editor evil
-(setq evil-want-fine-undo t)            ; By default while in insert all changes
-                                        ; are one big blob. Be more granular
+;; Focus new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t
+      ;; By default while in insert all changes are one big blob. Be more granular
+      evil-want-fine-undo t)
 #+end_src
 **** Change evil surround pairs alist :evil:evil_surround:behavior:
 
@@ -1659,37 +1797,44 @@ little effort *except* _for Org-Mode source block_.
 #+begin_src emacs-lisp
 (add-hook! 'evil-org-mode-hook
   (setq-local evil-surround-pairs-alist
-         '((40 "(" . ")")
-           (91 "[" . "]")
-           (123 "{" . "}")
-           (41 "(" . ")")
-           (93 "[" . "]")
-           (125 "{" . "}")
-           (35 "#{" . "}")
-           (98 "(" . ")")
-           (66 "{" . "}")
-           (62 "<" . ">")
-           (116 . evil-surround-read-tag)
-           (60 . evil-surround-read-tag)
-           (102 . evil-surround-function))))
+              '((40 "(" . ")")
+                (91 "[" . "]")
+                (123 "{" . "}")
+                (41 "(" . ")")
+                (93 "[" . "]")
+                (125 "{" . "}")
+                (35 "#{" . "}")
+                (98 "(" . ")")
+                (66 "{" . "}")
+                (62 "<" . ">")
+                (116 . evil-surround-read-tag)
+                (60 . evil-surround-read-tag)
+                (102 . evil-surround-function))))
 #+end_src
 
 *** Format
 **** Disabling the LSP formatter
 According to [[file:~/.emacs.d/modules/editor/format/README.org::*Disabling the LSP formatter][Disabling the LSP formatter]]
 #+begin_quote
-    If you are in a buffer with ~lsp-mode~ enabled and a server that
-    supports =textDocument/formatting=, it will be used instead of
-    =format-all='s formatter.
+If you are in a buffer with ~lsp-mode~ enabled and a server that
+supports =textDocument/formatting=, it will be used instead of
+=format-all='s formatter.
 #+end_quote
 
 To disable this behavior on ts and js modes in favor of prettier:
 #+begin_src emacs-lisp
+;;; :editor format
 (setq-hook! '(js-mode
               js2-mode
               rjsx-mode
               typescript-mode
               typescript-tsx-mode) +format-with-lsp nil)
+#+end_src
+** emacs
+*** dired
+#+name: diredc
+#+begin_src emacs-lisp :tangle no
+(:when )
 #+end_src
 
 ** Tools :tools:
@@ -1698,44 +1843,79 @@ To disable this behavior on ts and js modes in favor of prettier:
 (use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
 #+end_src
 *** Brief :tools:
-**** Description
+**** README.org
+#+begin_src org :tangle modules/tools/brief/README.org :mkdirp yes
+,#+TITLE:   tools/brief
+,#+DATE:    January 13, 2022
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
 Module for brief help
-***** Plugins
+
++ If possible, include a brief list of feature highlights here
++ Like code completion, syntax checking or available snippets
++ Include links to packages & external things where possible
+
+,** Maintainers
++ [[https://github.com/thaenalpha][@thaenalpha]] (Author)
+
+,** Module Flags
+This module provides no flags.
+
+,** Plugins
 + [[https://github.com/davep/cheat-sh.el][cheat-sh]]
 + [[https://github.com/thanhvg/emacs-howdoyou][howdoyou]]
 + [[https://github.com/kuanyui/tldr.el][tldr]]
++ [[https://github.com/astoff/devdocs.el][devdocs]]
 
-**** Source Code
-+ brief/
-  #+name: config.el
-  #+begin_src emacs-lisp :tangle modules/tools/brief/config.el :mkdirp yes
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+
+,* Troubleshooting
+#+end_src
+**** config.el
+#+begin_src emacs-lisp :tangle modules/tools/brief/config.el
+;;; tools/brief/config.el -*- lexical-binding: t; -*-
+
 (use-package! howdoyou
   :commands (howdoyou-query aj/howdoyou-hydra/body)
   :config
   (set-popup-rule! "*How Do You" :vslot 3 :size 0.5 :side 'top
     :select t :ttl nil :modeline t :autosave t :quit t)
 
-  (add-hook 'howdoyou-mode-hook
-            (lambda () (doom-mark-buffer-as-real-h)
-              (persp-add-buffer (current-buffer))
-              (solaire-mode +1)
-              (mkdir "/tmp/howdoyou" t)
-              (setq-local org-src-fontify-natively nil)
-              (setq-local buffer-file-name
-                          "/tmp/howdoyou/latest.org"))))
+  (add-hook! 'howdoyou-mode-hook
+    (doom-mark-buffer-as-real-h) (persp-add-buffer (current-buffer))
+    (solaire-mode +1) (mkdir "/tmp/howdoyou" t)
+    (setq-local org-src-fontify-natively nil)
+    (setq-local buffer-file-name
+                "/tmp/howdoyou/latest.org")))
 
 (map! :map search-map
       "M-a" #'howdoyou-query
       "M-s" #'cheat-sh
-      "M-d" #'tldr)
-  #+end_src
-  #+name: packages.el
-  [[file:packages.org::tools/brief][tools/brief]]
-*** fixmee :navigation:convenience:
-#+begin_src emacs-lisp
-(require 'button-lock)
-(global-fixmee-mode 1)
+      "M-d" #'tldr
+      "d"   (define-prefix-command 'devdocs))
 #+end_src
+
+**** packages.el
+[[file:packages.org::*Brief][Brief]]
 
 *** fzf :tools:
 **** Description
@@ -1744,45 +1924,51 @@ Command-line fuzzy finder written in Go
 ***** Plugins
 + [[https://github.com/bling/fzf.el][fzf]]
 
-**** Source Code
-+ fzf/
-  #+name: config.el
-  #+begin_src emacs-lisp :tangle modules/tools/fzf/config.el :mkdirp yes
+**** config.el
+#+begin_src emacs-lisp :tangle modules/tools/fzf/config.el :mkdirp yes
   ;;; tools/fzf/config.el -*- lexical-binding: t; -*-
 
-  (after! evil
-    (evil-define-key 'insert fzf-mode-map (kbd "ESC") #'term-kill-subjob))
+(after! evil
+  (evil-define-key 'insert fzf-mode-map (kbd "ESC") #'term-kill-subjob))
 
-  (define-minor-mode fzf-mode
-    "Minor mode for the FZF buffer"
-    :init-value nil
-    :lighter " FZF"
-    :keymap '(("C-c" . term-kill-subjob)))
+(define-minor-mode fzf-mode
+  "Minor mode for the FZF buffer"
+  :init-value nil
+  :lighter " FZF"
+  :keymap '(("C-c" . term-kill-subjob)))
 
-  (defadvice! doom-fzf--override-start-args-a (original-fn &rest args)
-    "Set the FZF minor mode with the fzf buffer."
-    :around #'fzf/start
-    (message "called with args %S" args)
-    (apply original-fn args)
+(defadvice! doom-fzf--override-start-args-a (original-fn &rest args)
+  "Set the FZF minor mode with the fzf buffer."
+  :around #'fzf/start
+  (message "called with args %S" args)
+  (apply original-fn args)
 
-    ;; set the FZF buffer to fzf-mode so we can hook ctrl+c
-    (set-buffer "*fzf*")
-    (fzf-mode))
+  ;; set the FZF buffer to fzf-mode so we can hook ctrl+c
+  (set-buffer "*fzf*")
+  (fzf-mode))
 
-  (defvar fzf/args
-    "-x --print-query -m --tiebreak=index --expect=ctrl-v,ctrl-x,ctrl-t")
+(defvar fzf/args
+  "-x --print-query -m --tiebreak=index --expect=ctrl-v,ctrl-x,ctrl-t")
 
-  (use-package! fzf
-    :commands (fzf fzf-projectile fzf-hg fzf-git fzf-git-files fzf-directory
-                   fzf-git-grep))
-  #+end_src
-  #+name: packages.el
-  #+begin_src emacs-lisp :tangle modules/tools/fzf/packages.el
-  ;; -*- no-byte-compile: t; -*-
-  ;;; tools/fzf/packages.el
+(use-package! fzf
+  :commands (fzf fzf-projectile fzf-hg fzf-git fzf-git-files fzf-directory
+                 fzf-git-grep))
+#+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/tools/fzf/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; tools/fzf/packages.el
 
-  (package! fzf)
-  #+end_src
+(package! fzf)
+#+end_src
+*** magit +forge
+#+name: magit-settings
+#+begin_src emacs-lisp
+;;; :tools magit
+(setq magit-inhibit-save-previous-winconf t ; Don't restore wconf after quit magit
+      forge-database-connector (when EMACS29+ 'sqlite-builtin)) ; buitin support
+#+end_src
+
 *** Tree-sitter
 + tree-sitter/
   #+name: README.org
@@ -1813,10 +1999,10 @@ From the [[https://ubolonton.github.io/emacs-tree-sitter/][main package author]]
 It aims to be the foundation for a new breed of Emacs packages that understand
 code structurally. For example:
 
-  - Faster, fine-grained code highlighting.
-  - More flexible code folding.
-  - Structural editing (like Paredit, or even better) for non-Lisp code.
-  - More informative indexing for imenu.
+- Faster, fine-grained code highlighting.
+- More flexible code folding.
+- Structural editing (like Paredit, or even better) for non-Lisp code.
+- More informative indexing for imenu.
 
 The author of Tree-sitter articulated its merits a lot better in this Strange Loop talk.
 ,#+end_quote
@@ -1877,8 +2063,9 @@ This section adds packages and configuration on top of Doom Lang modules
 *** Clojure
 turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 #+begin_src emacs-lisp
+;;; :lang clojure
 (when (featurep! :lang clojure)
-   (add-hook 'clojure-mode-hook 'paredit-mode))
+  (add-hook 'clojure-mode-hook #'paredit-mode))
 #+end_src
 
 *** JavaScript
@@ -1912,7 +2099,7 @@ This was made by doing relative symbolic links to Doom built-in JavaScript Modul
 (package! pnpm-mode)
 (package! import-js)
 (package! yarn
- :recipe (:host github :repo "thaenalpha/yarn.el"))
+  :recipe (:host github :repo "thaenalpha/yarn.el"))
 #+end_src
 [[https://github.com/abicky/nodejs-repl.el][nodejs-repl]]
 [[https://github.com/skeeto/skewer-mode][skewer-mode]]
@@ -1954,14 +2141,14 @@ ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javasc
 ***** Running ImportJS in Emacs
 1. Install the importjs binary:
    #+begin_src sh :dir /sudo:: :tangle no
-   sudo npm install import-js -g
+sudo npm install import-js -g
    #+end_src
 2. Configure Import-Js
 3. Install Watchman as an performance booster to import-js daemon
    - macOS or Linux
-    #+begin_src sh :tangle no
-    brew update && brew install watchman
-    #+end_src
+     #+begin_src sh :tangle no
+brew update && brew install watchman
+     #+end_src
 
 **** Configuration
 These configs live inside the =+config.el= file and some are located in
@@ -1982,7 +2169,7 @@ relative to the file it's used from which is =init.el= in our case.
    * The daemon will use watchman if installed to improve performance
    * Configure ~run-import-js~ to run on open a JavaScript oriented buffer:
 
-    #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+     #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;; lang/javascript/+config.el -*- lexical-binding: t; -*-
 ;;
 ;;; Tools
@@ -2008,20 +2195,20 @@ relative to the file it's used from which is =init.el= in our case.
               "Couldn't start the import-js daemon because 'node' is missing")))
           (remove-hook 'after-save-hook #'import-js-setup
                        'local))))))
-#+end_src
+     #+end_src
 2. Import a file!
    * You can use something like =M-x=  ~import-js-import~ with your cursor over
-    the desired module
+     the desired module
    * It will be helpful to bind ~import-js-import~ to an easy-to-use binding,
-    such as:
+     such as:
 
-    #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el :mkdirp yes :noweb no-export
+     #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el :mkdirp yes :noweb no-export
 ;;; lang/javascript/autoload/import-js.el -*- lexical-binding: t; -*-
 
 (defvar import-js-map (make-sparse-keymap) "Keymap for `import-js'.")
 (map! (:map import-js-map
        <<import-js-goto>>
-       "C-c i" (define-prefix-command #'import-js)
+       "C-c i" (define-prefix-command 'import-js)
        :localleader "i" #'import-js)
       (:map import-js
        "f" #'import-js-fix
@@ -2029,36 +2216,36 @@ relative to the file it's used from which is =init.el= in our case.
        "i" #'import-js-import
        "k" #'kill-import-js
        "r" #'run-import-js))
-#+end_src
+     #+end_src
 3. Go directly to a file
    * The ImportJS goto interface allows us to jump to a package
    * =M-x=  ~import-js-goto~ will jump to the appropriate file found by ImportJS
    * This should also be bound to something useful
-    #+name: import-js-goto
-    #+begin_src emacs-lisp :tangle no
+     #+name: import-js-goto
+     #+begin_src emacs-lisp :tangle no
 :nv "g <f4>" #'import-js-goto
-#+end_src
+     #+end_src
 4. Fix your imports
-  * Optionally, you can configure ImportJS to fix your imports for you, adding unknown variables and removing unused imports. ImportJS uses eslint to find these variables.
-  * `eslint` must be in your PATH.
-  * eslint plugins must be installed for that specific version of eslint (if
-    eslint is a global eslint, you may need to install the plugins globally)
-  * Run with =M-x=  ~import-js-fix~
-  * Configure ~import-js-fix~ to run on save:
+   * Optionally, you can configure ImportJS to fix your imports for you, adding unknown variables and removing unused imports. ImportJS uses eslint to find these variables.
+   * `eslint` must be in your PATH.
+   * eslint plugins must be installed for that specific version of eslint (if
+     eslint is a global eslint, you may need to install the plugins globally)
+   * Run with =M-x=  ~import-js-fix~
+   * Configure ~import-js-fix~ to run on save:
 
-    #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
-;;;###autoload
+     #+begin_src emacs-lisp :tangle modules/lang/javascript/autoload/import-js.el
+ ;;;###autoload
 (define-minor-mode import-js-mode
   "Minor mode for automatically Import Javascript dependencies."
   :lighter " importjs"
   :keymap import-js-map
   (if import-js-mode
-       (add-hook 'after-save-hook #'import-js-fix nil t)
-   (remove-hook 'after-save-hook #'import-js-fix t)))
+      (add-hook 'after-save-hook #'import-js-fix nil t)
+    (remove-hook 'after-save-hook #'import-js-fix t)))
 
 ;; Hooks
 
-;;;###autoload
+ ;;;###autoload
 (defun +javascript-cleanup-import-js-processes-h ()
   "Clean up dangling import-js daemon process if there are no more buffers with `import-js-mode' active."
   (when import-js-mode
@@ -2066,29 +2253,29 @@ relative to the file it's used from which is =init.el= in our case.
                      if (buffer-local-value 'import-js-mode buf)
                      return buf)
       (kill-import-js))))
-#+end_src
+     #+end_src
 5. Cleanup importjsd process when no import-js buffers are left
 
-    #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
+   #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;;###package import-js
 (use-package! import-js
-    :config
-    (add-hook! 'import-js-mode-hook
-      (add-hook 'kill-buffer-hook #'+javascript-cleanup-import-js-processes-h
-                nil 'local)))
-#+end_src
+  :config
+  (add-hook! 'import-js-mode-hook
+    (add-hook 'kill-buffer-hook #'+javascript-cleanup-import-js-processes-h
+              nil 'local)))
+   #+end_src
 
 ***** pnpm-mode
 #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;;###package pnpm-mode
 (use-package! pnpm-mode
-   :config
-   (map! :localleader
-         :map pnpm-mode-keymap
-          "n" pnpm-mode-command-keymap)
-   ;; Disable npm-mode when enabling pnpm
-   (add-hook 'pnpm-mode-hook
-      (defun turn-off-npm-mode () (npm-mode -1))))
+  :config
+  (map! :localleader
+        :map pnpm-mode-keymap
+        "n" pnpm-mode-command-keymap)
+  ;; Disable npm-mode when enabling pnpm
+  (add-hook 'pnpm-mode-hook
+            (defun turn-off-npm-mode () (npm-mode -1))))
 #+end_src
 ****** Project Activation
 By adding =.dir-locals.el= file on the root directory of a project containing:
@@ -2158,9 +2345,10 @@ Optional argument COMINT ."
   (interactive)
   (find-file (yarn--project-file)))
 
-(defvar yarn-map (make-sparse-keymap) "Keymap for the `Yarn' package manager.")
+(defvar yarn-map (make-sparse-keymap)
+  "Keymap for the `Yarn' package manager.")
 (map! (:map yarn-map
-       "C-c n" (define-prefix-command #'yarn)
+       "C-c n" (define-prefix-command 'yarn)
        (:localleader "n" #'yarn))
       (:map yarn
        "i" #'yarn-install
@@ -2192,9 +2380,9 @@ Optional argument COMINT ."
 #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;;###package yarn
 (use-package! yarn
-   :config
-   ;; Disable npm-mode when enabling yarn-mode
-   (add-hook 'yarn-mode-hook #'turn-off-npm-mode))
+  :config
+  ;; Disable npm-mode when enabling yarn-mode
+  (add-hook 'yarn-mode-hook #'turn-off-npm-mode))
 #+end_src
 
 ****** Project Activation
@@ -2221,59 +2409,83 @@ This case is come from =node-pre-gyp= cannot find the a pre-compiled binary in t
 Then it uses `node-gyp` to build the extension but it failed without messages you anything.
 
 *** Web
-**** Tailwind LSP :tools:css:lsp:
-#+begin_comment
-    This sub-tree was taken from Jay Zawrotny's Doom Configures
-    [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
-#+end_comment
++ Tailwind LSP :+tailwind:
+  #+begin_comment
+  This sub-tree was taken from Jay Zawrotny's Doom Configures
+  [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
+  #+end_comment
 
-Provide tailwind class name completions as an extra LSP package.
+  Provide tailwind class name completions as an extra LSP package.
 
-Install the lsp-tailwindcss emacs package: [[file:packages.org::*Packages in Use][Packages in Use]]
+  Install the lsp-tailwindcss emacs package: [[file:packages.org::*Packages in Use][Packages in Use]]
 
-Set add-on mode. This ensures both tailwind-lsp and the js or ts lsp servers
-run in parallel. Set ~lsp-tailwindcss-add-on-mode~ before the package loads.
+  Set add-on mode. This ensures both tailwind-lsp and the js or ts lsp servers
+  run in parallel. Set ~lsp-tailwindcss-add-on-mode~ before the package loads.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
+;;; :lang web
 (use-package! lsp-tailwindcss
+  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
   :init
-  (setq! lsp-tailwindcss-add-on-mode t)
-  :custom
-  (lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode)))
-#+end_src
+  (setq lsp-tailwindcss-add-on-mode t
+        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
+                                                typescript-mode typescript-tsx-mode)))
+  #+end_src
 
-Lastly associate various template language files with html so that
-lsp-tailwindcss runs when editing .liquid files for example.
+  Lastly associate various template language files with html so that
+  lsp-tailwindcss runs when editing .liquid files for example.
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
 (add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
-#+end_src
+  #+end_src
 
-Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
-*** Org-Mode :lang:org:
-**** Configuration
+  Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
+*** Org-mode :lang:org:
+- _Configuration_
 
-Put any basic configuration here
+  Put any basic configuration here
 
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
+;;; :lang org
 (setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
-      org-support-shift-select t)
-#+end_src
+      org-support-shift-select t
+      ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
+      ;; and leave C-left/C-right to .
+      org-tree-slide-skip-outline-level 2
+      org-startup-with-inline-images t)
+  #+end_src
 
-**** Org Capture from Web browser
+- _org hide emphasis markers_
+  Doom Emacs already has set to hide emphasis markers in the org-tree-slide-mode.
+  This is just good to known for hiding/showing its.
 
-To let this configuration works, =Org Capture= browser's extension and
-=org-protocol= handler is required.
+  #+begin_src emacs-lisp :tangle no
+(defun org-toggle-emphasis ()
+  "Toggle hiding/showing of org emphasis markers."
+  (interactive)
+  (if org-hide-emphasis-markers
+      (setq org-hide-emphasis-markers nil)
+    (setq org-hide-emphasis-markers t)))
 
-If you're a WSL user, you can run the one that matches how your emacs launches:
-#+begin_src sh :tangle no
+(map! :map org-mode-map "C-c e" #'org-toggle-emphasis)
+  #+end_src
+
+  [[https://www.youtube.com/watch?v=zI0BvRSbcM8][Source]]
+
+- _Org Capture from Web browser_
+
+  To let this configuration works, =Org Capture= browser's extension and
+  =org-protocol= handler is required.
+
+  If you're a WSL user, you can run the one that matches how your emacs launches:
+  #+begin_src sh :tangle no
 powershell.exe ./org-protocol.reg
-#+end_src
-#+begin_src sh :tangle no
+  #+end_src
+  #+begin_src sh :tangle no
 powershell.exe ./org-protocol-omz-emacs-plugin.reg
-#+end_src
+  #+end_src
 
-#+begin_src conf :tangle org-protocol.reg :tangle-mode (identity #o777)
+  #+begin_src conf :tangle org-protocol.reg :tangle-mode (identity #o777)
 REGEDIT4
 
 [HKEY_CLASSES_ROOT\org-protocol]
@@ -2283,8 +2495,8 @@ REGEDIT4
 [HKEY_CLASSES_ROOT\org-protocol\shell\open]
 [HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
 @="\"C:\\Windows\\System32\\wsl.exe\" emacsclient \"%1\""
-#+end_src
-#+begin_src conf :tangle org-protocol-omz-emacs-plugin.reg :tangle-mode (identity #o777)
+  #+end_src
+  #+begin_src conf :tangle org-protocol-omz-emacs-plugin.reg :tangle-mode (identity #o777)
 REGEDIT4
 
 [HKEY_CLASSES_ROOT\org-protocol]
@@ -2294,13 +2506,13 @@ REGEDIT4
 [HKEY_CLASSES_ROOT\org-protocol\shell\open]
 [HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
 @="\"C:\\Windows\\System32\\wsl.exe\" zsh -l ~/.oh-my-zsh/plugins/emacs/emacsclient.sh --no-wait \"%1\""
-#+end_src
+  #+end_src
 
-Then set keys for =Selected Template= and =Unselected Template= in extension
-options to P&L to match with org-capture-templates for =org-protocol= set below.
+  Then set keys for =Selected Template= and =Unselected Template= in extension
+  options to P&L to match with org-capture-templates for =org-protocol= set below.
 
-#+name: Capture templates
-#+begin_src emacs-lisp
+  #+name: Capture templates
+  #+begin_src emacs-lisp
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
   (concat
@@ -2309,95 +2521,124 @@ options to P&L to match with org-capture-templates for =org-protocol= set below.
 
 (require 'org-protocol)
 (setq org-capture-templates
-  (append org-capture-templates
-    `(("P" "Protocol" entry
-       (file+headline +org-capture-notes-file "Inbox")
-       "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-      ("L" "Protocol Link" entry
-       (file+headline +org-capture-notes-file "Inbox")
-       "* %? [[%:link][%(transform-square-brackets-to-round-ones
-                        \"%:description\")]] \nCaptured On: %U")
-      ("l" "Web site" entry
-       (file+headline (lambda () (concat org-directory "/webnotes.org")) "Inbox")
-       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-      ("m" "meetup" entry (file "~/org/caldav.org")
-       "* %?%:description \n%i\n%l")
-      ("w" "Web site" entry
-       (file+olp "~/org/inbox.org" "Web")
-       "* %c :website:\n%U %?%:initial"))))
-#+end_src
-#+name: Org-roam roam-ref templates
-#+begin_src emacs-lisp
+      (append
+       org-capture-templates
+       `(("P" "Protocol" entry
+          (file+headline +org-capture-notes-file "Inbox")
+          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+         ("L" "Protocol Link" entry
+          (file+headline +org-capture-notes-file "Inbox")
+          "* %? [[%:link][%(transform-square-brackets-to-round-ones
+                          \"%:description\")]] \nCaptured On: %U")
+         ("l" "Web site" entry
+          (file+headline "webnotes.org" "Inbox")
+          "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+         ("m" "meetup" entry (file "~/org/caldav.org")
+          "* %?%:description \n%i\n%l")
+         ("w" "Web site" entry
+          (file+olp "~/org/inbox.org" "Web")
+          "* %c :website:\n%U %?%:initial"))))
+  #+end_src
+  #+name: Org-roam roam-ref templates
+  #+begin_src emacs-lisp
 (setq  org-roam-capture-ref-templates
        '(("l" "Web site" plain (function org-roam-capture--get-point)
           "${body}\n%?"
           :file-name "%<%Y%m%d>-${slug}"
           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
           :unnarrowed t)))
+  #+end_src
+
+** Email :email: :email:
+*** mu4e
+
+This is my personal configuration.
+
+I use =msmtp= to send mail:
+#+begin_src emacs-lisp :noweb no-export
+;;; :email mu4e
+(after! mu4e
+  (setq sendmail-program (executable-find "msmtp")
+        send-mail-function #'smtpmail-send-it
+        message-send-mail-function #'message-send-mail-with-sendmail
+        message-sendmail-f-is-evil t
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        <<mu4e-policies>>
+        mu4e-maildir-shortcuts '(("/thaenalpha@gmail.com/Job Applying".?j)))
+  <<mu4e-email-accounts>>
+  (mapc
+   (lambda (bookmark) (add-to-list 'mu4e-bookmarks bookmark))
+   `(     ; create bookmarks to show merged views of folders across accounts:
+     <<mu4e-bookmarks>>)))
 #+end_src
 
-** Email & Accounts :email: :email:mu4e:
+I have multiple email addresses set like these
 
-This is my personal configuration. I have multiple email addresses set like these
-
-#+BEGIN_SRC emacs-lisp
+#+name: mu4e-email-accounts
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Each path is relative to the path of the maildir you passed to mu
-(set-email-account! "boliden@gmail.com"
-  '((mu4e-sent-folder       . "/boliden@gmail.com/[Gmail]/Sent Mail")
-    (mu4e-drafts-folder     . "/boliden@gmail.com/[Gmail]/Drafts")
-    (mu4e-spam-folder       . "/boliden@gmail.com/[Gmail]/Spam")
-    (mu4e-trash-folder      . "/boliden@gmail.com/[Gmail]/Trash")
-    (mu4e-refile-folder     . "/boliden@gmail.com/[Gmail]/All Mail")
-    (smtpmail-smtp-user     . "boliden@gmail.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "thaenalpha@gmail.com"
-  '((mu4e-sent-folder       . "/thaenalpha@gmail.com/[Gmail]/Sent Mail")
-    (mu4e-drafts-folder     . "/thaenalpha@gmail.com/[Gmail]/Drafts")
-    (mu4e-spam-folder       . "/thaenalpha@gmail.com/[Gmail]/Spam")
-    (mu4e-trash-folder      . "/thaenalpha@gmail.com/[Gmail]/Trash")
-    (mu4e-refile-folder     . "/thaenalpha@gmail.com/[Gmail]/All Mail")
-    (smtpmail-smtp-user     . "thaenalpha@gmail.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "bolidenx@hotmail.com"
-  '((mu4e-sent-folder       . "/bolidenx@hotmail.com/Sent")
-    (mu4e-drafts-folder     . "/bolidenx@hotmail.com/Drafts")
-    (mu4e-spam-folder       . "/bolidenx@hotmail.com/Junk")
-    (mu4e-trash-folder      . "/bolidenx@hotmail.com/Deleted")
-    (mu4e-refile-folder     . "/bolidenx@hotmail.com/Archive")
-    (smtpmail-smtp-user     . "bolidenx@hotmail.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "nopanun@live.com"
-  '((mu4e-sent-folder       . "/nopanun@live.com/Sent")
-    (mu4e-drafts-folder     . "/nopanun@live.com/Drafts")
-    (mu4e-spam-folder       . "/nopanun@live.com/Junk")
-    (mu4e-trash-folder      . "/nopanun@live.com/Deleted")
-    (mu4e-refile-folder     . "/nopanun@live.com/Archive")
-    (smtpmail-smtp-user     . "nopanun@live.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
-(set-email-account! "tannarin26@yahoo.com"
-  '((mu4e-sent-folder       . "/tannarin26@yahoo.com/Sent")
-    (mu4e-drafts-folder     . "/tannarin26@yahoo.com/Draft")
-    (mu4e-spam-folder       . "/tannarin26@yahoo.com/Bulk Mail")
-    (mu4e-trash-folder      . "/tannarin26@yahoo.com/Trash")
-    (mu4e-refile-folder     . "/tannarin26@yahoo.com/Archive")
-    (smtpmail-smtp-user     . "tannarin26@yahoo.com")
-    (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
-  t)
+(set-email-account!
+ "boliden@gmail.com"
+ '((mu4e-sent-folder       . "/boliden@gmail.com/[Gmail]/Sent Mail")
+   (mu4e-drafts-folder     . "/boliden@gmail.com/[Gmail]/Drafts")
+   (mu4e-spam-folder       . "/boliden@gmail.com/[Gmail]/Spam")
+   (mu4e-trash-folder      . "/boliden@gmail.com/[Gmail]/Trash")
+   (mu4e-refile-folder     . "/boliden@gmail.com/[Gmail]/All Mail")
+   (smtpmail-smtp-user     . "boliden@gmail.com")
+   (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+ t)
+(set-email-account!
+ "thaenalpha@gmail.com"
+ '((mu4e-sent-folder       . "/thaenalpha@gmail.com/[Gmail]/Sent Mail")
+   (mu4e-drafts-folder     . "/thaenalpha@gmail.com/[Gmail]/Drafts")
+   (mu4e-spam-folder       . "/thaenalpha@gmail.com/[Gmail]/Spam")
+   (mu4e-trash-folder      . "/thaenalpha@gmail.com/[Gmail]/Trash")
+   (mu4e-refile-folder     . "/thaenalpha@gmail.com/[Gmail]/All Mail")
+   (smtpmail-smtp-user     . "thaenalpha@gmail.com")
+   (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+ t)
+(set-email-account!
+ "bolidenx@hotmail.com"
+ '((mu4e-sent-folder       . "/bolidenx@hotmail.com/Sent")
+   (mu4e-drafts-folder     . "/bolidenx@hotmail.com/Drafts")
+   (mu4e-spam-folder       . "/bolidenx@hotmail.com/Junk")
+   (mu4e-trash-folder      . "/bolidenx@hotmail.com/Deleted")
+   (mu4e-refile-folder     . "/bolidenx@hotmail.com/Archive")
+   (smtpmail-smtp-user     . "bolidenx@hotmail.com")
+   (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+ t)
+(set-email-account!
+ "nopanun@live.com"
+ '((mu4e-sent-folder       . "/nopanun@live.com/Sent")
+   (mu4e-drafts-folder     . "/nopanun@live.com/Drafts")
+   (mu4e-spam-folder       . "/nopanun@live.com/Junk")
+   (mu4e-trash-folder      . "/nopanun@live.com/Deleted")
+   (mu4e-refile-folder     . "/nopanun@live.com/Archive")
+   (smtpmail-smtp-user     . "nopanun@live.com")
+   (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+ t)
+(set-email-account!
+ "tannarin26@yahoo.com"
+ '((mu4e-sent-folder       . "/tannarin26@yahoo.com/Sent")
+   (mu4e-drafts-folder     . "/tannarin26@yahoo.com/Draft")
+   (mu4e-spam-folder       . "/tannarin26@yahoo.com/Bulk Mail")
+   (mu4e-trash-folder      . "/tannarin26@yahoo.com/Trash")
+   (mu4e-refile-folder     . "/tannarin26@yahoo.com/Archive")
+   (smtpmail-smtp-user     . "tannarin26@yahoo.com")
+   (mu4e-compose-signature . "---\nNopanun Laochunhanun"))
+ t)
 #+END_SRC
 
 Change context behavior when opening mu4e and composing email with:
 ~mu4e-context-policy~ and ~mu4e-compose-context-policy~
 
-#+begin_src emacs-lisp
-(setq mu4e-context-policy 'ask-if-none
-      mu4e-compose-context-policy 'always-ask)
+#+name: mu4e-policies
+#+begin_src emacs-lisp :tangle no
+mu4e-context-policy         'ask-if-none
+mu4e-compose-context-policy 'always-ask
 #+end_src
 
-*** How to use contexts
+*How to use contexts*
 
 Examples:
 
@@ -2407,142 +2648,83 @@ Examples:
 
 You can create bookmarks to show merged views of folders across accounts:
 
-#+begin_src emacs-lisp
-(after! mu4e
- (setq sendmail-program (executable-find "msmtp")
-       send-mail-function #'smtpmail-send-it
-       message-sendmail-f-is-evil t
-       message-sendmail-extra-arguments '("--read-envelope-from")
-       message-send-mail-function #'message-send-mail-with-sendmail
-       mu4e-maildir-shortcuts '(("/thaenalpha@gmail.com/Job Applying".?j)))
-
- (defun add-mu4e-bookmark (bookmark)
-   (add-to-list 'mu4e-bookmarks bookmark))
-
- (mapc 'add-mu4e-bookmark
-   '(("m:/boliden@gmail.com/INBOX or m:/bolidenx@hotmail.com/Inbox or m:/nopanun@live.com/Inbox or m:/tannarin26@yahoo.com/Inbox or m:/thaenalpha@gmail.com/INBOX or m:/nopanun@live.com/IT Demands" "All Inboxes" ?i)
-     ("m:/boliden@gmail.com/[Gmail]/Sent Mail or m:/bolidenx@hotmail.com/Sent m:/thaenalpha@gmail.com/[Gmail]/Sent Mail or m:/nopanun@live.com/Sent or m:/tannarin26@yahoo.com/Sent" "All Sent" ?s)
-     ("m:/boliden@gmail.com/[Gmail]/Drafts or m:/bolidenx@hotmail.com/Drafts m:/thaenalpha@gmail.com/[Gmail]/Drafts or m:/nopanun@live.com/Drafts or m:/tannarin26@yahoo.com/Draft" "All Drafts" ?d)
-     ("m:/boliden@gmail.com/[Gmail]/All Mail or m:/bolidenx@hotmail.com/Archive m:/thaenalpha@gmail.com/[Gmail]/All Mail or m:/nopanun@live.com/Archive or m:/tannarin26@yahoo.com/Archive" "All Archives" ?a)
-     ("m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or m:/tannarin26@yahoo.com/Bulk Mail" "All Spams" ?p)
-     ("m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or m:/tannarin26@yahoo.com/Trash" "All Trashes" ?t))))
+#+name: mu4e-bookmarks
+#+begin_src emacs-lisp :tangle no
+(,(concat
+   "m:/boliden@gmail.com/INBOX or m:/bolidenx@hotmail.com/Inbox or "
+   "m:/nopanun@live.com/Inbox or m:/tannarin26@yahoo.com/Inbox or "
+   "m:/thaenalpha@gmail.com/INBOX or m:/nopanun@live.com/IT Demands")
+ "All Inboxes" ?i)
+(,(concat
+   "m:/boliden@gmail.com/[Gmail]/Sent Mail or m:/bolidenx@hotmail.com/Sent "
+   "m:/thaenalpha@gmail.com/[Gmail]/Sent Mail or m:/nopanun@live.com/Sent or"
+   " m:/tannarin26@yahoo.com/Sent") "All Sent" ?s)
+(,(concat
+   "m:/boliden@gmail.com/[Gmail]/Drafts or m:/bolidenx@hotmail.com/Drafts "
+   "m:/thaenalpha@gmail.com/[Gmail]/Drafts or m:/nopanun@live.com/Drafts or "
+   "m:/tannarin26@yahoo.com/Draft") "All Drafts" ?d)
+(,(concat
+   "m:/boliden@gmail.com/[Gmail]/All Mail or m:/bolidenx@hotmail.com/Archive"
+   " m:/thaenalpha@gmail.com/[Gmail]/All Mail or m:/nopanun@live.com/Archive"
+   " or m:/tannarin26@yahoo.com/Archive") "All Archives" ?a)
+(,(concat
+   "m:/boliden@gmail.com/[Gmail]/Spam or m:/bolidenx@hotmail.com/Junk or "
+   "m:/thaenalpha@gmail.com/[Gmail]/Spam or m:/nopanun@live.com/Junk or "
+   "m:/tannarin26@yahoo.com/Bulk Mail") "All Spams" ?p)
+(,(concat
+   "m:/boliden@gmail.com/[Gmail]/Trash or m:/bolidenx@hotmail.com/Deleted or"
+   " m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or"
+   " m:/tannarin26@yahoo.com/Trash") "All Trashes" ?t)
 #+end_src
 
 This is your e-mail client to build!
 
 ** Apps :app:
-*** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
-**** Installation
-telega depends on the visual-fill-column and rainbow-identifiers packages.
-This dependency automatically installs if you install telega from MELPA or
-GNU Guix. Otherwise, you will need to install these packages by hand.
+*** Edit-Server
+**** README.org
+#+begin_src org :tangle no
+,#+TITLE:   app/edit-server
+,#+DATE:    January 13, 2022
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
 
-telega is built on top of the official library provided by Telegram TDLib.
-Most distributions do not provide this package in their repositories, in
-which case you will have to install it manually by following the instructions.
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
 
-GNU Guix, however, does have both telega and TDLib packaged.
-If you use GNU Guix you can skip directly to Installing from GNU Guix.
+,* Description
+Server that responds to edit requests from Chrome or Firefox
 
-***** Dependencies
-Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
-****** GNU gperf (for building TDLib)
-******* Guix users
-#+begin_src sh :tangle no
-  guix install gperf
-#+end_src
+,** Maintainers
++ [[https://github.com/thaenalpha][@thaenalpha]] (Author)
 
-***** Building TDLib
+,** Module Flags
+This module provides no flags.
 
-TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
-Make sure you are using TDLib version greater or equal to 1.7.0.
+,** Plugins
++ [[https://github.com/stsquad/emacs_chrome][edit-server]]
 
-On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh.
-Just run:
-
-#+begin_src sh :tangle no
-brew install tdlib
-#+end_src
-On Linux, you will need to build TDLib from source.
-
-To get the source:
-
-#+begin_src sh :tangle no
-  git clone https://github.com/tdlib/td.git
-#+end_src
-
-Move into the folder with $ cd ./td or wherever you checked out td.
-
-Prepare a folder for building the library:
-
-#+begin_src sh :tangle no
-  cd ./td && mkdir build && cd build && cmake ../
-#+end_src
-
-Build the sources:
-
-#+begin_src sh :tangle no
-  cd ./td/build && make -jN # Change N first, read a description below.
-#+end_src
-
-With N number of cores that should be used for the compilation
-(the optimal value is the number of physical cores on the machine).
-
-Finally, to install the library system-wide:
-
-#+begin_src sh :dir (concat "/sudo::/home/" user-login-name "/.doom.d") :tangle no
-cd ./td/build && sudo make install
-#+end_src
-
-It will install headers to =/usr/local/include= and library itself into =/usr/local/lib=.
-If you have TDLib installed in other location, don't forget to modify ~telega-server-libs-prefix~ before starting telega.
-#+begin_src emacs-lisp :tangle no
-;; I'm a Guix user.
-(use-package telega-server
-  :defer t
-  :when (featurep! :app telega)
-  :config
-  (setq! telega-server-libs-prefix "~/.guix-profile"))
-#+end_src
-***** Installing telega from MELPA
-
-+ ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
-
- #+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
-;; -*- no-byte-compile: t; -*-
-;;; app/telega/packages.el
-
-(package! telega)
-#+end_src
-
-- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
- #+begin_src sh :tangle no
-rm -r modules/app/telega
-#+end_src
-
-*** Edit-Server - server that responds to edit requests from Chrome
-**** Installation
-***** Dependencies
-****** Edit with Emacs Chrome/Firefox extension
+,* Prerequisites
+Install dependency: Edit with Emacs Chrome/Firefox extension
 [[https://github.com/stsquad/emacs_chrome][stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
 
-***** Installing edit-server from MELPA
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
 
-+ ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
+,* Configuration
+Set major mode for each site.
 
-#+begin_src emacs-lisp :tangle modules/app/edit-server/packages.el :mkdirp yes
-;; -*- no-byte-compile: t; -*-
-;;; app/edit-server/packages.el
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
 
-(package! edit-server)
 #+end_src
-
-- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
-  #+begin_src sh :tangle no
-    rm -r modules/app/edit-server
-  #+end_src
-
-***** Configuration
+**** config.el
 #+begin_src emacs-lisp :tangle modules/app/edit-server/config.el
 ;;; app/edit-server/config.el -*- lexical-binding: t; -*-
 
@@ -2561,7 +2743,182 @@ rm -r modules/app/telega
   (setq edit-server-url-major-mode-alist
         '(("github\\.com" . markdown-mode))))
 #+end_src
+**** packages.el
+Installing edit-server from MELPA
 
++ ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
+
+#+begin_src emacs-lisp :tangle modules/app/edit-server/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; app/edit-server/packages.el
+
+(package! edit-server)
+#+end_src
+
+- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
+  #+begin_src sh :tangle no
+rm -r modules/app/edit-server
+  #+end_src
+
+*** Mastodon :social:microblogging:
+**** README.org
+#+begin_src org :tangle modules/app/mastodon/README.org :mkdirp yes
+,#+TITLE:   app/mastodon
+,#+DATE:    January 13, 2022
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+
+,* Description
+Enjoy Mastodon from emacs.
+
++
+
+,** Maintainers
++ [[https://github.com/thaenalpha][@thaenalpha]] (Author)
+
+,** Module Flags
+This module provides no flags.
+
+,** Plugins
++ [[https://git.blast.noho.st/mouse/mastodon.el][mastodon]]
+
+,** Hacks
+# A list of internal modifications to included packages; omit if unneeded
+
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+#+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/app/mastodon/packages.el :mkdirp yes
+(package! mastodon)
+#+end_src
+
+*** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
+**** Installation
+telega depends on the visual-fill-column and rainbow-identifiers packages.
+This dependency automatically installs if you install telega from MELPA or
+GNU Guix. Otherwise, you will need to install these packages by hand.
+
+telega is built on top of the official library provided by Telegram TDLib.
+Most distributions do not provide this package in their repositories, in
+which case you will have to install it manually by following the instructions.
+
+GNU Guix, however, does have both telega and TDLib packaged.
+If you use GNU Guix you can skip directly to Installing from GNU Guix.
+
+***** Dependencies
+Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
+****** GNU gperf (for building TDLib)
+******* Guix users
+#+begin_src sh :tangle no
+guix install gperf
+#+end_src
+
+***** Building TDLib
+
+TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
+Make sure you are using TDLib version greater or equal to 1.7.0.
+
+On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh.
+Just run:
+
+#+begin_src sh :tangle no
+brew install tdlib
+#+end_src
+On Linux, you will need to build TDLib from source.
+
+To get the source:
+
+#+begin_src sh :tangle no
+git clone https://github.com/tdlib/td.git
+#+end_src
+
+Move into the folder with $ cd ./td or wherever you checked out td.
+
+Prepare a folder for building the library:
+
+#+begin_src sh :tangle no
+cd ./td && mkdir build && cd build && cmake ../
+#+end_src
+
+Build the sources:
+
+#+begin_src sh :tangle no
+cd ./td/build && make -jN # Change N first, read a description below.
+#+end_src
+
+With N number of cores that should be used for the compilation
+(the optimal value is the number of physical cores on the machine).
+
+Finally, to install the library system-wide:
+
+#+begin_src sh :dir (concat /sudo::/home/" user-login-name "/.doom.d") :tangle no
+cd ./td/build && sudo make install
+#+end_src
+
+It will install headers to =/usr/local/include= and library itself into =/usr/local/lib=.
+If you have TDLib installed in other location, don't forget to modify ~telega-server-libs-prefix~ before starting telega.
+#+begin_src emacs-lisp :tangle no
+;; I'm a Guix user.
+(use-package telega-server
+  :defer t
+  :when (featurep! :app telega)
+  :config
+  (setq! telega-server-libs-prefix "~/.guix-profile"))
+#+end_src
+***** Installing telega from MELPA
+
++ ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
+
+  #+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/telega/packages.el
+
+(package! telega)
+  #+end_src
+
+- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
+  #+begin_src sh :tangle no
+rm -r modules/app/telega
+  #+end_src
+
+** Terminal :term:
+*** vterm
+In Vterm I prefer =ESC= to be a ~vterm--self-insert~
+#+begin_src emacs-lisp
+;;; :term vterm
+(add-hook 'vterm-mode-hook #'evil-collection-vterm-toggle-send-escape)
+#+end_src
+Other keybinds these should be...
+#+name: vterm-kbd
+#+begin_src emacs-lisp :tangle no
+(:when (featurep! :term vterm)
+ :map vterm-mode-map
+ :i "C-j"   #'vterm--self-insert
+ "C-c C-x"  #'vterm--self-insert)
+#+end_src
+** Configure :config:
+*** default
+More keybinds for literate configs
+#+name: default
+#+begin_src emacs-lisp :tangle no
+:map  help-map
+"rk"       #'keychain-refresh-environment
+"di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
+"do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
+"dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
+#+end_src
 * Local Configures
 ** Directory Local Variables
 =SPC p e= ~projectile-edit-dir-locals~
@@ -2589,8 +2946,10 @@ permission to apply these variables every time when accessing a file within a
 directory that contains settings for these variable in =.dir-locals.el= file.
 
 #+begin_src emacs-lisp
+;;
+;;; Local Variables
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
-(put 'quickrun-option-command 'safe-local-variable #'stringp)
+(put 'quickrun-option-command      'safe-local-variable #'stringp)
 #+end_src
 
 ** Marking the root of a project
