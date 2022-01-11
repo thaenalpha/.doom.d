@@ -1,11 +1,30 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; For e.g. GPG configuration, email clients, file templates and snippets.
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 
-(setq company-idle-delay nil)
+;;
+;;; System
 
-(setq display-line-numbers-type nil)
+(setq truncate-string-ellipsis "…")     ; Unicode ellispis are nicer than "...",
+                                        ; and also save /precious/ space
+(global-subword-mode 1)                 ; Iterate through CamelCase words
+
+(unless (equal "Battery status not available" (battery)) ; on laptops…
+  (display-battery-mode 1)) ; it's nice to know how much power you have
+
+(setq-default delete-by-moving-to-trash t) ; Delete files to trash
+
+(setq byte-compile-warnings '(not cl-functions))
+
+(use-package keychain-environment
+  :defer t
+  :init (keychain-refresh-environment)
+  :config (map! :map help-map
+                "rk" #'keychain-refresh-environment))
+
+(setq company-idle-delay nil)
 
 (after! org
   (setq org-fontify-quote-and-verse-blocks nil
@@ -13,37 +32,61 @@
         org-hide-leading-stars nil
         org-startup-indented nil))
 
-(use-package dabbrev
-      ;; Swap M-/ and C-M-/
-      :bind (("M-/" . dabbrev-completion)
-             ("C-M-/" . dabbrev-expand)))
+;;
+;;; UI
 
-;;;; Info colors
+(setq display-line-numbers-type  nil
+      doom-font                  (font-spec :family "JetBrains Mono"
+                                            :size 12 :weight 'light)
+      doom-variable-pitch-font   (font-spec :family "Noto Serif"     :size 13)
+      doom-big-font              (font-spec :family "JetBrains Mono" :size 15)
+      doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
+      doom-serif-font            doom-variable-pitch-font
+      window-combination-resize  t ; take new window space from all other windows
+      treemacs-width             25
+      doom-themes-treemacs-theme 'doom-colors)
+
+(let ((my-doom-color 'auto))
+  (if (eq my-doom-color 'auto)
+      (run-with-timer
+       0 3600                             ; check for every hour
+       (defun synchronize-theme ()
+         "Sets the theme according to the hour in the current time.
+If the hour is (both inclusive) in `light-theme-hours' then
+`light' theme is loaded, otherwise `dark' theme is loaded."
+         (interactive)
+         (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
+                (dark  'doom-vibrant)
+                (light 'doom-one-light)
+                (light-theme-begin 6)   ; Hour to turn on  `light' theme
+                (light-theme-end   17)  ; Hour to turn off `light' theme
+                (light-theme-hours (number-sequence
+                                    light-theme-begin light-theme-end))
+                (now (if (member hour light-theme-hours) light dark)))
+           (unless (equal now doom-theme)  ; if doom-theme isn't equal to now
+             (doom--load-theme-a #'load-theme now t))))) ; set to now and load
+    (let ((f (lambda (x) (doom--load-theme-a #'load-theme x t)))
+          (default 'doom-one)
+          (dark    'doom-vibrant)
+          (light   'doom-one-light)
+          (custom  'doom-dracula))
+      (funcall f (eval my-doom-color)))))
+
 (use-package! info-colors
   :hook (Info-selection . info-colors-fontify-node))
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'light)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 19)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
-      doom-unicode-font (font-spec :family "Courier New")
-      doom-serif-font (font-spec :family "Cascadia Code"))
+;;
+;;; keybinds
 
-(setq byte-compile-warnings '(cl-functions))
-
-(map! :n  "g+"    #'evil-numbers/inc-at-pt
+(map! "<f5>"      #'synchronize-theme
+      :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
       :gi "C-="   #'er/expand-region
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
-      (:when (featurep! :tools eval)
-       :map mode-specific-map
-       :desc "Evaluate line/region"      "e" #'+eval/line-or-region
-       :desc "Evaluate & replace region" "E" #'+eval/region-and-replace)
-      (:when (featurep! :tools fzf)
-       :map search-map
-       "SPC" #'fzf-projectile)
+      :n  "C-SPC" #'just-one-space
       (:when (featurep! :ui doom-dashboard)
        (:map doom-leader-open-map
         "0" #'+doom-dashboard/open)
@@ -64,44 +107,53 @@
        :ne "v" #'+vterm/here
        :ne "t" #'telega
        :ne "T" #'=twitter
-       :ne "m" #'=mu4e
+       :ne "m" #'mu4e
        :ne "n" #'+default/find-in-notes
        :ne "d" #'+workspace/close-window-or-workspace
-       :ne "x" #'org-capture))
-
-(use-package keychain-environment
-  :defer t
-  :init (keychain-refresh-environment)
-  :config (map! :map help-map
-                "rk" #'keychain-refresh-environment))
-
-(setq light 'doom-acario-light)
-(setq dark 'doom-ayu-mirage)
-
-(setq doom-theme light             ; default in Light mode
-      doom-acario-light-brighter-modeline t)
-
-(defun synchronize-theme ()
-  (setq hour                          ; current hour
-        (string-to-number
-         (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 17)) ; if current hour is in daytime's period
-      (setq now light)                     ; now is light
-    (setq now dark))                     ; else now is dark
-  (unless (equal now doom-theme)           ; if doom-theme isn't equal to now
-    (setq doom-theme now)                ; set to now theme
-    (doom/reload-theme)))                ; and reload
-
-(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
-
-(setq! doom-themes-treemacs-theme 'doom-colors
-       treemacs-width 26)
+       :ne "x" #'org-capture)
+      (:prefix "C-x"
+       :when (featurep! :ui popup)
+       :desc "Open this buffer in a popup" "j" #'+popup/buffer)
+      :map mode-specific-map            ; C-c
+      (:when (featurep! :tools eval)
+       :desc "Evaluate line/region"      "e"   #'+eval/line-or-region
+       :desc "Evaluate & replace region" "E"   #'+eval/region-and-replace)
+      (:when (featurep! :tools fzf)
+       :desc "Fuzzy find file in project" "t"  #'fzf-projectile))
 
 (after! vterm (evil-collection-vterm-toggle-send-escape)
   (evil-collection-define-key 'insert 'vterm-mode-map
     (kbd "C-j") 'vterm--self-insert
     (kbd "C-x") 'vterm--self-insert))
 
+window-combination-resize  t ; take new window space from all other windows
+
+;;
+;;; Time & language
+
+(display-time-mode 1)                   ; Enable time in the mode-line
+
+(use-package dabbrev
+  :bind (("M-/" . dabbrev-completion)   ; Swap M-/ and C-M-/
+         ("C-M-/" . dabbrev-expand)))
+
+;;
+;;; Accessibility
+
+(setq scroll-margin 2)                  ; It's nice to maintain a little margin
+;;scroll-preserve-screen-position 'always ; Don't have `point' jump around
+
+(setq-default x-stretch-cursor t)       ; Stretch cursor to the glyph width
+
+;;
+;;; Security
+
+(setq password-cache-expiry nil)        ; I can trust my computers … can't I?
+
+;;
+;;; Modules
+
+;;; :completion corfu
 ;; evil Omni-completion, Bind dedicated completion commands
 (map! :when (and (featurep! :editor evil)
                  (featurep! :completion corfu))
@@ -124,6 +176,7 @@
       :i "&"    #'cape-sgml
       :i "C-r"  #'cape-rfc1345)
 
+;;; :completion company +tabnine
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
   (after! company
@@ -144,6 +197,26 @@
         :leader :desc "zoom"
         "z"      #'+hydra/text-zoom/body))
 
+;;; :editor evil
+(setq evil-want-fine-undo t)            ; By default while in insert all changes
+                                        ; are one big blob. Be more granular
+
+(add-hook! 'evil-org-mode-hook
+  (setq-local evil-surround-pairs-alist
+         '((40 "(" . ")")
+           (91 "[" . "]")
+           (123 "{" . "}")
+           (41 "(" . ")")
+           (93 "[" . "]")
+           (125 "{" . "}")
+           (35 "#{" . "}")
+           (98 "(" . ")")
+           (66 "{" . "}")
+           (62 "<" . ">")
+           (116 . evil-surround-read-tag)
+           (60 . evil-surround-read-tag)
+           (102 . evil-surround-function))))
+
 (setq-hook! '(js-mode
               js2-mode
               rjsx-mode
@@ -155,10 +228,19 @@
 (require 'button-lock)
 (global-fixmee-mode 1)
 
-(after! lsp-mode
-  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
+(when (featurep! :lang clojure)
+   (add-hook 'clojure-mode-hook 'paredit-mode))
 
-(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
+(use-package! lsp-tailwindcss
+  :init
+  (setq! lsp-tailwindcss-add-on-mode t)
+  :custom
+  (lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode)))
+
+(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
+
+(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
+      org-support-shift-select t)
 
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
@@ -191,17 +273,6 @@
           :file-name "%<%Y%m%d>-${slug}"
           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
           :unnarrowed t)))
-
-(when (featurep! :lang clojure)
-   (add-hook 'clojure-mode-hook 'paredit-mode))
-
-(use-package! lsp-tailwindcss
-  :init
-  (setq! lsp-tailwindcss-add-on-mode t)
-  :custom
-  (lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode)))
-
-(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
 
 ;; Each path is relative to the path of the maildir you passed to mu
 (set-email-account! "boliden@gmail.com"

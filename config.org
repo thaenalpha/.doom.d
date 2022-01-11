@@ -5,117 +5,151 @@
 #+SINCE:    v3.0.0-alpha
 #+STARTUP:  content
 
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; For e.g. GPG configuration, email clients, file templates and snippets.
+(setq user-full-name "Nopanun Laochunhanun"
+      user-mail-address "nopanun@pm.me")
+#+end_src
+
 * Table of Contents :TOC_3:noexport:
+- [[#system][System]]
+  - [[#emacs][Emacs]]
+  - [[#power][Power]]
+    - [[#battery-usage][Battery usage]]
+  - [[#trash][Trash]]
+  - [[#troubleshoot][Troubleshoot]]
+    - [[#inhibit-cl-warning][Inhibit cl warning]]
+    - [[#github-remote-ssh-always-ask-for-password][Github remote SSH always ask for password]]
+    - [[#why-is-emacsdoom-slow][Why is Emacs/Doom slow?]]
 - [[#personalization][Personalization]]
-  - [[#personal-information][Personal Information]]
-  - [[#adjust-for-speed][Adjust for speed]]
-  - [[#dabbrev][Dabbrev]]
   - [[#dashboard-quick-actions][Dashboard Quick Actions]]
   - [[#extra-colors-for-info-mode][Extra colors for Info-mode]]
-  - [[#fonts][Fonts]]
-  - [[#inhibit-cl-warning][Inhibit cl warning]]
-  - [[#keyboard-shortcuts][Keyboard Shortcuts]]
-  - [[#load-key-chain-environment-variables][Load Key-chain Environment Variables]]
-  - [[#modeline][Modeline]]
+  - [[#colors][Colors]]
   - [[#themes][Themes]]
+  - [[#fonts][Fonts]]
+  - [[#keyboard-shortcuts][Keyboard Shortcuts]]
+  - [[#modeline][Modeline]]
   - [[#treemacs][Treemacs]]
   - [[#vterm][vterm]]
-- [[#completion][Completion]]
-  - [[#corfu][Corfu]]
-    - [[#source_code][Source_code]]
-    - [[#set-bindings-evil][Set bindings (evil)]]
-    - [[#additional-movement-commands][Additional movement commands]]
-    - [[#transfer-to-the-minibuffer][Transfer to the minibuffer]]
-    - [[#auto-commit][Auto-commit]]
-  - [[#tabnine][Tabnine]]
-    - [[#with-company][With Company]]
-    - [[#with-corfu][With Corfu]]
-- [[#ui][UI]]
-  - [[#deft][Deft]]
-    - [[#configuration][Configuration]]
-  - [[#tab-workspaces-work-in-progress][Tab-Workspaces (work in progress)]]
-    - [[#source_code-1][Source_code]]
-  - [[#window-navigation][Window Navigation]]
-- [[#editor][Editor]]
-  - [[#format][Format]]
-    - [[#disabling-the-lsp-formatter][Disabling the LSP formatter]]
-- [[#tools][Tools]]
-  - [[#arrayify][Arrayify]]
-  - [[#brief][Brief]]
-    - [[#description][Description]]
-    - [[#source-code][Source Code]]
-  - [[#fixmee][fixmee]]
-  - [[#fzf][fzf]]
-    - [[#description-1][Description]]
-    - [[#source-code-1][Source Code]]
-  - [[#tree-sitter][Tree-sitter]]
-  - [[#lsp][LSP]]
-    - [[#troubleshooting][Troubleshooting]]
-- [[#org-mode][Org-Mode]]
-  - [[#configuration-1][Configuration]]
-  - [[#org-capture-from-web-browser][Org Capture from Web browser]]
-- [[#programming-language][Programming Language]]
-  - [[#clojure][Clojure]]
-  - [[#javascript][JavaScript]]
-    - [[#description-2][Description]]
-    - [[#new-features][New features]]
-    - [[#prerequisites-for][Prerequisites for]]
-    - [[#configuration-2][Configuration]]
-    - [[#troubleshooting-1][Troubleshooting]]
-  - [[#web][Web]]
-    - [[#tailwind-lsp][Tailwind LSP]]
-- [[#email--accounts][Email & Accounts]]
-  - [[#how-to-use-contexts][How to use contexts]]
-- [[#app][App]]
-  - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
-    - [[#installation][Installation]]
-  - [[#edit-server---server-that-responds-to-edit-requests-from-chrome][Edit-Server - server that responds to edit requests from Chrome]]
-    - [[#installation-1][Installation]]
+  - [[#window--frame][Window & frame]]
+    - [[#window-split-behavior][Window split behavior]]
+- [[#apps][Apps]]
+- [[#time--language][Time & language]]
+  - [[#date--time][Date & time]]
+  - [[#typing][Typing]]
+    - [[#dabbrev][Dabbrev]]
+- [[#accessibility][Accessibility]]
+  - [[#visual-effects][Visual effects]]
+  - [[#text-cursor][Text cursor]]
+- [[#privacy--security][Privacy & security]]
+- [[#modules][Modules]]
+  - [[#completion][Completion]]
+    - [[#corfu][Corfu]]
+    - [[#tabnine][Tabnine]]
+  - [[#ui][UI]]
+    - [[#deft][Deft]]
+    - [[#tab-workspaces-work-in-progress][Tab-Workspaces (work in progress)]]
+    - [[#window-navigation][Window Navigation]]
+    - [[#modus][modus]]
+  - [[#editor][Editor]]
+    - [[#evil][Evil]]
+    - [[#format][Format]]
+  - [[#tools][Tools]]
+    - [[#arrayify][Arrayify]]
+    - [[#brief][Brief]]
+    - [[#fixmee][fixmee]]
+    - [[#fzf][fzf]]
+    - [[#tree-sitter][Tree-sitter]]
+  - [[#programming-language][Programming Language]]
+    - [[#clojure][Clojure]]
+    - [[#javascript][JavaScript]]
+    - [[#web][Web]]
+    - [[#org-mode][Org-Mode]]
+  - [[#email--accounts-email][Email & Accounts :email:]]
+    - [[#how-to-use-contexts][How to use contexts]]
+  - [[#apps-1][Apps]]
+    - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
+    - [[#edit-server---server-that-responds-to-edit-requests-from-chrome][Edit-Server - server that responds to edit requests from Chrome]]
 - [[#local-configures][Local Configures]]
   - [[#directory-local-variables][Directory Local Variables]]
   - [[#safe-local-variables][safe-local-variables]]
   - [[#marking-the-root-of-a-project][Marking the root of a project]]
 
-* Personalization
-** Personal Information
-For e.g. GPG configuration, email clients, file templates and snippets.
+* System
 #+begin_src emacs-lisp
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-(setq user-full-name "Nopanun Laochunhanun"
-      user-mail-address "nopanun@pm.me")
+;;
+;;; System
 #+end_src
-** Adjust for speed
-Some advice from @hlissner on [[https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83/3][Why is Emacs/Doom slow? - Discussion / Doom Emacs - Doom Emacs Discourse]]
+** Emacs
+#+begin_src emacs-lisp
+(setq truncate-string-ellipsis "…")     ; Unicode ellispis are nicer than "...",
+                                        ; and also save /precious/ space
+(global-subword-mode 1)                 ; Iterate through CamelCase words
+#+end_src
+** Power
+*** Battery usage
+#+begin_src emacs-lisp
+(unless (equal "Battery status not available" (battery)) ; on laptops…
+  (display-battery-mode 1)) ; it's nice to know how much power you have
+#+end_src
+** Trash
+#+begin_src emacs-lisp
+(setq-default delete-by-moving-to-trash t) ; Delete files to trash
+#+end_src
+** Troubleshoot
+*** Inhibit cl warning
+#+begin_src emacs-lisp
+(setq byte-compile-warnings '(not cl-functions))
+#+end_src
+*** Github remote SSH always ask for password
+Troubleshoot by load Key-chain Environment Variables
+[[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
+Captured On: [2021-11-12 Fri 23:05]
+
+#+begin_src emacs-lisp
+(use-package keychain-environment
+  :defer t
+  :init (keychain-refresh-environment)
+  :config (map! :map help-map
+                "rk" #'keychain-refresh-environment))
+#+end_src
+
+*** Why is Emacs/Doom slow?
+Some advice from @hlissner on [[https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83/3][Why is Emacs/Doom slow? - Discussion / Doom Emacs Discourse]]
 Captured On: [2021-12-11 Sat 14:35]
 
 1. Disable idle code-completion (i.e. completion-as-you-type).
-   #+begin_src emacs-lisp
+ #+begin_src emacs-lisp
 (setq company-idle-delay nil)
-   #+end_src
+#+end_src
    #+begin_quote
 Add the above sexp to make code completion manual (on =C-SPC=, by default)
 That way, you only need to suffer that slowness once, when it is needed.
    #+end_quote
 2. [[file:init.org::*Disable some of Doom’s slowest modules.][Disable some of Doom’s slowest modules.]]
 3. Turn off line numbers:
-   #+begin_src emacs-lisp
-(setq display-line-numbers-type nil)
-   #+end_src
+   #+name: my-line-numbers-setting
+ #+begin_src emacs-lisp :tangle no
+display-line-numbers-type  nil
+#+end_src
    #+begin_quote
-It’s known to slow down scrolling, in particular.
+It’s known to slow down scrolling, in particular. Line numbers are pretty slow
+all around. The performance boost of disabling them outweighs the utility of
+always keeping them on.
    #+end_quote
 4. Turn off the “prettification” of org-mode, by disabling the =+pretty=
    flag on the =:lang org= module (if you have it on).
 
    You can go to an extreme by disabling more of its eye-candy:
-   #+begin_src emacs-lisp
+ #+begin_src emacs-lisp
 (after! org
   (setq org-fontify-quote-and-verse-blocks nil
         org-fontify-whole-heading-line nil
         org-hide-leading-stars nil
         org-startup-indented nil))
-   #+end_src
+ #+end_src
 5. Change your font(s). Emacs struggles to display some unicode characters
    with certain fonts. It sometimes struggles to display multiple fonts at
    once – as is the case if your primary font doesn’t support certain symbols
@@ -127,13 +161,21 @@ It’s known to slow down scrolling, in particular.
    variant is a work-in-progress replacement aiming to provide a lighter
    (albeit less featureful) mode line.
 7. Check out “[[https://discourse.doomemacs.org/t/119][Common configuration mistakes]]”.
-** Dabbrev
-Swap =M-/= and =C-M-/=
-#+begin_src emacs-lisp
-(use-package dabbrev
-      ;; Swap M-/ and C-M-/
-      :bind (("M-/" . dabbrev-completion)
-             ("C-M-/" . dabbrev-expand)))
+
+
+* Personalization
+UI stuff
+
+#+begin_src emacs-lisp :noweb no-export
+;;
+;;; UI
+
+(setq <<my-line-numbers-setting>>
+      <<my-fonts-settings>>
+      <<my-window-settings>>
+      <<my-treemacs-settings>>)
+
+<<my-theme-script>>
 #+end_src
 
 ** Dashboard Quick Actions
@@ -165,7 +207,7 @@ unnecessary keystrokes — we can simply bind common actions to a single key!
  :ne "v" #'+vterm/here
  :ne "t" #'telega
  :ne "T" #'=twitter
- :ne "m" #'=mu4e
+ :ne "m" #'mu4e
  :ne "n" #'+default/find-in-notes
  :ne "d" #'+workspace/close-window-or-workspace
  :ne "x" #'org-capture)
@@ -173,28 +215,76 @@ unnecessary keystrokes — we can simply bind common actions to a single key!
 
 ** Extra colors for Info-mode
 #+begin_src emacs-lisp
-;;;; Info colors
 (use-package! info-colors
   :hook (Info-selection . info-colors-fontify-node))
 #+end_src
+** Colors
+Look at the options and choose your [[mode][mode]]
+: default, light, dark, custom, auto
+
+*Choose your mode*
+#+name: mode
+#+begin_src emacs-lisp :tangle no
+auto
+#+end_src
+
+#+name: my-theme-modes
+#+begin_src emacs-lisp :tangle no
+(default 'doom-one)
+(dark    'doom-vibrant)
+(light   'doom-one-light)
+(custom  'doom-dracula)
+#+end_src
+
++ src_elisp{'auto} mode is the automatic theme switching. If auto mode was set,
+ ~doom-theme~ will be set to the ~light~ or ~dark~ theme according to the hour
+ in the current time, ~light-theme-begin~ and ~light-theme-end~.
+
+ #+name: auto-mode-settings
+ #+begin_src emacs-lisp :tangle no
+(dark  'doom-vibrant)
+(light 'doom-one-light)
+(light-theme-begin 6)   ; Hour to turn on  `light' theme
+(light-theme-end   17)  ; Hour to turn off `light' theme
+#+end_src
+
+** Themes
+#+name: my-theme-script
+#+begin_src emacs-lisp :noweb no-export :tangle no
+(let ((my-doom-color '<<mode>>))
+  (if (eq my-doom-color 'auto)
+      (run-with-timer
+       0 3600                             ; check for every hour
+       (defun synchronize-theme ()
+         "Sets the theme according to the hour in the current time.
+If the hour is (both inclusive) in `light-theme-hours' then
+`light' theme is loaded, otherwise `dark' theme is loaded."
+         (interactive)
+         (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
+                <<auto-mode-settings>>
+                (light-theme-hours (number-sequence
+                                    light-theme-begin light-theme-end))
+                (now (if (member hour light-theme-hours) light dark)))
+           (unless (equal now doom-theme)  ; if doom-theme isn't equal to now
+             (doom--load-theme-a #'load-theme now t))))) ; set to now and load
+    (let ((f (lambda (x) (doom--load-theme-a #'load-theme x t)))
+          <<my-theme-modes>>)
+      (funcall f (eval my-doom-color)))))
+#+end_src
+
 ** Fonts
 + JetBrains Mono
-+ Cascadia Code
-+ 'Courier New'
-- [[https://input.djr.com/download/][Input: Fonts for Code — Download]] Free for private use
-- [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
++ Noto Serif
++ [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
   Arabic · Devanagari · Georgian · Hebrew · Thai
-- [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode][FiraCode NF]] free monospaced font with programming ligatures Nerd Font
-#+begin_src emacs-lisp
-(setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'light)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 19)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
-      doom-unicode-font (font-spec :family "Courier New")
-      doom-serif-font (font-spec :family "Cascadia Code"))
-#+end_src
-** Inhibit cl warning
-#+begin_src emacs-lisp
-(setq byte-compile-warnings '(cl-functions))
+#+name: my-fonts-settings
+#+begin_src emacs-lisp :tangle no
+doom-font                  (font-spec :family "JetBrains Mono"
+                                      :size 12 :weight 'light)
+doom-variable-pitch-font   (font-spec :family "Noto Serif"     :size 13)
+doom-big-font              (font-spec :family "JetBrains Mono" :size 15)
+doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
+doom-serif-font            doom-variable-pitch-font
 #+end_src
 ** Keyboard Shortcuts
 #+begin_quote
@@ -202,33 +292,28 @@ Wow, I wish I knew these things before
 #+end_quote
 
 #+begin_src emacs-lisp :noweb no-export
-(map! :n  "g+"    #'evil-numbers/inc-at-pt
+;;
+;;; keybinds
+
+(map! "<f5>"      #'synchronize-theme
+      :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
       :gi "C-="   #'er/expand-region
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
+      :n  "C-SPC" #'just-one-space
+      <<dashboard>>
+      (:prefix "C-x"
+       :when (featurep! :ui popup)
+       :desc "Open this buffer in a popup" "j" #'+popup/buffer)
+      :map mode-specific-map            ; C-c
       (:when (featurep! :tools eval)
-       :map mode-specific-map
-       :desc "Evaluate line/region"      "e" #'+eval/line-or-region
-       :desc "Evaluate & replace region" "E" #'+eval/region-and-replace)
+       :desc "Evaluate line/region"      "e"   #'+eval/line-or-region
+       :desc "Evaluate & replace region" "E"   #'+eval/region-and-replace)
       (:when (featurep! :tools fzf)
-       :map search-map
-       "SPC" #'fzf-projectile)
-      <<dashboard>>)
-#+end_src
-
-** Load Key-chain Environment Variables
-[[https://github.com/tarsius/keychain-environment][tarsius/keychain-environment: Loads keychain environment variables into emacs]]
-Captured On: [2021-11-12 Fri 23:05]
-
-#+begin_src emacs-lisp
-(use-package keychain-environment
-  :defer t
-  :init (keychain-refresh-environment)
-  :config (map! :map help-map
-                "rk" #'keychain-refresh-environment))
+       :desc "Fuzzy find file in project" "t"  #'fzf-projectile))
 #+end_src
 
 ** Modeline
@@ -238,42 +323,12 @@ file locates in .emacs.d/modules directory to add the nyan-mode package, add
 =+nyan.el= for config file and add some code into the module. (I've done this
 in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
 
-** Themes
-Set your light and dark theme here
-
-#+begin_src emacs-lisp
-(setq light 'doom-acario-light)
-(setq dark 'doom-ayu-mirage)
-#+end_src
-
-Choose your mode
-
-#+begin_src emacs-lisp
-(setq doom-theme light             ; default in Light mode
-      doom-acario-light-brighter-modeline t)
-#+end_src
-
-Or automatic (if it's not desired just add ~:tangle no~ to disable tangling)
-
-#+begin_src emacs-lisp
-(defun synchronize-theme ()
-  (setq hour                          ; current hour
-        (string-to-number
-         (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 17)) ; if current hour is in daytime's period
-      (setq now light)                     ; now is light
-    (setq now dark))                     ; else now is dark
-  (unless (equal now doom-theme)           ; if doom-theme isn't equal to now
-    (setq doom-theme now)                ; set to now theme
-    (doom/reload-theme)))                ; and reload
-
-(run-with-timer 0 3600 'synchronize-theme) ; check for every hour
-#+end_src
 ** Treemacs
 Set theme and width
-#+begin_src emacs-lisp
-(setq! doom-themes-treemacs-theme 'doom-colors
-       treemacs-width 26)
+#+name: my-treemacs-settings
+#+begin_src emacs-lisp :tangle no
+treemacs-width             25
+doom-themes-treemacs-theme 'doom-colors
 #+end_src
 
 ** vterm
@@ -284,13 +339,63 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
     (kbd "C-j") 'vterm--self-insert
     (kbd "C-x") 'vterm--self-insert))
 #+end_src
+** Window & frame
+*** Window split behavior
+#+name: my-window-settings
+#+begin_src emacs-lisp
+window-combination-resize  t ; take new window space from all other windows
+#+end_src
+* Apps
+* Time & language
+#+begin_src emacs-lisp
+;;
+;;; Time & language
+#+end_src
+** Date & time
+#+begin_src emacs-lisp
+(display-time-mode 1)                   ; Enable time in the mode-line
+#+end_src
+** Typing :completion:preferences:
+*** Dabbrev
+Swap =M-/= and =C-M-/=
+#+begin_src emacs-lisp
+(use-package dabbrev
+  :bind (("M-/" . dabbrev-completion)   ; Swap M-/ and C-M-/
+         ("C-M-/" . dabbrev-expand)))
+#+end_src
 
-* Completion :completion:
-** Corfu
-*** Source_code
-+ corfu/
-  #+name: README.org
-  #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export :mkdirp yes
+* Accessibility
+#+begin_src emacs-lisp
+;;
+;;; Accessibility
+#+end_src
+** Visual effects
+#+name: visual-effects-settings
+#+begin_src emacs-lisp
+(setq scroll-margin 2)                  ; It's nice to maintain a little margin
+;;scroll-preserve-screen-position 'always ; Don't have `point' jump around
+#+end_src
+** Text cursor
+#+name: my-cursor-settings
+#+begin_src emacs-lisp
+(setq-default x-stretch-cursor t)       ; Stretch cursor to the glyph width
+#+end_src
+* Privacy & security
+#+begin_src emacs-lisp
+;;
+;;; Security
+
+(setq password-cache-expiry nil)        ; I can trust my computers … can't I?
+#+end_src
+* Modules
+#+begin_src emacs-lisp
+;;
+;;; Modules
+#+end_src
+** Completion :completion:
+*** Corfu
+**** README.org
+#+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export :mkdirp yes
 ,#+TITLE:   completion/corfu
 ,#+DATE:    December 6, 2021
 ,#+SINCE:   v3.0.0-alpha
@@ -388,7 +493,7 @@ different from the familiar prefix TAB completion. Corfu can be used with the
 default completion styles, the use of Orderless is not a necessity. See also
 the [[https://github.com/minad/corfu/wiki][Corfu Wiki]] for additional configuration tips. In particular the Lsp-mode
 configuration is documented in the Wiki.
-    @minad (Author of Cape, Corfu, Vertico)
+@minad (Author of Cape, Corfu, Vertico)
 ,#+end_quote
 Here is an example configuration:
 
@@ -471,9 +576,9 @@ If Corfu is not triggering completion with ~corfu-auto~ it can be the case that 
 ,#+begin_src emacs-lisp
 (add-to-list 'corfu-auto-commands 'some-special-insert-command)
 ,#+end_src
-#+end_src
-  #+name: autoload.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el
+  #+end_src
+**** autoload.el
+#+begin_src emacs-lisp :tangle modules/completion/corfu/autoload.el
 ;;; completion/company/autoload.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
@@ -532,8 +637,8 @@ If INTERACTIVE is nil the function acts like a capf."
       (cape--interactive #'+cape/yasnippet)
     (funcall (cape-company-to-capf #'company-yasnippet))))
   #+end_src
-  #+name: config.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el :noweb no-export
+**** config.el
+#+begin_src emacs-lisp :tangle modules/completion/corfu/config.el :noweb no-export
 ;;; completion/corfu/config.el -*- lexical-binding: t; -*-
 
 ;; Reset lsp-completion provider and optionally configure the cape-capf-buster.
@@ -565,14 +670,14 @@ If INTERACTIVE is nil the function acts like a capf."
          ([backtab]                      . corfu-previous)
          ([remap move-beginning-of-line] . corfu-beginning-of-prompt)
          ([remap move-end-of-line]       . corfu-end-of-prompt)
-         ("M-m"                          . corfu-move-to-minibuffer))
-  :custom
-  (corfu-cycle t)              ; Enable cycling for `corfu-next/previous'
-  (corfu-auto  t)              ; Enable auto completion
-  (corfu-quit-no-match t)      ; Automatically quit if there is no match
-  (corfu-preselect-first nil)  ; Disable candidate preselection
-
+         ("M-m"                          . corfu-move-to-minibuffer)
+         ([return]                       . corfu-insert))
   :init
+  (setq corfu-cycle t              ; Enable cycling for `corfu-next/previous'
+        corfu-auto  t              ; Enable auto completion
+        corfu-quit-no-match t      ; Automatically quit if there is no match
+        corfu-preselect-first nil) ; Disable candidate preselection
+
   <<additional-move-cmds>>
 
   <<to-minibuffer>>
@@ -584,7 +689,9 @@ If INTERACTIVE is nil the function acts like a capf."
     (advice-add #'corfu--teardown :after #'evil-normalize-keymaps)
     (evil-make-intercept-map corfu-map)
     ;; Don't persist corfu popups when switching back to normal mode.
-    (add-hook! 'evil-normal-state-entry-hook (when corfu--candidates (corfu-quit)))
+    (add-hook! 'evil-normal-state-entry-hook
+      (when corfu--candidates (corfu-quit)))
+
     (map! (:map corfu-map
            "C-n"    #'corfu-next
            "C-p"    #'corfu-previous
@@ -594,8 +701,10 @@ If INTERACTIVE is nil the function acts like a capf."
            "C-u"    #'corfu-scroll-down
            "C-d"    #'corfu-scroll-up
            "C-v"    #'corfu-scroll-up
-           "C-S-s"  #'corfu-move-to-minibuffer
-           [return] #'corfu-insert)))
+           "C-s"    #'corfu-move-to-minibuffer
+           "C-`"    #'corfu-move-to-minibuffer
+           "C-x j"  #'corfu-move-to-minibuffer
+           "C-S-s"  #'completion-at-point)))
 
   <<auto-commit.el>>)
 
@@ -647,9 +756,9 @@ If INTERACTIVE is nil the function acts like a capf."
 (when (equal tab-always-indent 'complete)
   (map! :map c-mode-base-map
         :i [remap c-indent-line-or-region] #'completion-at-point))
-#+end_src
-  #+name: packages.el
-  #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
+  #+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
 ;; -*- no-byte-compile: t; -*-
 ;;; completion/corfu/packages.el
 
@@ -659,11 +768,12 @@ If INTERACTIVE is nil the function acts like a capf."
 (package! kind-icon)
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
 (unless (featurep! :completion company) (package! company))
-  #+end_src
+#+end_src
 
-*** Set bindings (evil)
+**** Set bindings (evil)
 
 #+begin_src emacs-lisp
+;;; :completion corfu
 ;; evil Omni-completion, Bind dedicated completion commands
 (map! :when (and (featurep! :editor evil)
                  (featurep! :completion corfu))
@@ -687,7 +797,7 @@ If INTERACTIVE is nil the function acts like a capf."
       :i "C-r"  #'cape-rfc1345)
 #+end_src
 
-*** Additional movement commands
+**** Additional movement commands
 #+name: additional-move-cmds
 #+begin_src emacs-lisp :tangle no
 (defun corfu-beginning-of-prompt ()
@@ -703,7 +813,7 @@ If INTERACTIVE is nil the function acts like a capf."
   (goto-char (cadr completion-in-region--data)))
 #+end_src
 
-*** Transfer to the minibuffer
+**** Transfer to the minibuffer
 #+name: to-minibuffer
 #+begin_src emacs-lisp :tangle no
 (defun corfu-move-to-minibuffer ()
@@ -713,7 +823,7 @@ If INTERACTIVE is nil the function acts like a capf."
     (apply #'consult-completion-in-region completion-in-region--data)))
 #+end_src
 
-*** Auto-commit
+**** Auto-commit
 #+name: auto-commit
 #+begin_src org :tangle no
 Corfu allows you to specify a ~corfu-commit-predicate~, which you can use to
@@ -750,16 +860,17 @@ presses
 (setq corfu-commit-predicate #'my/corfu-commit-predicate)
 #+end_src
 
-** Tabnine
+*** Tabnine
 + [[https://github.com/tommyX12/company-tabnine][company-tabnine]] (=+tabnine=)
 
-*** With Company
+**** With Company
 This configuration come as a flag but it isn't bundled with company module.
 I put the flag for my convenient to enable/disable package.
 
 Install package in =packages.el=. Enable by add flag to =:completion company=
-**** Configuration code
+***** Configuration code
 #+begin_src emacs-lisp
+;;; :completion company +tabnine
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
   (after! company
@@ -769,10 +880,10 @@ Install package in =packages.el=. Enable by add flag to =:completion company=
    (setq company-idle-delay 0)))
 #+end_src
 
-*** With Corfu
+**** With Corfu
 This configuration come as a flag and is bundled with corfu module.
 Enable by add =+tabnine= flag to =:completion corfu=
-**** Tabnine part in Doom's Corfu module source code
+***** Tabnine part in Doom's Corfu module source code
 + tabnine/
   #+name: company-tabnine
   #+begin_src org :tangle no
@@ -791,29 +902,22 @@ Enable by add =+tabnine= flag to =:completion corfu=
     :recipe (:host github :repo "tommyX12/company-tabnine")))
   #+end_src
 
-* UI
-** Deft
-*** Configuration
-To use deft, you first need to specify the directory in which your notes are stored:
+** UI :ui:
+*** Deft
+**** Configuration
+Specify the directory in which your notes are stored:
 
 #+begin_src emacs-lisp
 ;; deft
 (setq deft-directory "~/notes")
 #+end_src
 
-The default note format is org-mode. You can change this by setting the value of
-the variable ~deft-default-extension~. Replacing the value with ~"md"~, for example,
-will change the default note format to Markdown:
-
 #+begin_src emacs-lisp :tangle no
 (setq deft-default-extension "md")
 #+end_src
 
-You may also want to alter the way titles and file names are automatically created by editing ~deft-use-filename-as-title~ and/or ~deft-use-filter-string-for-filename~.
-
-Further customization options can be found here: https://github.com/jrblevin/deft#other-customizations
-** Tab-Workspaces (work in progress)
-*** Source_code
+*** Tab-Workspaces (work in progress) :ui:tab_workspaces:
+**** Source_code
 + tab-workspaces/
   #+name: README.org
   #+begin_src org :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
@@ -1471,7 +1575,7 @@ success, nil otherwise."
 (package! bufler)
 (package! burly)
   #+end_src
-** Window Navigation
+*** Window Navigation :ui:hydra:
 When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/text-zoom/body~ to control text/window with single key commands.
 
 #+begin_src emacs-lisp
@@ -1485,9 +1589,93 @@ When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and ~+hydra/t
         "z"      #'+hydra/text-zoom/body))
 #+end_src
 
-* Editor
-** Format
-*** Disabling the LSP formatter
+*** modus :faces:theme:accessibility:
+**** config.el
+#+begin_src emacs-lisp :tangle modules/ui/modus/config.el :mkdirp yes
+;;; ui/modus/config.el -*- lexical-binding: t; -*-
+
+(use-package! modus-themes
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-mixed-fonts nil
+        modus-themes-subtle-line-numbers nil
+        modus-themes-intense-markup t
+        modus-themes-deuteranopia t
+        modus-themes-tabs-accented t
+        modus-themes-variable-pitch-ui nil
+        modus-themes-inhibit-reload t
+        modus-themes-fringes nil ; {nil,'subtle,'intense}
+        modus-themes-lang-checkers nil
+        modus-themes-mode-line '(4 accented borderless)
+        modus-themes-syntax nil
+        modus-themes-hl-line '(underline accented)
+        modus-themes-paren-match '(bold intense)
+        modus-themes-links '(neutral-underline background)
+        modus-themes-prompts '(intense bold)
+        modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
+        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
+        modus-themes-region '(bg-only no-extend)
+        modus-themes-diffs 'desaturated ; {nil,'desaturated,'bg-only}
+        modus-themes-org-blocks 'gray-background ; or {nil,'tinted-background}
+        modus-themes-org-agenda
+        '((header-block . (variable-pitch 1.3))
+          (header-date . (grayscale workaholic bold-today 1.1))
+          (event . (accented varied))
+          (scheduled . uniform)
+          (habit . traffic-light))
+        modus-themes-headings
+        '((1 . (overline background variable-pitch 1.3))
+          (2 . (rainbow overline 1.1))
+          (t . (semibold)))
+        doom-theme 'modus-operandi)
+  :bind ("<f5>" . modus-themes-toggle))
+#+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/ui/modus/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; ui/modus/packages.el
+
+(package! modus-themes :built-in 'prefer)
+#+end_src
+** Editor :editor:
+*** Evil :editor:evil:
+#+name: evil-settings
+#+begin_src emacs-lisp
+;;; :editor evil
+(setq evil-want-fine-undo t)            ; By default while in insert all changes
+                                        ; are one big blob. Be more granular
+#+end_src
+**** Change evil surround pairs alist :evil:evil_surround:behavior:
+
+When changing surrounding pairs like from [hello-world] to (hello-world), using
+a keyboard shortcut like =cs[(=, it makes more sense to assume it's formatted
+correctly. Instead it will add a space after the substitute.
+
+However This is not the case for programming modes which can auto balance space
+between pairs. Thus makes you need some extra work to get rid a space with a
+little effort *except* _for Org-Mode source block_.
+
+#+begin_src emacs-lisp
+(add-hook! 'evil-org-mode-hook
+  (setq-local evil-surround-pairs-alist
+         '((40 "(" . ")")
+           (91 "[" . "]")
+           (123 "{" . "}")
+           (41 "(" . ")")
+           (93 "[" . "]")
+           (125 "{" . "}")
+           (35 "#{" . "}")
+           (98 "(" . ")")
+           (66 "{" . "}")
+           (62 "<" . ">")
+           (116 . evil-surround-read-tag)
+           (60 . evil-surround-read-tag)
+           (102 . evil-surround-function))))
+#+end_src
+
+*** Format
+**** Disabling the LSP formatter
 According to [[file:~/.emacs.d/modules/editor/format/README.org::*Disabling the LSP formatter][Disabling the LSP formatter]]
 #+begin_quote
     If you are in a buffer with ~lsp-mode~ enabled and a server that
@@ -1504,20 +1692,20 @@ To disable this behavior on ts and js modes in favor of prettier:
               typescript-tsx-mode) +format-with-lsp nil)
 #+end_src
 
-* Tools
-** Arrayify
+** Tools :tools:
+*** Arrayify
 #+begin_src emacs-lisp
 (use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
 #+end_src
-** Brief :tools:
-*** Description
+*** Brief :tools:
+**** Description
 Module for brief help
-**** Plugins
+***** Plugins
 + [[https://github.com/davep/cheat-sh.el][cheat-sh]]
 + [[https://github.com/thanhvg/emacs-howdoyou][howdoyou]]
 + [[https://github.com/kuanyui/tldr.el][tldr]]
 
-*** Source Code
+**** Source Code
 + brief/
   #+name: config.el
   #+begin_src emacs-lisp :tangle modules/tools/brief/config.el :mkdirp yes
@@ -1543,20 +1731,20 @@ Module for brief help
   #+end_src
   #+name: packages.el
   [[file:packages.org::tools/brief][tools/brief]]
-** fixmee :navigation:convenience:
+*** fixmee :navigation:convenience:
 #+begin_src emacs-lisp
 (require 'button-lock)
 (global-fixmee-mode 1)
 #+end_src
 
-** fzf :tools:
-*** Description
+*** fzf :tools:
+**** Description
 Command-line fuzzy finder written in Go
 
-**** Plugins
+***** Plugins
 + [[https://github.com/bling/fzf.el][fzf]]
 
-*** Source Code
+**** Source Code
 + fzf/
   #+name: config.el
   #+begin_src emacs-lisp :tangle modules/tools/fzf/config.el :mkdirp yes
@@ -1595,7 +1783,7 @@ Command-line fuzzy finder written in Go
 
   (package! fzf)
   #+end_src
-** Tree-sitter
+*** Tree-sitter
 + tree-sitter/
   #+name: README.org
   #+begin_src org :tangle modules/tools/tree-sitter/README.org :mkdirp yes
@@ -1683,119 +1871,22 @@ want to remap some of them you can either customize the
 (package! tree-sitter)
 (package! tree-sitter-langs)
   #+end_src
-** LSP
-*** Troubleshooting
-[[https://github.com/hlissner/doom-emacs/issues/5904][#5904 lsp-mode throws error void-function lsp--matching-clients?]]
-#+begin_quote
-I will close this since it isn't a bug, but I will bump the module (and remove the advice) soon anyway. In the meantime, you can use this as a workaround:
-    @hlissner
-#+end_quote
-#+begin_src emacs-lisp
-(after! lsp-mode
-  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
-#+end_src
-
-* Org-Mode
-** Configuration
-
-Put any basic configuration here
-
-#+begin_src emacs-lisp
-(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav")
-#+end_src
-
-** Org Capture from Web browser
-
-To let this configuration works, =Org Capture= browser's extension and
-=org-protocol= handler is required.
-
-If you're a WSL user, you can run the one that matches how your emacs launches:
-#+begin_src sh :tangle no
-powershell.exe ./org-protocol.reg
-#+end_src
-#+begin_src sh :tangle no
-powershell.exe ./org-protocol-omz-emacs-plugin.reg
-#+end_src
-
-#+begin_src conf :tangle org-protocol.reg :tangle-mode (identity #o777)
-REGEDIT4
-
-[HKEY_CLASSES_ROOT\org-protocol]
-@="URL:Org Protocol"
-"URL Protocol"=""
-[HKEY_CLASSES_ROOT\org-protocol\shell]
-[HKEY_CLASSES_ROOT\org-protocol\shell\open]
-[HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
-@="\"C:\\Windows\\System32\\wsl.exe\" emacsclient \"%1\""
-#+end_src
-#+begin_src conf :tangle org-protocol-omz-emacs-plugin.reg :tangle-mode (identity #o777)
-REGEDIT4
-
-[HKEY_CLASSES_ROOT\org-protocol]
-@="URL:Org Protocol"
-"URL Protocol"=""
-[HKEY_CLASSES_ROOT\org-protocol\shell]
-[HKEY_CLASSES_ROOT\org-protocol\shell\open]
-[HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
-@="\"C:\\Windows\\System32\\wsl.exe\" zsh -l ~/.oh-my-zsh/plugins/emacs/emacsclient.sh --no-wait \"%1\""
-#+end_src
-
-Then set keys for =Selected Template= and =Unselected Template= in extension
-options to P&L to match with org-capture-templates for =org-protocol= set below.
-
-#+name: Capture templates
-#+begin_src emacs-lisp
-(defun transform-square-brackets-to-round-ones(string-to-transform)
-  "Transforms [ into ( and ] into ), other chars left unchanged."
-  (concat
-   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
-           string-to-transform)))
-
-(require 'org-protocol)
-(setq org-capture-templates
-  (append org-capture-templates
-    `(("P" "Protocol" entry
-       (file+headline +org-capture-notes-file "Inbox")
-       "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-      ("L" "Protocol Link" entry
-       (file+headline +org-capture-notes-file "Inbox")
-       "* %? [[%:link][%(transform-square-brackets-to-round-ones
-                        \"%:description\")]] \nCaptured On: %U")
-      ("l" "Web site" entry
-       (file+headline (lambda () (concat org-directory "/webnotes.org")) "Inbox")
-       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-      ("m" "meetup" entry (file "~/org/caldav.org")
-       "* %?%:description \n%i\n%l")
-      ("w" "Web site" entry
-       (file+olp "~/org/inbox.org" "Web")
-       "* %c :website:\n%U %?%:initial"))))
-#+end_src
-#+name: Org-roam roam-ref templates
-#+begin_src emacs-lisp
-(setq  org-roam-capture-ref-templates
-       '(("l" "Web site" plain (function org-roam-capture--get-point)
-          "${body}\n%?"
-          :file-name "%<%Y%m%d>-${slug}"
-          :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
-          :unnarrowed t)))
-#+end_src
-
-* Programming Language
+** Programming Language :lang:
 This section adds packages and configuration on top of Doom Lang modules
 
-** Clojure
+*** Clojure
 turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 #+begin_src emacs-lisp
 (when (featurep! :lang clojure)
    (add-hook 'clojure-mode-hook 'paredit-mode))
 #+end_src
 
-** JavaScript
-*** Description
+*** JavaScript
+**** Description
 My Doom Emacs private JavaScript module with Add-on plugins.
 This was made by doing relative symbolic links to Doom built-in JavaScript Module except for packages.el.
 
-**** Plugins
+***** Plugins
 #+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el :mkdirp yes
 ;; -*- no-byte-compile: t; -*-
 ;;; lang/javascript/packages.el
@@ -1839,19 +1930,19 @@ This was made by doing relative symbolic links to Doom built-in JavaScript Modul
   (package! xref-js2 :built-in 'prefer))
 #+end_src
 
-**** Appendix
+***** Appendix
 | symbolic    | description   |
 |-------------+---------------|
 | =PACKAGE=   | Doom original |
 | =+ PACKAGE= | Add-on plugin |
 
-*** New features
+**** New features
 + automatically import dependencies in your JavaScript project.
 + Minor mode for working with pnpm projects
 + Minor mode for working with yarn projects
 
-*** Prerequisites for
-**** This module
+**** Prerequisites for
+***** This module
 You must open this doc in Emacs and run this code block by press enter:
 (this works only if your Emacs and Doom configs path are defaults)
 #+begin_src sh :tangle no
@@ -1860,7 +1951,7 @@ ln -s ../../../../.emacs.d/modules/lang/javascript/autoload.el modules/lang/java
 ln -s ../../../../.emacs.d/modules/lang/javascript/config.el modules/lang/javascript/config.el
 ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javascript/doctor.el
 #+end_src
-**** Running ImportJS in Emacs
+***** Running ImportJS in Emacs
 1. Install the importjs binary:
    #+begin_src sh :dir /sudo:: :tangle no
    sudo npm install import-js -g
@@ -1872,7 +1963,7 @@ ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javasc
     brew update && brew install watchman
     #+end_src
 
-*** Configuration
+**** Configuration
 These configs live inside the =+config.el= file and some are located in
 =autoload/*.el= files.
 
@@ -1885,7 +1976,7 @@ relative to the file it's used from which is =init.el= in our case.
 ;; if it is available:
 (load! "+config")
 #+END_SRC
-**** import-js
+***** import-js
 1. Run the import-js daemon
    * =M-x=  ~run-import-js~
    * The daemon will use watchman if installed to improve performance
@@ -1987,7 +2078,7 @@ relative to the file it's used from which is =init.el= in our case.
                 nil 'local)))
 #+end_src
 
-**** pnpm-mode
+***** pnpm-mode
 #+begin_src emacs-lisp :tangle modules/lang/javascript/+config.el
 ;;;###package pnpm-mode
 (use-package! pnpm-mode
@@ -1999,16 +2090,16 @@ relative to the file it's used from which is =init.el= in our case.
    (add-hook 'pnpm-mode-hook
       (defun turn-off-npm-mode () (npm-mode -1))))
 #+end_src
-***** Project Activation
+****** Project Activation
 By adding =.dir-locals.el= file on the root directory of a project containing:
 #+begin_src emacs-lisp :tangle no
 ((nil . ((mode . pnpm))))
 #+end_src
-****** For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
+******* For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
 Captured On: [2021-10-21 Thu 15:08]
 
-**** yarn
-***** keyboard bindings
+***** yarn
+****** keyboard bindings
 
 This package doesn't provide keyboard bindings, so, I have to add them to my own module scripts.
 
@@ -2106,16 +2197,16 @@ Optional argument COMINT ."
    (add-hook 'yarn-mode-hook #'turn-off-npm-mode))
 #+end_src
 
-***** Project Activation
+****** Project Activation
 By adding =.dir-locals.el= file on the root directory of a project containing:
 #+begin_src emacs-lisp :tangle no
 ((nil . ((mode . yarn))))
 #+end_src
-****** For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
+******* For more detail: [[https://github.com/rajasegar/pnpm-mode#project-activation][rajasegar/pnpm-mode: An Emacs minor mode for working with NPM projects.]]
 Captured On: [2021-10-21 Thu 15:08]
 
-*** Troubleshooting
-**** TODO import-js-daemon not running
+**** Troubleshooting
+***** TODO import-js-daemon not running
 After you M-x ~run-import-js~ command if there is an error about void symbol definition.
 This likely your import-js npm installation is not succeed. You can test by running:
 #+begin_src sh :tangle no
@@ -2129,8 +2220,8 @@ If not it will throw an error, the one I got is about it cannot find node_sqlite
 This case is come from =node-pre-gyp= cannot find the a pre-compiled binary in the first place.
 Then it uses `node-gyp` to build the extension but it failed without messages you anything.
 
-** Web
-*** Tailwind LSP :tools:css:lsp:
+*** Web
+**** Tailwind LSP :tools:css:lsp:
 #+begin_comment
     This sub-tree was taken from Jay Zawrotny's Doom Configures
     [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
@@ -2159,9 +2250,93 @@ lsp-tailwindcss runs when editing .liquid files for example.
 #+end_src
 
 Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
+*** Org-Mode :lang:org:
+**** Configuration
 
+Put any basic configuration here
 
-* Email & Accounts
+#+begin_src emacs-lisp
+(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
+      org-support-shift-select t)
+#+end_src
+
+**** Org Capture from Web browser
+
+To let this configuration works, =Org Capture= browser's extension and
+=org-protocol= handler is required.
+
+If you're a WSL user, you can run the one that matches how your emacs launches:
+#+begin_src sh :tangle no
+powershell.exe ./org-protocol.reg
+#+end_src
+#+begin_src sh :tangle no
+powershell.exe ./org-protocol-omz-emacs-plugin.reg
+#+end_src
+
+#+begin_src conf :tangle org-protocol.reg :tangle-mode (identity #o777)
+REGEDIT4
+
+[HKEY_CLASSES_ROOT\org-protocol]
+@="URL:Org Protocol"
+"URL Protocol"=""
+[HKEY_CLASSES_ROOT\org-protocol\shell]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
+@="\"C:\\Windows\\System32\\wsl.exe\" emacsclient \"%1\""
+#+end_src
+#+begin_src conf :tangle org-protocol-omz-emacs-plugin.reg :tangle-mode (identity #o777)
+REGEDIT4
+
+[HKEY_CLASSES_ROOT\org-protocol]
+@="URL:Org Protocol"
+"URL Protocol"=""
+[HKEY_CLASSES_ROOT\org-protocol\shell]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open]
+[HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
+@="\"C:\\Windows\\System32\\wsl.exe\" zsh -l ~/.oh-my-zsh/plugins/emacs/emacsclient.sh --no-wait \"%1\""
+#+end_src
+
+Then set keys for =Selected Template= and =Unselected Template= in extension
+options to P&L to match with org-capture-templates for =org-protocol= set below.
+
+#+name: Capture templates
+#+begin_src emacs-lisp
+(defun transform-square-brackets-to-round-ones(string-to-transform)
+  "Transforms [ into ( and ] into ), other chars left unchanged."
+  (concat
+   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
+           string-to-transform)))
+
+(require 'org-protocol)
+(setq org-capture-templates
+  (append org-capture-templates
+    `(("P" "Protocol" entry
+       (file+headline +org-capture-notes-file "Inbox")
+       "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+      ("L" "Protocol Link" entry
+       (file+headline +org-capture-notes-file "Inbox")
+       "* %? [[%:link][%(transform-square-brackets-to-round-ones
+                        \"%:description\")]] \nCaptured On: %U")
+      ("l" "Web site" entry
+       (file+headline (lambda () (concat org-directory "/webnotes.org")) "Inbox")
+       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+      ("m" "meetup" entry (file "~/org/caldav.org")
+       "* %?%:description \n%i\n%l")
+      ("w" "Web site" entry
+       (file+olp "~/org/inbox.org" "Web")
+       "* %c :website:\n%U %?%:initial"))))
+#+end_src
+#+name: Org-roam roam-ref templates
+#+begin_src emacs-lisp
+(setq  org-roam-capture-ref-templates
+       '(("l" "Web site" plain (function org-roam-capture--get-point)
+          "${body}\n%?"
+          :file-name "%<%Y%m%d>-${slug}"
+          :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+          :unnarrowed t)))
+#+end_src
+
+** Email & Accounts :email: :email:mu4e:
 
 This is my personal configuration. I have multiple email addresses set like these
 
@@ -2222,7 +2397,7 @@ Change context behavior when opening mu4e and composing email with:
       mu4e-compose-context-policy 'always-ask)
 #+end_src
 
-** How to use contexts
+*** How to use contexts
 
 Examples:
 
@@ -2255,9 +2430,9 @@ You can create bookmarks to show merged views of folders across accounts:
 
 This is your e-mail client to build!
 
-* App
-** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
-*** Installation
+** Apps :app:
+*** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
+**** Installation
 telega depends on the visual-fill-column and rainbow-identifiers packages.
 This dependency automatically installs if you install telega from MELPA or
 GNU Guix. Otherwise, you will need to install these packages by hand.
@@ -2269,23 +2444,25 @@ which case you will have to install it manually by following the instructions.
 GNU Guix, however, does have both telega and TDLib packaged.
 If you use GNU Guix you can skip directly to Installing from GNU Guix.
 
-**** Dependencies
+***** Dependencies
 Look for all dependencies at [[https://zevlg.github.io/telega.el/][Telega Manual (v0.7.018)]]
-***** GNU gperf (for building TDLib)
-****** Guix users
+****** GNU gperf (for building TDLib)
+******* Guix users
 #+begin_src sh :tangle no
   guix install gperf
 #+end_src
 
-**** Building TDLib
+***** Building TDLib
 
 TDLib is the library for building Telegram clients. It requires a large amount of memory to be built.
 Make sure you are using TDLib version greater or equal to 1.7.0.
 
-On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh. Just run:
+On MacOS you can install a pre-built TDLib package using Homebrew from brew.sh.
+Just run:
 
-$ brew install tdlib
-
+#+begin_src sh :tangle no
+brew install tdlib
+#+end_src
 On Linux, you will need to build TDLib from source.
 
 To get the source:
@@ -2308,8 +2485,8 @@ Build the sources:
   cd ./td/build && make -jN # Change N first, read a description below.
 #+end_src
 
-With N number of cores that should be used for the compilation (the optimal value is the number of
-physical cores on the machine).
+With N number of cores that should be used for the compilation
+(the optimal value is the number of physical cores on the machine).
 
 Finally, to install the library system-wide:
 
@@ -2317,8 +2494,8 @@ Finally, to install the library system-wide:
 cd ./td/build && sudo make install
 #+end_src
 
-It will install headers to /usr/local/include and library itself into /usr/local/lib. If you have TDLib installed
-in other location, don't forget to modify telega-server-libs-prefix before starting telega.
+It will install headers to =/usr/local/include= and library itself into =/usr/local/lib=.
+If you have TDLib installed in other location, don't forget to modify ~telega-server-libs-prefix~ before starting telega.
 #+begin_src emacs-lisp :tangle no
 ;; I'm a Guix user.
 (use-package telega-server
@@ -2327,11 +2504,11 @@ in other location, don't forget to modify telega-server-libs-prefix before start
   :config
   (setq! telega-server-libs-prefix "~/.guix-profile"))
 #+end_src
-**** Installing telega from MELPA
+***** Installing telega from MELPA
 
 + ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
 
-#+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
+ #+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
 ;; -*- no-byte-compile: t; -*-
 ;;; app/telega/packages.el
 
@@ -2339,17 +2516,17 @@ in other location, don't forget to modify telega-server-libs-prefix before start
 #+end_src
 
 - ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
-  #+begin_src sh :tangle no
-    rm -r modules/app/telega
-  #+end_src
+ #+begin_src sh :tangle no
+rm -r modules/app/telega
+#+end_src
 
-** Edit-Server - server that responds to edit requests from Chrome
-*** Installation
-**** Dependencies
-***** Edit with Emacs Chrome/Firefox extension
+*** Edit-Server - server that responds to edit requests from Chrome
+**** Installation
+***** Dependencies
+****** Edit with Emacs Chrome/Firefox extension
 [[https://github.com/stsquad/emacs_chrome][stsquad/emacs_chrome: A Chromium "clone" of It's All Text for spawni...]]
 
-**** Installing edit-server from MELPA
+***** Installing edit-server from MELPA
 
 + ~install~ as a doom :app module (You need to add =edit-server= at :app in =init.el=)
 
@@ -2365,7 +2542,7 @@ in other location, don't forget to modify telega-server-libs-prefix before start
     rm -r modules/app/edit-server
   #+end_src
 
-**** Configuration
+***** Configuration
 #+begin_src emacs-lisp :tangle modules/app/edit-server/config.el
 ;;; app/edit-server/config.el -*- lexical-binding: t; -*-
 
