@@ -141,7 +141,8 @@ If the hour is (both inclusive) in `light-theme-hours' then
        "rk"       #'keychain-refresh-environment
        "di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
        "do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
-       "dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir))))
+       "dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
+       :leader :prefix-map ("f" . "file") :desc "Find dotfile" "." #'find-dotfile)
       (:when (featurep! :term vterm)
        :map vterm-mode-map
        :i "C-j"   #'vterm--self-insert

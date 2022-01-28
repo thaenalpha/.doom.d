@@ -2918,6 +2918,7 @@ More keybinds for literate configs
 "di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
 "do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
 "dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
+:leader :prefix-map ("f" . "file") :desc "Find dotfile" "." #'find-dotfile
 #+end_src
 * Local Configures
 ** Directory Local Variables
