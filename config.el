@@ -19,40 +19,38 @@
 (unless (equal "Battery status not available" (battery)) ; on laptops…
   (display-battery-mode 1)) ; it's nice to know how much power you have
 
+(setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
+
 (setq-default delete-by-moving-to-trash t) ; Delete files to trash
 
-(setq byte-compile-warnings '(not cl-functions))
-
-(use-package keychain-environment
-  :defer t
-  :init (keychain-refresh-environment))
-
-(setq company-idle-delay nil)
+(add-hook! magit-mode #'keychain-refresh-environment)
 
 ;;
 ;;; UI
 
 (setq display-line-numbers-type  nil
-      +treemacs-git-mode         'deferred
-      doom-themes-treemacs-theme 'doom-colors
       doom-font                  (font-spec :family "JetBrains Mono"
                                             :size 12 :weight 'light)
-      doom-variable-pitch-font   (font-spec :family "Noto Serif"     :size 13)
+      doom-variable-pitch-font   (font-spec :family "DejaVu Sans" :size 13)
       vertico-posframe-font      (font-spec :family "JetBrains Mono" :size 15)
       doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
       doom-serif-font            doom-variable-pitch-font
       default-frame-alist        (append default-frame-alist
-                                         '((height . 48)
-                                           (width  . 160)
-                                           (inhibit-double-buffering . t))))
+                                         '((height . 50)
+                                           (width  . 162)
+                                           (inhibit-double-buffering . t)))
+      doom-acario-light-brighter-modeline t
+      doom-themes-treemacs-theme 'doom-colors
+      ;; treemacs-width             29
+      +treemacs-git-mode         'deferred)
 
 (let ((my-doom-color 'auto))
   (eval                           ; theme varies to the value of `my-doom-color'
    `(let ((auto       'auto)
           (default    'doom-one)
-          (light      'doom-one-light)
-          (dark       'doom-dracula)
-          (custom     'doom-vibrant))
+          (light      'doom-acario-light)
+          (dark       'doom-ayu-mirage)
+          (custom     'doom-dracula))
       (if (eq ,my-doom-color 'auto)
           (run-with-timer
            0 3600                       ; check for every hour
@@ -63,7 +61,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
              (let* ((hour (string-to-number
                            (substring (current-time-string) 11 13)))
                     (light-theme-begin 6)   ; Hour to turn on  `light' theme
-                    (light-theme-end   17)  ; Hour to turn off `light' theme
+                    (light-theme-end  17)   ; Hour to turn off `light' theme
                     (light-theme-hours (number-sequence
                                         light-theme-begin light-theme-end))
                     (now (if (member hour light-theme-hours) light dark)))
@@ -72,13 +70,24 @@ If the hour is (both inclusive) in `light-theme-hours' then
         ;; Specific color mode
         (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
 
-(use-package! info-colors
-  :hook (Info-selection . info-colors-fontify-node))
+;; Roll the mouse wheel to scrolls the display pixel-by-pixel.
+(when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
+  (pixel-scroll-precision-mode t))
 
 ;;
 ;;; keybinds
 
-(map! :n  "g+"    #'evil-numbers/inc-at-pt
+(map! :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
+      (:prefix ("C-c" . "mode-specific-map")
+       (:when (featurep! :tools eval)
+        :desc "Evaluate line/region"        "e" #'+eval/line-or-region
+        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace))
+
+      ;;
+      ;;; evil
+
+      :when (featurep! :editor evil)
+      :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
       :gi "C-="   #'er/expand-region
@@ -86,27 +95,8 @@ If the hour is (both inclusive) in `light-theme-hours' then
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
       :n  "C-SPC" #'just-one-space
-      ;; evil Omni-completion, Bind dedicated completion commands
-      (:when (and (featurep! :editor evil)
-                  (featurep! :completion corfu))
-       :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
-       :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point)
-       :prefix "C-x"
-       :i "C-p"   #'completion-at-point  ; capf
-       :i "C-l"   #'cape-line
-       :i "C-k"   #'+cape/dict-or-keywords
-       :i "C-a"   #'cape-abbrev
-       :i "s"     #'cape-ispell
-       (:unless (featurep! :completion company)
-        :i "C-s"  #'+cape/yasnippet)
-       :i "C-d"   #'cape-dabbrev
-       :i "d"     #'dabbrev-completion
-       :i "C-f"   #'cape-file
-       :i "C-'"   #'cape-symbol
-       :i "C-]"   #'complete-tag         ; etags
-       :i "C-\\"  #'cape-tex
-       :i "&"     #'cape-sgml
-       :i "C-r"   #'cape-rfc1345)
+
+      ;;; :ui doom-dashboard
       (:when (featurep! :ui doom-dashboard)
        (:map doom-leader-open-map
         "0"       #'+doom-dashboard/open)
@@ -131,32 +121,84 @@ If the hour is (both inclusive) in `light-theme-hours' then
        :ne "n"    #'+default/find-in-notes
        :ne "d"    #'+workspace/close-window-or-workspace
        :ne "x"    #'org-capture)
+
+      ;;; :ui hydra
       (:when (featurep! :ui hydra)
        :desc "Interactive menu" "<menu>" #'+hydra/window-nav/body
-       :leader     :desc "zoom"    "z"   #'+hydra/text-zoom/body
        :when (featurep! :completion vertico)
        [remap +hydra/window-nav/idomenu] #'consult-imenu)
-      (:when (featurep! :config default)
-       :map  help-map
-       "rk"       #'keychain-refresh-environment
-       "di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
-       "do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
-       "dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
-       :leader :prefix-map ("f" . "file") :desc "Find dotfile" "." #'find-dotfile)
+
+      (:when (featurep! :emacs dired +dirvish)
+       :map dired-mode-map
+       "zz"      #'dirvish-show-history
+       "M-c"     #'dirvish-ui-config
+       "M-m"     #'dirvish-toggle-fullscreen
+       "C-c C-f" #'fd-dired
+       [remap dired-do-copy]       #'dirvish-yank
+       [remap dired-do-redisplay]  #'dirvish-roam
+       [remap evil-backward-char]  #'dirvish-up-directory
+       [remap evil-forward-char]   #'dirvish-find-file
+       [remap evil-find-char]      #'dirvish-menu-file-info-cmds
+       [remap evil-ex-search-backward] #'dirvish-dispatch
+       [remap evil-switch-to-windows-last-buffer] #'dirvish-other-buffer)
+
       (:when (featurep! :term vterm)
        :map vterm-mode-map
        :i "C-j"   #'vterm--self-insert
        "C-c C-x"  #'vterm--self-insert)
-      :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
+
+      ;;; :completion corfu
+      (:when (featurep! :completion corfu)
+       :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
+       :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point))
+
+      ;;; C-x
       (:prefix "C-x"
+       ;; Omni-completion, Bind dedicated completion commands
+       (:when (featurep! :completion corfu)
+        :i "C-p"   #'completion-at-point  ; capf
+        :i "C-l"   #'cape-line
+        :i "C-k"   #'+cape/dict-or-keywords
+        :i "C-a"   #'cape-abbrev
+        :i "s"     #'cape-ispell
+        (:unless (featurep! :completion company)
+         :i "C-s"  #'+cape/yasnippet)
+        :i "C-d"   #'cape-dabbrev
+        :i "d"     #'dabbrev-completion
+        :i "C-f"   #'cape-file
+        :i "C-'"   #'cape-symbol
+        :i "C-]"   #'complete-tag         ; etags
+        :i "C-\\"  #'cape-tex
+        :i "&"     #'cape-sgml
+        :i "C-r"   #'cape-rfc1345)
        :when (featurep! :ui popup)
        :desc "Open this buffer in a popup" "j" #'+popup/buffer)
-      :map mode-specific-map            ; C-c
-      (:when (featurep! :tools eval)
-       :desc "Evaluate line/region"        "e" #'+eval/line-or-region
-       :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace)
-      (:when (featurep! :tools fzf)
-       :desc "Fuzzy find file in project"  "t" #'fzf-projectile))
+
+      ;;; :config default
+      (:when (featurep! :config default)
+       :map  help-map
+       "rk"  #'keychain-refresh-environment
+       
+       "di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
+       "do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
+       "dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
+
+       ;;; <leader>
+       (:when (featurep! :config default +bindings)
+        (:leader
+         ;; <leader> z --- zoom
+         (:when (featurep! :ui hydra)
+          :desc  "Text zoom menu"   "z"    #'+hydra/text-zoom/body)
+         ;; <leader> f --- file
+         (:prefix-map ("f" . "file") :desc "Find dotfile" "." #'find-dotfile)
+         ;; <leader> g --- git/version control
+         (:prefix-map ("g" . "git")
+          (:prefix ("l" . "list")
+           (:when (featurep! :tools gist)
+            :desc "List other user's gists" "u"   #'gist-list-user
+            :desc "List your starred gists" "M-s" #'gist-list-starred)))))))
+
+
 
 ;;
 ;;; Time & language
@@ -170,6 +212,10 @@ If the hour is (both inclusive) in `light-theme-hours' then
 ;;
 ;;; Accessibility
 
+;; Nice scrolling
+(setq scroll-conservatively 100000
+      scroll-preserve-screen-position 1) ; Don't have `point' jump around
+
 (setq-default x-stretch-cursor t)       ; Stretch cursor to the glyph width
 
 ;;
@@ -180,27 +226,110 @@ If the hour is (both inclusive) in `light-theme-hours' then
 ;;
 ;;; Modules
 
+;;; :app mastodon
+(after! mastodon
+ (setq mastodon-instance-url "https://mstdn.io"))
+
+;;; :app reddit
+(after! md4rd
+  (let ((reddit-auth (lambda (type)
+                       (funcall
+                        (plist-get (car (auth-source-search :user type))
+                                   :secret)))))
+    (setq md4rd-subs-active
+          '(
+            emacs+doomemacs+orgmode lisp+Common_Lisp+prolog+clojure javascript
+            linux firefox ProgrammerHumor programming+learnprogramming webdev
+            guix bashonubuntuonwindows hackernews graphql cscareerquestions)
+          md4rd--oauth-access-token (funcall
+                                     reddit-auth "me^access-token")
+          md4rd--oauth-refresh-token (funcall
+                                      reddit-auth "me^refresh-token")))
+  (run-with-timer 0 3540 #'md4rd-refresh-login))
+
 ;;; :completion company +tabnine
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
   (after! company
-    (setq +lsp-company-backends
-          '(company-tabnine :separate company-capf company-yasnippet))
-    (setq company-show-numbers t)
-    (setq company-idle-delay 0)))
+    (setq company-idle-delay nil
+          +lsp-company-backends
+          '(company-tabnine :separate company-capf company-yasnippet)
+          company-show-numbers t
+          company-idle-delay 0)))
 
-;;; :completion vertico
+;;; :completion vertico +childframe
 (when (featurep! :completion vertico +childframe)
   (require 'vertico-posframe)
   (vertico-posframe-mode 1)
   (setq vertico-posframe-border-width 10
-        vertico-posframe-parameters
-        '((min-width . 90)
-          (left-fringe  . 8)
-          (right-fringe . 8))))
+        vertico-posframe-parameters '((left-fringe  . 8) (right-fringe . 8)
+                                      (min-width . 90))
+        vertico-posframe-poshandler #'posframe-poshandler-frame-top-center))
+
+;;; :config literate
+(defvar +literate-tangle--proc nil)
+(defvar +literate-tangle--proc-start-time nil)
+
+(defadvice! +literate-tangle-async-h ()
+  "A very simplified version of `+literate-tangle-h', but async."
+  :override #'+literate-tangle-h
+  (unless (getenv "__NOTANGLE")
+    (let ((default-directory doom-private-dir))
+      (when +literate-tangle--proc
+        (message "Killing outdated tangle process...")
+        (set-process-sentinel +literate-tangle--proc #'ignore)
+        (kill-process +literate-tangle--proc)
+        (sit-for 0.3)) ; ensure the message is seen for a bit
+      (setq +literate-tangle--proc-start-time (float-time)
+            +literate-tangle--proc
+            (start-process "tangle-config"
+                           (get-buffer-create " *tangle config*")
+                           "emacs" "--batch" "--eval"
+                           (format "(progn \
+(require 'ox) \
+(require 'ob-tangle) \
+(setq org-confirm-babel-evaluate nil \
+      org-inhibit-startup t \
+      org-mode-hook nil \
+      write-file-functions nil \
+      before-save-hook nil \
+      after-save-hook nil \
+      vc-handled-backends nil \
+      org-startup-folded nil \
+      org-startup-indented nil) \
+(org-babel-tangle-file \"%s\" \"%s\"))"
+                                   +literate-config-file
+                                   (expand-file-name (concat doom-module-config-file ".el")))))
+      (set-process-sentinel +literate-tangle--proc #'+literate-tangle--sentinel)
+      (run-at-time nil nil (lambda () (message "Tangling config.org"))) ; ensure shown after a save message
+      "Tangling config.org...")))
+
+(defun +literate-tangle--sentinel (process signal)
+  (cond
+   ((and (eq 'exit (process-status process))
+         (= 0 (process-exit-status process)))
+    (message "Tangled config.org sucessfully (took %.1fs)"
+             (- (float-time) +literate-tangle--proc-start-time))
+    (setq +literate-tangle--proc nil))
+   ((memq (process-status process) (list 'exit 'signal))
+    (pop-to-buffer (get-buffer " *tangle config*"))
+    (message "Failed to tangle config.org (after %.1fs)"
+             (- (float-time) +literate-tangle--proc-start-time))
+    (setq +literate-tangle--proc nil))))
+
+(defun +literate-tangle-check-finished ()
+  (when (and (process-live-p +literate-tangle--proc)
+             (yes-or-no-p "Config is currently retangling, would you please wait a few seconds?"))
+    (switch-to-buffer " *tangle config*")
+    (signal 'quit nil)))
+(add-hook! 'kill-emacs-hook #'+literate-tangle-check-finished)
 
 ;;; ui: deft
 (setq deft-directory "~/notes")
+
+;;; :ui modeline
+;; An evil mode indicator is redundant with cursor shape - @hlissner
+(advice-add #'doom-modeline-segment--modals :override #'ignore)
 
 ;;; :editor evil
 ;; Focus new window after splitting
@@ -232,66 +361,17 @@ If the hour is (both inclusive) in `light-theme-hours' then
               typescript-mode
               typescript-tsx-mode) +format-with-lsp nil)
 
-(use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
-
-;;; :tools magit
-(setq magit-inhibit-save-previous-winconf t ; Don't restore wconf after quit magit
-      forge-database-connector (when EMACS29+ 'sqlite-builtin)) ; buitin support
-
-;;; :lang clojure
-(when (featurep! :lang clojure)
-  (add-hook 'clojure-mode-hook #'paredit-mode))
-
-;;; :lang web
-(use-package! lsp-tailwindcss
-  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
-  :init
-  (setq lsp-tailwindcss-add-on-mode t
-        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
-                                                typescript-mode typescript-tsx-mode)))
-
-(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
-
-;;; :lang org
-(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
-      org-support-shift-select t
-      ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
-      ;; and leave C-left/C-right to .
-      org-tree-slide-skip-outline-level 2
-      org-startup-with-inline-images t)
-
-(defun transform-square-brackets-to-round-ones(string-to-transform)
-  "Transforms [ into ( and ] into ), other chars left unchanged."
-  (concat
-   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
-           string-to-transform)))
-
-(require 'org-protocol)
-(setq org-capture-templates
-      (append
-       org-capture-templates
-       `(("P" "Protocol" entry
-          (file+headline +org-capture-notes-file "Inbox")
-          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-         ("L" "Protocol Link" entry
-          (file+headline +org-capture-notes-file "Inbox")
-          "* %? [[%:link][%(transform-square-brackets-to-round-ones
-                          \"%:description\")]] \nCaptured On: %U")
-         ("l" "Web site" entry
-          (file+headline "webnotes.org" "Inbox")
-          "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-         ("m" "meetup" entry (file "~/org/caldav.org")
-          "* %?%:description \n%i\n%l")
-         ("w" "Web site" entry
-          (file+olp "~/org/inbox.org" "Web")
-          "* %c :website:\n%U %?%:initial"))))
-
-(setq  org-roam-capture-ref-templates
-       '(("l" "Web site" plain (function org-roam-capture--get-point)
-          "${body}\n%?"
-          :file-name "%<%Y%m%d>-${slug}"
-          :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
-          :unnarrowed t)))
+;;; :emacs dired +dirvish
+(when (featurep! :emacs dired +dirvish)
+  ;; (add-hook! dirvish-mode (defun dirvish--normalize-keymaps ()
+  ;;                          (when (boundp 'evil-mode)
+  ;;                            ;; turn off evilified buffers for evilify usage
+  ;;                            (evil-make-overriding-map dirvish-mode-map 'motion)
+  ;;                            (evil-normalize-keymaps))))
+  (after! dired
+    (dirvish-override-dired-mode)
+    ;; Enable file preview when narrowing files in minibuffer.
+    (dirvish-peek-mode)))
 
 ;;; :email mu4e
 (after! mu4e
@@ -383,8 +463,114 @@ If the hour is (both inclusive) in `light-theme-hours' then
         " m:/thaenalpha@gmail.com/[Gmail]/Trash or m:/nopanun@live.com/Deleted or"
         " m:/tannarin26@yahoo.com/Trash") "All Trashes" ?t))))
 
+;;; :lang clojure
+(when (featurep! :lang clojure)
+  (add-hook 'clojure-mode-hook #'paredit-mode)
+  (require 'clj-deps-new))
+
+;;; :lang web
+(use-package! lsp-tailwindcss
+  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+  :init
+  (setq lsp-tailwindcss-add-on-mode t
+        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
+                                                typescript-mode typescript-tsx-mode)))
+
+(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
+
+;;; :lang org
+(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
+      org-support-shift-select t
+      ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
+      ;; and leave C-left/C-right to .
+      org-tree-slide-skip-outline-level 2
+      org-startup-with-inline-images t)
+
+(defun transform-square-brackets-to-round-ones(string-to-transform)
+  "Transforms [ into ( and ] into ), other chars left unchanged."
+  (concat
+   (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
+           string-to-transform)))
+
+(require 'org-protocol)
+(setq org-capture-templates
+      (append
+       org-capture-templates
+       `(("P" "Protocol" entry
+          (file+headline +org-capture-notes-file "Inbox")
+          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+         ("L" "Protocol Link" entry
+          (file+headline +org-capture-notes-file "Inbox")
+          "* %? [[%:link][%(transform-square-brackets-to-round-ones
+                          \"%:description\")]] \nCaptured On: %U")
+         ("l" "Web site" entry
+          (file+headline "webnotes.org" "Inbox")
+          "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+         ("m" "meetup" entry (file "~/org/caldav.org")
+          "* %?%:description \n%i\n%l")
+         ("w" "Web site" entry
+          (file+olp "~/org/inbox.org" "Web")
+          "* %c :website:\n%U %?%:initial"))))
+
+(setq org-roam-capture-ref-templates
+      '(("l" "Web site" plain (function org-roam-capture--get-point)
+         "${body}\n%?"
+         :file-name "%<%Y%m%d>-${slug}"
+         :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+         :unnarrowed t)))
+
 ;;; :term vterm
 (add-hook 'vterm-mode-hook #'evil-collection-vterm-toggle-send-escape)
+
+(use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
+
+;;; :tools gist
+(add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
+
+;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
+(unless (featurep! :checkers syntax)
+  (setq lsp-diagnostics-provider :flymake))
+(after! lsp-mode
+  (setq
+   lsp-auto-guess-root t
+   lsp-enable-semantic-tokens-enable nil
+   lsp-progress-via-spinner nil
+   lsp-idle-delay 0.47
+   lsp-completion-enable-additional-text-edit nil
+   lsp-signature-render-documentation t
+   lsp-signature-auto-activate t
+   lsp-signature-doc-lines 5
+   lsp-eldoc-enable-hover t
+   lsp-headerline-breadcrumb-enable nil
+   lsp-print-performance nil
+   lsp-enable-indentation t
+   lsp-enable-on-type-formatting nil
+   lsp-enable-symbol-highlighting nil
+   lsp-enable-links nil
+   lsp-log-io nil))
+
+(setq +lsp-company-backends '(company-capf :with company-yasnippet))
+
+(after! lsp-ui
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-show-symbol nil
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-doc-enable t
+        lsp-ui-doc-position 'top
+        lsp-ui-doc-delay 0.73
+        lsp-ui-doc-max-width 50
+        lsp-ui-doc-max-height 10
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-header t)
+
+  (add-hook! 'lsp-ui-mode-hook
+    (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
+
+;;; :tools magit
+(setq magit-inhibit-save-previous-winconf t ; Don't restore wconf after quit magit
+      forge-database-connector (when EMACS29+ 'sqlite-builtin)) ; buitin support
 
 ;;
 ;;; Local Variables

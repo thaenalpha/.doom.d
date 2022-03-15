@@ -2,23 +2,22 @@
 ;;; lang/javascript/packages.el
 
 ;; Major modes
-(package! rjsx-mode :built-in 'prefer)
-(package! typescript-mode :built-in 'prefer)
+(package! rjsx-mode)
+(package! typescript-mode)
 
 ;; Tools
-(package! js2-refactor :built-in 'prefer)
-(package! npm-mode :built-in 'prefer)
-(package! add-node-modules-path :built-in 'prefer)
+(package! js2-refactor)
+(package! npm-mode)
+(package! add-node-modules-path)
 (package! pnpm-mode)
 (package! import-js)
-(package! yarn
-  :recipe (:host github :repo "thaenalpha/yarn.el"))
+(package! yarn :recipe (:host github :repo "thaenalpha/yarn.el"))
 
 ;; Eval
-(package! nodejs-repl :built-in 'prefer)
-(package! skewer-mode :built-in 'prefer)
+(package! nodejs-repl)
+(package! skewer-mode)
 
 ;; Programming environment
-(package! tide :built-in 'prefer)
+(package! tide)
 (when (featurep! :tools lookup)
-  (package! xref-js2 :built-in 'prefer))
+  (package! xref-js2))
