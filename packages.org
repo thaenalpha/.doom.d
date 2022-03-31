@@ -18,11 +18,11 @@
 ;;
 ;;; Tools
 
-(package! debian-el)
 (package! dtache
   ;; Run shell cmds in sessions that are isolated from Emacs
   :recipe (:host gitlab :repo "niklaseklund/dtache"))
-(package! keychain-environment)
+(unless IS-MAC
+ (package! keychain-environment))
 (package! trashed)
 #+end_src
 
@@ -67,12 +67,28 @@ Private or extra to the Doom modules
 #+end_src
 
 ** App
+*** Jira :jira:org:bug:tracker:
+#+begin_src emacs-lisp :tangle modules/app/jira/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/jira/packages.el
+
+(package! org-jira)
+#+end_src
+
 *** Reddit :reddit:browse:news:
 #+begin_src emacs-lisp :tangle modules/app/reddit/packages.el
 ;; -*- no-byte-compile: t; -*-
 ;;; app/reddit/packages.el
 
 (package! md4rd)
+#+end_src
+
+*** Slack :tools:
+#+begin_src emacs-lisp :tangle modules/app/slack/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/slack/packages.el
+
+(package! slack)
 #+end_src
 
 ** Completion
@@ -127,7 +143,15 @@ Private or extra to the Doom modules
 (package! info-colors)
 #+end_src
 
+** OS :os:
+*** Windows Subsystem Linux :wsl:
+#+begin_src emacs-lisp :tangle modules/os/wsl/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; os/wsl/packages.el -*- lexical-binding: t; -*-
 
+(let ((distro (doom-system-distro)))
+  (when (or (eq 'ubuntu distro) (eq 'debian distro)) (package! debian-el)))
+#+end_src
 ** Tools
 *** Brief
 #+begin_src emacs-lisp :tangle modules/tools/brief/packages.el

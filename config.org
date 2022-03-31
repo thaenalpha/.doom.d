@@ -159,7 +159,8 @@ Troubleshoot by load Key-chain Environment Variables
 Captured On: [2021-11-12 Fri 23:05]
 
 #+begin_src emacs-lisp
-(add-hook! magit-mode #'keychain-refresh-environment)
+(when (featurep 'keychain-environment)
+ (add-hook! magit-mode #'keychain-refresh-environment))
 #+end_src
 
 *** Why is Emacs/Doom slow?
@@ -177,7 +178,6 @@ That way, you only need to suffer that slowness once, when it is needed.
  #+end_quote
 2. [[file:init.org::*Disable some of Doom’s slowest modules.][Disable some of Doom’s slowest modules.]]
 3. Turn off line numbers:
- #+name: line-numbers-setting
  #+begin_src emacs-lisp :tangle no
 display-line-numbers-type  nil
 #+end_src
@@ -309,6 +309,7 @@ doom-serif-font            doom-variable-pitch-font
 #+end_src
 
 ** Line numbers
+#+name: line-numbers-setting
 #+begin_src emacs-lisp :tangle no
 display-line-numbers-type  'visual
 #+end_src
@@ -337,10 +338,15 @@ For the speed of expressions
 ;;; keybinds
 
 (map! :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
+      ;;; C-c
       (:prefix ("C-c" . "mode-specific-map")
        (:when (featurep! :tools eval)
         :desc "Evaluate line/region"        "e" #'+eval/line-or-region
-        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace))
+        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace)
+       (:when (featurep! :checkers grammar)
+        "g"    #'writegood-mode
+        "C-g g" #'writegood-grade-level
+        "C-g e" #'writegood-reading-ease))
 
       ;;
       ;;; evil
@@ -786,7 +792,7 @@ With N number of cores that should be used for the compilation
 
 Finally, to install the library system-wide:
 
-#+begin_src sh :dir (concat /sudo::/home/" user-login-name "/.doom.d") :tangle no
+#+begin_src sh :dir (concat "/sudo::/home/" user-login-name "/.doom.d") :tangle no
 cd ./td/build && sudo make install
 #+end_src
 
@@ -1453,12 +1459,16 @@ This configuration block come from Tecosaur's Emacs configuration.
 More keybinds for literate configs
 #+name: +default
 #+begin_src emacs-lisp :tangle no
-:map  help-map
-"rk"  #'keychain-refresh-environment
-
-"di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
-"do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
-"dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
+(:map help-map
+ (:when (featurep 'keychain-environment)
+  "rk"   #'keychain-refresh-environment)
+ :prefix "d"
+ :desc "init.org"        "i"  (cmd! (find-file
+       (expand-file-name "init.org" doom-private-dir)))
+ :desc "config.org"      "o"  (cmd! (find-file
+       (expand-file-name "config.org" doom-private-dir)))
+ :desc "packages.org"    "po" (cmd! (find-file
+       (expand-file-name "packages.org" doom-private-dir))))
 #+end_src
 ** UI :ui:
 *** Deft :ui:deft:
@@ -1494,8 +1504,10 @@ Specify the directory in which your notes are stored:
  :ne "r"    #'consult-recent-file
  :ne "p"    #'projectile-switch-project
  :ne "P"    #'doom/open-private-config
- :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
- :ne "." (defun find-dotfile () (interactive) (doom-project-find-file "~/.config"))
+ :ne "c"    (cmd! (find-file (expand-file-name
+                              "config.org" doom-private-dir)))
+ :ne "."    (defun find-dotfile () (interactive)
+                   (doom-project-find-file "~/.config"))
  :ne "b"    #'consult-buffer
  :ne "q"    #'save-buffers-kill-terminal
  :ne "v"    #'+vterm/here
@@ -2247,7 +2259,6 @@ in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
 Set theme, git-mode and width
 #+name: my-treemacs-settings
 #+begin_src emacs-lisp :tangle no
-;; treemacs-width             29
 +treemacs-git-mode         'deferred
 #+end_src
 *** fixmee :navigation:convenience:
@@ -2939,8 +2950,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 
   #+begin_src emacs-lisp
 ;;; :lang org
-(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
-      org-support-shift-select t
+(setq org-support-shift-select t
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
       ;; and leave C-left/C-right to .
       org-tree-slide-skip-outline-level 2
@@ -3060,7 +3070,8 @@ WSL-specific setup
       (setq browse-url-generic-program  cmd-exe
             browse-url-generic-args     cmd-args
             browse-url-browser-function 'browse-url-generic
-            search-web-default-browser 'browse-url-generic))))
+            search-web-default-browser 'browse-url-generic
+            org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"))))
 #+end_src
 
 ** Terminal :term:
@@ -3267,8 +3278,9 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
 #+name: magit-settings
 #+begin_src emacs-lisp
 ;;; :tools magit
-(setq magit-inhibit-save-previous-winconf t ; Don't restore wconf after quit magit
-      forge-database-connector (when EMACS29+ 'sqlite-builtin)) ; buitin support
+(setq magit-inhibit-save-previous-winconf t) ; Don't restore wconf after quit magit
+(when EMACS29+ ; sqlite buitin support
+  (setq forge-database-connector 'sqlite-builtin))
 #+end_src
 
 *** Tree-sitter

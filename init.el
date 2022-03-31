@@ -118,11 +118,10 @@
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
        php                 ; perl's insecure younger brother
-       plantuml            ; diagrams for confusing people more
-       (python +lsp)       ; beautiful is better than ugly
        rest                ; Emacs as a REST client
        (scheme +guile)     ; a fully conniving family of lisps
        (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
+           +fish           ; non-posix
            +powershell)    ; the Microsoft shell
        (web +lsp           ; the tubes
             +tailwind)     ;
@@ -134,7 +133,11 @@
        :app
        calendar
        edit-server         ; Edit with Emacs server
-       irc                 ; how neckbeards socialize
+       slack               ; Slack client for Emacs
+       (:unless (or IS-WINDOWS
+                    (getenv "WSLENV"))
+        everywhere)        ; *leave* Emacs!? You must be joking
+       jira                ; Syncing between Jira and Org-mode.
        mastodon            ; Client for Mastodon
        reddit              ; read from Emacs
        (rss +org)          ; emacs as an RSS reader

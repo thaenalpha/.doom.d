@@ -8,11 +8,11 @@
 ;;
 ;;; Tools
 
-(package! debian-el)
 (package! dtache
   ;; Run shell cmds in sessions that are isolated from Emacs
   :recipe (:host gitlab :repo "niklaseklund/dtache"))
-(package! keychain-environment)
+(unless IS-MAC
+ (package! keychain-environment))
 (package! trashed)
 
 ;;

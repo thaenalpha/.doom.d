@@ -23,12 +23,13 @@
 
 (setq-default delete-by-moving-to-trash t) ; Delete files to trash
 
-(add-hook! magit-mode #'keychain-refresh-environment)
+(when (featurep 'keychain-environment)
+ (add-hook! magit-mode #'keychain-refresh-environment))
 
 ;;
 ;;; UI
 
-(setq display-line-numbers-type  nil
+(setq display-line-numbers-type  'visual
       doom-font                  (font-spec :family "JetBrains Mono"
                                             :size 12 :weight 'light)
       doom-variable-pitch-font   (font-spec :family "DejaVu Sans" :size 13)
@@ -41,7 +42,6 @@
                                            (inhibit-double-buffering . t)))
       doom-acario-light-brighter-modeline t
       doom-themes-treemacs-theme 'doom-colors
-      ;; treemacs-width             29
       +treemacs-git-mode         'deferred)
 
 (let ((my-doom-color 'auto))
@@ -78,10 +78,15 @@ If the hour is (both inclusive) in `light-theme-hours' then
 ;;; keybinds
 
 (map! :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
+      ;;; C-c
       (:prefix ("C-c" . "mode-specific-map")
        (:when (featurep! :tools eval)
         :desc "Evaluate line/region"        "e" #'+eval/line-or-region
-        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace))
+        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace)
+       (:when (featurep! :checkers grammar)
+        "g"    #'writegood-mode
+        "C-g g" #'writegood-grade-level
+        "C-g e" #'writegood-reading-ease))
 
       ;;
       ;;; evil
@@ -110,8 +115,10 @@ If the hour is (both inclusive) in `light-theme-hours' then
        :ne "r"    #'consult-recent-file
        :ne "p"    #'projectile-switch-project
        :ne "P"    #'doom/open-private-config
-       :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
-       :ne "." (defun find-dotfile () (interactive) (doom-project-find-file "~/.config"))
+       :ne "c"    (cmd! (find-file (expand-file-name
+                                    "config.org" doom-private-dir)))
+       :ne "."    (defun find-dotfile () (interactive)
+                         (doom-project-find-file "~/.config"))
        :ne "b"    #'consult-buffer
        :ne "q"    #'save-buffers-kill-terminal
        :ne "v"    #'+vterm/here
@@ -176,12 +183,16 @@ If the hour is (both inclusive) in `light-theme-hours' then
 
       ;;; :config default
       (:when (featurep! :config default)
-       :map  help-map
-       "rk"  #'keychain-refresh-environment
-       
-       "di"  (cmd! (find-file (expand-file-name "init.org"     doom-private-dir)))
-       "do"  (cmd! (find-file (expand-file-name "config.org"   doom-private-dir)))
-       "dpo" (cmd! (find-file (expand-file-name "packages.org" doom-private-dir)))
+       (:map help-map
+        (:when (featurep 'keychain-environment)
+         "rk"   #'keychain-refresh-environment)
+        :prefix "d"
+        :desc "init.org"        "i"  (cmd! (find-file
+              (expand-file-name "init.org" doom-private-dir)))
+        :desc "config.org"      "o"  (cmd! (find-file
+              (expand-file-name "config.org" doom-private-dir)))
+        :desc "packages.org"    "po" (cmd! (find-file
+              (expand-file-name "packages.org" doom-private-dir))))
 
        ;;; <leader>
        (:when (featurep! :config default +bindings)
@@ -479,8 +490,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
 (add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
 
 ;;; :lang org
-(setq org-clock-sound "/mnt/c/Windows/Media/Alarm06.wav"
-      org-support-shift-select t
+(setq org-support-shift-select t
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
       ;; and leave C-left/C-right to .
       org-tree-slide-skip-outline-level 2
@@ -569,8 +579,9 @@ If the hour is (both inclusive) in `light-theme-hours' then
     (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
 
 ;;; :tools magit
-(setq magit-inhibit-save-previous-winconf t ; Don't restore wconf after quit magit
-      forge-database-connector (when EMACS29+ 'sqlite-builtin)) ; buitin support
+(setq magit-inhibit-save-previous-winconf t) ; Don't restore wconf after quit magit
+(when EMACS29+ ; sqlite buitin support
+  (setq forge-database-connector 'sqlite-builtin))
 
 ;;
 ;;; Local Variables
