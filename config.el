@@ -34,6 +34,7 @@
 ;;; UI
 
 (setq display-line-numbers-type  nil
+      treemacs-width             27
       +treemacs-git-mode         'deferred
       aj-dark+-blue-modeline              t
       doom-acario-light-brighter-modeline t
