@@ -9,7 +9,6 @@
                   (width . 80)
                   (height . 25)
                   (minibuffer . t)
-                  (menu-bar-lines . t)
-                  (window-system . ,(if (featurep 'pgtk) 'pgtk 'x))))
+                  (menu-bar-lines . t)))
   (setq edit-server-url-major-mode-alist
         '(("github\\.com" . markdown-mode))))
