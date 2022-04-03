@@ -2258,6 +2258,7 @@ in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
 Set theme, git-mode and width
 #+name: my-treemacs-settings
 #+begin_src emacs-lisp :tangle no
+treemacs-width             32
 +treemacs-git-mode         'deferred
 #+end_src
 *** fixmee :navigation:convenience:

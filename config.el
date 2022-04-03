@@ -42,6 +42,7 @@
                                            (inhibit-double-buffering . t)))
       doom-acario-light-brighter-modeline t
       doom-themes-treemacs-theme 'doom-colors
+      treemacs-width             32
       +treemacs-git-mode         'deferred)
 
 (let ((my-doom-color 'auto))
