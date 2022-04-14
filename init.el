@@ -118,6 +118,7 @@
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
        php                 ; perl's insecure younger brother
+       (python +lsp)       ; beautiful is better than ugly
        rest                ; Emacs as a REST client
        (scheme +guile)     ; a fully conniving family of lisps
        (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
