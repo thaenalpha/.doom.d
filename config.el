@@ -276,7 +276,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
   (setq vertico-posframe-border-width 10
         vertico-posframe-parameters '((left-fringe  . 8) (right-fringe . 8)
                                       (min-width . 90))
-        vertico-posframe-poshandler #'posframe-poshandler-frame-top-center))
+        vertico-posframe-poshandler #'posframe-poshandler-frame-center))
 
 ;;; :config literate
 (defvar +literate-tangle--proc nil)
@@ -494,8 +494,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
 (setq org-support-shift-select t
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
       ;; and leave C-left/C-right to .
-      org-tree-slide-skip-outline-level 2
-      org-startup-with-inline-images t)
+      org-tree-slide-skip-outline-level 2)
 
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
@@ -503,32 +502,34 @@ If the hour is (both inclusive) in `light-theme-hours' then
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
            string-to-transform)))
 
-(require 'org-protocol)
-(setq org-capture-templates
-      (append
-       org-capture-templates
-       `(("P" "Protocol" entry
-          (file+headline +org-capture-notes-file "Inbox")
-          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-         ("L" "Protocol Link" entry
-          (file+headline +org-capture-notes-file "Inbox")
-          "* %? [[%:link][%(transform-square-brackets-to-round-ones
+(after! org
+  (setq org-startup-with-inline-images t
+        org-capture-templates
+        (append
+         org-capture-templates
+         `(("P" "Protocol" entry
+            (file+headline +org-capture-notes-file "Inbox")
+            "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+           ("L" "Protocol Link" entry
+            (file+headline +org-capture-notes-file "Inbox")
+            "* %? [[%:link][%(transform-square-brackets-to-round-ones
                           \"%:description\")]] \nCaptured On: %U")
-         ("l" "Web site" entry
-          (file+headline "webnotes.org" "Inbox")
-          "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-         ("m" "meetup" entry (file "~/org/caldav.org")
-          "* %?%:description \n%i\n%l")
-         ("w" "Web site" entry
-          (file+olp "~/org/inbox.org" "Web")
-          "* %c :website:\n%U %?%:initial"))))
+           ("l" "Web site" entry
+            (file+headline "webnotes.org" "Inbox")
+            "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+           ("m" "meetup" entry (file "~/org/caldav.org")
+            "* %?%:description \n%i\n%l")
+           ("w" "Web site" entry
+            (file+olp "~/org/inbox.org" "Web")
+            "* %c :website:\n%U %?%:initial")))))
 
-(setq org-roam-capture-ref-templates
-      '(("l" "Web site" plain (function org-roam-capture--get-point)
-         "${body}\n%?"
-         :file-name "%<%Y%m%d>-${slug}"
-         :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
-         :unnarrowed t)))
+(after! org-roam
+  (setq org-roam-capture-ref-templates
+        '(("l" "Web site" plain (function org-roam-capture--get-point)
+           "${body}\n%?"
+           :file-name "%<%Y%m%d>-${slug}"
+           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+           :unnarrowed t))))
 
 ;;; :term vterm
 (add-hook 'vterm-mode-hook #'evil-collection-vterm-toggle-send-escape)
@@ -541,6 +542,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
 ;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
 (unless (featurep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
+
 (after! lsp-mode
   (setq
    lsp-auto-guess-root t

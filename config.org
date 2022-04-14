@@ -1379,7 +1379,7 @@ show its candidates menu.
 
   #+name: position
   #+begin_src emacs-lisp :tangle no
-top-center
+center
   #+end_src
 
 ** Configure :config:
@@ -2953,8 +2953,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 (setq org-support-shift-select t
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
       ;; and leave C-left/C-right to .
-      org-tree-slide-skip-outline-level 2
-      org-startup-with-inline-images t)
+      org-tree-slide-skip-outline-level 2)
   #+end_src
 
 - _org hide emphasis markers_
@@ -3021,34 +3020,36 @@ REGEDIT4
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
            string-to-transform)))
 
-(require 'org-protocol)
-(setq org-capture-templates
-      (append
-       org-capture-templates
-       `(("P" "Protocol" entry
-          (file+headline +org-capture-notes-file "Inbox")
-          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-         ("L" "Protocol Link" entry
-          (file+headline +org-capture-notes-file "Inbox")
-          "* %? [[%:link][%(transform-square-brackets-to-round-ones
+(after! org
+  (setq org-startup-with-inline-images t
+        org-capture-templates
+        (append
+         org-capture-templates
+         `(("P" "Protocol" entry
+            (file+headline +org-capture-notes-file "Inbox")
+            "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+           ("L" "Protocol Link" entry
+            (file+headline +org-capture-notes-file "Inbox")
+            "* %? [[%:link][%(transform-square-brackets-to-round-ones
                           \"%:description\")]] \nCaptured On: %U")
-         ("l" "Web site" entry
-          (file+headline "webnotes.org" "Inbox")
-          "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-         ("m" "meetup" entry (file "~/org/caldav.org")
-          "* %?%:description \n%i\n%l")
-         ("w" "Web site" entry
-          (file+olp "~/org/inbox.org" "Web")
-          "* %c :website:\n%U %?%:initial"))))
+           ("l" "Web site" entry
+            (file+headline "webnotes.org" "Inbox")
+            "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+           ("m" "meetup" entry (file "~/org/caldav.org")
+            "* %?%:description \n%i\n%l")
+           ("w" "Web site" entry
+            (file+olp "~/org/inbox.org" "Web")
+            "* %c :website:\n%U %?%:initial")))))
   #+end_src
   #+name: Org-roam roam-ref templates
   #+begin_src emacs-lisp
-(setq org-roam-capture-ref-templates
-      '(("l" "Web site" plain (function org-roam-capture--get-point)
-         "${body}\n%?"
-         :file-name "%<%Y%m%d>-${slug}"
-         :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
-         :unnarrowed t)))
+(after! org-roam
+  (setq org-roam-capture-ref-templates
+        '(("l" "Web site" plain (function org-roam-capture--get-point)
+           "${body}\n%?"
+           :file-name "%<%Y%m%d>-${slug}"
+           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+           :unnarrowed t))))
   #+end_src
 
 ** OS :os:
@@ -3236,6 +3237,7 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
 ;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
 (unless (featurep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
+
 (after! lsp-mode
   (setq
    lsp-auto-guess-root t
