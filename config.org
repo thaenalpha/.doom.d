@@ -57,6 +57,8 @@
     - [[#mastodon-1][Mastodon]]
     - [[#reddit][Reddit]]
     - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
+  - [[#checkers][Checkers]]
+    - [[#grammar][Grammar]]
   - [[#completion][Completion]]
     - [[#corfu][Corfu]]
     - [[#tabnine][Tabnine]]
@@ -820,6 +822,23 @@ If you have TDLib installed in other location, don't forget to modify ~telega-se
   #+begin_src sh :tangle no
 rm -r modules/app/telega
   #+end_src
+** Checkers :checkers:
+*** Grammar :languagetool:convenience:
+#+begin_src emacs-lisp
+(after! langtool
+  (unless (or langtool-bin
+              langtool-language-tool-jar
+              langtool-java-classpath)
+    (cond (IS-MAC
+           (cond
+            ;; is user using home brew?
+            ((file-directory-p "/opt/homebrew/Cellar/languagetool")
+             (setq langtool-language-tool-jar
+                   (locate-file "libexec/languagetool-commandline.jar"
+                                (doom-files-in "/opt/homebrew/Cellar/languagetool"
+                                               :type 'dirs
+                                               :depth 2)))))))))
+#+end_src
 
 ** Completion :completion:
 *** Corfu

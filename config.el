@@ -259,6 +259,20 @@ If the hour is (both inclusive) in `light-theme-hours' then
                                       reddit-auth "me^refresh-token")))
   (run-with-timer 0 3540 #'md4rd-refresh-login))
 
+(after! langtool
+  (unless (or langtool-bin
+              langtool-language-tool-jar
+              langtool-java-classpath)
+    (cond (IS-MAC
+           (cond
+            ;; is user using home brew?
+            ((file-directory-p "/opt/homebrew/Cellar/languagetool")
+             (setq langtool-language-tool-jar
+                   (locate-file "libexec/languagetool-commandline.jar"
+                                (doom-files-in "/opt/homebrew/Cellar/languagetool"
+                                               :type 'dirs
+                                               :depth 2)))))))))
+
 ;;; :completion company +tabnine
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
