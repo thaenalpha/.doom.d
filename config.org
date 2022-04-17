@@ -89,6 +89,7 @@
     - [[#clojure][Clojure]]
     - [[#javascript][JavaScript]]
     - [[#org][Org]]
+    - [[#sql][SQL]]
     - [[#web][Web]]
   - [[#os][OS]]
     - [[#windows-subsystem-linux][Windows Subsystem Linux]]
@@ -3038,6 +3039,11 @@ REGEDIT4
            :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
            :unnarrowed t))))
   #+end_src
+
+*** SQL
+#+begin_src emacs-lisp
+(when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
+#+end_src
 
 *** Web
 + Tailwind LSP :+tailwind:

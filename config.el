@@ -535,6 +535,8 @@ If the hour is (both inclusive) in `light-theme-hours' then
            :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
            :unnarrowed t))))
 
+(when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
+
 ;;; :lang web
 (use-package! lsp-tailwindcss
   :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
