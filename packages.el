@@ -5,6 +5,7 @@
 ;; Extend shr/eww with org features and analysis capability
 (package! shrface)
 (package! sql-indent)
+(package! emacsql-mysql)
 
 ;;
 ;;; Tools

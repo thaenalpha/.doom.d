@@ -536,6 +536,8 @@ If the hour is (both inclusive) in `light-theme-hours' then
            :unnarrowed t))))
 
 (when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
+;; MySQL
+(require 'emacsql-mysql)
 
 ;;; :lang web
 (use-package! lsp-tailwindcss

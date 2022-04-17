@@ -3043,6 +3043,8 @@ REGEDIT4
 *** SQL
 #+begin_src emacs-lisp
 (when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
+;; MySQL
+(require 'emacsql-mysql)
 #+end_src
 
 *** Web
