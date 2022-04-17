@@ -88,8 +88,8 @@
   - [[#programming-language][Programming Language]]
     - [[#clojure][Clojure]]
     - [[#javascript][JavaScript]]
-    - [[#web][Web]]
     - [[#org][Org]]
+    - [[#web][Web]]
   - [[#os][OS]]
     - [[#windows-subsystem-linux][Windows Subsystem Linux]]
   - [[#terminal][Terminal]]
@@ -2930,38 +2930,6 @@ If not it will throw an error, the one I got is about it cannot find node_sqlite
 This case is come from =node-pre-gyp= cannot find the pre-compiled binary in the first place.
 Then it uses `node-gyp` to build the extension but it failed without messages you anything.
 
-*** Web
-+ Tailwind LSP :+tailwind:
-  #+begin_comment
-  This sub-tree was taken from Jay Zawrotny's Doom Configures
-  [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
-  #+end_comment
-
-  Provide tailwind class name completions as an extra LSP package.
-
-  Install the lsp-tailwindcss emacs package: [[file:packages.org::*Packages in Use][Packages in Use]]
-
-  Set add-on mode. This ensures both tailwind-lsp and the js or ts lsp servers
-  run in parallel. Set ~lsp-tailwindcss-add-on-mode~ before the package loads.
-
-  #+begin_src emacs-lisp
-;;; :lang web
-(use-package! lsp-tailwindcss
-  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
-  :init
-  (setq lsp-tailwindcss-add-on-mode t
-        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
-                                                typescript-mode typescript-tsx-mode)))
-  #+end_src
-
-  Lastly associate various template language files with html so that
-  lsp-tailwindcss runs when editing .liquid files for example.
-
-  #+begin_src emacs-lisp
-(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
-  #+end_src
-
-  Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
 *** Org
 - _Configuration_
 
@@ -3071,6 +3039,38 @@ REGEDIT4
            :unnarrowed t))))
   #+end_src
 
+*** Web
++ Tailwind LSP :+tailwind:
+  #+begin_comment
+  This sub-tree was taken from Jay Zawrotny's Doom Configures
+  [[https://github.com/eccentric-j/dotfiles/blob/master/doom.d/config.org][dotfiles/config.org at master · eccentric-j/dotfiles · GitHub]]
+  #+end_comment
+
+  Provide tailwind class name completions as an extra LSP package.
+
+  Install the lsp-tailwindcss emacs package: [[file:packages.org::*Packages in Use][Packages in Use]]
+
+  Set add-on mode. This ensures both tailwind-lsp and the js or ts lsp servers
+  run in parallel. Set ~lsp-tailwindcss-add-on-mode~ before the package loads.
+
+  #+begin_src emacs-lisp
+;;; :lang web
+(use-package! lsp-tailwindcss
+  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+  :init
+  (setq lsp-tailwindcss-add-on-mode t
+        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
+                                                typescript-mode typescript-tsx-mode)))
+  #+end_src
+
+  Lastly associate various template language files with html so that
+  lsp-tailwindcss runs when editing .liquid files for example.
+
+  #+begin_src emacs-lisp
+(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
+  #+end_src
+
+  Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
 ** OS :os:
 *** Windows Subsystem Linux :wsl:
 WSL-specific setup

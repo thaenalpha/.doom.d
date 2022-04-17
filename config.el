@@ -494,16 +494,6 @@ If the hour is (both inclusive) in `light-theme-hours' then
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (require 'clj-deps-new))
 
-;;; :lang web
-(use-package! lsp-tailwindcss
-  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
-  :init
-  (setq lsp-tailwindcss-add-on-mode t
-        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
-                                                typescript-mode typescript-tsx-mode)))
-
-(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
-
 ;;; :lang org
 (setq org-support-shift-select t
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
@@ -544,6 +534,16 @@ If the hour is (both inclusive) in `light-theme-hours' then
            :file-name "%<%Y%m%d>-${slug}"
            :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
            :unnarrowed t))))
+
+;;; :lang web
+(use-package! lsp-tailwindcss
+  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+  :init
+  (setq lsp-tailwindcss-add-on-mode t
+        lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
+                                                typescript-mode typescript-tsx-mode)))
+
+(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
 
 ;;; :term vterm
 (add-hook 'vterm-mode-hook #'evil-collection-vterm-toggle-send-escape)
