@@ -101,12 +101,6 @@ Private or extra to the Doom modules
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
 #+end_src
-*** Vertico
-#+begin_src emacs-lisp :tangle yes
-;;; :completion vertico +childframe
-(when (featurep! :completion vertico +childframe)
-  (package! vertico-posframe))
-#+end_src
 
 ** Editor
 *** evil

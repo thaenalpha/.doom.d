@@ -285,8 +285,6 @@ If the hour is (both inclusive) in `light-theme-hours' then
 
 ;;; :completion vertico +childframe
 (when (featurep! :completion vertico +childframe)
-  (require 'vertico-posframe)
-  (vertico-posframe-mode 1)
   (setq vertico-posframe-border-width 10
         vertico-posframe-parameters '((left-fringe  . 8) (right-fringe . 8)
                                       (min-width . 90))

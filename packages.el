@@ -37,10 +37,6 @@
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
 
-;;; :completion vertico +childframe
-(when (featurep! :completion vertico +childframe)
-  (package! vertico-posframe))
-
 ;;; :editor evil +tree-sitter
 (when (and (featurep! :editor evil +tree-sitter)
            (featurep! :tools tree-sitter))
