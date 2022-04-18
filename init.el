@@ -107,6 +107,7 @@
        emacs-lisp          ; drown in parentheses
        (json +lsp)         ; At least it ain't XML
        (javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
+       (lua +lsp)          ; one-based indices? one-based indices
        (markdown +grip)    ; writing docs for people to ignore
        (org                ; organize your plain life in plain text
         +dragndrop         ; drag & drop files/images into org buffers
