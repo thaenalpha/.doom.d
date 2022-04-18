@@ -2940,6 +2940,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
       ;; and leave C-left/C-right to .
       org-tree-slide-skip-outline-level 2)
+(add-hook 'org-mode-hook #'org-modern-mode)
   #+end_src
 
 - _org hide emphasis markers_

@@ -63,6 +63,7 @@
 
 ;;; :lang org
 (package! orca)       ; Org Capture
+(package! org-modern)
 (package! org-roam-ui)
 (when (featurep! :lang org +web) (package! org-web-tools))
 

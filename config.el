@@ -497,6 +497,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
       ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility,
       ;; and leave C-left/C-right to .
       org-tree-slide-skip-outline-level 2)
+(add-hook 'org-mode-hook #'org-modern-mode)
 
 (defun transform-square-brackets-to-round-ones(string-to-transform)
   "Transforms [ into ( and ] into ), other chars left unchanged."
