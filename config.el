@@ -30,10 +30,10 @@
 ;;; UI
 
 (setq display-line-numbers-type  'visual
-      doom-font                  (font-spec :family "JetBrains Mono"
+      doom-font                  (font-spec :family "JetBrainsMono Nerd Font"
                                             :size 12 :weight 'light)
       doom-variable-pitch-font   (font-spec :family "DejaVu Sans" :size 13)
-      vertico-posframe-font      (font-spec :family "JetBrains Mono" :size 15)
+      vertico-posframe-font      (font-spec :family "JetBrainsMono Nerd Font" :size 15)
       doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
       doom-serif-font            doom-variable-pitch-font
       default-frame-alist        (append default-frame-alist

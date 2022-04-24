@@ -303,10 +303,10 @@ If the hour is (both inclusive) in `light-theme-hours' then
   Arabic · Devanagari · Georgian · Hebrew · Thai
 #+name: my-fonts-settings
 #+begin_src emacs-lisp :tangle no
-doom-font                  (font-spec :family "JetBrains Mono"
+doom-font                  (font-spec :family "JetBrainsMono Nerd Font"
                                       :size 12 :weight 'light)
 doom-variable-pitch-font   (font-spec :family "DejaVu Sans" :size 13)
-vertico-posframe-font      (font-spec :family "JetBrains Mono" :size 15)
+vertico-posframe-font      (font-spec :family "JetBrainsMono Nerd Font" :size 15)
 doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
 doom-serif-font            doom-variable-pitch-font
 #+end_src
@@ -2661,10 +2661,25 @@ ln -s ../../../../.emacs.d/modules/lang/javascript/autoload.el modules/lang/java
 ln -s ../../../../.emacs.d/modules/lang/javascript/config.el modules/lang/javascript/config.el
 ln -s ../../../../.emacs.d/modules/lang/javascript/doctor.el modules/lang/javascript/doctor.el
 #+end_src
+For XDG convention:
+#+begin_src sh :tangle no
+ln -s ../../../../emacs/modules/lang/javascript/README.org modules/lang/javascript/README.org
+ln -s ../../../../emacs/modules/lang/javascript/autoload.el modules/lang/javascript/autoload.el
+ln -s ../../../../emacs/modules/lang/javascript/config.el modules/lang/javascript/config.el
+ln -s ../../../../emacs/modules/lang/javascript/doctor.el modules/lang/javascript/doctor.el
+#+end_src
+
 ***** Running ImportJS in Emacs
-1. Install the importjs binary:
+1. Install the importjs binary with ~npm~ from a root shell:
    #+begin_src sh :dir /sudo:: :tangle no
-sudo npm install import-js -g
+npm install import-js -g
+   #+end_src
+   or with ~pnpm~ :
+   #+begin_src sh :dir /sudo:: :tangle no
+pnpm add import-js -g           # root shell
+   #+end_src
+ #+begin_src sh :tangle no
+pnpm add import-js -g           # user shell
    #+end_src
 2. Configure Import-Js
 3. Install Watchman as an performance booster to import-js daemon
@@ -3181,10 +3196,10 @@ This module has no prerequisites.
 
   (add-hook! 'howdoyou-mode-hook
     (doom-mark-buffer-as-real-h)
+    (persp-add-buffer (current-buffer))
     (solaire-mode +1) (mkdir "/tmp/howdoyou" t)
     (setq-local org-src-fontify-natively nil)
-    (setq-local buffer-file-name
-                "/tmp/howdoyou/latest.org")))
+    (setq-local buffer-file-name "/tmp/howdoyou/latest.org")))
 
 (use-package! tldr
   :commands tldr
