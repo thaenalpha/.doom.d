@@ -105,6 +105,7 @@
        (clojure +lsp)      ; java with a lisp
        data                ; config/data formats
        emacs-lisp          ; drown in parentheses
+       (graphql +lsp)      ; Facebook
        (json +lsp)         ; At least it ain't XML
        (javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
        (lua +lsp)          ; one-based indices? one-based indices
