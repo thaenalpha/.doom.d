@@ -3,6 +3,9 @@
 ;; For e.g. GPG configuration, email clients, file templates and snippets.
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
+(when IS-MAC                            ; Ghub's preference.
+  (setq auth-sources `("~/.authinfo.gpg" macos-keychain-generic macos-keychain-internet
+                       password-store ,(expand-file-name "authinfo.gpg" doom-etc-dir))))
 
 ;;
 ;;; System
