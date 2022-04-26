@@ -1059,7 +1059,7 @@ Here is an example configuration:
 ,#+end_src
 
 ,** Enable Corfu only for certain modes.
-This module enable ~corfu-global-mode~ by default. You may want to enable Corfu
+This module enable ~global-corfu-mode~ by default. You may want to enable Corfu
 only for certain modes.
 ,#+begin_src emacs-lisp
 (use-package corfu
@@ -1207,7 +1207,7 @@ If INTERACTIVE is nil the function acts like a capf."
 
 (use-package! corfu
   :commands corfu-complete
-  :hook (doom-first-input . corfu-global-mode)
+  :hook (doom-first-input . global-corfu-mode)
   :bind (:map corfu-map
          ("TAB"                          . corfu-next)
          ([tab]                          . corfu-next)
