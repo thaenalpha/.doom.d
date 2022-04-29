@@ -237,7 +237,8 @@ Look at the options and choose your [[mode][mode]]
 #+begin_src emacs-lisp :tangle no
 (default    'doom-one)
 (light      'doom-acario-light)
-(dark       'doom-ayu-mirage)
+(dark ',(nth (random 5)
+            '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
 (custom     'doom-dracula)
 #+end_src
 

@@ -43,16 +43,19 @@
 (package! moe-theme)
 (package! gotham-theme)
 (package! vs-dark-theme)
+
+(package! autothemer)                   ; catppuccin and kanagawa depend on this
+(package! catppuccin
+  :recipe (:host github :repo "konrad1977/emacs" :files ("themes/cat*")))
+(package! kanagawa
+  :recipe (:host github :repo "konrad1977/emacs" :files ("themes/kana*")))
 #+end_src
 
 *** in use :enabledThemes:
 #+begin_src emacs-lisp :tangle yes
 ;;; Themes
-(package! autothemer)
-(package! catppuccin
-  :recipe (:host github :repo "konrad1977/emacs" :files ("themes/cat*")))
-(package! kanagawa
-  :recipe (:host github :repo "konrad1977/emacs" :files ("themes/kana*")))
+(package! aj-dark+-theme
+  :recipe (:host github :repo "AloisJanicek/.doom.d-2nd" :files ("themes/*dark+*")))
 #+end_src
 
 ** Miscellaneous

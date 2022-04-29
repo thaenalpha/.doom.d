@@ -53,7 +53,8 @@
    `(let ((auto       'auto)
           (default    'doom-one)
           (light      'doom-acario-light)
-          (dark       'doom-ayu-mirage)
+          (dark ',(nth (random 5)
+                      '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
           (custom     'doom-dracula))
       (if (eq ,my-doom-color 'auto)
           (run-with-timer

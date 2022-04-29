@@ -21,11 +21,8 @@
 ;;; UI
 
 ;;; Themes
-(package! autothemer)
-(package! catppuccin
-  :recipe (:host github :repo "konrad1977/emacs" :files ("themes/cat*")))
-(package! kanagawa
-  :recipe (:host github :repo "konrad1977/emacs" :files ("themes/kana*")))
+(package! aj-dark+-theme
+  :recipe (:host github :repo "AloisJanicek/.doom.d-2nd" :files ("themes/*dark+*")))
 
 ;;; Miscellaneous
 
