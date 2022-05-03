@@ -106,7 +106,9 @@ If the hour is (both inclusive) in `light-theme-hours' then
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
-      :n  "C-SPC" #'just-one-space
+      (:when (or IS-WINDOWS
+                 (getenv "WSLENV"))
+       :n  "C-SPC" #'just-one-space)
 
       ;;; :ui doom-dashboard
       (:when (featurep! :ui doom-dashboard)
