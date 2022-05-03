@@ -125,7 +125,8 @@ grammar             ; tasing grammar mistake every you make
 #+begin_src emacs-lisp
 (corfu +orderless   ; Completion Overlay Region FUnction
        +tabnine     ; cape-tabnine-to-capf
-       +tng)        ; TAB-and-Go completion
+       +tng         ; TAB-and-Go completion
+       +childframe) ; Documentation popup for Corfu
 (vertico            ; the search engine of the future
  +childframe        ; Using posframe to show Vertico
  +icons)
@@ -340,7 +341,9 @@ lsp                 ; M-x vscode
 make                ; run make tasks from Emacs
 (pass +auth)        ; password manager for nerds
 pdf                 ; pdf enhancements
+prodigy             ; managing external services & code builders
 rgb                 ; creating color strings
+tmux                ; an API for interacting with tmux
 tree-sitter         ; PRIVATE syntax-tree at speed of light
 #+end_src
 *** All Available-Tools
@@ -374,6 +377,7 @@ rgb                 ; creating color strings
 taskrunner          ; taskrunner for all your projects
 terraform           ; infrastructure as code
 tmux                ; an API for interacting with tmux
+tree-sitter         ; PRIVATE syntax-tree at speed of light
 upload              ; map local to remote projects via ssh/ftp
 #+end_src
 ** :ui

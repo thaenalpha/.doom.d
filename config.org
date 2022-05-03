@@ -274,6 +274,8 @@ auto
 #+begin_src emacs-lisp :tangle no
 doom-acario-light-brighter-modeline t
 doom-themes-treemacs-theme 'doom-colors
+doom-modeline-height 22
+aj-dark+-blue-modeline t
 #+end_src
 #+name: my-theme-script
 #+begin_src emacs-lisp :noweb no-export :tangle no
@@ -984,6 +986,7 @@ in the form of doom module by [[https://git.sr.ht/~gagbo][@Gerry_Agbobada]]. The
 + [[https://github.com/oantolin/orderless][orderless]] (=+orderless=)
 + [[https://github.com/company-mode/company-mode][company-mode]]
 + <<company-tabnine>>
++ [[https://github.com/galeo/corfu-doc][corfu-doc]] (=+childframe=)
 
 ,** Hacks
 # A list of internal modifications to included packages; omit if unneeded
@@ -1239,18 +1242,28 @@ If INTERACTIVE is nil the function acts like a capf."
       (when corfu--candidates (corfu-quit)))
 
     (map! (:map corfu-map
-           "C-n"    #'corfu-next
-           "C-p"    #'corfu-previous
-           "C-j"    #'corfu-next
-           "C-k"    #'corfu-previous
-           "C-h"    #'corfu-show-documentation
-           "C-u"    #'corfu-scroll-down
-           "C-d"    #'corfu-scroll-up
-           "C-v"    #'corfu-scroll-up
-           "C-s"    #'corfu-move-to-minibuffer
-           "C-`"    #'corfu-move-to-minibuffer
-           "C-x j"  #'corfu-move-to-minibuffer
-           "C-S-s"  #'completion-at-point))))
+           "C-n"   #'corfu-next
+           "C-p"   #'corfu-previous
+           "C-j"   #'corfu-next
+           "C-k"   #'corfu-previous
+           "C-h"   #'corfu-show-documentation
+           "C-u"   #'corfu-scroll-down
+           "C-d"   #'corfu-scroll-up
+           "C-v"   #'corfu-scroll-up
+           "C-s"   #'corfu-move-to-minibuffer
+           "C-`"   #'corfu-move-to-minibuffer
+           "C-x j" #'corfu-move-to-minibuffer
+           "C-S-s" #'completion-at-point
+           "M-p"   #'corfu-doc-scroll-down
+           "M-n"   #'corfu-doc-scroll-up
+           "M-d"   #'corfu-doc-toggle))))
+
+;;
+;;; Packages
+
+(use-package! corfu-doc
+  :when (featurep! +childframe)
+  :hook (corfu-mode . corfu-doc-mode))
 
 ;; Enable `partial-completion' for files to allow path expansion.
 ;; You may prefer to use `initials' instead of `partial-completion'.
@@ -1333,6 +1346,8 @@ no auto complete, quitting at boundary and quitting if there is no match.
   (package! orderless))
 (package! kind-icon)
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
+(when (featurep! +childframe)
+  (package! corfu-doc))
 (unless (featurep! :completion company) (package! company))
 #+end_src
 

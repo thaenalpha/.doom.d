@@ -6,7 +6,8 @@
 (doom! :completion
        (corfu +orderless   ; Completion Overlay Region FUnction
               +tabnine     ; cape-tabnine-to-capf
-              +tng)        ; TAB-and-Go completion
+              +tng         ; TAB-and-Go completion
+              +childframe) ; Documentation popup for Corfu
        (vertico            ; the search engine of the future
         +childframe        ; Using posframe to show Vertico
         +icons)
@@ -91,7 +92,9 @@
        make                ; run make tasks from Emacs
        (pass +auth)        ; password manager for nerds
        pdf                 ; pdf enhancements
+       prodigy             ; managing external services & code builders
        rgb                 ; creating color strings
+       tmux                ; an API for interacting with tmux
        tree-sitter         ; PRIVATE syntax-tree at speed of light
 
        :os
