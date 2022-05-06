@@ -54,9 +54,11 @@
   (eval                           ; theme varies to the value of `my-doom-color'
    `(let ((auto       'auto)
           (default    'doom-one)
-          (light      'doom-acario-light)
+          (light ',(nth (random 5)
+                        '(alabaster doom-alabaster-bg doom-alabaster
+                          doom-acario-light doom-github)))
           (dark ',(nth (random 5)
-                      '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
+                       '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
           (custom     'doom-dracula))
       (if (eq ,my-doom-color 'auto)
           (run-with-timer

@@ -236,9 +236,11 @@ Look at the options and choose your [[mode][mode]]
 #+name:     my-theme-modes
 #+begin_src emacs-lisp :tangle no
 (default    'doom-one)
-(light      'doom-acario-light)
+(light ',(nth (random 5)
+              '(alabaster doom-alabaster-bg doom-alabaster
+                doom-acario-light doom-github)))
 (dark ',(nth (random 5)
-            '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
+             '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
 (custom     'doom-dracula)
 #+end_src
 
