@@ -218,7 +218,11 @@ If the hour is (both inclusive) in `light-theme-hours' then
           (:prefix ("l" . "list")
            (:when (featurep! :tools gist)
             :desc "List other user's gists" "u"   #'gist-list-user
-            :desc "List your starred gists" "M-s" #'gist-list-starred)))))))
+            :desc "List your starred gists" "M-s" #'gist-list-starred)))
+         ;; <leader> p --- project
+         (:prefix ("p" . "project")
+          :when (featurep! :tools prodigy)
+          :desc "services"                 "t" #'prodigy)))))
 
 
 
