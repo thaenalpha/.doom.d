@@ -77,6 +77,7 @@
        biblio              ; Writes a PhD for you (citation needed)
        brief               ; tldr +cheat-sh
        (debugger +lsp)     ; stepping through code, to help you add bugs
+       direnv              ; integrates direnv into Emacs.
        (docker +lsp)       ; Emacs interface to Docker
        editorconfig        ; let someone else argue about tabs vs spaces
        (eval +overlay)     ; run code, run (also, repls)
@@ -122,15 +123,13 @@
         +present           ; using org-mode for presentations
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
-       php                 ; perl's insecure younger brother
+       (php +lsp)          ; perl's insecure younger brother
        (python +lsp)       ; beautiful is better than ugly
        rest                ; Emacs as a REST client
-       (scheme +guile)     ; a fully conniving family of lisps
        (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
-           +fish           ; non-posix
-           +powershell)    ; the Microsoft shell
+           +fish)          ; non-posix
        (web +lsp           ; the tubes
-            +tailwind)     ;
+            +tailwind)     ; write styles you want from html
        (yaml +lsp)         ; JSON, but readable
 
        :email
