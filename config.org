@@ -118,7 +118,8 @@
 #+end_src
 ** Emacs
 #+begin_src emacs-lisp :noweb no-export
-(setq <<split-windows>>
+(setq shell-command-switch "-ic"
+      <<split-windows>>
       truncate-string-ellipsis  "…")    ; Unicode ellispis are nicer than "...",
                                         ; and also save /precious/ space
 (global-subword-mode 1)                 ; Iterate through CamelCase words

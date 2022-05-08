@@ -6,6 +6,8 @@
 (package! shrface)
 (package! sql-indent)
 (package! emacsql-mysql)
+(package! emacs-with-nyxt
+  :recipe (:host github :repo "ag91/emacs-with-nyxt"))
 
 ;;
 ;;; Tools
