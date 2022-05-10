@@ -336,13 +336,17 @@ default-frame-alist        (append default-frame-alist
 #+end_src
 ** Miscellaneous
 *** Mouse
-Scrolling
+**** Scrolling
 #+begin_src emacs-lisp
 ;; Roll the mouse wheel to scrolls the display pixel-by-pixel.
 (when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
   (pixel-scroll-precision-mode t))
 #+end_src
 
+**** Cursor Color
+#+begin_src emacs-lisp
+(set-mouse-color "red")
+#+end_src
 * Keyboard Shortcuts :keybinds:
 For the speed of expressions
 #+begin_src emacs-lisp :noweb no-export

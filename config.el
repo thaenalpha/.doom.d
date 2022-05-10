@@ -84,6 +84,8 @@ If the hour is (both inclusive) in `light-theme-hours' then
 (when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
   (pixel-scroll-precision-mode t))
 
+(set-mouse-color "red")
+
 ;;
 ;;; keybinds
 
