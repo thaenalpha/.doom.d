@@ -2396,7 +2396,6 @@ execute ~fixmee-view-listing~ to navigate using
 ;;; ui/fixmee/config.el -*- lexical-binding: t; -*-
 
 (add-transient-hook! #'global-fixmee-mode (require 'button-lock))
-(use-package! fixmee :hook (doom-first-buffer . global-fixmee-mode))
 #+end_src
 
 **** packages.el
