@@ -26,8 +26,8 @@
   ;; Run shell cmds in sessions that are isolated from Emacs
   :recipe (:host gitlab :repo "niklaseklund/dtache"))
 (unless IS-MAC
- (package! keychain-environment))
-(package! trashed)
+ (package! keychain-environment)
+ (package! trashed))
 #+end_src
 
 * Personalization
@@ -182,10 +182,16 @@ Private or extra to the Doom modules
 (package! leetcode)
 #+end_src
 *** Lookup
-#+begin_src emacs-lisp :tangle yes
++ =+devdocs=
+ #+begin_src emacs-lisp :tangle yes
 ;;; :tools lookup +devdocs 
 (when (featurep! :tools lookup +devdocs) (package! devdocs))
 #+end_src
++ =+docsets=
+ #+begin_src emacs-lisp :tangle yes
+;;; :tools lookup +docsets
+(when (and IS-MAC (featurep! :tools lookup +docsets)) (package! dash-at-point))
+ #+end_src
 
 *** Magit
 #+begin_src emacs-lisp :tangle yes

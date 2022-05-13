@@ -223,9 +223,14 @@ If the hour is (both inclusive) in `light-theme-hours' then
             :desc "List other user's gists" "u"   #'gist-list-user
             :desc "List your starred gists" "M-s" #'gist-list-starred)))
          ;; <leader> p --- project
-         (:prefix ("p" . "project")
+         (:prefix-map ("p" . "project")
           :when (featurep! :tools prodigy)
-          :desc "services"                 "t" #'prodigy)))))
+          :desc "services"                 "t" #'prodigy)
+         ;; <leader> s --- search
+         (:prefix-map ("s" . "search")
+          (:prefix-map ("a" . "Search in applications")
+           (:when (and IS-MAC (featurep! :tools lookup +docsets))
+            :desc "dash at point" "d" #'dash-at-point)))))))
 
 
 

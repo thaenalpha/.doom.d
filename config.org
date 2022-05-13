@@ -103,6 +103,7 @@
     - [[#brief][Brief]]
     - [[#fzf][fzf]]
     - [[#gist][Gist]]
+    - [[#lookup][Lookup]]
     - [[#lsp][LSP]]
     - [[#magit-forge][magit +forge]]
     - [[#tree-sitter][Tree-sitter]]
@@ -413,9 +414,13 @@ For the speed of expressions
             :desc "List other user's gists" "u"   #'gist-list-user
             :desc "List your starred gists" "M-s" #'gist-list-starred)))
          ;; <leader> p --- project
-         (:prefix ("p" . "project")
+         (:prefix-map ("p" . "project")
           :when (featurep! :tools prodigy)
-          :desc "services"                 "t" #'prodigy)))))
+          :desc "services"                 "t" #'prodigy)
+         ;; <leader> s --- search
+         (:prefix-map ("s" . "search")
+          (:prefix-map ("a" . "Search in applications")
+           <<leader s a d --- Dash>>))))))
 #+end_src
 
 * Apps
@@ -3303,6 +3308,17 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
 ;;; :tools gist
 (add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
 #+end_src
+
+*** Lookup
++ =+devdocs=
++ =+docsets=
+  # This subtree is taken from: @github:ashkan-leo/.doom with modifications.
+ Search Dash GUI from Emacs. only works in MacOS.
+#+name: leader s a d --- Dash
+ #+begin_src emacs-lisp :tangle no
+(:when (and IS-MAC (featurep! :tools lookup +docsets))
+ :desc "dash at point" "d" #'dash-at-point)
+ #+end_src
 
 *** LSP
 #+begin_src emacs-lisp

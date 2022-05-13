@@ -16,8 +16,8 @@
   ;; Run shell cmds in sessions that are isolated from Emacs
   :recipe (:host gitlab :repo "niklaseklund/dtache"))
 (unless IS-MAC
- (package! keychain-environment))
-(package! trashed)
+ (package! keychain-environment)
+ (package! trashed))
 
 ;;
 ;;; UI
@@ -52,6 +52,9 @@
 
 ;;; :tools lookup +devdocs 
 (when (featurep! :tools lookup +devdocs) (package! devdocs))
+
+;;; :tools lookup +docsets
+(when (and IS-MAC (featurep! :tools lookup +docsets)) (package! dash-at-point))
 
 ;;; :tools magit +forge
 (when (and EMACS29+ (featurep! :tools magit +forge))
