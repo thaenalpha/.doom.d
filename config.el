@@ -621,9 +621,12 @@ If the hour is (both inclusive) in `light-theme-hours' then
     (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
 
 ;;; :tools magit
-(setq magit-inhibit-save-previous-winconf t) ; Don't restore wconf after quit magit
-(when EMACS29+ ; sqlite buitin support
-  (setq forge-database-connector 'sqlite-builtin))
+(after! magit
+  ;; Don't restore wconf after quit magit
+  (setq magit-inhibit-save-previous-winconf t))
+(after! forge
+  (when EMACS29+ ; sqlite buitin support
+    (setq forge-database-connector 'sqlite-builtin)))
 
 ;;
 ;;; Local Variables
