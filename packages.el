@@ -27,6 +27,8 @@
   :recipe (:host github :repo "AloisJanicek/.doom.d-2nd" :files ("themes/*dark+*")))
 (package! doom-alabaster-theme
   :recipe (:host gitlab :repo "agraul/dotfiles" :files ("doom/themes/*alabaster*")))
+(package! ahungry-theme)
+(package! almost-mono-themes)
 
 ;;; Miscellaneous
 

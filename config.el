@@ -55,11 +55,12 @@
   (eval                           ; theme varies to the value of `my-doom-color'
    `(let ((auto       'auto)
           (default    'doom-one)
-          (light ',(nth (random 5)
-                        '(alabaster doom-alabaster-bg doom-alabaster
-                          doom-acario-light doom-github)))
-          (dark ',(nth (random 5)
-                       '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula)))
+          (light ',(nth (random 7)
+                        '(alabaster doom-alabaster-bg doom-alabaster doom-acario-light
+                                    doom-github almost-mono-white almost-mono-cream)))
+          (dark ',(nth (random 8)
+                       '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula
+                                  ahungry almost-mono-black almost-mono-gray)))
           (custom     'doom-dracula))
       (if (eq ,my-doom-color 'auto)
           (run-with-timer
