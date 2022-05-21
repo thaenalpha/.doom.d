@@ -126,6 +126,7 @@
        (php +lsp)          ; perl's insecure younger brother
        (python +lsp)       ; beautiful is better than ugly
        rest                ; Emacs as a REST client
+       (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
            +fish)          ; non-posix
        (web +lsp           ; the tubes
