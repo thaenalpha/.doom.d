@@ -73,12 +73,12 @@
     - [[#deft][Deft]]
     - [[#discover][Discover]]
     - [[#doom-dashboard][Doom-Dashboard]]
-    - [[#tab-workspaces-work-in-progress][Tab-Workspaces (work in progress)]]
+    - [[#fixmee][fixmee]]
     - [[#hydra][Hydra]]
     - [[#modeline][Modeline]]
     - [[#modus][modus]]
+    - [[#tab-workspaces-work-in-progress][Tab-Workspaces (work in progress)]]
     - [[#treemacs][Treemacs]]
-    - [[#fixmee][fixmee]]
   - [[#editor][Editor]]
     - [[#evil][Evil]]
     - [[#format][Format]]
@@ -1574,6 +1574,179 @@ Specify the directory in which your notes are stored:
  :ne "x"    #'org-capture)
   #+end_src
 
+*** fixmee :navigation:convenience:
+**** README.org
+#+begin_src org :tangle modules/ui/fixmee/README.org :mkdirp yes
+,#+TITLE:   :ui fixmee
+,#+DATE:    January 23, 2022
+,#+SINCE:   v3.0.0-alpha
+,#+STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+- [[#prerequisites][Prerequisites]]
+- [[#features][Features]]
+  - [[#urgency-of-fixme-notices][Urgency of "fixme" notices]]
+  - [[#how-to-use-this-module][How to use this module]]
+  - [[#key-bindings][Key Bindings]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
+This module tracks "fixme" notices in code comments, highlights
+them, ranks them by urgency, and lets you navigate to them quickly.
+
+,** Maintainers
++ [[https://github.com/thaenalpha][@thaenalpha]] (Author)
+
+,** Module Flags
+This module provides no flags.
+
+,** Plugins
++ [[https://github.com/rolandwalker/fixmee][fixmee]]
+
+,* Prerequisites
+This module has no prerequisites.
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+,** Urgency of "fixme" notices
+Is indicated by repetitions of the final character. For example,
+one might write "FIXMEEEEEEEEE" for an important issue. The
+~fixmee-goto-nextmost-urgent~ command will navigate to the longest notice first.
+
+,** How to use this module
+open some buffers and right-click on the word "fixme" in a comment
+
+or press
+
+=C-c f=
+
+or
+
+=M-x fixmee RET=
+
+or
+
+roll the mouse wheel when hovering over the text "fixm"
+in the modeline.
+
+or
+
+execute ~fixmee-view-listing~ to navigate using
+`next-error' conventions.
+
+
+,** Key Bindings
+| keybind     | description                                                |
+|-------------+------------------------------------------------------------|
+| =C-c f=     | ~fixmee-goto-nextmost-urgent~                              |
+| =C-c F=     | ~fixmee-goto-prevmost-urgent~                              |
+| =C-c v=     | ~fixmee-view-listing~                                      |
+| =M-n=       | ~fixmee-goto-next-by-position~     only when the point is  |
+| =M-p=       | ~fixmee-goto-previous-by-position~ inside a "fixme" notice |
+| =C-u C-c f= | go to the nextmost urgent item in the current buffer       |
+| =C-u C-c F= | go to the previousmost urgent item in the current buffer   |
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+#+end_src
+
+**** config.el
+#+begin_src emacs-lisp :tangle modules/ui/fixmee/config.el
+;;; ui/fixmee/config.el -*- lexical-binding: t; -*-
+
+(add-transient-hook! #'global-fixmee-mode (require 'button-lock))
+#+end_src
+
+**** packages.el
+[[file:packages.org::*Fixmee][Fixmee]]
+
+*** Hydra :ui:hydra:
+When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and
+~+hydra/text-zoom/body~ to control text/window with single key commands.
+
+#+name: :ui hydra/Window Navigation
+#+begin_src emacs-lisp :tangle no
+;;; :ui hydra
+(:when (featurep! :ui hydra)
+ :desc "Interactive menu" "<menu>" #'+hydra/window-nav/body
+ :when (featurep! :completion vertico)
+ [remap +hydra/window-nav/idomenu] #'consult-imenu)
+#+end_src
+#+name: +hydra/text-zoom evil
+#+begin_src emacs-lisp :tangle no
+;; <leader> z --- zoom
+(:when (featurep! :ui hydra)
+ :desc  "Text zoom menu"   "z"    #'+hydra/text-zoom/body)
+#+end_src
+
+*** Modeline
+I want to use [[https://github.com/TeMPOraL/nyan-mode][Nyan Mode]] with doom-modeline and I want to add =+nyan= flag to
+the modeline module. What I need to do is hack the =ui/modeline/packages.el=
+file locates in .emacs.d/modules directory to add the nyan-mode package, add
+=+nyan.el= for config file and add some code into the module. (I've done this
+in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
+#+begin_src emacs-lisp
+;;; :ui modeline
+;; An evil mode indicator is redundant with cursor shape - @hlissner
+(advice-add #'doom-modeline-segment--modals :override #'ignore)
+#+end_src
+*** modus :faces:theme:accessibility:
+**** config.el
+#+begin_src emacs-lisp :tangle modules/ui/modus/config.el :mkdirp yes
+;;; ui/modus/config.el -*- lexical-binding: t; -*-
+
+(use-package! modus-themes
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-mixed-fonts nil
+        modus-themes-subtle-line-numbers nil
+        modus-themes-intense-markup t
+        modus-themes-deuteranopia t
+        modus-themes-tabs-accented t
+        modus-themes-variable-pitch-ui nil
+        modus-themes-inhibit-reload t
+        modus-themes-fringes nil ; {nil,'subtle,'intense}
+        modus-themes-lang-checkers nil
+        modus-themes-mode-line '(4 accented borderless)
+        modus-themes-syntax nil
+        modus-themes-hl-line '(underline accented)
+        modus-themes-paren-match '(bold intense)
+        modus-themes-links '(neutral-underline background)
+        modus-themes-prompts '(intense bold)
+        modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
+        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
+        modus-themes-region '(bg-only no-extend)
+        modus-themes-diffs 'desaturated ; {nil,'desaturated,'bg-only}
+        modus-themes-org-blocks 'gray-background ; or {nil,'tinted-background}
+        modus-themes-org-agenda
+        '((header-block . (variable-pitch 1.3))
+          (header-date . (grayscale workaholic bold-today 1.1))
+          (event . (accented varied))
+          (scheduled . uniform)
+          (habit . traffic-light))
+        modus-themes-headings
+        '((1 . (overline background variable-pitch 1.3))
+          (2 . (rainbow overline 1.1))
+          (t . (semibold)))
+        doom-theme 'modus-operandi)
+  :bind ("<f5>" . modus-themes-toggle))
+#+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/ui/modus/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; ui/modus/packages.el
+
+(package! modus-themes :built-in 'prefer)
+#+end_src
 *** Tab-Workspaces (work in progress) :ui:tab_workspaces:
 **** README.org
 #+begin_src org :tangle modules/ui/tab-workspaces/README.org :mkdirp yes
@@ -2231,85 +2404,6 @@ success, nil otherwise."
 (package! bufler)
 (package! burly)
 #+end_src
-*** Hydra :ui:hydra:
-When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and
-~+hydra/text-zoom/body~ to control text/window with single key commands.
-
-#+name: :ui hydra/Window Navigation
-#+begin_src emacs-lisp :tangle no
-;;; :ui hydra
-(:when (featurep! :ui hydra)
- :desc "Interactive menu" "<menu>" #'+hydra/window-nav/body
- :when (featurep! :completion vertico)
- [remap +hydra/window-nav/idomenu] #'consult-imenu)
-#+end_src
-#+name: +hydra/text-zoom evil
-#+begin_src emacs-lisp :tangle no
-;; <leader> z --- zoom
-(:when (featurep! :ui hydra)
- :desc  "Text zoom menu"   "z"    #'+hydra/text-zoom/body)
-#+end_src
-
-*** Modeline
-I want to use [[https://github.com/TeMPOraL/nyan-mode][Nyan Mode]] with doom-modeline and I want to add =+nyan= flag to
-the modeline module. What I need to do is hack the =ui/modeline/packages.el=
-file locates in .emacs.d/modules directory to add the nyan-mode package, add
-=+nyan.el= for config file and add some code into the module. (I've done this
-in my doom-emacs fork, and I'm attempting to introduce it to upstream soon)
-#+begin_src emacs-lisp
-;;; :ui modeline
-;; An evil mode indicator is redundant with cursor shape - @hlissner
-(advice-add #'doom-modeline-segment--modals :override #'ignore)
-#+end_src
-*** modus :faces:theme:accessibility:
-**** config.el
-#+begin_src emacs-lisp :tangle modules/ui/modus/config.el :mkdirp yes
-;;; ui/modus/config.el -*- lexical-binding: t; -*-
-
-(use-package! modus-themes
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-mixed-fonts nil
-        modus-themes-subtle-line-numbers nil
-        modus-themes-intense-markup t
-        modus-themes-deuteranopia t
-        modus-themes-tabs-accented t
-        modus-themes-variable-pitch-ui nil
-        modus-themes-inhibit-reload t
-        modus-themes-fringes nil ; {nil,'subtle,'intense}
-        modus-themes-lang-checkers nil
-        modus-themes-mode-line '(4 accented borderless)
-        modus-themes-syntax nil
-        modus-themes-hl-line '(underline accented)
-        modus-themes-paren-match '(bold intense)
-        modus-themes-links '(neutral-underline background)
-        modus-themes-prompts '(intense bold)
-        modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
-        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
-        modus-themes-region '(bg-only no-extend)
-        modus-themes-diffs 'desaturated ; {nil,'desaturated,'bg-only}
-        modus-themes-org-blocks 'gray-background ; or {nil,'tinted-background}
-        modus-themes-org-agenda
-        '((header-block . (variable-pitch 1.3))
-          (header-date . (grayscale workaholic bold-today 1.1))
-          (event . (accented varied))
-          (scheduled . uniform)
-          (habit . traffic-light))
-        modus-themes-headings
-        '((1 . (overline background variable-pitch 1.3))
-          (2 . (rainbow overline 1.1))
-          (t . (semibold)))
-        doom-theme 'modus-operandi)
-  :bind ("<f5>" . modus-themes-toggle))
-#+end_src
-**** packages.el
-#+begin_src emacs-lisp :tangle modules/ui/modus/packages.el
-;; -*- no-byte-compile: t; -*-
-;;; ui/modus/packages.el
-
-(package! modus-themes :built-in 'prefer)
-#+end_src
 *** Treemacs
 Set theme, git-mode and width
 #+name: my-treemacs-settings
@@ -2317,100 +2411,6 @@ Set theme, git-mode and width
 treemacs-width             32
 +treemacs-git-mode         'deferred
 #+end_src
-*** fixmee :navigation:convenience:
-**** README.org
-#+begin_src org :tangle modules/ui/fixmee/README.org :mkdirp yes
-,#+TITLE:   :ui fixmee
-,#+DATE:    January 23, 2022
-,#+SINCE:   v3.0.0-alpha
-,#+STARTUP: inlineimages nofold
-
-,* Table of Contents :TOC_3:noexport:
-- [[#description][Description]]
-  - [[#maintainers][Maintainers]]
-  - [[#module-flags][Module Flags]]
-  - [[#plugins][Plugins]]
-- [[#prerequisites][Prerequisites]]
-- [[#features][Features]]
-  - [[#urgency-of-fixme-notices][Urgency of "fixme" notices]]
-  - [[#how-to-use-this-module][How to use this module]]
-  - [[#key-bindings][Key Bindings]]
-- [[#configuration][Configuration]]
-- [[#troubleshooting][Troubleshooting]]
-
-,* Description
-This module tracks "fixme" notices in code comments, highlights
-them, ranks them by urgency, and lets you navigate to them quickly.
-
-,** Maintainers
-+ [[https://github.com/thaenalpha][@thaenalpha]] (Author)
-
-,** Module Flags
-This module provides no flags.
-
-,** Plugins
-+ [[https://github.com/rolandwalker/fixmee][fixmee]]
-
-,* Prerequisites
-This module has no prerequisites.
-
-,* Features
-# An in-depth list of features, how to use them, and their dependencies.
-,** Urgency of "fixme" notices
-Is indicated by repetitions of the final character. For example,
-one might write "FIXMEEEEEEEEE" for an important issue. The
-~fixmee-goto-nextmost-urgent~ command will navigate to the longest notice first.
-
-,** How to use this module
-open some buffers and right-click on the word "fixme" in a comment
-
-or press
-
-=C-c f=
-
-or
-
-=M-x fixmee RET=
-
-or
-
-roll the mouse wheel when hovering over the text "fixm"
-in the modeline.
-
-or
-
-execute ~fixmee-view-listing~ to navigate using
-`next-error' conventions.
-
-
-,** Key Bindings
-| keybind     | description                                                |
-|-------------+------------------------------------------------------------|
-| =C-c f=     | ~fixmee-goto-nextmost-urgent~                              |
-| =C-c F=     | ~fixmee-goto-prevmost-urgent~                              |
-| =C-c v=     | ~fixmee-view-listing~                                      |
-| =M-n=       | ~fixmee-goto-next-by-position~     only when the point is  |
-| =M-p=       | ~fixmee-goto-previous-by-position~ inside a "fixme" notice |
-| =C-u C-c f= | go to the nextmost urgent item in the current buffer       |
-| =C-u C-c F= | go to the previousmost urgent item in the current buffer   |
-
-,* Configuration
-# How to configure this module, including common problems and how to address them.
-
-,* Troubleshooting
-# Common issues and their solution, or places to look for help.
-#+end_src
-
-**** config.el
-#+begin_src emacs-lisp :tangle modules/ui/fixmee/config.el
-;;; ui/fixmee/config.el -*- lexical-binding: t; -*-
-
-(add-transient-hook! #'global-fixmee-mode (require 'button-lock))
-#+end_src
-
-**** packages.el
-[[file:packages.org::*Fixmee][Fixmee]]
-
 ** Editor :editor:
 *** Evil :editor:evil:
 #+name: evil-settings
