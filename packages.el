@@ -68,10 +68,15 @@
 (when (featurep! :lang clojure) (package! clj-deps-new))
 
 ;;; :lang org
-(package! orca)       ; Org Capture
-(package! org-modern)
-(package! org-roam-ui)
-(when (featurep! :lang org +web) (package! org-web-tools))
+(when (featurep! :lang org)
+  (package! orca)       ; Org Capture
+  (package! org-roam-ui)
+  (package! org-ol-tree :recipe (:host github :repo "Townk/org-ol-tree"))
+  (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+  (package! org-modern)
+  (package! org-transclusion)
+  (package! doct :recipe (:host github :repo "progfolio/doct"))
+  (when (featurep! :lang org +web) (package! org-web-tools)))
 
 ;;; :lang web +tailwind
 (when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
