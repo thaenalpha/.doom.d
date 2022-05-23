@@ -3159,7 +3159,6 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
       (setq org-hide-emphasis-markers nil)
     (setq org-hide-emphasis-markers t)))
   #+end_src
-
  #+name: C-c e --- Toggle Emphasis
  #+begin_src emacs-lisp :tangle no
 "C-c e" #'org-toggle-emphasis
@@ -3188,7 +3187,6 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
     :override #'org-ol-tree-system--graphical-frame-p
     (memq window-system '(pgtk x w32 ns))))
  #+end_src
-
  #+name: leader m O --- Outline Tree
  #+begin_src emacs-lisp :tangle no
 :desc "Outline" "O" #'org-ol-tree
@@ -3208,7 +3206,6 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
  #+begin_quote
 From the @Tecosaur's Emacs configuration.
 #+end_quote
-
  ~doct~ (Declarative Org Capture Templates) seems to be a nicer way to
  set up org-capture.
  #+begin_src emacs-lisp :noweb no-export :tangle no :noweb-ref org-conf
@@ -3539,7 +3536,6 @@ REGEDIT4
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
            string-to-transform)))
 #+end_src
-
  #+name: Capture templates
   #+begin_src emacs-lisp :tangle no
 (setq org-capture-templates
@@ -3561,16 +3557,96 @@ REGEDIT4
           (file+olp "~/org/inbox.org" "Web")
           "* %c :website:\n%U %?%:initial"))))
  #+end_src
- #+name: Org-roam roam-ref templates
-  #+begin_src emacs-lisp
+ #+name: Org-roam capture templates
+  #+begin_src emacs-lisp :tangle no
+(setq org-roam-capture-templates
+      `(("n" "note" plain
+         ,(format "#+title: ${title}\n%%[%s/template/note.org]" org-roam-directory)
+         :target (file "note/%<%Y%m%d%H%M%S>-${slug}.org")
+         :unnarrowed t)
+        ("r" "thought" plain
+         ,(format "#+title: ${title}\n%%[%s/template/thought.org]" org-roam-directory)
+         :target (file "thought/%<%Y%m%d%H%M%S>-${slug}.org")
+         :unnarrowed t)
+        ("t" "topic" plain
+         ,(format "#+title: ${title}\n%%[%s/template/topic.org]" org-roam-directory)
+         :target (file "topic/%<%Y%m%d%H%M%S>-${slug}.org")
+         :unnarrowed t)
+        ("c" "contact" plain
+         ,(format "#+title: ${title}\n%%[%s/template/contact.org]" org-roam-directory)
+         :target (file "contact/%<%Y%m%d%H%M%S>-${slug}.org")
+         :unnarrowed t)
+        ("p" "project" plain
+         ,(format "#+title: ${title}\n%%[%s/template/project.org]" org-roam-directory)
+         :target (file "project/%<%Y%m%d>-${slug}.org")
+         :unnarrowed t)
+        ("i" "invoice" plain
+         ,(format "#+title: %%<%%Y%%m%%d>-${title}\n%%[%s/template/invoice.org]" org-roam-directory)
+         :target (file "invoice/%<%Y%m%d>-${slug}.org")
+         :unnarrowed t)
+        ("f" "ref" plain
+         ,(format "#+title: ${title}\n%%[%s/template/ref.org]" org-roam-directory)
+         :target (file "ref/%<%Y%m%d%H%M%S>-${slug}.org")
+         :unnarrowed t)
+        ("w" "works" plain
+         ,(format "#+title: ${title}\n%%[%s/template/works.org]" org-roam-directory)
+         :target (file "works/%<%Y%m%d%H%M%S>-${slug}.org")
+         :unnarrowed t)
+        ("s" "secret" plain "#+title: ${title}\n\n"
+         :target (file "secret/%<%Y%m%d%H%M%S>-${slug}.org.gpg")
+         :unnarrowed t))
+      ;; Use human readable dates for dailies titles
+      org-roam-dailies-capture-templates
+      '(("d" "default" entry "* %?"
+         :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%B %d, %Y>\n\n")))
+      org-roam-capture-ref-templates
+      '(("l" "Web site" plain (function org-roam-capture--get-point)
+         "${body}\n%?"
+         :file-name "%<%Y%m%d>-${slug}"
+         :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+         :unnarrowed t)))
+ #+end_src
+
+**** Roam =+roam2=
+ :PROPERTIES:
+:CUSTOM_ID: org-roam
+:header-args:emacs-lisp: :noweb-ref org-roam-conf
+:END:
+ This part is taken from @hlissner
+ #+begin_src emacs-lisp :noweb no-export :noweb-ref nil
 (after! org-roam
-  (setq org-roam-capture-ref-templates
-        '(("l" "Web site" plain (function org-roam-capture--get-point)
-           "${body}\n%?"
-           :file-name "%<%Y%m%d>-${slug}"
-           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
-           :unnarrowed t))))
+  <<Org-roam capture templates>>
+  <<org-roam-conf>>)
+#+end_src
+ Offer completion for ~#tags~ and ~@areas~ separately from notes.
+ #+begin_src emacs-lisp :tangle no
+(add-to-list 'org-roam-completion-functions #'org-roam-complete-tag-at-point)
+#+end_src
+ Automatically update the slug in the filename when #+title: has changed.
+ #+begin_src emacs-lisp :tangle no
+(add-hook 'org-roam-find-file-hook #'org-roam-update-slug-on-save-h)
+#+end_src
+ Make the backlinks buffer easier to peruse by folding leaves by default.
+  #+begin_src emacs-lisp :tangle no
+(add-hook 'org-roam-buffer-postrender-functions #'magit-section-show-level-2)
   #+end_src
+ List dailies and zettels separately in the backlinks buffer.
+#+begin_src emacs-lisp :tangle no
+(advice-add #'org-roam-backlinks-section :override #'org-roam-grouped-backlinks-section)
+#+end_src
+ Open in focused buffer, despite popups
+#+begin_src emacs-lisp :tangle no
+(advice-add #'org-roam-node-visit :around #'+popup-save-a)
+#+end_src
+ Make sure tags in vertico are sorted by insertion order, instead of
+arbitrarily (due to the use of group_concat in the underlying SQL query).
+#+begin_src emacs-lisp :tangle no
+(advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
+#+end_src
+ Add ID, Type, Tags, and Aliases to top of backlinks buffer.
+#+begin_src emacs-lisp :tangle no
+(advice-add #'org-roam-buffer-set-header-line-format :after #'org-roam-add-preamble-a))
+#+end_src
 *** SQL
 #+begin_src emacs-lisp
 (when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
