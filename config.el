@@ -960,8 +960,9 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
   (add-hook 'org-roam-buffer-postrender-functions #'magit-section-show-level-2)
   (advice-add #'org-roam-backlinks-section :override #'org-roam-grouped-backlinks-section)
   (advice-add #'org-roam-node-visit :around #'+popup-save-a)
-  (advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
-  (advice-add #'org-roam-buffer-set-header-line-format :after #'org-roam-add-preamble-a)))
+  ;; (advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
+  ;; (advice-remove #'org-roam-node-list #'org-roam-restore-insertion-order-for-tags-a) ; hotfix
+  (advice-add #'org-roam-buffer-set-header-line-format :after #'org-roam-add-preamble-a))
 
 (when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
 ;; MySQL

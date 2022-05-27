@@ -59,6 +59,7 @@
     - [[#edit-server][Edit-Server]]
     - [[#mastodon-1][Mastodon]]
     - [[#reddit][Reddit]]
+    - [[#slack][Slack]]
     - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
   - [[#checkers][Checkers]]
     - [[#grammar][Grammar]]
@@ -773,6 +774,72 @@ Please refer [[https://github.com/ahungry/md4rd][ahungry/md4rd's README]].
 
 (use-package! md4rd :hook (md4rd-mode . md4rd-indent-all-the-lines))
 #+end_src
+
+*** Slack
+
+**** config.el
+#+begin_src emacs-lisp :tangle modules/app/slack/packages.el
+ ;;; app/slack/config.el -*- lexical-binding: t; -*-
+
+;; Slack
+;; doc: https://github.com/yuya373/emacs-slack
+
+;; To get a token:
+;;   - Open Chrome and sign into slack at https://my.slack.com/customize
+;;   - From the dev tools console type: TS.boot_data.api_token
+;;
+;; To get a cookie:
+;;   - Get cookie entry "d" with its default encoded value
+
+(use-package! slack
+  :commands (slack-start)
+  :custom
+  (slack-buffer-emojify t)
+  (slack-prefer-current-team t)
+  :config
+  (slack-register-team
+   :default t
+   :name "C"
+   :token (+pass-get-secret "slack/c/token")
+   :cookie (+pass-get-secret "slack/c/cookie")
+   :full-and-display-names t)
+
+  (slack-register-team
+   :name "OR"
+   :token (+pass-get-secret "slack/or/token")
+   :cookie (+pass-get-secret "slack/or/cookie")
+   :full-and-display-names t)
+
+  (slack-register-team
+   :name "MA"
+   :token (+pass-get-secret "slack/ma/token")
+   :cookie (+pass-get-secret "slack/ma/cookie")
+   :full-and-display-names t)
+
+  (evil-define-key 'normal slack-mode-map
+    ",ra" 'slack-message-add-reaction
+    ",rr" 'slack-message-remove-reaction
+    ",rs" 'slack-message-show-reaction-users
+    ",me" 'slack-message-edit
+    ",md" 'slack-message-delete
+    ",mu" 'slack-message-embed-mention
+    ",mc" 'slack-message-embed-channel)
+
+  (evil-define-key 'normal slack-edit-message-mode-map
+    ",k" 'slack-message-cancel-edit
+    ",mu" 'slack-message-embed-mention
+    ",mc" 'slack-message-embed-channel))
+
+(add-hook! 'slack-mode-hook 'variable-pitch-mode)
+
+;; Trigger alerts
+;; doc: https://github.com/jwiegley/alert
+
+(use-package! alert
+  :commands (alert)
+  :custom (alert-default-style 'notifier))
+#+end_src
+**** [[file:packages.org::*Slack][packages.el]]
 *** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
 **** Installation
 telega depends on the visual-fill-column and rainbow-identifiers packages.
@@ -3626,26 +3693,29 @@ REGEDIT4
  #+begin_src emacs-lisp :tangle no
 (add-hook 'org-roam-find-file-hook #'org-roam-update-slug-on-save-h)
 #+end_src
- Make the backlinks buffer easier to peruse by folding leaves by default.
+Make the backlinks buffer easier to peruse by folding leaves by default.
   #+begin_src emacs-lisp :tangle no
 (add-hook 'org-roam-buffer-postrender-functions #'magit-section-show-level-2)
   #+end_src
- List dailies and zettels separately in the backlinks buffer.
+List dailies and zettels separately in the backlinks buffer.
 #+begin_src emacs-lisp :tangle no
 (advice-add #'org-roam-backlinks-section :override #'org-roam-grouped-backlinks-section)
 #+end_src
- Open in focused buffer, despite popups
+Open in focused buffer, despite popups
 #+begin_src emacs-lisp :tangle no
 (advice-add #'org-roam-node-visit :around #'+popup-save-a)
 #+end_src
- Make sure tags in vertico are sorted by insertion order, instead of
-arbitrarily (due to the use of group_concat in the underlying SQL query).
+Make sure tags in vertico are sorted by insertion
+order, instead of arbitrarily (due to the use of
+group_concat in the underlying SQL query).
 #+begin_src emacs-lisp :tangle no
-(advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
+;; (advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
+;; (advice-remove #'org-roam-node-list #'org-roam-restore-insertion-order-for-tags-a) ; hotfix
 #+end_src
- Add ID, Type, Tags, and Aliases to top of backlinks buffer.
+Add ID, Type, Tags, and Aliases to top of
+backlinks buffer.
 #+begin_src emacs-lisp :tangle no
-(advice-add #'org-roam-buffer-set-header-line-format :after #'org-roam-add-preamble-a))
+(advice-add #'org-roam-buffer-set-header-line-format :after #'org-roam-add-preamble-a)
 #+end_src
 *** SQL
 #+begin_src emacs-lisp
