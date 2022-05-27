@@ -839,6 +839,19 @@ Please refer [[https://github.com/ahungry/md4rd][ahungry/md4rd's README]].
 (use-package! alert
   :commands (alert)
   :custom (alert-default-style 'notifier))
+
+;; Custom function from @noonker
+;; src: https://github.com/noonker/doom-emacs/blob/main/config.org#slack-1
+(defun +slack/slk ()
+  "start slack"
+  (interactive)
+  (slack-start)
+  (cl-defmethod slack-buffer-name ((_class (subclass slack-room-buffer))
+                                   room team)
+    (slack-if-let* ((room-name (slack-room-name room team)))
+        (format  ":%s"
+                 room-name)))
+  (slack-change-current-team))
 #+end_src
 **** [[file:packages.org::*Slack][packages.el]]
 *** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
