@@ -93,23 +93,29 @@ If the hour is (both inclusive) in `light-theme-hours' then
 (map! (:after dabbrev
        "M-/"   #'dabbrev-completion   ; Swap M-/ and C-M-/
        "C-M-/" #'dabbrev-expand)
-      :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
-      :desc "Org-capture bin"             "s-X" #'+org-capture/open-frame
+      :desc "Load doom-theme on the fly"    "<f5>"  (cmd! (doom-init-theme-h))
+      :desc "Org-capture bin"               "s-X"   #'+org-capture/open-frame
 
       ;;; C-c
       (:prefix ("C-c" . "mode-specific-map")
        (:when (featurep! :tools eval)
-        :desc "Evaluate line/region"        "e" #'+eval/line-or-region
-        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace)
+        :desc "Evaluate line/region"        "e"     #'+eval/line-or-region
+        :desc "Evaluate & replace region"   "E"     #'+eval/region-and-replace)
        (:when (featurep! :checkers grammar)
-        "g"    #'writegood-mode
+        "g"     #'writegood-mode
         "C-g g" #'writegood-grade-level
         "C-g e" #'writegood-reading-ease))
+
+      (:when IS-MAC
+       :desc "Next buffer"                  "s-]"   #'next-buffer
+       :desc "Previous buffer"              "s-["   #'previous-buffer)
 
       ;;
       ;;; evil
 
       :when (featurep! :editor evil)
+      :desc "Next file"                     "M-]"   #'+evil/next-file
+      :desc "Previous file"                 "M-["   #'+evil/previous-file
       :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
@@ -204,9 +210,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
         :i "C-]"   #'complete-tag         ; etags
         :i "C-\\"  #'cape-tex
         :i "&"     #'cape-sgml
-        :i "C-r"   #'cape-rfc1345)
-       :when (featurep! :ui popup)
-       :desc "Open this buffer in a popup" "j" #'+popup/buffer)
+        :i "C-r"   #'cape-rfc1345))
 
       ;;; :config default
       (:when (featurep! :config default)
@@ -220,6 +224,14 @@ If the hour is (both inclusive) in `light-theme-hours' then
               (expand-file-name "config.org" doom-private-dir)))
         :desc "packages.org"    "po" (cmd! (find-file
               (expand-file-name "packages.org" doom-private-dir))))
+
+       ;;; :ui
+       (:when (featurep! :ui popup)
+        :desc "Open this buffer in a popup" "C-x j" #'+popup/buffer)
+       (:when (featurep! :ui workspaces)
+        (:when IS-MAC
+         :desc "Next workspace"             "s-}"   #'+workspace/switch-right
+         :desc "Previous workspace"         "s-{"   #'+workspace/switch-left))
 
        ;;; <leader>
        (:when (featurep! :config default +bindings)

@@ -360,23 +360,29 @@ For the speed of expressions
 
 (map! (:after dabbrev
        <<Swap =M-/= and =C-M-/=>>)
-      :desc "Load doom-theme on the fly" "<f5>" (cmd! (doom-init-theme-h))
-      :desc "Org-capture bin"             "s-X" #'+org-capture/open-frame
+      :desc "Load doom-theme on the fly"    "<f5>"  (cmd! (doom-init-theme-h))
+      :desc "Org-capture bin"               "s-X"   #'+org-capture/open-frame
 
       ;;; C-c
       (:prefix ("C-c" . "mode-specific-map")
        (:when (featurep! :tools eval)
-        :desc "Evaluate line/region"        "e" #'+eval/line-or-region
-        :desc "Evaluate & replace region"   "E" #'+eval/region-and-replace)
+        :desc "Evaluate line/region"        "e"     #'+eval/line-or-region
+        :desc "Evaluate & replace region"   "E"     #'+eval/region-and-replace)
        (:when (featurep! :checkers grammar)
-        "g"    #'writegood-mode
+        "g"     #'writegood-mode
         "C-g g" #'writegood-grade-level
         "C-g e" #'writegood-reading-ease))
+
+      (:when IS-MAC
+       :desc "Next buffer"                  "s-]"   #'next-buffer
+       :desc "Previous buffer"              "s-["   #'previous-buffer)
 
       ;;
       ;;; evil
 
       :when (featurep! :editor evil)
+      :desc "Next file"                     "M-]"   #'+evil/next-file
+      :desc "Previous file"                 "M-["   #'+evil/previous-file
       :n  "g+"    #'evil-numbers/inc-at-pt
       :v  "g+"    #'evil-numbers/inc-at-pt-incremental
       :nv "g="    #'er/expand-region
@@ -408,13 +414,19 @@ For the speed of expressions
 
       ;;; C-x
       (:prefix "C-x"
-       <<cape:prefix-map>>
-       :when (featurep! :ui popup)
-       :desc "Open this buffer in a popup" "j" #'+popup/buffer)
+       <<cape:prefix-map>>)
 
       ;;; <<default>>
       (:when (featurep! <<default>>)
        <<+default>>
+
+       ;;; :ui
+       (:when (featurep! :ui popup)
+        :desc "Open this buffer in a popup" "C-x j" #'+popup/buffer)
+       (:when (featurep! :ui workspaces)
+        (:when IS-MAC
+         :desc "Next workspace"             "s-}"   #'+workspace/switch-right
+         :desc "Previous workspace"         "s-{"   #'+workspace/switch-left))
 
        ;;; <leader>
        (:when (featurep! <<default>> +bindings)
