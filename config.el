@@ -944,6 +944,10 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
            :unnarrowed t)
           ("s" "secret" plain "#+title: ${title}\n\n"
            :target (file "secret/%<%Y%m%d%H%M%S>-${slug}.org.gpg")
+           :unnarrowed t)
+          ("h" "howdoyou" plain
+           ,(format "#+title: ${title}\n%%[%s/template/howdoyou.org]" org-roam-directory)
+           :target (file "howdoyou/%<%Y%m%d%H%M%S>-${slug}.org")
            :unnarrowed t))
         ;; Use human readable dates for dailies titles
         org-roam-dailies-capture-templates

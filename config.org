@@ -3675,6 +3675,10 @@ REGEDIT4
          :unnarrowed t)
         ("s" "secret" plain "#+title: ${title}\n\n"
          :target (file "secret/%<%Y%m%d%H%M%S>-${slug}.org.gpg")
+         :unnarrowed t)
+        ("h" "howdoyou" plain
+         ,(format "#+title: ${title}\n%%[%s/template/howdoyou.org]" org-roam-directory)
+         :target (file "howdoyou/%<%Y%m%d%H%M%S>-${slug}.org")
          :unnarrowed t))
       ;; Use human readable dates for dailies titles
       org-roam-dailies-capture-templates
@@ -3873,10 +3877,9 @@ This module has no prerequisites.
 
   (add-hook! 'howdoyou-mode-hook
     (doom-mark-buffer-as-real-h)
-    (persp-add-buffer (current-buffer))
-    (solaire-mode +1) (mkdir "/tmp/howdoyou" t)
-    (setq-local org-src-fontify-natively nil)
-    (setq-local buffer-file-name "/tmp/howdoyou/latest.org")))
+    (persp-add-buffer (current-buffer)) (solaire-mode +1)
+    (setq-local org-src-fontify-natively nil
+                buffer-file-name (concat org-roam-directory "howdoyou/latest.org"))))
 
 (use-package! tldr
   :commands tldr
