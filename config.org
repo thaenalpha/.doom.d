@@ -2514,7 +2514,6 @@ success, nil otherwise."
 Set theme, git-mode and width
 #+name: my-treemacs-settings
 #+begin_src emacs-lisp :tangle no
-treemacs-width             32
 +treemacs-git-mode         'deferred
 #+end_src
 *** Mixed pitch

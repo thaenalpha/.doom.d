@@ -48,7 +48,6 @@
       doom-themes-treemacs-theme 'doom-colors
       doom-modeline-height 22
       aj-dark+-blue-modeline t
-      treemacs-width             32
       +treemacs-git-mode         'deferred)
 
 (let ((my-doom-color 'auto))
