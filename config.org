@@ -109,6 +109,7 @@
     - [[#lookup][Lookup]]
     - [[#lsp][LSP]]
     - [[#magit-forge][magit +forge]]
+    - [[#prodigy][Prodigy]]
     - [[#tree-sitter][Tree-sitter]]
 - [[#local-configures][Local Configures]]
   - [[#directory-local-variables][Directory Local Variables]]
@@ -4043,6 +4044,37 @@ This will enable gravatars when viewing commits. The service used by default is
 #+BEGIN_SRC emacs-lisp :tangle no
 magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
 #+END_SRC
+*** Prodigy
+My current development external services & code builders
+ * PHP FPM
+   #+begin_src emacs-lisp
+(prodigy-define-service
+  :name "PHP-FPM"
+  :command "php-fpm"
+  :args '("--nodaemonize")
+  :tags '(work php)
+  :stop-signal 'kill
+  :kill-process-buffer-on-stop t)
+   #+end_src
+ * MySQL
+                 #+begin_src emacs-lisp
+(prodigy-define-service
+  :name "mysqld daemon"
+  :command "mysqld_safe"
+  :args '("--datadir=/opt/homebrew/var/mysql")
+  :tags '(work mysql)
+  :stop-signal 'kill
+  :kill-process-buffer-on-stop t)
+#+end_src
+ * Redis
+                                                 #+begin_src emacs-lisp
+(prodigy-define-service
+  :name "Redis server"
+  :command "redis-server"
+  :tags '(work redis)
+  :stop-signal 'kill
+  :kill-process-buffer-on-stop t)
+#+end_src
 
 *** Tree-sitter
 + tree-sitter/

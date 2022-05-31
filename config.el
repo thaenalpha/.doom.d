@@ -1051,6 +1051,29 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
   (when EMACS29+ ; sqlite buitin support
     (setq forge-database-connector 'sqlite-builtin)))
 
+(prodigy-define-service
+  :name "PHP-FPM"
+  :command "php-fpm"
+  :args '("--nodaemonize")
+  :tags '(work php)
+  :stop-signal 'kill
+  :kill-process-buffer-on-stop t)
+
+(prodigy-define-service
+  :name "mysqld daemon"
+  :command "mysqld_safe"
+  :args '("--datadir=/opt/homebrew/var/mysql")
+  :tags '(work mysql)
+  :stop-signal 'kill
+  :kill-process-buffer-on-stop t)
+
+(prodigy-define-service
+  :name "Redis server"
+  :command "redis-server"
+  :tags '(work redis)
+  :stop-signal 'kill
+  :kill-process-buffer-on-stop t)
+
 ;;
 ;;; Local Variables
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
