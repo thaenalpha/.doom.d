@@ -15,6 +15,8 @@
 (package! emacsql-mysql)
 (package! emacs-with-nyxt
   :recipe (:host github :repo "ag91/emacs-with-nyxt"))
+(package! nndiscourse)
+(unless IS-MAC (package! cask))         ; in prefer of `Brew'
 #+end_src
 
 * System administration
@@ -85,7 +87,13 @@ Private or extra to the Doom modules
 
 (package! org-jira)
 #+end_src
+*** Pocket :pocket:
+#+begin_src emacs-lisp :tangle modules/app/pocket/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/pocket/packages.el
 
+(package! pocket-reader)
+#+end_src
 *** Reddit :reddit:browse:news:
 #+begin_src emacs-lisp :tangle modules/app/reddit/packages.el
 ;; -*- no-byte-compile: t; -*-

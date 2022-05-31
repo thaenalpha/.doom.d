@@ -8,6 +8,8 @@
 (package! emacsql-mysql)
 (package! emacs-with-nyxt
   :recipe (:host github :repo "ag91/emacs-with-nyxt"))
+(package! nndiscourse)
+(unless IS-MAC (package! cask))         ; in prefer of `Brew'
 
 ;;
 ;;; Tools

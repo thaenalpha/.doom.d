@@ -145,6 +145,7 @@
         everywhere)        ; *leave* Emacs!? You must be joking
        jira                ; Syncing between Jira and Org-mode.
        mastodon            ; Client for Mastodon
+       pocket              ; Client for Pocket reading list https://getpocket.com
        reddit              ; read from Emacs
        (rss +org)          ; emacs as an RSS reader
        twitter             ; twitter client https://twitter.com/vnought
