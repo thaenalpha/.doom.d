@@ -4045,7 +4045,75 @@ This will enable gravatars when viewing commits. The service used by default is
 magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
 #+END_SRC
 *** Prodigy
-My current development external services & code builders
+#+begin_src emacs-lisp
+;; Custom status to indicate that the service is doing something
+;; that means it's not ready yet (compiling, etc)
+(prodigy-define-status :id 'working :face 'prodigy-yellow-face)
+
+;; Keep track of how many services are in each status
+(defvar my-prodigy-service-counts nil "Map of status ID to number of
+Prodigy processes with that status")
+
+;; Poor man's hook: when a service's status changes, update the counts
+;; in our alist
+(advice-add
+ 'prodigy-set-status
+ :before
+ (lambda (service new-status)
+   (let* ((old-status (plist-get service :status))
+          (old-status-count (or 0 (alist-get old-status my-prodigy-service-counts)))
+          (new-status-count (or 0 (alist-get new-status my-prodigy-service-counts))))
+     (when old-status
+       (setf (alist-get old-status my-prodigy-service-counts) (max 0 (- old-status-count 1))))
+     (setf (alist-get new-status my-prodigy-service-counts) (+ 1 new-status-count))
+     (force-mode-line-update t))))
+
+(defun my-prodigy-working-count ()
+  "Number of services with the 'working' status."
+  (let ((count (alist-get 'working my-prodigy-service-counts 0)))
+    (when (> count 0)
+      (format "W:%d" count))))
+
+(defun my-prodigy-failed-count ()
+  "Number of services with the 'failed' status."
+  (let ((count (alist-get 'failed my-prodigy-service-counts 0)))
+    (if (> count 0)
+        (format "F:%d" count)
+      "")))
+
+;; Show some status counts in the mode line so I can easily see when a
+;; service is compiling or failed
+(setq-default mode-line-format         ; TODO Change this to doom-modeline
+              (append mode-line-format
+                      '((:eval (my-prodigy-working-count))
+                        (:eval (propertize (my-prodigy-failed-count)
+                                           'face 'prodigy-red-face)))))
+
+;; Compiling via yarn can take a long time, so detect when it
+;; starts compiling and set the status to "working"
+(prodigy-define-tag
+  :name 'yarn
+  :on-output (lambda (&rest args)
+               (let ((output (plist-get args :output))
+                     (service (plist-get args :service)))
+                 (when (or (s-matches? "Already up to date." output)
+                           (s-matches? "remote" output))
+                   (prodigy-set-status service 'working)))))
+
+;; Define a service that compiles a frontend app, using Browserify
+(prodigy-define-service
+  :name "my-frontend-app"
+  :command "fish"
+  :args '(".local/bin/run-fe.fish")
+  :cwd (getenv "HOME")
+  :ready-message "Server start at "
+  :tags '(work yarn)
+  :stop-signal 'sigkill
+  :kill-process-buffer-on-stop t)
+
+;; (define more services here...)
+#+end_src
+My current development external services & code builders:
  * PHP FPM
    #+begin_src emacs-lisp
 (prodigy-define-service
