@@ -4045,6 +4045,8 @@ This will enable gravatars when viewing commits. The service used by default is
 magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
 #+END_SRC
 *** Prodigy
+Take this extra config from
+[[https://www.reddit.com/r/emacs/comments/oksdhh/package_praise_prodigy_and_fancydabbrev/][Package praise: Prodigy and fancy-dabbrev : emacs]]
 #+begin_src emacs-lisp
 ;; Custom status to indicate that the service is doing something
 ;; that means it's not ready yet (compiling, etc)
@@ -4061,11 +4063,15 @@ Prodigy processes with that status")
  :before
  (lambda (service new-status)
    (let* ((old-status (plist-get service :status))
-          (old-status-count (or 0 (alist-get old-status my-prodigy-service-counts)))
-          (new-status-count (or 0 (alist-get new-status my-prodigy-service-counts))))
+          (old-status-count
+           (or 0 (alist-get old-status my-prodigy-service-counts)))
+          (new-status-count
+           (or 0 (alist-get new-status my-prodigy-service-counts))))
      (when old-status
-       (setf (alist-get old-status my-prodigy-service-counts) (max 0 (- old-status-count 1))))
-     (setf (alist-get new-status my-prodigy-service-counts) (+ 1 new-status-count))
+       (setf (alist-get old-status my-prodigy-service-counts)
+             (max 0 (- old-status-count 1))))
+     (setf (alist-get new-status my-prodigy-service-counts)
+           (+ 1 new-status-count))
      (force-mode-line-update t))))
 
 (defun my-prodigy-working-count ()
@@ -4100,7 +4106,7 @@ Prodigy processes with that status")
                            (s-matches? "remote" output))
                    (prodigy-set-status service 'working)))))
 
-;; Define a service that compiles a frontend app, using Browserify
+;; Define a service that compiles a frontend app, using Yarn
 (prodigy-define-service
   :name "my-frontend-app"
   :command "fish"

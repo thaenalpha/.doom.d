@@ -1066,11 +1066,15 @@ Prodigy processes with that status")
  :before
  (lambda (service new-status)
    (let* ((old-status (plist-get service :status))
-          (old-status-count (or 0 (alist-get old-status my-prodigy-service-counts)))
-          (new-status-count (or 0 (alist-get new-status my-prodigy-service-counts))))
+          (old-status-count
+           (or 0 (alist-get old-status my-prodigy-service-counts)))
+          (new-status-count
+           (or 0 (alist-get new-status my-prodigy-service-counts))))
      (when old-status
-       (setf (alist-get old-status my-prodigy-service-counts) (max 0 (- old-status-count 1))))
-     (setf (alist-get new-status my-prodigy-service-counts) (+ 1 new-status-count))
+       (setf (alist-get old-status my-prodigy-service-counts)
+             (max 0 (- old-status-count 1))))
+     (setf (alist-get new-status my-prodigy-service-counts)
+           (+ 1 new-status-count))
      (force-mode-line-update t))))
 
 (defun my-prodigy-working-count ()
@@ -1105,7 +1109,7 @@ Prodigy processes with that status")
                            (s-matches? "remote" output))
                    (prodigy-set-status service 'working)))))
 
-;; Define a service that compiles a frontend app, using Browserify
+;; Define a service that compiles a frontend app, using Yarn
 (prodigy-define-service
   :name "my-frontend-app"
   :command "fish"
