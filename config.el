@@ -758,7 +758,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
   
     (setq doct-after-conversion-functions '(+doct-iconify-capture-templates))
   
-    ;; (defvar +org-capture-recipies  "~/Desktop/TEC/Organisation/recipies.org")
+    (defvar +org-capture-recipes (concat org-directory "/recipes.org"))
   
     (defun set-org-capture-templates ()
       (setq org-capture-templates
@@ -804,9 +804,9 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
                                  :icon ("file-text" :set "octicon" :color "yellow")
                                  :desc ""
                                  :i-type "read:reaserch")
-                                ("\tRecipie" :keys "r"
+                                ("\tRecipe" :keys "r"
                                  :icon ("spoon" :set "faicon" :color "dorange")
-                                 :file +org-capture-recipies
+                                 :file +org-capture-recipes
                                  :headline "Unsorted"
                                  :template "%(org-chef-get-recipe-from-url)")
                                 ("Information" :keys "i"
