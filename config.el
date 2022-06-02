@@ -259,6 +259,11 @@ If the hour is (both inclusive) in `light-theme-hours' then
            (:when (and IS-MAC (featurep! :tools lookup +docsets))
             :desc "dash at point" "d" #'dash-at-point)))))))
 
+;; Applies to first-time Gnus users
+(custom-set-variables '(gnus-select-method
+                        (quote (nndiscourse "discourse.mozilla.org"
+                                            (nndiscourse-scheme "https")))))
+
 
 
 ;;

@@ -40,6 +40,7 @@
 - [[#keyboard-shortcuts][Keyboard Shortcuts]]
 - [[#apps][Apps]]
   - [[#apps-for-websites][Apps for websites]]
+    - [[#discourse][Discourse]]
     - [[#mastodon][Mastodon]]
     - [[#md4rd][Md4rd]]
   - [[#better-defaults-packages][Better defaults packages]]
@@ -455,6 +456,16 @@ For the speed of expressions
 * Apps
 ** Apps for websites
 Open websites that can open in Emacs instead of a browser
+*** Discourse :gnus:news:social:
+Use ~nndiscourse~ package as A ~Gnus~ backend for Discourse. Access by ~M-x gnus~
+#+name: Gnus instances
+#+begin_src emacs-lisp
+;; Applies to first-time Gnus users
+(custom-set-variables '(gnus-select-method
+                        (quote (nndiscourse "discourse.mozilla.org"
+                                            (nndiscourse-scheme "https")))))
+#+end_src
+
 *** Mastodon :social:microblogging:
 #+name: Mastodon Configuration
 #+BEGIN_SRC emacs-lisp :tangle no
