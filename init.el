@@ -87,7 +87,7 @@
         +docsets           ; …or in Dash docsets locally
         +devdocs           ; another API documentation viewer for Emacs
         +dictionary)       ; word definition and thesaurus lookup functionality.
-       lsp                 ; M-x vscode
+       lsp-bridge          ; Fastest LSP client for Emacs
        (magit              ; a Git porcelain inside Emacs
         +forge)            ; interface with git forges
        make                ; run make tasks from Emacs
@@ -106,13 +106,13 @@
        (tty +osc)          ; improve the terminal Emacs experience
 
        :lang
-       (clojure +lsp)      ; java with a lisp
+       clojure             ; java with a lisp
        data                ; config/data formats
        emacs-lisp          ; drown in parentheses
-       (graphql +lsp)      ; Facebook
-       (json +lsp)         ; At least it ain't XML
-       (javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
-       (lua +lsp)          ; one-based indices? one-based indices
+       (graphql +lsp)      ; Give queries a REST
+       javascript          ; all(hope(abandon(ye(who(enter(here))))))
+       json                ; At least it ain't XML
+       lua                 ; one-based indices? one-based indices
        (markdown +grip)    ; writing docs for people to ignore
        (org                ; organize your plain life in plain text
         +dragndrop         ; drag & drop files/images into org buffers
@@ -123,15 +123,15 @@
         +present           ; using org-mode for presentations
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
-       (php +lsp)          ; perl's insecure younger brother
-       (python +lsp)       ; beautiful is better than ugly
+       php                 ; perl's insecure younger brother
+       python              ; beautiful is better than ugly
        rest                ; Emacs as a REST client
        (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
-           +fish)          ; non-posix
-       (web +lsp           ; the tubes
-            +tailwind)     ; write styles you want from html
-       (yaml +lsp)         ; JSON, but readable
+       (sh                 ; she sells {ba,z,fi}sh shells on the C xor
+        +fish)             ; non-posix
+       (web                ; the tubes
+        +tailwind)         ; write styles you want from html
+       yaml                ; JSON, but readable
 
        :email
        (mu4e +org +gmail)

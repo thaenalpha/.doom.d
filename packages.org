@@ -300,7 +300,9 @@ from Doom or MELPA/ELPA/Emacsmirror:
 Specify a `:branch' to install a package from a particular branch or tag.
 This is required for some packages whose default branch isn't 'master' (which)
 our package manager can't deal with; see raxod502/straight.el#279)
+#+begin_src emacs-lisp :tangle no
 (package! builtin-package :recipe (:branch "develop"))
+#+end_src
 
 Use `:pin' to specify a particular commit to install.
 #+begin_src emacs-lisp :tangle no

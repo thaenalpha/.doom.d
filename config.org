@@ -109,6 +109,7 @@
     - [[#gist][Gist]]
     - [[#lookup][Lookup]]
     - [[#lsp][LSP]]
+    - [[#lsp-bridge][lsp-bridge]]
     - [[#magit-forge][magit +forge]]
     - [[#prodigy][Prodigy]]
     - [[#tree-sitter][Tree-sitter]]
@@ -1645,10 +1646,10 @@ More keybinds for literate configs
 #+end_src
 ** UI :ui:
 *** Deft :ui:deft:
-**** Configuration
+
 Specify the directory in which your notes are stored:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 ;;; ui: deft
 (setq deft-directory "~/notes")
 #+end_src
@@ -3792,9 +3793,9 @@ backlinks buffer.
   Lastly associate various template language files with html so that
   lsp-tailwindcss runs when editing .liquid files for example.
 
-  #+begin_src emacs-lisp
+  #+begin_example emacs-lisp
 (add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
-  #+end_src
+  #+end_example
 
   Make sure to add the =+tailwind= flag to the =:lang web= module in [[./init.el][init.el]]!
 ** OS :os:
@@ -3993,7 +3994,7 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
  #+end_src
 
 *** LSP
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 ;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
 (unless (featurep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
@@ -4036,6 +4037,170 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
   (add-hook! 'lsp-ui-mode-hook
     (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
 #+end_src
+
+*** lsp-bridge :emacs:code:completion:lsp:lsp_client:
+Fastest LSP client for Emacs
+**** README.org
+#+begin_src org :tangle modules/tools/lsp-bridge/README.org :mkdirp yes
+,#+TITLE:   tools/lsp-bridge
+,#+DATE:    June 2, 2022
+,#+,SINCE:   v3.0.0-dev
+,#+,STARTUP: inlineimages nofold
+
+,* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+  - [[#module-flags][Module Flags]]
+  - [[#plugins][Plugins]]
+  - [[#hacks][Hacks]]
+- [[#prerequisites-python-epc][Prerequisites: python-epc]]
+- [[#features][Features]]
+- [[#configuration][Configuration]]
+- [[#troubleshooting][Troubleshooting]]
+
+,* Description
+Fastest LSP client for Emacs.
+
++ Fast & smooth code completion
+
+,** Maintainers
++ [[https://github.com/evanmeek][@evanmeek]] (Author)
++ [[https://github.com/jadestrong][@jadestrong]]
++ [[https://github.com/thaenalpha][@thaenalpha]]
+
+,** Module Flags
+This module provides no flags.
+
+,** Plugins
++ [[https://github.com/tumashu/posframe][posframe]]
++ [[https://github.com/jrblevin/markdown-mode][markdown-mode]]
++ [[https://github.com/joaotavora/yasnippet][yasnippet]]
+
+,** Hacks
+# A list of internal modifications to included packages; omit if unneeded
+
+,* Prerequisites: [[https://github.com/tkf/python-epc][python-epc]]
+,#+begin_src shell
+pip install epc
+,#+end_src
+
+,* Features
+# An in-depth list of features, how to use them, and their dependencies.
+
+,* Configuration
+# How to configure this module, including common problems and how to address them.
+
+,* Troubleshooting
+# Common issues and their solution, or places to look for help.
+#+end_src
+**** config.el
+#+begin_src emacs-lisp :tangle modules/tools/lsp-bridge/config.el
+(use-package! lsp-bridge
+  :init
+  (defun lsp-bridge-mix-multi-backends ()
+    (setq-local completion-category-defaults nil)
+    (setq-local completion-at-point-functions
+                (list
+                 (cape-capf-buster
+                  (cape-super-capf
+                   #'cape-file
+                   #'cape-dabbrev)
+                  'equal))))
+  (defun lsp-bridge-jump ()
+    (interactive)
+    (cond
+     ((eq major-mode 'emacs-lisp-mode)
+      (let ((symb (function-called-at-point)))
+        (when symb
+          (find-function symb))))
+     (lsp-bridge-mode
+      (lsp-bridge-find-def))
+     (t
+      (require 'dumb-jump)
+      (dumb-jump-go))))
+
+  (defun lsp-bridge-jum
+      (interactive)
+    (cond
+     (lsp-bridge-mode
+      (lsp-bridge-return-from-def))
+     (t
+      (require 'dumb-jump)
+      (dumb-jump-back))))
+  :config
+  (setq lsp-bridge-enable-log nil)
+  (dolist (hook (-remove-item nil lsp-bridge-default-mode-hooks))
+    (add-hook hook (lambda ()
+                     (setq-local corfu-auto nil)
+                     (lsp-bridge-mode 1)
+                     (lsp-bridge-mix-multi-backends)
+                     (setq-local +lookup-definition-functions '(lsp-bridge-jump)
+                                 +lookup-references-functions
+                                 '(lsp-bridge-find-references))
+                     (map! :map doom-leader-code-map
+                           :desc "Rename" "r" #'lsp-bridge-rename)
+                     ;; (map! :map evil-normal-state-local-map
+                     ;;       :desc "Go to definition" "gd" #'lsp-bridge-jump)
+                     )))
+  (dolist (command '("save-buffer" "evil-normal-state"))
+    (add-to-list 'lsp-bridge-completion-stop-commands command 'append))
+  (global-lsp-bridge-mode)
+  ;; :custom
+  ;; (lsp-bridge-lang-server-extension-list
+  ;; '((("vue") . "/home/evanmeek/.asdf/shims/vue-language-server")))
+  )
+
+(dolist (project '([tailwindcss "package.json"] ; `lsp-bridge--react-project-p'
+                   [vue "package.json"])) ; `lsp-bridge--vue-project-p'
+  (let ((lang (elt project 0))
+        (dominating-file (elt project 1)))
+    (defalias (make-symbol (format "lsp-bridge--%s-project-p" lang))
+      (lambda (project-path)
+        (if-let ((project-conf (f-join project-path dominating-file))
+                 (exist (f-file-p project-conf))
+                 (config (json-read-file project-conf))
+                 (dependencies (alist-get 'dependencies config)))
+            (alist-get lang dependencies)
+          nil)))))
+
+(dolist (list-name '(clojure-project-list
+                     php-project-list
+                     rust-project-list
+                     vue-project-list))
+  (eval `(defvar ,list-name nil)))
+
+(defconst lsp-bridge-directory (file-name-directory lsp-bridge-python-file))
+
+(setq lsp-bridge-get-lang-server-by-project
+      (lambda (project-path file-path)
+        (cond
+         ((or (member project-path clojure-project-list)
+              (locate-dominating-file project-path "deps.edn")
+              (locate-dominating-file project-path "project.clj"))
+          (expand-file-name "clojure-lsp.json" lsp-bridge-directory))
+
+         ((or (member project-path php-project-list)
+              (locate-dominating-file project-path "composer.json"))
+          (expand-file-name "intelephense.json" lsp-bridge-directory))
+
+         ((or (member project-path rust-project-list)
+              (locate-dominating-file project-path "cargo.toml"))
+          (expand-file-name "rust-analyzer.json" lsp-bridge-directory))
+
+         ((or (member project-path vue-project-list)
+              (lsp-bridge--vue-project-p project-path))
+          (expand-file-name (if IS-MAC
+                                "volar_darwin.json"
+                              "volar.json") lsp-bridge-directory)))))
+#+end_src
+**** packages.el
+#+begin_src emacs-lisp :tangle modules/tools/lsp-bridge/packages.el
+;; -*- no-byte-compile: t; -*-
+;;; tools/lsp-bridge/packages.el
+(package! lsp-bridge
+  :recipe (:host github :repo "thaenalpha/lsp-bridge"
+           :files ("*.el" "*.py" "core/*.py" "langserver/*.json" "acm/*")))
+#+end_src
 *** magit +forge
 #+name: magit-settings
 #+begin_src emacs-lisp :noweb no-export
@@ -4045,7 +4210,8 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
   (setq magit-inhibit-save-previous-winconf t))
 (after! forge
   (when EMACS29+ ; sqlite buitin support
-    (setq forge-database-connector 'sqlite-builtin)))
+    (setq forge-database-connector 'sqlite-builtin))
+  (setq forge-owned-accounts '(("thaenalpha" remote-name "my-fork"))))
 #+end_src
 
 **** Enable Gravatars (not works)
@@ -4250,6 +4416,9 @@ want to remap some of them you can either customize the
 (package! tree-sitter-langs)
   #+end_src
 * Local Configures
+#+begin_src emacs-lisp
+(load! "+local" nil t)
+#+end_src
 ** Directory Local Variables
 =SPC p e= ~projectile-edit-dir-locals~
 This command let you custom project variables in =.dir-locals.el=

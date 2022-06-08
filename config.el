@@ -398,9 +398,6 @@ If the hour is (both inclusive) in `light-theme-hours' then
     (signal 'quit nil)))
 (add-hook! 'kill-emacs-hook #'+literate-tangle-check-finished)
 
-;;; ui: deft
-(setq deft-directory "~/notes")
-
 ;;; :ui modeline
 ;; An evil mode indicator is redundant with cursor shape - @hlissner
 (advice-add #'doom-modeline-segment--modals :override #'ignore)
@@ -996,8 +993,6 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
         lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
                                                 typescript-mode typescript-tsx-mode)))
 
-(add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
-
 ;;; :term vterm
 (add-hook 'vterm-mode-hook #'evil-collection-vterm-toggle-send-escape)
 
@@ -1006,55 +1001,14 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 ;;; :tools gist
 (add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
 
-;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
-(unless (featurep! :checkers syntax)
-  (setq lsp-diagnostics-provider :flymake))
-
-(after! lsp-mode
-  (setq
-   lsp-auto-guess-root t
-   lsp-enable-semantic-tokens-enable nil
-   lsp-progress-via-spinner nil
-   lsp-idle-delay 0.47
-   lsp-completion-enable-additional-text-edit nil
-   lsp-signature-render-documentation t
-   lsp-signature-auto-activate t
-   lsp-signature-doc-lines 5
-   lsp-eldoc-enable-hover t
-   lsp-headerline-breadcrumb-enable nil
-   lsp-print-performance nil
-   lsp-enable-indentation t
-   lsp-enable-on-type-formatting nil
-   lsp-enable-symbol-highlighting nil
-   lsp-enable-links nil
-   lsp-log-io nil))
-
-(setq +lsp-company-backends '(company-capf :with company-yasnippet))
-
-(after! lsp-ui
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-code-actions t
-        lsp-ui-sideline-show-symbol nil
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-diagnostics nil
-        lsp-ui-doc-enable t
-        lsp-ui-doc-position 'top
-        lsp-ui-doc-delay 0.73
-        lsp-ui-doc-max-width 50
-        lsp-ui-doc-max-height 10
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-header t)
-
-  (add-hook! 'lsp-ui-mode-hook
-    (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
-
 ;;; :tools magit
 (after! magit
   ;; Don't restore wconf after quit magit
   (setq magit-inhibit-save-previous-winconf t))
 (after! forge
   (when EMACS29+ ; sqlite buitin support
-    (setq forge-database-connector 'sqlite-builtin)))
+    (setq forge-database-connector 'sqlite-builtin))
+  (setq forge-owned-accounts '(("thaenalpha" remote-name "my-fork"))))
 
 ;; Custom status to indicate that the service is doing something
 ;; that means it's not ready yet (compiling, etc)
@@ -1149,6 +1103,8 @@ Prodigy processes with that status")
   :tags '(work redis)
   :stop-signal 'kill
   :kill-process-buffer-on-stop t)
+
+(load! "+local" nil t)
 
 ;;
 ;;; Local Variables

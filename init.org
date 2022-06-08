@@ -197,13 +197,13 @@ notmuch
 ** :lang
 #+name: doom-lang
 #+begin_src emacs-lisp
-(clojure +lsp)      ; java with a lisp
+clojure             ; java with a lisp
 data                ; config/data formats
 emacs-lisp          ; drown in parentheses
-(graphql +lsp)      ; Facebook
-(json +lsp)         ; At least it ain't XML
-(javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
-(lua +lsp)          ; one-based indices? one-based indices
+(graphql +lsp)      ; Give queries a REST
+javascript          ; all(hope(abandon(ye(who(enter(here))))))
+json                ; At least it ain't XML
+lua                 ; one-based indices? one-based indices
 (markdown +grip)    ; writing docs for people to ignore
 (org                ; organize your plain life in plain text
  +dragndrop         ; drag & drop files/images into org buffers
@@ -214,19 +214,19 @@ emacs-lisp          ; drown in parentheses
  +present           ; using org-mode for presentations
  +roam2             ; wander around notes
  +web)              ; Display and capture web content with Org-mode
-(php +lsp)          ; perl's insecure younger brother
-(python +lsp)       ; beautiful is better than ugly
+php                 ; perl's insecure younger brother
+python              ; beautiful is better than ugly
 rest                ; Emacs as a REST client
 (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-(sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
-    +fish)          ; non-posix
-(web +lsp           ; the tubes
-     +tailwind)     ; write styles you want from html
-(yaml +lsp)         ; JSON, but readable
+(sh                 ; she sells {ba,z,fi}sh shells on the C xor
+ +fish)             ; non-posix
+(web                ; the tubes
+ +tailwind)         ; write styles you want from html
+yaml                ; JSON, but readable
 #+end_src
 *** All Language support
 #+begin_src emacs-lisp
-agda                ; types of types of types of types...
+agda                ; types of types of types of types…
 beancount           ; mind the GAAP
 (cc +lsp)           ; C > C++ == 1
 (clojure +lsp)      ; java with a lisp
@@ -248,11 +248,13 @@ fsharp              ; ML stands for Microsoft's Language
 fstar               ; (dependent) types and (monadic) effects and Z3
 gdscript            ; the language you waited for
 (go +lsp)           ; the hipster dialect
+(graphql +lsp)      ; Give queries a REST
 (haskell +lsp)      ; a language that's lazier than I am
 hy                  ; readability of scheme w/ speed of python
 idris               ; a language you can depend on
 (java +meghanada)   ; the poster child for carpal tunnel syndrome
 (javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
+(json +lsp)         ; At least it ain't XML
 (julia +lsp)        ; a better, faster MATLAB
 kotlin              ; a better, slicker Java(Script)
 latex               ; writing papers in Emacs has never been so fun
@@ -337,7 +339,7 @@ gist                ; interacting with github gists
  +docsets           ; …or in Dash docsets locally
  +devdocs           ; another API documentation viewer for Emacs
  +dictionary)       ; word definition and thesaurus lookup functionality.
-lsp                 ; M-x vscode
+lsp-bridge          ; Fastest LSP client for Emacs
 (magit              ; a Git porcelain inside Emacs
  +forge)            ; interface with git forges
 make                ; run make tasks from Emacs
@@ -364,11 +366,13 @@ gist                ; interacting with github gists
 kubernetes          ; Magit-like porcelain for Kubernetes
 leetcode            ; an leetcode client
 (lookup             ; navigate your code and its documentation
- +docsets           ; ...or in Dash docsets locally
+ +docsets           ; …or in Dash docsets locally
  +dictionary        ; word definition and thesaurus lookup functionality.
  +offline)          ; Install and prefer offline dictionary/thesaurus.
 (lsp                ; M-x vscode
- +peek)             ; =lsp-ui-peek= when looking up def and references
+ +eglot             ; Use Eglot instead of LSP-mode
+ +peek)             ; `lsp-ui-peek' when looking up def and references
+lsp-bridge          ; Fastest LSP client for Emacs
 (magit              ; a git porcelain for Emacs
  +forge)            ; interface with git forges
 make                ; run make tasks from Emacs
