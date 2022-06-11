@@ -4128,15 +4128,20 @@ pip install epc
       (require 'dumb-jump)
       (dumb-jump-back))))
   :config
-  (setq lsp-bridge-enable-log nil)
+  (setq acm-enable-dabbrev t)
   (dolist (hook (-remove-item nil lsp-bridge-default-mode-hooks))
     (add-hook hook (lambda ()
                      (setq-local corfu-auto nil)
                      (lsp-bridge-mode 1)
                      (lsp-bridge-mix-multi-backends)
-                     (setq-local +lookup-definition-functions '(lsp-bridge-jump)
+                     (setq-local +lookup-definition-functions
+                                 '(lsp-bridge-jump)
                                  +lookup-references-functions
-                                 '(lsp-bridge-find-references))
+                                 '(lsp-bridge-find-references)
+                                 +lookup-documentation-functions
+                                 '(lsp-bridge-lookup-documentation)
+                                 +lookup-implementations-functions
+                                 '(lsp-bridge-find-impl))
                      (map! :map doom-leader-code-map
                            :desc "Rename" "r" #'lsp-bridge-rename)
                      ;; (map! :map evil-normal-state-local-map
@@ -4144,28 +4149,35 @@ pip install epc
                      )))
   (dolist (command '("save-buffer" "evil-normal-state"))
     (add-to-list 'lsp-bridge-completion-stop-commands command 'append))
+
+  (defadvice! ++javascript-init-lsp-or-tide-maybe-h ()
+    :override #'+javascript-init-lsp-or-tide-maybe-h
+    nil)
   (global-lsp-bridge-mode)
   ;; :custom
   ;; (lsp-bridge-lang-server-extension-list
   ;; '((("vue") . "/home/evanmeek/.asdf/shims/vue-language-server")))
   )
 
-(dolist (project '([tailwindcss "package.json"] ; `lsp-bridge--react-project-p'
-                   [vue "package.json"])) ; `lsp-bridge--vue-project-p'
-  (let ((lang (elt project 0))
+(dolist (project
+         '([tailwindcss "package.json"] ; `lsp-bridge--tailwindcss-project-p'
+           [vue "package.json"])) ; `lsp-bridge--vue-project-p'
+  (let ((name (elt project 0))
         (dominating-file (elt project 1)))
-    (defalias (make-symbol (format "lsp-bridge--%s-project-p" lang))
+    (defalias (make-symbol (format "lsp-bridge--%s-project-p" name))
       (lambda (project-path)
         (if-let ((project-conf (f-join project-path dominating-file))
                  (exist (f-file-p project-conf))
                  (config (json-read-file project-conf))
                  (dependencies (alist-get 'dependencies config)))
-            (alist-get lang dependencies)
+            (alist-get name dependencies)
           nil)))))
 
 (dolist (list-name '(clojure-project-list
+                     javascript-project-list
                      php-project-list
                      rust-project-list
+                     tailwindcss-project-list
                      vue-project-list))
   (eval `(defvar ,list-name nil)))
 
@@ -4179,6 +4191,10 @@ pip install epc
               (locate-dominating-file project-path "project.clj"))
           (expand-file-name "clojure-lsp.json" lsp-bridge-directory))
 
+         ((or (member project-path javascript-project-list)
+              (locate-dominating-file project-path "package.json"))
+          (expand-file-name "javascript.json" lsp-bridge-directory))
+
          ((or (member project-path php-project-list)
               (locate-dominating-file project-path "composer.json"))
           (expand-file-name "intelephense.json" lsp-bridge-directory))
@@ -4186,6 +4202,12 @@ pip install epc
          ((or (member project-path rust-project-list)
               (locate-dominating-file project-path "cargo.toml"))
           (expand-file-name "rust-analyzer.json" lsp-bridge-directory))
+
+         ((or (member project-path tailwindcss-project-list)
+              (lsp-bridge--tailwindcss-project-p project-path))
+          (expand-file-name (if IS-MAC
+                                "tailwindcss_darwin.json"
+                              "tailwindcss.json") lsp-bridge-directory))
 
          ((or (member project-path vue-project-list)
               (lsp-bridge--vue-project-p project-path))
