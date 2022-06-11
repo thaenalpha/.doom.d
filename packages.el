@@ -1,7 +1,6 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-(unpin! t)            ; unpin packages
 ;; Extend shr/eww with org features and analysis capability
 (package! shrface)
 (package! sql-indent)
@@ -84,3 +83,6 @@
 (when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
   (package! lsp-tailwindcss
     :recipe (:host github :repo "merrickluo/lsp-tailwindcss")))
+
+(unpin! :app :checkers :completion :config :editor
+        :emacs :email :input :lang :os :term :tools :ui)
