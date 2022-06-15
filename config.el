@@ -926,6 +926,9 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
            string-to-transform)))
 
+(setq org-jira-working-dir "~/org/jira"
+      jiralib-url "https://cenergy.atlassian.net/")
+
 (after! org-roam
   (setq org-roam-capture-templates
         `(("n" "note" plain

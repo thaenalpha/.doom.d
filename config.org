@@ -3721,6 +3721,11 @@ REGEDIT4
          :unnarrowed t)))
  #+end_src
 
+**** Jira :jira:org:bug:tracker:
+#+begin_src emacs-lisp
+(setq org-jira-working-dir "~/org/jira"
+      jiralib-url "https://cenergy.atlassian.net/")
+#+end_src
 **** Roam =+roam2=
  :PROPERTIES:
 :CUSTOM_ID: org-roam
