@@ -79,6 +79,7 @@
        (eval +overlay)     ; run code, run (also, repls)
        fzf                 ; Command-line fuzzy finder written in Go
        gist                ; interacting with github gists
+       github              ; github explorer, search, stars, and notifications
        (lookup             ; navigate your code and its documentation
         +docsets           ; …or in Dash docsets locally
         +devdocs           ; another API documentation viewer for Emacs

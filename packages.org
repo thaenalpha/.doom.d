@@ -164,6 +164,17 @@ Private or extra to the Doom modules
   :recipe (:host github :repo "thanhvg/emacs-howdoyou"))
 (package! tldr)
 #+end_src
+*** Github :github:explorer:search:stars:gh:notify:
+#+begin_src emacs-lisp :tangle modules/tools/github/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; tools/github/packages.el
+
+(when (featurep! :tools magit +forge)
+ (package! gh-notify :pin "aa4d8bc0c56366d437e7c126e7eedc5938109342"))
+(package! github-explorer :pin "49e5c350169b556deaabdcb67e9440bd4d5b4f8b")
+(package! github-search :pin "b73efaf19491010522b09db35bb0f1bad1620e63")
+(package! github-stars :pin "a9f25ab2487c886f5d50d26693d49856bd51383b")
+#+end_src
 *** kubernetes
 #+begin_src emacs-lisp :tangle modules/tools/kubernetes/packages.el :mkdirp yes
 ;; -*- no-byte-compile: t; -*-
