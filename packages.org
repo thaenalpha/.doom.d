@@ -200,7 +200,8 @@ Private or extra to the Doom modules
 + =+docsets=
  #+begin_src emacs-lisp :tangle yes
 ;;; :tools lookup +docsets
-(when (and IS-MAC (featurep! :tools lookup +docsets)) (package! dash-at-point))
+(when (and IS-MAC (featurep! :tools lookup +docsets))
+  (package! dash-at-point))
  #+end_src
 
 *** Magit

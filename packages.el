@@ -57,7 +57,8 @@
 (when (featurep! :tools lookup +devdocs) (package! devdocs))
 
 ;;; :tools lookup +docsets
-(when (and IS-MAC (featurep! :tools lookup +docsets)) (package! dash-at-point))
+(when (and IS-MAC (featurep! :tools lookup +docsets))
+  (package! dash-at-point))
 
 ;;; :tools magit +forge
 (when (and EMACS29+ (featurep! :tools magit +forge))
