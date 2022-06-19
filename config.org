@@ -337,10 +337,11 @@ display-line-numbers-type  'visual
 ** Window & frame
 #+name: my-frame-settings
 #+begin_src emacs-lisp :tangle no
-default-frame-alist        (append default-frame-alist
-                                   '((height . 50)
-                                     (width  . 162)
-                                     (inhibit-double-buffering . t)))
+default-frame-alist        (dolist (prop
+                                     '((height . 50)
+                                       (width  . 162)
+                                       (inhibit-double-buffering . t)))
+                             (add-to-list 'default-frame-alist prop))
 #+end_src
 ** Miscellaneous
 *** Mouse
@@ -4239,7 +4240,10 @@ pip install epc
 ;;; :tools magit
 (after! magit
   ;; Don't restore wconf after quit magit
-  (setq magit-inhibit-save-previous-winconf t))
+  (setq magit-inhibit-save-previous-winconf t
+        magit-repository-directories `((,doom-emacs-dir . 0)
+                                       (,doom-private-dir . 0)
+                                       (,(concat straight-base-dir "straight/repos") . 1))))
 (after! forge
   (when EMACS29+ ; sqlite buitin support
     (setq forge-database-connector 'sqlite-builtin))

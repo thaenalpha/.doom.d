@@ -40,10 +40,11 @@
       vertico-posframe-font      (font-spec :family "JetBrainsMono Nerd Font" :size 15)
       doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
       doom-serif-font            doom-variable-pitch-font
-      default-frame-alist        (append default-frame-alist
-                                         '((height . 50)
-                                           (width  . 162)
-                                           (inhibit-double-buffering . t)))
+      default-frame-alist        (dolist (prop
+                                           '((height . 50)
+                                             (width  . 162)
+                                             (inhibit-double-buffering . t)))
+                                   (add-to-list 'default-frame-alist prop))
       doom-acario-light-brighter-modeline t
       doom-themes-treemacs-theme 'doom-colors
       doom-modeline-height 22
@@ -1012,7 +1013,10 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 ;;; :tools magit
 (after! magit
   ;; Don't restore wconf after quit magit
-  (setq magit-inhibit-save-previous-winconf t))
+  (setq magit-inhibit-save-previous-winconf t
+        magit-repository-directories `((,doom-emacs-dir . 0)
+                                       (,doom-private-dir . 0)
+                                       (,(concat straight-base-dir "straight/repos") . 1))))
 (after! forge
   (when EMACS29+ ; sqlite buitin support
     (setq forge-database-connector 'sqlite-builtin))
