@@ -931,64 +931,78 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
       jiralib-url "https://cenergy.atlassian.net/")
 
 (after! org-roam
-  (setq org-roam-capture-templates
-        `(("n" "note" plain
-           ,(format "#+title: ${title}\n%%[%s/template/note.org]" org-roam-directory)
-           :target (file "note/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("r" "thought" plain
-           ,(format "#+title: ${title}\n%%[%s/template/thought.org]" org-roam-directory)
-           :target (file "thought/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("t" "topic" plain
-           ,(format "#+title: ${title}\n%%[%s/template/topic.org]" org-roam-directory)
-           :target (file "topic/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("c" "contact" plain
-           ,(format "#+title: ${title}\n%%[%s/template/contact.org]" org-roam-directory)
-           :target (file "contact/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("p" "project" plain
-           ,(format "#+title: ${title}\n%%[%s/template/project.org]" org-roam-directory)
-           :target (file "project/%<%Y%m%d>-${slug}.org")
-           :unnarrowed t)
-          ("i" "invoice" plain
-           ,(format "#+title: %%<%%Y%%m%%d>-${title}\n%%[%s/template/invoice.org]" org-roam-directory)
-           :target (file "invoice/%<%Y%m%d>-${slug}.org")
-           :unnarrowed t)
-          ("f" "ref" plain
-           ,(format "#+title: ${title}\n%%[%s/template/ref.org]" org-roam-directory)
-           :target (file "ref/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("w" "works" plain
-           ,(format "#+title: ${title}\n%%[%s/template/works.org]" org-roam-directory)
-           :target (file "works/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("s" "secret" plain "#+title: ${title}\n\n"
-           :target (file "secret/%<%Y%m%d%H%M%S>-${slug}.org.gpg")
-           :unnarrowed t)
-          ("h" "howdoyou" plain
-           ,(format "#+title: ${title}\n%%[%s/template/howdoyou.org]" org-roam-directory)
-           :target (file "howdoyou/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t))
-        ;; Use human readable dates for dailies titles
-        org-roam-dailies-capture-templates
-        '(("d" "default" entry "* %?"
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%B %d, %Y>\n\n")))
-        org-roam-capture-ref-templates
-        '(("l" "Web site" plain (function org-roam-capture--get-point)
-           "${body}\n%?"
-           :file-name "%<%Y%m%d>-${slug}"
-           :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
-           :unnarrowed t)))
+  (setq
+   org-roam-capture-templates
+   `(("n" "note" plain
+      ,(format "#+title: ${title}\n%%[%s/template/note.org]"
+               org-roam-directory)
+      :target (file "note/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("r" "thought" plain
+      ,(format "#+title: ${title}\n%%[%s/template/thought.org]"
+               org-roam-directory)
+      :target (file "thought/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("t" "topic" plain
+      ,(format "#+title: ${title}\n%%[%s/template/topic.org]"
+               org-roam-directory)
+      :target (file "topic/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("c" "contact" plain
+      ,(format "#+title: ${title}\n%%[%s/template/contact.org]"
+               org-roam-directory)
+      :target (file "contact/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("p" "project" plain
+      ,(format "#+title: ${title}\n%%[%s/template/project.org]"
+               org-roam-directory)
+      :target (file "project/%<%Y%m%d>-${slug}.org")
+      :unnarrowed t)
+     ("i" "invoice" plain
+      ,(format
+        "#+title: %%<%%Y%%m%%d>-${title}\n%%[%s/template/invoice.org]"
+        org-roam-directory)
+      :target (file "invoice/%<%Y%m%d>-${slug}.org")
+      :unnarrowed t)
+     ("f" "ref" plain
+      ,(format
+        "#+title: ${title}\n#+header: :var name='${title}' %%[%s/template/ref.org]"
+        org-roam-directory)
+      :target (file "ref/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("w" "works" plain
+      ,(format "#+title: ${title}\n%%[%s/template/works.org]"
+               org-roam-directory)
+      :target (file "works/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("s" "secret" plain "#+title: ${title}\n\n"
+      :target (file "secret/%<%Y%m%d%H%M%S>-${slug}.org.gpg")
+      :unnarrowed t)
+     ("h" "howdoyou" plain
+      ,(format "#+title: ${title}\n%%[%s/template/howdoyou.org]"
+               org-roam-directory)
+      :target (file "howdoyou/%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t))
+   ;; Use human readable dates for dailies titles
+   org-roam-dailies-capture-templates
+   '(("d" "default" entry "* %?"
+      :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%B %d, %Y>\n\n")))
+   org-roam-capture-ref-templates
+   '(("l" "Web site" plain (function org-roam-capture--get-point)
+      "${body}\n%?"
+      :file-name "%<%Y%m%d>-${slug}"
+      :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
+      :unnarrowed t)))
   (add-to-list 'org-roam-completion-functions #'org-roam-complete-tag-at-point)
   (add-hook 'org-roam-find-file-hook #'org-roam-update-slug-on-save-h)
   (add-hook 'org-roam-buffer-postrender-functions #'magit-section-show-level-2)
-  (advice-add #'org-roam-backlinks-section :override #'org-roam-grouped-backlinks-section)
+  (advice-add #'org-roam-backlinks-section :override
+              #'org-roam-grouped-backlinks-section)
   (advice-add #'org-roam-node-visit :around #'+popup-save-a)
   ;; (advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
   ;; (advice-remove #'org-roam-node-list #'org-roam-restore-insertion-order-for-tags-a) ; hotfix
-  (advice-add #'org-roam-buffer-set-header-line-format :after #'org-roam-add-preamble-a))
+  (advice-add #'org-roam-buffer-set-header-line-format :after
+              #'org-roam-add-preamble-a))
 
 (when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
 ;; MySQL
