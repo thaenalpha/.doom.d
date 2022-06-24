@@ -371,7 +371,7 @@ For the speed of expressions
       (:prefix ("C-c" . "mode-specific-map")
        (:when (featurep! :tools eval)
         :desc "Evaluate line/region"        "e"     #'+eval/line-or-region
-        :desc "Evaluate & replace region"   "E"     #'+eval/region-and-replace)
+        :desc "Evaluate & replace region"   "E"    #'+eval/region-and-replace)
        (:when (featurep! :checkers grammar)
         "g"     #'writegood-mode
         "C-g g" #'writegood-grade-level
@@ -547,21 +547,13 @@ Replace ~isearch~ functions with more reliable browser-like experience.
 A modern file manager based on ~dired-mode~, [[github:ralesi/ranger.el][ranger]] but is more bare-bone.
 #+name: dirvish Configuration
 #+begin_src emacs-lisp :tangle no
-;; (add-hook! dirvish-mode (defun dirvish--normalize-keymaps ()
-;;                          (when (boundp 'evil-mode)
-;;                            ;; turn off evilified buffers for evilify usage
-;;                            (evil-make-overriding-map dirvish-mode-map 'motion)
-;;                            (evil-normalize-keymaps))))
 (after! dired
-  (dirvish-override-dired-mode)
-  ;; Enable file preview when narrowing files in minibuffer.
+  ;; Enable file preview when narrowing files in minibuffer(may navigate slow)
   (dirvish-peek-mode))
 #+end_src
 #+name: Overide dired-mode-map
 #+begin_src emacs-lisp :tangle no
-:map dired-mode-map
-"zz"      #'dirvish-show-history
-"M-c"     #'dirvish-ui-config
+:map dirvish-mode-map
 "M-m"     #'dirvish-toggle-fullscreen
 "C-c C-f" #'fd-dired
 [remap dired-do-copy]       #'dirvish-yank
@@ -1560,70 +1552,6 @@ center
 
 ** Configure :config:
 *** literate
-#+begin_quote
-Asynchronous config tangling
-+ [[https://github.com/tecosaur][@tecosaur]]
-#+end_quote
-This configuration block come from Tecosaur's Emacs configuration.
-#+begin_src emacs-lisp
-;;; :config literate
-(defvar +literate-tangle--proc nil)
-(defvar +literate-tangle--proc-start-time nil)
-
-(defadvice! +literate-tangle-async-h ()
-  "A very simplified version of `+literate-tangle-h', but async."
-  :override #'+literate-tangle-h
-  (unless (getenv "__NOTANGLE")
-    (let ((default-directory doom-private-dir))
-      (when +literate-tangle--proc
-        (message "Killing outdated tangle process...")
-        (set-process-sentinel +literate-tangle--proc #'ignore)
-        (kill-process +literate-tangle--proc)
-        (sit-for 0.3)) ; ensure the message is seen for a bit
-      (setq +literate-tangle--proc-start-time (float-time)
-            +literate-tangle--proc
-            (start-process "tangle-config"
-                           (get-buffer-create " *tangle config*")
-                           "emacs" "--batch" "--eval"
-                           (format "(progn \
-(require 'ox) \
-(require 'ob-tangle) \
-(setq org-confirm-babel-evaluate nil \
-      org-inhibit-startup t \
-      org-mode-hook nil \
-      write-file-functions nil \
-      before-save-hook nil \
-      after-save-hook nil \
-      vc-handled-backends nil \
-      org-startup-folded nil \
-      org-startup-indented nil) \
-(org-babel-tangle-file \"%s\" \"%s\"))"
-                                   +literate-config-file
-                                   (expand-file-name (concat doom-module-config-file ".el")))))
-      (set-process-sentinel +literate-tangle--proc #'+literate-tangle--sentinel)
-      (run-at-time nil nil (lambda () (message "Tangling config.org"))) ; ensure shown after a save message
-      "Tangling config.org...")))
-
-(defun +literate-tangle--sentinel (process signal)
-  (cond
-   ((and (eq 'exit (process-status process))
-         (= 0 (process-exit-status process)))
-    (message "Tangled config.org sucessfully (took %.1fs)"
-             (- (float-time) +literate-tangle--proc-start-time))
-    (setq +literate-tangle--proc nil))
-   ((memq (process-status process) (list 'exit 'signal))
-    (pop-to-buffer (get-buffer " *tangle config*"))
-    (message "Failed to tangle config.org (after %.1fs)"
-             (- (float-time) +literate-tangle--proc-start-time))
-    (setq +literate-tangle--proc nil))))
-
-(defun +literate-tangle-check-finished ()
-  (when (and (process-live-p +literate-tangle--proc)
-             (yes-or-no-p "Config is currently retangling, would you please wait a few seconds?"))
-    (switch-to-buffer " *tangle config*")
-    (signal 'quit nil)))
-(add-hook! 'kill-emacs-hook #'+literate-tangle-check-finished)
-#+end_src
 
 *** default
 #+name: default
@@ -2726,7 +2654,7 @@ To disable this behavior on ts and js modes in favor of prettier:
 (use-package! ctrlf :hook (doom-first-input . ctrlf-mode))
 #+end_src
 *** dired :files:convenience:
-#+begin_src emacs-lisp :noweb no-export
+#+begin_src emacs-lisp :noweb no-export :tangle no
 ;;; :emacs dired +dirvish
 (when (featurep! :emacs dired +dirvish)
   <<dirvish Configuration>>)
