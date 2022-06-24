@@ -201,11 +201,13 @@ notmuch
 data                ; config/data formats
 emacs-lisp          ; drown in parentheses
 (graphql +lsp)      ; Give queries a REST
-(javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
-(json +lsp)         ; At least it ain't XML
+(javascript         ; all(hope(abandon(ye(who(enter(here))))))
+ +lsp +tree-sitter)
+(json +lsp          ; At least it ain't XML
+      +tree-sitter)
 (lua +lsp)          ; one-based indices? one-based indices
 (markdown +grip)    ; writing docs for people to ignore
-nix                 ; I hereby declare "nix geht mehr!"
+(nix +tree-sitter)  ; I hereby declare "nix geht mehr!"
 (org                ; organize your plain life in plain text
  +dragndrop         ; drag & drop files/images into org buffers
  +gnuplot           ; who doesn't like pretty pictures
@@ -215,31 +217,38 @@ nix                 ; I hereby declare "nix geht mehr!"
  +present           ; using org-mode for presentations
  +roam2             ; wander around notes
  +web)              ; Display and capture web content with Org-mode
-php                 ; perl's insecure younger brother
-(python +lsp)       ; beautiful is better than ugly
+(php +tree-sitter)  ; perl's insecure younger brother
+(python +lsp        ; beautiful is better than ugly
+        +pyright
+        +tree-sitter)
 (rest +jq)          ; Emacs as a REST client
 (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
 (sh                 ; she sells {ba,z,fi}sh shells on the C xor
  +fish)             ; non-posix, but readable
 (web +lsp           ; the tubes
-     +tailwind)     ; write styles you want from html
+     +tailwind      ; write styles you want from html
+     +tree-sitter)
 (yaml +lsp)         ; JSON, but readable
 #+end_src
 *** All Language support
 #+begin_src emacs-lisp
-agda                ; types of types of types of types…
+(agda +tree-sitter) ; types of types of types of types…
 beancount           ; mind the GAAP
-(cc +lsp)           ; C > C++ == 1
+(cc +lsp            ; C > C++ == 1
+    +tree-sitter)
 (clojure +lsp)      ; java with a lisp
 common-lisp         ; if you've seen one lisp, you've seen them all
 coq                 ; proofs-as-programs
 crystal             ; ruby at the speed of c
-csharp              ; unity, .NET, and mono shenanigans
+(csharp             ; unity, .NET, and mono shenanigans
+ +tree-sitter)
 (dart +flutter)     ; paint ui and not much else
 data                ; config/data formats
 dhall
-(elixir +lsp)       ; erlang done right
-elm                 ; care for a cup of TEA?
+(elixir +lsp        ; erlang done right
+        +tree-sitter)
+(elm +tree-sitter   ; care for a cup of TEA?
+     +lsp)
 emacs-lisp          ; drown in parentheses
 erlang              ; an elegant language for a more civilized age
 ess                 ; emacs speaks statistics
@@ -248,20 +257,26 @@ faust               ; dsp, but you get to keep your soul
 fsharp              ; ML stands for Microsoft's Language
 fstar               ; (dependent) types and (monadic) effects and Z3
 gdscript            ; the language you waited for
-(go +lsp)           ; the hipster dialect
+(go +lsp            ; the hipster dialect
+    +tree-sitter)
 (graphql +lsp)      ; Give queries a REST
-(haskell +lsp)      ; a language that's lazier than I am
+(haskell            ; a language that's lazier than I am
+ +lsp +tree-sitter)
 hy                  ; readability of scheme w/ speed of python
 idris               ; a language you can depend on
-(java +meghanada)   ; the poster child for carpal tunnel syndrome
-(javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
-(json +lsp)         ; At least it ain't XML
-(julia +lsp)        ; a better, faster MATLAB
+(java +meghanada    ; the poster child for carpal tunnel syndrome
+      +tree-sitter)
+(javascript         ; all(hope(abandon(ye(who(enter(here))))))
+ +lsp +tree-sitter)
+(json +lsp          ; At least it ain't XML
+      +tree-sitter)
+(julia +lsp         ; a better, faster MATLAB
+       +tree-sitter)
 kotlin              ; a better, slicker Java(Script)
 latex               ; writing papers in Emacs has never been so fun
 lean                ; for folks with too much to prove
 ledger              ; be audit you can be
-lua                 ; one-based indices? one-based indices
+(lua +lsp)          ; one-based indices? one-based indices
 (markdown +grip)    ; writing docs for people to ignore
 (org                ; organize your plain life in plain text
  +dragndrop         ; drag & drop files/images into org buffers
@@ -275,32 +290,39 @@ lua                 ; one-based indices? one-based indices
  +present           ; using org-mode for presentations
  +roam2)            ; wander around notes
 nim                 ; python + lisp at the speed of c
-nix                 ; I hereby declare "nix geht mehr!"
-ocaml               ; an objective camel
-php                 ; perl's insecure younger brother
-(python +lsp)       ; beautiful is better than ugly
+(nix +tree-sitter)  ; I hereby declare "nix geht mehr!"
+(ocaml +tree-sitter); an objective camel
+(php +tree-sitter)  ; perl's insecure younger brother
+(python +lsp        ; beautiful is better than ugly
+        +pyright
+        +tree-sitter)
 plantuml            ; diagrams for confusing people more
 purescript          ; javascript, but functional
 qt                  ; the 'cutest' gui framework ever
 racket              ; a DSL for DSLs
 raku                ; the artist formerly known as perl6
-rest                ; Emacs as a REST client
+(rest +jq)          ; Emacs as a REST client
 rst                 ; ReST in peace
-(ruby +rails)       ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+(ruby +rails        ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+      +tree-sitter)
 (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-(scala +lsp)        ; java, but good
+(scala +lsp         ; java, but good
+       +tree-sitter)
 (scheme +guile)     ; a fully conniving family of lisps
 (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
     +fish           ; non-posix
-    +powershell)    ; the Microsoft shell
+    +powershell     ; the Microsoft shell
+    +tree-sitter)   ; bash
 sml
 solidity            ; do you need a blockchain? No.
-swift               ; who asked for emoji variables?
+(swift +lsp         ; who asked for emoji variables?
+       +tree-sitter)
 terra               ; Earth and Moon in alignment for performance.
 (web +lsp           ; the tubes
-     +tailwind)     ; write styles you want from html
+     +tailwind      ; write styles you want from html
+     +tree-sitter)
 (yaml +lsp)         ; JSON, but readable
-zig                 ; C, but simpler
+(zig +tree-sitter)  ; C, but simpler
 #+end_src
 ** :os
 #+name: doom-os
