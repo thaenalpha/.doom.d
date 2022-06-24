@@ -114,6 +114,7 @@
        json                ; At least it ain't XML
        lua                 ; one-based indices? one-based indices
        (markdown +grip)    ; writing docs for people to ignore
+       nix                 ; I hereby declare "nix geht mehr!"
        (org                ; organize your plain life in plain text
         +dragndrop         ; drag & drop files/images into org buffers
         +gnuplot           ; who doesn't like pretty pictures
