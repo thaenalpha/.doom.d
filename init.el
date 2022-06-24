@@ -126,7 +126,7 @@
         +web)              ; Display and capture web content with Org-mode
        php                 ; perl's insecure younger brother
        python              ; beautiful is better than ugly
-       rest                ; Emacs as a REST client
+       (rest +jq)          ; Emacs as a REST client
        (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        (sh                 ; she sells {ba,z,fi}sh shells on the C xor
         +fish)             ; non-posix
