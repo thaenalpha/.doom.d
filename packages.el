@@ -17,8 +17,8 @@
   ;; Run shell cmds in sessions that are isolated from Emacs
   :recipe (:host gitlab :repo "niklaseklund/dtache"))
 (unless IS-MAC
- (package! keychain-environment)
- (package! trashed))
+  (package! keychain-environment)
+  (package! trashed))
 
 ;;
 ;;; UI
