@@ -121,16 +121,6 @@ Private or extra to the Doom modules
 
 ** Editor
 *** evil
-#+begin_src emacs-lisp :tangle yes
-;;; :editor evil +tree-sitter
-(when (and (featurep! :editor evil +tree-sitter)
-           (featurep! :tools tree-sitter))
-  (package! evil-textobj-tree-sitter
-    :recipe (:host github
-             :repo "meain/evil-textobj-tree-sitter"
-             :files (:defaults "queries"))))
-#+end_src
-
 ** Emacs
 
 *** ctrlf :extension:
@@ -142,12 +132,6 @@ Private or extra to the Doom modules
 #+end_src
 
 *** dired :files:convenience:
-#+begin_src emacs-lisp :tangle yes
-;;; :emacs dired +dirvish
-(when (featurep! :emacs dired +dirvish)
-  (package! dirvish))
-#+end_src
-
 *** info
 #+begin_src emacs-lisp :tangle modules/emacs/info/packages.el  :mkdirp yes
 ;; -*- no-byte-compile: t; -*-

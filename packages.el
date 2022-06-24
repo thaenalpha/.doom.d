@@ -41,18 +41,6 @@
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
 
-;;; :editor evil +tree-sitter
-(when (and (featurep! :editor evil +tree-sitter)
-           (featurep! :tools tree-sitter))
-  (package! evil-textobj-tree-sitter
-    :recipe (:host github
-             :repo "meain/evil-textobj-tree-sitter"
-             :files (:defaults "queries"))))
-
-;;; :emacs dired +dirvish
-(when (featurep! :emacs dired +dirvish)
-  (package! dirvish))
-
 ;;; :tools lookup +devdocs 
 (when (featurep! :tools lookup +devdocs) (package! devdocs))
 
