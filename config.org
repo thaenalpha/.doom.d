@@ -3946,7 +3946,7 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
  #+end_src
 
 *** LSP
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 ;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
 (unless (featurep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
@@ -3962,12 +3962,12 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
    lsp-signature-auto-activate t
    lsp-signature-doc-lines 5
    lsp-eldoc-enable-hover t
-   lsp-headerline-breadcrumb-enable nil
-   lsp-print-performance nil
-   lsp-enable-indentation t
+   lsp-headerline-breadcrumb-enable t
+   lsp-enable-indentation nil
    lsp-enable-on-type-formatting nil
    lsp-enable-symbol-highlighting nil
    lsp-enable-links nil
+   lsp-lens-enable nil
    lsp-log-io nil))
 
 (setq +lsp-company-backends '(company-capf :with company-yasnippet))
@@ -3978,11 +3978,12 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
         lsp-ui-sideline-show-symbol nil
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-peek-enable nil
         lsp-ui-doc-enable t
         lsp-ui-doc-position 'top
         lsp-ui-doc-delay 0.73
         lsp-ui-doc-max-width 50
-        lsp-ui-doc-max-height 10
+        lsp-ui-doc-max-height 15
         lsp-ui-doc-include-signature t
         lsp-ui-doc-header t)
 

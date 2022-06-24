@@ -87,6 +87,7 @@
         +docsets           ; …or in Dash docsets locally
         +devdocs           ; another API documentation viewer for Emacs
         +dictionary)       ; word definition and thesaurus lookup functionality.
+       lsp                 ; Language Server Protocol
        lsp-bridge          ; Fastest LSP client for Emacs
        (magit              ; a Git porcelain inside Emacs
         +forge)            ; interface with git forges
@@ -106,13 +107,13 @@
        (tty +osc)          ; improve the terminal Emacs experience
 
        :lang
-       clojure             ; java with a lisp
+       (clojure +lsp)      ; java with a lisp
        data                ; config/data formats
        emacs-lisp          ; drown in parentheses
        (graphql +lsp)      ; Give queries a REST
-       javascript          ; all(hope(abandon(ye(who(enter(here))))))
-       json                ; At least it ain't XML
-       lua                 ; one-based indices? one-based indices
+       (javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
+       (json +lsp)         ; At least it ain't XML
+       (lua +lsp)          ; one-based indices? one-based indices
        (markdown +grip)    ; writing docs for people to ignore
        nix                 ; I hereby declare "nix geht mehr!"
        (org                ; organize your plain life in plain text
@@ -125,14 +126,14 @@
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
        php                 ; perl's insecure younger brother
-       python              ; beautiful is better than ugly
+       (python +lsp)       ; beautiful is better than ugly
        (rest +jq)          ; Emacs as a REST client
        (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        (sh                 ; she sells {ba,z,fi}sh shells on the C xor
-        +fish)             ; non-posix
-       (web                ; the tubes
-        +tailwind)         ; write styles you want from html
-       yaml                ; JSON, but readable
+        +fish)             ; non-posix, but readable
+       (web +lsp           ; the tubes
+            +tailwind)     ; write styles you want from html
+       (yaml +lsp)         ; JSON, but readable
 
        :email
        (mu4e +org +gmail)
