@@ -986,8 +986,8 @@ rm -r modules/app/telega
     #+begin_src emacs-lisp :tangle no
 ;;; :completion corfu
 (:when (featurep! :completion corfu)
- :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
- :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point))
+ :i "C-@"   #'completion-at-point
+ :i "C-SPC" #'completion-at-point)
 #+end_src
     #+name: cape:prefix-map
     #+begin_src emacs-lisp :tangle no
@@ -1353,9 +1353,9 @@ If INTERACTIVE is nil the function acts like a capf."
          ("M-m"                          . corfu-move-to-minibuffer)
          ([return]                       . corfu-insert))
   :init
-  (setq corfu-cycle t            ; Enable cycling for `corfu-next/previous'
+  (setq corfu-separator ?\s             ; Orderless field separator
+        corfu-preview-current nil
         corfu-auto  t            ; Enable auto completion
-        corfu-quit-no-match t    ; Automatically quit if there is no match
         corfu-preselect-first nil) ; Disable candidate preselection
 
   <<additional-move-cmds>>
@@ -1373,6 +1373,7 @@ If INTERACTIVE is nil the function acts like a capf."
       (when corfu--candidates (corfu-quit)))
 
     (map! (:map corfu-map
+           "SPC"   #'corfu-insert-separator
            "C-n"   #'corfu-next
            "C-p"   #'corfu-previous
            "C-j"   #'corfu-next
@@ -1430,7 +1431,7 @@ If INTERACTIVE is nil the function acts like a capf."
   <<tabnine>>)
 
 ;; TAB CYCLE if there are only a few candidates, otherwise show menu
-(setq completion-cycle-threshold 3)
+(setq completion-cycle-threshold 1)
 (when EMACS28+;hide commands in M-x which do not apply to the current mode.
   ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
   (setq read-extended-command-predicate

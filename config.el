@@ -187,8 +187,8 @@ If the hour is (both inclusive) in `light-theme-hours' then
 
       ;;; :completion corfu
       (:when (featurep! :completion corfu)
-       :i "C-@"   (cmds! (not (minibufferp)) #'completion-at-point)
-       :i "C-SPC" (cmds! (not (minibufferp)) #'completion-at-point))
+       :i "C-@"   #'completion-at-point
+       :i "C-SPC" #'completion-at-point)
 
       ;;; C-x
       (:prefix "C-x"
