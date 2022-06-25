@@ -1,0 +1,754 @@
+* src_shell{doom up -p;alert} :doom:upgrade:log:
+** [2022-06-25 Sat 14:04]
++ Compiling your literate config...
+  - Could not read `org-id-values' from /Users/nopan/.config/emacs/.local/cache/.org-id-locations, setting it to nil
+  - Tangled 108 code blocks from config.org
+  Restarting...
+  =✓ Finished in 1.32615s=
+  -   * [1.326311] GC count: 1 (0.004784s)
++ Synchronizing your config with Doom Emacs...
+  + Regenerating envvars file
+    =✓ Generated ~/.config/emacs/.local/env=
+  + Installing packages...
+    - No packages need to be installed
+  + (Re)building packages...
+    - No packages need rebuilding
+  + Updating recipe repos...
+  + Updating packages (this may take a while)...
+    + In repository "straight.el", remote "origin" has URL
+        "https://github.com/raxod502/straight.el"
+             but recipe specifies a URL of
+                "https://github.com/radian-software/straight.el.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4) 4
+      Really delete remote "origin"? (y or n) y
+    * =(5/422) straight.el: e2de88e -> 0e204d4 [12 commit(s)]=
+        0e204d4 Add image-mode to straight-built-in-pseudo-packages (#962)
+        bc8abcc Fix single quote style in docstrings.
+        5fb04bc Add NonGNU ELPA support (#960)
+        b6dba13 [#955] Fix straight-vc-git--ensure-local
+        03dc146 Rephrase readme that native-comp is now in emacs/master
+        9430316 -recipes-org-elpa-retrieve: remove stale org-contrib :includes (#954)
+        07cedf0 [#922] Fix 'unambiguous name' error
+        d2940b8 [#922] Allow more debugging
+        a7a9859 straight--add-package-to-info-path: Only add dirs with "dir" file (#951)
+        99ba608 Fix linters
+        d4cd480 [#946] Migrate straight.el to radian-software org
+        4517e11 Add straight--delete-stderr-file (#940)
+    * =(10/422) all-the-icons.el: 65c496d -> ca1ef30 [3 commit(s)]=
+        5994e6b Adding appropriate icon for svelte mode
+        4eb1a7f Adding svelte icon
+        1af8e41 Add crystal lang file and major mode icons
+    * =(16/422) dtrt-indent: 66fc30a -> 57f4072 [1 commit(s)]=
+        57f4072 Add note about when workaround can be removed
+    * =(17/422) helpful: 67cdd10 -> 209971b [4 commit(s)]=
+        209971b Check for emacs version in helpful--docstring test
+        741b864 Fix advised function docstring test
+        2f91e79 Roll version
+        c2729a2 Add buttons for shortdoc groups when shortdoc.el is available
+    * =(19/422) smartparens: 37f77bf -> ec15aaa [3 commit(s)]=
+        ec15aaa feat(python): add auto-colon insert on async def and class
+        3ee3baf Add more pairs for OCaml (#1118)
+        7e5f169 Add basic 'swift-mode' support
+    * =(21/422) projectile: f3468e8 -> 4d6da87 [13 commit(s)]=
+        4d6da87 Fix several typos and spelling errors
+        e60883f Add variable to enable or disable command caching.
+        3931492 [Fix #1654] Add changelog entry for command dedupe fix
+        9de18b7 Don't add duplicate commands to command history
+        b197256 Add Emacs 28.1 to CI tests
+        a4f86f9 Fix byte compile error
+        b014d79 Fix version extraction logic
+        2807681 Tweak some changelog entries
+        e8b0e2c Add a changelog entry
+        4fe6b46 Change Grails app project filename to application.yml (#1770)
+        405ccc9 Add changelog entry for [#1765] fix
+        6b3a73f [Fix #1765] Re-add defaults for src-dir and test-dir
+        defce6e Fix support for preset-based installs in CMake projects.
+    * =(22/422) project: 4fe1eec -> c52ec93 [6 commit(s)]=
+        c52ec93 Update project
+        8db769a Update project
+        7e6dd97 Update project
+        e721db5 Update project
+        cad9133 Update project
+        81e4dc8 Update project
+    * =(24/422) emacs-which-key: 1217db8 -> 1ab1d0c [2 commit(s)]=
+        1ab1d0c Add group to minor-mode definition
+        1692a1e Add an example to README for keymap binding
+    * =(25/422) corfu: bfb0529 -> b825e51 [1 commit(s)]=
+        b825e51 Update corfu
+    * =(29/422) corfu-doc: 5dd2a29 -> da93136 [1 commit(s)]=
+        da93136 Increase the default max width of the doc frame to 80 characters
+    * =(32/422) vertico: afd1e1b -> 0bc58ba [3 commit(s)]=
+        0bc58ba vertico--history-hash: Improve file name history handling (Fix #242)
+        f0347b3 Handle tramp-rfn-eshadow-overlay (Fix #241)
+        7ff368e Remove vertico-directory--completing-file-p
+    * =(33/422) consult: 4916cda -> 5b7cdb1 [6 commit(s)]=
+        5b7cdb1 Fix #599 - Preview was accidentially enabled even for consult-preview-key=nil
+        de94f2c consult--temporary-files: Simplify
+        cce3e1c Fix consult--temporary-files
+        b5af533 Use more verbose symbol
+        1ddc88f consult-imenu: Preserve backend faces (Fix #594)
+        11384d9 Disable preview for consult-buffer-other-frame (Fix #593)
+    * =(43/422) themes: 6aeec22 -> d79a41f [8 commit(s)]=
+        d79a41f release: 2.3.0
+        026317b docs: correct formatting in project readme
+        142554f docs: update theme tables and list
+        acddfa1 docs: standardize comment headers
+        1793ecc fix(one-light): invisible selection highlights in vertico/selectrum
+        0fc2f5d fix(base): make nobreak-space visible again
+        0506b1d tweak(manegarm): no fixed-pitch-serif on comments
+        fdbcbe1 dev(ci): update and move ci.el
+    * =(50/422) doom-modeline: 0986e08 -> 16679e2 [10 commit(s)]=
+        16679e2 Bump version to 3.3.2.
+        156b024 Fix mouse clicks on mu4e new mail widget
+        87d7667 Silence the compiler
+        626adbc fix #538: resolve display issue with flycheck-color-mode-line.
+        f68fee2 Update FAQ.
+        ace3fcb Update README.
+        2f2227f Solve the conflicts with solaire faces.
+        6d1e8c0 Don't make icons dimmed while unfocusing due to conflicts with solaire.
+        550c36f [Compatibility] Support solaire faces.
+        b4ba497 [Compatibility] Support flycheck-color-mode-line.
+    * =(56/422) treemacs: 0578a1b -> e80c302 [6 commit(s)]=
+        e80c302 [Annotations] Fix face annotation invalidation.
+        e092411 [Misc] Fix compilation warnings.
+        e9f439c [Docs] Add missing faces to readme.
+        bb53a69 [Git-Diff] Fix git diffs not showing up at the first start.
+        974ff7d [Misc] Add post buffer init hook.
+        ac0a514 [Misc] Checkdoc fixes.
+    * =(57/422) treemacs-evil was updated indirectly (with treemacs)=
+    * =(58/422) treemacs-projectile was updated indirectly (with treemacs)=
+    * =(59/422) treemacs-magit was updated indirectly (with treemacs)=
+    * =(60/422) treemacs-persp was updated indirectly (with treemacs)=
+    * =(69/422) evil: 157af04 -> cc55fa6 [2 commit(s)]=
+        cc55fa6 Only look at mark when restoring point in visual state
+        7301482 Prompt user to reverse reversed ex range
+    * =(97/422) snippets: f74b11b -> 6b2bd5a [3 commit(s)]=
+        6b2bd5a fix(org-mode): rm deprecated latex snippet
+        919a32f feat(git-commit-mode): add+update git-trailer snippets
+        88f6351 dev(ci): pass secrets to workflows (where needed)
+    * =(101/422) diff-hl: e84209e -> dabb7be [1 commit(s)]=
+        30a54e9 Move misplaced interactive form
+    * =(103/422) dirvish: 7294065 -> 867dfc4 [12 commit(s)]=
+        867dfc4 fix(subtree): restore subtrees correctly
+        e917354 perf: attributes rendering
+        c96ab8a perf(menu): avoid unnecessary buffer reverting
+        bd3a8ad fix(vc): use "\t" as delimiter in `git-msg` attribute
+        437f456 refactor(core): improve the dependencies check at runtime
+        90634cd refactor: extract `dirvish-collapse` from `dirvish-extras`
+        e1533de perf(subtree): improve efficiency of subtree insertion
+        9a31514 refactor: extract out `dirvish-ls` from `dirvish-menu`
+        325a165 fix(core): remove killed buffers from `dv-roots`
+        e4ab2c7 refactor: move `dirvish-dispatch` to core
+        d60380c modify dirvish-cache-dir
+        622900d fix(core): get $HOME variable as directory
+    * =(110/422) magit: c1fb53d -> bf0ef38 [4 commit(s)]=
+        bf0ef382 No longer exit transient while toggling margin or cycling styles
+        6a711f1b Make magit-log-merged's number of shown commits configurable
+        5e2d1261 magit-dwim-selection: Add forge-edit-topic-draft
+        adf5848e Support bookmark-handler-type for Magit bookmarks
+    * =(129/422) citeproc-el: ba49516 -> 65e1c52 [8 commit(s)]=
+        65e1c52 Correct a docstring typo
+        f7bcebf Update testing information in the README
+        008710d Don't do CI on Emacs snapshot (for now)
+        0e2bef0 Add Emacs 28.1 and update expected fails for CI
+        9226eb9 Updated expected fails list
+        1af5dc7 Pacify compiler warnings about unescaped single apostrophes
+        2462e12 Bump required minimal Emacs version to 26
+        fb14b1c Correctly handle missing given names
+    * =(150/422) dumb-jump: 1dd5830 -> ba41273 [1 commit(s)]=
+        ba41273 Add elisp defmacro rule (#425)
+    * =(154/422) lsp-mode: 6b6afc0 -> c8b8cd8 [3 commit(s)]=
+        c8b8cd8 `lsp-update-servers` updates all installed servers (#3572)
+        aa946a5 fix 80 character width warnings (#3585)
+        9957623 Kill LSP buffer local variables during shutdown (#3574)
+    * =(158/422) magit was updated indirectly (with magit)=
+    * =(159/422) forge: 2cca7c7 -> ed8abda [3 commit(s)]=
+        ed8abda Fix table schemata
+        3f940aa Fix minimal dependencies
+        3b594ab forge-edit-topic-draft: New command
+    * =(167/422) pdf-tools: f9ccdf9 -> fe42da6 [3 commit(s)]=
+        fe42da6 Minor README change: Remove instruction to install let-alist
+        a5b2df9 Remove Emacs 25 from CircleCI test jobs
+        d4a333a fix: disable qt-workaround in Emacs 27>=
+    * =(174/422) evil-textobj-tree-sitter: fba268b -> f99b7af [1 commit(s)]=
+        f99b7af Add fullstop to function docstring
+    * =(184/422) cider: b9e1cc2 -> 14246b8 [2 commit(s)]=
+        14246b89 Add a changelog entry
+        02ac716b Bump cider-nrepl to 0.28.5
+    * =(186/422) csv-mode: 53beddc -> e13282b [1 commit(s)]=
+        e13282b Update csv-mode
+    * =(194/422) emacs-buttercup: ceedad5 -> 42df1fa [1 commit(s)]=
+        42df1fa Disable ANSI color sequences in buttercup-reporter-interactive
+    * =(212/422) markdown-mode: 1f70977 -> f7cbc96 [2 commit(s)]=
+        908717d Fix docstring format issue.
+        a597d1c Fix functions with multiple docstrings
+    * =(219/422) org: 811deae -> 2b1b428 [14 commit(s)]=
+        2b1b42891 org.el (org-read-date): Point to Info documentation
+        0dc27a883 oc-basic.el: Stringify year from CSL-JSON date-parts
+        7c61a3a80 org-unfontify-region: Handle invisible parts of links
+        e7e37c5b2 org-agenda.el: Improve docstrings of agenda date navigation commands
+        4a0d951c6 ox-latex tabbing environment support
+        f77800c68 org-persist: Avoid overwriting / re-reading unchanged persisted data
+        d687aa178 org-persist: Display read errors in echo area
+        1c54d75cc org-persist--gc-expired-p: Fix expiry check
+        02a22d6fa Backport commit 9a4862a97 from Emacs
+        45174d62b Remove XEmacs and ancient Emacs compat code
+        9632401dc Auto-Upcase/downcase #+begin/#+end in structure templates
+        65e19a081 org-table.el: Fix orgtbl-mode not remapping delete key
+        bfd63cc4f org: Improve org-todo handling of negative prefix args
+        9fb9a2bdf org.el (org-format-latex-header): Put DEFAULT-PACKAGES before PACKAGES
+    * =(238/422) org-re-reveal: 93ba4e9 -> f184e66 [2 commit(s)]=
+        f184e66 Version 3.14.1
+        94c43ff Encode data-uris without line breaks
+    * =(240/422) org-roam: 171a8db -> c386761 [1 commit(s)]=
+        c386761 (fix): autoload org-roam-list-files (#2226)
+    * =(243/422) ob-restclient.el: 586f1fa -> 3ac834b [1 commit(s)]=
+        71fd013 Use `response-body-only` function to hide headers
+    * =(253/422) emacs-async: c78bab7 -> 2f57dfa [1 commit(s)]=
+        2f57dfa Fix bug-reference-bug-regexp
+    * =(266/422) rustic: 35e5352 -> 060149c [3 commit(s)]=
+        8b8c6c3 Minor cleanup and doc fixup on cargo install
+        90cd031 Implement cargo install
+        0bd7932 bump version to 3.2
+    * =(288/422) org-jira: c0c0086 -> 44fe1d9 [1 commit(s)]=
+        e1cc6bc add user keyword to auth-source-search
+    * =(297/422) link-hint.el: a24546e -> 5461229 [3 commit(s)]=
+        5461229 Reformat link-hint.el and fix a typo
+        f319cea Add link-hint-action-fallback-commands
+        dfed198 Add support for epa-key-list-mode
+    * =(315/422) org-modern: d0f13dc -> 4131dd8 [6 commit(s)]=
+        4131dd8 Minor cleanup
+        51ce1fb Cache propertized stars
+        a5616ce Rename variable
+        7ff8935 Line breaks
+        5de3da1 Version 0.4
+        ae8797c Restrict org link target regexps (Fix #68)
+    * =(326/422) xref: 2ca3069 -> cc312ec [1 commit(s)]=
+        cc312ec Update xref
+    * =(330/422) compat: 89aa115 -> e1a22bf [2 commit(s)]=
+        e1a22bf Update compat
+        24bdfa4 Update compat
+    * =(350/422) magit-section was updated indirectly (with magit)=
+    * =(365/422) parsebib: 83a77ea -> 35e9ced [9 commit(s)]=
+        35e9ced Update copyright statement in the README.
+        1852390 Update version number to 4.1
+        0f13ee3 Add test `parsebib-clean-TeX-markup-nested-macros`.
+        249ce8d parsebib-clean-TeX-markup: allow commands in arguments of formatting commands.
+        290eeb3 Revert "Move formatting commands to the end of `parsebib-TeX-markup-replacement-alist`."
+        363df0b Move formatting commands to the end of `parsebib-TeX-markup-replacement-alist`.
+        cc58ef7 Remove test code.
+        1cd8cb1 Correctly match `\\$` in parsebib-clean-TeX-markup.
+        0c6a724 Untabify parsebib.el
+    * =(380/422) ghub: 7beed8c -> 94f5aa2 [7 commit(s)]=
+        94f5aa2 ghub-fetch-repository: Fix recent regression
+        0e61c0b Support Gitlab GraphQL API
+        e6aec51 Cosmetics
+        65699aa Put all variables on one line by default
+        2c5ba23 Support naming queries
+        fb9d33b ghub-fetch-repository: Fetch id on PullRequest and Issue
+        2c6671e ghub-fetch-repository: Fetch isDraft on PullRequest
+    * =(382/422) yaml.el: c07cc6d -> cb1cc42 [3 commit(s)]=
+        e32ef2f add note to yaml-parse-string-with-pos function
+        c56d472 add unit test
+        69654c2 Fix string values state bug
+    * =(402/422) rust-mode: 5f654a5 -> 56e5c3a [3 commit(s)]=
+        3e73d67 use rust-buffer-crate to get remote crate path
+        332a232 Add some comments documenting the change
+        1d4b327 Pass process-environment and exec-path through with-temp-buffer
+    * =(405/422) persist: b45d533 -> 78c8d8f [1 commit(s)]=
+        78c8d8f Update persist
+    =✓ Updated 52 package(s)=
+    + (Re)building packages...
+      > Building straight...
+      > Building all-the-icons...
+      > Building dtrt-indent...
+      > Building helpful...
+      > Building smartparens...
+      > Building projectile...
+      > Building project...
+      > Building project > Building xref...
+      > Building project...
+      > Building which-key...
+      > Building corfu...
+      > Building corfu-doc...
+      > Building vertico...
+      > Building consult...
+      > Building consult > Building compat...
+      > Building consult...
+      > Building doom-themes...
+      > Building doom-modeline...
+      > Building evil...
+      > Building treemacs...
+      > Building treemacs-evil...
+      > Building treemacs-projectile...
+      > Building treemacs-magit...
+      > Building treemacs-magit > Building magit...
+      > Building treemacs-magit > Building magit > Building git-commit...
+      > Building treemacs-magit > Building magit > Building magit-section...
+      > Building treemacs-magit > Building magit...
+      > Building treemacs-magit...
+      > Building treemacs-persp...
+      > Building lsp-mode...
+      > Building lsp-mode > Building markdown-mode...
+      > Building lsp-mode...
+      > Building doom-snippets...
+      > Building diff-hl...
+      > Building dirvish...
+      > Building parsebib...
+      > Building org...
+      > Building citeproc...
+      > Building forge...
+      > Building forge > Building ghub...
+      > Building forge > Building yaml...
+      > Building forge...
+      > Building dumb-jump...
+      > Building async...
+      > Building pdf-tools...
+      > Building evil-textobj-tree-sitter...
+      > Building cider...
+      > Building csv-mode...
+      > Building buttercup...
+      > Building org-re-reveal...
+      > Building org-roam...
+      > Building ob-restclient...
+      > Building rustic...
+      > Building rustic > Building rust-mode...
+      > Building rustic...
+      > Building persist...
+      > Building org-jira...
+      > Building link-hint...
+      > Building org-modern...
+      =✓ Rebuilt 52 package(s)=
+  + Purging orphaned packages (for the emperor)...
+    - No builds to purge
+    + Purging ELPA packages...
+      ✓ Deleted archives
+      ✓ Deleted gpg
+    + Purging straight repositories...
+      =✓ Purged repos/ace-jump-mode=
+    + Regrafting 404 repos...
+      =✓ repos/.doom.d-2nd cannot be compacted further=
+      =✓ repos/Emacs-langtool cannot be compacted further=
+      =✓ repos/Emacs-wgrep cannot be compacted further=
+      =✓ repos/a.el cannot be compacted further=
+      =✓ repos/ace-window cannot be compacted further=
+      =✓ repos/add-node-modules-path cannot be compacted further=
+      =✓ repos/alert cannot be compacted further=
+      =✓ repos/all-the-icons-completion cannot be compacted further=
+      =✓ repos/all-the-icons.el cannot be compacted further=
+      =✓ repos/almost-mono-themes cannot be compacted further=
+      =✓ repos/anaconda-mode cannot be compacted further=
+      =✓ repos/anaphora cannot be compacted further=
+      =✓ repos/annalist.el cannot be compacted further=
+      =✓ repos/anzu cannot be compacted further=
+      =✓ repos/auto-minor-mode cannot be compacted further=
+      =✓ repos/auto-yasnippet cannot be compacted further=
+      =✓ repos/avy cannot be compacted further=
+      =✓ repos/back-button cannot be compacted further=
+      =✓ repos/better-jumper cannot be compacted further=
+      =✓ repos/browse-at-remote cannot be compacted further=
+      =✓ repos/bui.el cannot be compacted further=
+      =✓ repos/button-lock cannot be compacted further=
+      =✓ repos/cape cannot be compacted further=
+      =✓ repos/centered-window-mode cannot be compacted further=
+      =✓ repos/cfrs cannot be compacted further=
+      =✓ repos/cheat-sh.el cannot be compacted further=
+      =✓ repos/cider cannot be compacted further=
+      =✓ repos/circe cannot be compacted further=
+      =✓ repos/citar cannot be compacted further=
+      =✓ repos/citeproc-el cannot be compacted further=
+      =✓ repos/clipetty cannot be compacted further=
+      =✓ repos/clj-refactor.el cannot be compacted further=
+      =✓ repos/clojure-mode cannot be compacted further=
+      =✓ repos/closql cannot be compacted further=
+      =✓ repos/code-review cannot be compacted further=
+      =✓ repos/color-theme-ahungry cannot be compacted further=
+      =✓ repos/company-mode cannot be compacted further=
+      =✓ repos/company-tabnine cannot be compacted further=
+      =✓ repos/compat cannot be compacted further=
+      =✓ repos/composer.el cannot be compacted further=
+      =✓ repos/consult cannot be compacted further=
+      =✓ repos/consult-dir cannot be compacted further=
+      =✓ repos/consult-flycheck cannot be compacted further=
+      =✓ repos/consult-lsp cannot be compacted further=
+      =✓ repos/corfu cannot be compacted further=
+      =✓ repos/corfu-doc cannot be compacted further=
+      =✓ repos/csv-mode cannot be compacted further=
+      =✓ repos/ctrlf cannot be compacted further=
+      =✓ repos/dap-mode cannot be compacted further=
+      =✓ repos/dash-at-point cannot be compacted further=
+      =✓ repos/dash-docs cannot be compacted further=
+      =✓ repos/dash.el cannot be compacted further=
+      =✓ repos/devdocs.el cannot be compacted further=
+      =✓ repos/diff-hl cannot be compacted further=
+      =✓ repos/dired-git-info cannot be compacted further=
+      =✓ repos/dired-rsync cannot be compacted further=
+      =✓ repos/diredfl cannot be compacted further=
+      =✓ repos/dirvish cannot be compacted further=
+      =✓ repos/discover.el cannot be compacted further=
+      =✓ repos/docker-tramp.el cannot be compacted further=
+      =✓ repos/docker.el cannot be compacted further=
+      =✓ repos/dockerfile-mode cannot be compacted further=
+      =✓ repos/doct cannot be compacted further=
+      =✓ repos/doom-modeline cannot be compacted further=
+      =✓ repos/dotfiles cannot be compacted further=
+      =✓ repos/drag-stuff.el cannot be compacted further=
+      =✓ repos/dtache cannot be compacted further=
+      =✓ repos/dtrt-indent cannot be compacted further=
+      =✓ repos/dumb-jump cannot be compacted further=
+      =✓ repos/edit-indirect cannot be compacted further=
+      =✓ repos/editorconfig-emacs cannot be compacted further=
+      =✓ repos/el-get cannot be compacted further=
+      =✓ repos/elfeed cannot be compacted further=
+      =✓ repos/elfeed-goodies cannot be compacted further=
+      =✓ repos/elfeed-org cannot be compacted further=
+      =✓ repos/elisp-def cannot be compacted further=
+      =✓ repos/elisp-demos cannot be compacted further=
+      =✓ repos/elisp-json-rpc cannot be compacted further=
+      =✓ repos/elisp-refs cannot be compacted further=
+      =✓ repos/elisp-tree-sitter cannot be compacted further=
+      =✓ repos/emacs-aio cannot be compacted further=
+      =✓ repos/emacs-async cannot be compacted further=
+      =✓ repos/emacs-bash-completion cannot be compacted further=
+      =✓ repos/emacs-buttercup cannot be compacted further=
+      =✓ repos/emacs-calfw cannot be compacted further=
+      =✓ repos/emacs-clj-deps-new cannot be compacted further=
+      =✓ repos/emacs-deferred cannot be compacted further=
+      =✓ repos/emacs-emojify cannot be compacted further=
+      =✓ repos/emacs-everywhere cannot be compacted further=
+      =✓ repos/emacs-fish cannot be compacted further=
+      =✓ repos/emacs-fish-completion cannot be compacted further=
+      =✓ repos/emacs-format-all-the-code cannot be compacted further=
+      =✓ repos/emacs-hide-mode-line cannot be compacted further=
+      =✓ repos/emacs-howdoyou cannot be compacted further=
+      =✓ repos/emacs-htmlize cannot be compacted further=
+      =✓ repos/emacs-import-js cannot be compacted further=
+      =✓ repos/emacs-kv cannot be compacted further=
+      =✓ repos/emacs-language-id cannot be compacted further=
+      =✓ repos/emacs-libvterm cannot be compacted further=
+      =✓ repos/emacs-load-env-vars cannot be compacted further=
+      =✓ repos/emacs-load-relative cannot be compacted further=
+      =✓ repos/emacs-loc-changes cannot be compacted further=
+      =✓ repos/emacs-promise cannot be compacted further=
+      =✓ repos/emacs-pug-mode cannot be compacted further=
+      =✓ repos/emacs-python-pytest cannot be compacted further=
+      =✓ repos/emacs-request cannot be compacted further=
+      =✓ repos/emacs-slack cannot be compacted further=
+      =✓ repos/emacs-slim cannot be compacted further=
+      =✓ repos/emacs-solaire-mode cannot be compacted further=
+      =✓ repos/emacs-spell-fu cannot be compacted further=
+      =✓ repos/emacs-test-simple cannot be compacted further=
+      =✓ repos/emacs-web-server cannot be compacted further=
+      =✓ repos/emacs-websocket cannot be compacted further=
+      =✓ repos/emacs-which-key cannot be compacted further=
+      =✓ repos/emacs-with-nyxt cannot be compacted further=
+      =✓ repos/emacs_chrome cannot be compacted further=
+      =✓ repos/emacsmirror-mirror cannot be compacted further=
+      =✓ repos/emacsql cannot be compacted further=
+      =✓ repos/embark cannot be compacted further=
+      =✓ repos/embrace.el cannot be compacted further=
+      =✓ repos/emmet-mode cannot be compacted further=
+      =✓ repos/envrc cannot be compacted further=
+      =✓ repos/epl cannot be compacted further=
+      =✓ repos/eros cannot be compacted further=
+      =✓ repos/esh-help cannot be compacted further=
+      =✓ repos/eshell-did-you-mean cannot be compacted further=
+      =✓ repos/eshell-syntax-highlighting cannot be compacted further=
+      =✓ repos/eshell-up cannot be compacted further=
+      =✓ repos/eshell-z cannot be compacted further=
+      =✓ repos/esxml cannot be compacted further=
+      =✓ repos/evil cannot be compacted further=
+      =✓ repos/evil-anzu cannot be compacted further=
+      =✓ repos/evil-args cannot be compacted further=
+      =✓ repos/evil-collection cannot be compacted further=
+      =✓ repos/evil-easymotion cannot be compacted further=
+      =✓ repos/evil-embrace.el cannot be compacted further=
+      =✓ repos/evil-escape cannot be compacted further=
+      =✓ repos/evil-exchange cannot be compacted further=
+      =✓ repos/evil-goggles cannot be compacted further=
+      =✓ repos/evil-indent-plus cannot be compacted further=
+      =✓ repos/evil-lion cannot be compacted further=
+      =✓ repos/evil-markdown cannot be compacted further=
+      =✓ repos/evil-mc cannot be compacted further=
+      =✓ repos/evil-multiedit cannot be compacted further=
+      =✓ repos/evil-nerd-commenter cannot be compacted further=
+      =✓ repos/evil-numbers cannot be compacted further=
+      =✓ repos/evil-org-mode cannot be compacted further=
+      =✓ repos/evil-quick-diff cannot be compacted further=
+      =✓ repos/evil-snipe cannot be compacted further=
+      =✓ repos/evil-surround cannot be compacted further=
+      =✓ repos/evil-terminal-cursor-changer cannot be compacted further=
+      =✓ repos/evil-textobj-anyblock cannot be compacted further=
+      =✓ repos/evil-textobj-tree-sitter cannot be compacted further=
+      =✓ repos/evil-traces cannot be compacted further=
+      =✓ repos/evil-vimish-fold cannot be compacted further=
+      =✓ repos/evil-visualstar cannot be compacted further=
+      =✓ repos/exato cannot be compacted further=
+      =✓ repos/expand-region.el cannot be compacted further=
+      =✓ repos/explain-pause-mode cannot be compacted further=
+      =✓ repos/f.el cannot be compacted further=
+      =✓ repos/fd-dired cannot be compacted further=
+      =✓ repos/fixmee cannot be compacted further=
+      =✓ repos/flycheck cannot be compacted further=
+      =✓ repos/flycheck-cask cannot be compacted further=
+      =✓ repos/flycheck-clj-kondo cannot be compacted further=
+      =✓ repos/flycheck-package cannot be compacted further=
+      =✓ repos/flycheck-popup-tip cannot be compacted further=
+      =✓ repos/flycheck-posframe cannot be compacted further=
+      =✓ repos/font-utils cannot be compacted further=
+      =✓ repos/forge cannot be compacted further=
+      =✓ repos/fringe-helper.el cannot be compacted further=
+      =✓ repos/fzf.el cannot be compacted further=
+      =✓ repos/gcmh cannot be compacted further=
+      =✓ repos/general.el cannot be compacted further=
+      =✓ repos/gh-notify cannot be compacted further=
+      =✓ repos/gh.el cannot be compacted further=
+      =✓ repos/ghub cannot be compacted further=
+      =✓ repos/gist.el cannot be compacted further=
+      =✓ repos/git-gutter cannot be compacted further=
+      =✓ repos/git-gutter-fringe cannot be compacted further=
+      =✓ repos/git-modes cannot be compacted further=
+      =✓ repos/git-timemachine cannot be compacted further=
+      =✓ repos/github-explorer cannot be compacted further=
+      =✓ repos/github-search cannot be compacted further=
+      =✓ repos/github-stars.el cannot be compacted further=
+      =✓ repos/gntp.el cannot be compacted further=
+      =✓ repos/gnu-elpa-mirror cannot be compacted further=
+      =✓ repos/gnuplot cannot be compacted further=
+      =✓ repos/gnuplot-mode cannot be compacted further=
+      =✓ repos/goto-chg cannot be compacted further=
+      =✓ repos/graphql-doc.el cannot be compacted further=
+      =✓ repos/graphql-mode cannot be compacted further=
+      =✓ repos/graphql.el cannot be compacted further=
+      =✓ repos/grip-mode cannot be compacted further=
+      =✓ repos/grizzl cannot be compacted further=
+      =✓ repos/haml-mode cannot be compacted further=
+      =✓ repos/helpful cannot be compacted further=
+      =✓ repos/hierarchy cannot be compacted further=
+      =✓ repos/highlight-numbers cannot be compacted further=
+      =✓ repos/highlight-quoted cannot be compacted further=
+      =✓ repos/hl-todo cannot be compacted further=
+      =✓ repos/ht.el cannot be compacted further=
+      =✓ repos/hydra cannot be compacted further=
+      =✓ repos/ibuffer-projectile cannot be compacted further=
+      =✓ repos/ibuffer-vc cannot be compacted further=
+      =✓ repos/iedit cannot be compacted further=
+      =✓ repos/info-colors cannot be compacted further=
+      =✓ repos/inheritenv cannot be compacted further=
+      =✓ repos/jade-mode cannot be compacted further=
+      =✓ repos/jq-mode cannot be compacted further=
+      =✓ repos/js2-mode cannot be compacted further=
+      =✓ repos/js2-refactor.el cannot be compacted further=
+      =✓ repos/json-mode cannot be compacted further=
+      =✓ repos/json-snatcher cannot be compacted further=
+      =✓ repos/jump.el cannot be compacted further=
+      =✓ repos/kind-icon cannot be compacted further=
+      =✓ repos/kurecolor cannot be compacted further=
+      =✓ repos/language-detection.el cannot be compacted further=
+      =✓ repos/link-hint.el cannot be compacted further=
+      =✓ repos/list-utils cannot be compacted further=
+      =✓ repos/log4e cannot be compacted further=
+      =✓ repos/logito cannot be compacted further=
+      =✓ repos/lsp-bridge cannot be compacted further=
+      =✓ repos/lsp-mode cannot be compacted further=
+      =✓ repos/lsp-pyright cannot be compacted further=
+      =✓ repos/lsp-tailwindcss cannot be compacted further=
+      =✓ repos/lsp-treemacs cannot be compacted further=
+      =✓ repos/lsp-ui cannot be compacted further=
+      =✓ repos/lua-mode cannot be compacted further=
+      =✓ repos/macrostep cannot be compacted further=
+      =✓ repos/magit cannot be compacted further=
+      =✓ repos/magit-gitflow cannot be compacted further=
+      =✓ repos/magit-popup cannot be compacted further=
+      =✓ repos/magit-todos cannot be compacted further=
+      =✓ repos/makefile-executor.el cannot be compacted further=
+      =✓ repos/makey cannot be compacted further=
+      =✓ repos/map cannot be compacted further=
+      =✓ repos/marginalia cannot be compacted further=
+      =✓ repos/markdown-mode cannot be compacted further=
+      =✓ repos/markdown-toc cannot be compacted further=
+      =✓ repos/marshal.el cannot be compacted further=
+      =✓ repos/mastodon cannot be compacted further=
+      =✓ repos/md4rd cannot be compacted further=
+      =✓ repos/melpa cannot be compacted further=
+      =✓ repos/minimap cannot be compacted further=
+      =✓ repos/mixed-pitch cannot be compacted further=
+      =✓ repos/mu4e-alert cannot be compacted further=
+      =✓ repos/multiple-cursors.el cannot be compacted further=
+      =✓ repos/names cannot be compacted further=
+      =✓ repos/nav-flash cannot be compacted further=
+      =✓ repos/nix-mode cannot be compacted further=
+      =✓ repos/nix-update-el cannot be compacted further=
+      =✓ repos/nndiscourse cannot be compacted further=
+      =✓ repos/nodejs-repl.el cannot be compacted further=
+      =✓ repos/nose cannot be compacted further=
+      =✓ repos/npm-mode cannot be compacted further=
+      =✓ repos/ns-auto-titlebar cannot be compacted further=
+      =✓ repos/nyan-mode cannot be compacted further=
+      =✓ repos/oauth2 cannot be compacted further=
+      =✓ repos/ob-async cannot be compacted further=
+      =✓ repos/ob-graphql cannot be compacted further=
+      =✓ repos/ob-restclient.el cannot be compacted further=
+      =✓ repos/orca cannot be compacted further=
+      =✓ repos/orderless cannot be compacted further=
+      =✓ repos/org cannot be compacted further=
+      =✓ repos/org-appear cannot be compacted further=
+      =✓ repos/org-cliplink cannot be compacted further=
+      =✓ repos/org-contrib cannot be compacted further=
+      =✓ repos/org-download cannot be compacted further=
+      =✓ repos/org-gcal.el cannot be compacted further=
+      =✓ repos/org-jira cannot be compacted further=
+      =✓ repos/org-modern cannot be compacted further=
+      =✓ repos/org-msg cannot be compacted further=
+      =✓ repos/org-noter cannot be compacted further=
+      =✓ repos/org-ol-tree cannot be compacted further=
+      =✓ repos/org-pdftools cannot be compacted further=
+      =✓ repos/org-pomodoro cannot be compacted further=
+      =✓ repos/org-re-reveal cannot be compacted further=
+      =✓ repos/org-roam cannot be compacted further=
+      =✓ repos/org-roam-ui cannot be compacted further=
+      =✓ repos/org-transclusion cannot be compacted further=
+      =✓ repos/org-tree-slide cannot be compacted further=
+      =✓ repos/org-web-tools cannot be compacted further=
+      =✓ repos/org-yt cannot be compacted further=
+      =✓ repos/orgit cannot be compacted further=
+      =✓ repos/orgit-forge cannot be compacted further=
+      =✓ repos/osx-dictionary.el cannot be compacted further=
+      =✓ repos/osx-trash cannot be compacted further=
+      =✓ repos/ov cannot be compacted further=
+      =✓ repos/overseer.el cannot be compacted further=
+      =✓ repos/ox-clip cannot be compacted further=
+      =✓ repos/ox-pandoc cannot be compacted further=
+      =✓ repos/package-lint cannot be compacted further=
+      =✓ repos/paredit cannot be compacted further=
+      =✓ repos/parent-mode cannot be compacted further=
+      =✓ repos/parinfer-rust-mode cannot be compacted further=
+      =✓ repos/parsebib cannot be compacted further=
+      =✓ repos/parseclj cannot be compacted further=
+      =✓ repos/parseedn cannot be compacted further=
+      =✓ repos/pass cannot be compacted further=
+      =✓ repos/password-store cannot be compacted further=
+      =✓ repos/password-store-otp.el cannot be compacted further=
+      =✓ repos/pcache cannot be compacted further=
+      =✓ repos/pcre2el cannot be compacted further=
+      =✓ repos/pdf-tools cannot be compacted further=
+      =✓ repos/persist cannot be compacted further=
+      =✓ repos/persistent-soft cannot be compacted further=
+      =✓ repos/persp-mode.el cannot be compacted further=
+      =✓ repos/pfuture cannot be compacted further=
+      =✓ repos/php-cs-fixer cannot be compacted further=
+      =✓ repos/php-extras cannot be compacted further=
+      =✓ repos/php-mode cannot be compacted further=
+      =✓ repos/php-refactor-mode.el cannot be compacted further=
+      =✓ repos/php-runtime.el cannot be compacted further=
+      =✓ repos/phpactor.el cannot be compacted further=
+      =✓ repos/phpunit.el cannot be compacted further=
+      =✓ repos/pip-requirements.el cannot be compacted further=
+      =✓ repos/pipenv.el cannot be compacted further=
+      =✓ repos/pkg-info cannot be compacted further=
+      =✓ repos/pnpm-mode cannot be compacted further=
+      =✓ repos/pocket-lib.el cannot be compacted further=
+      =✓ repos/pocket-reader.el cannot be compacted further=
+      =✓ repos/popup-el cannot be compacted further=
+      =✓ repos/popwin cannot be compacted further=
+      =✓ repos/posframe cannot be compacted further=
+      =✓ repos/powerline cannot be compacted further=
+      =✓ repos/prodigy.el cannot be compacted further=
+      =✓ repos/project cannot be compacted further=
+      =✓ repos/projectile cannot be compacted further=
+      =✓ repos/psysh.el cannot be compacted further=
+      =✓ repos/py-isort.el cannot be compacted further=
+      =✓ repos/pyimport cannot be compacted further=
+      =✓ repos/pythonic cannot be compacted further=
+      =✓ repos/pyvenv cannot be compacted further=
+      =✓ repos/queue cannot be compacted further=
+      =✓ repos/quickrun cannot be compacted further=
+      =✓ repos/rainbow-delimiters cannot be compacted further=
+      =✓ repos/rainbow-identifiers cannot be compacted further=
+      =✓ repos/rainbow-mode cannot be compacted further=
+      =✓ repos/rbenv.el cannot be compacted further=
+      =✓ repos/realgud cannot be compacted further=
+      =✓ repos/realgud-trepan-ni cannot be compacted further=
+      =✓ repos/restart-emacs cannot be compacted further=
+      =✓ repos/restclient.el cannot be compacted further=
+      =✓ repos/reveal.js cannot be compacted further=
+      =✓ repos/rjsx-mode cannot be compacted further=
+      =✓ repos/rotate-text.el cannot be compacted further=
+      =✓ repos/rust-mode cannot be compacted further=
+      =✓ repos/rustic cannot be compacted further=
+      =✓ repos/s.el cannot be compacted further=
+      =✓ repos/sass-mode cannot be compacted further=
+      =✓ repos/saveplace-pdf-view cannot be compacted further=
+      =✓ repos/sesman cannot be compacted further=
+      =✓ repos/shrface cannot be compacted further=
+      =✓ repos/shrink-path.el cannot be compacted further=
+      =✓ repos/shut-up cannot be compacted further=
+      =✓ repos/skewer-mode cannot be compacted further=
+      =✓ repos/smartparens cannot be compacted further=
+      =✓ repos/smartrep.el cannot be compacted further=
+      =✓ repos/snippets cannot be compacted further=
+      =✓ repos/spinner cannot be compacted further=
+      =✓ repos/sql-indent cannot be compacted further=
+      =✓ repos/straight.el cannot be compacted further=
+      =✓ repos/string-inflection cannot be compacted further=
+      =✓ repos/string-utils cannot be compacted further=
+      =✓ repos/svg-lib cannot be compacted further=
+      =✓ repos/tablist cannot be compacted further=
+      =✓ repos/themes cannot be compacted further=
+      =✓ repos/tide cannot be compacted further=
+      =✓ repos/tldr.el cannot be compacted further=
+      =✓ repos/toc-org cannot be compacted further=
+      =✓ repos/transient cannot be compacted further=
+      =✓ repos/tree-mode cannot be compacted further=
+      =✓ repos/tree-sitter-langs cannot be compacted further=
+      =✓ repos/treemacs cannot be compacted further=
+      =✓ repos/treepy.el cannot be compacted further=
+      =✓ repos/ts-fold cannot be compacted further=
+      =✓ repos/twittering-mode cannot be compacted further=
+      =✓ repos/typescript.el cannot be compacted further=
+      =✓ repos/ucs-utils cannot be compacted further=
+      =✓ repos/undo-tree cannot be compacted further=
+      =✓ repos/unicode-escape.el cannot be compacted further=
+      =✓ repos/unicode-fonts cannot be compacted further=
+      =✓ repos/use-package cannot be compacted further=
+      =✓ repos/uuidgen-el cannot be compacted further=
+      =✓ repos/vertico cannot be compacted further=
+      =✓ repos/vertico-posframe cannot be compacted further=
+      =✓ repos/vi-tilde-fringe cannot be compacted further=
+      =✓ repos/vimish-fold cannot be compacted further=
+      =✓ repos/visual-fill-column cannot be compacted further=
+      =✓ repos/web-mode cannot be compacted further=
+      =✓ repos/with-editor cannot be compacted further=
+      =✓ repos/writegood-mode cannot be compacted further=
+      =✓ repos/writeroom-mode cannot be compacted further=
+      =✓ repos/ws-butler cannot be compacted further=
+      =✓ repos/xref cannot be compacted further=
+      =✓ repos/xref-js2 cannot be compacted further=
+      =✓ repos/xterm-color cannot be compacted further=
+      =✓ repos/yaml-mode cannot be compacted further=
+      =✓ repos/yaml.el cannot be compacted further=
+      =✓ repos/yarn.el cannot be compacted further=
+      =✓ repos/yasnippet cannot be compacted further=
+      =✓ repos/zoutline cannot be compacted further=
+      =✓ Finished regrafting. Size before: 0.0KB and after: 0.0KB (0.0KB)=
+    - No ELN directories to purge
+  + (Re)generating autoloads file...
+    > Generating autoloads file...
+    > Byte-compiling autoloads file...
+    =✓ Generated .local/autoloads.28.1.elc=
+  - Restart Emacs or use 'M-x doom/reload' for changes to take effect
+#<process nyan-music>
+
+  ~/Library/CloudStorage/Dropbox/Mac (2)/Downloads ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  10m 31s 13:55:2
+❯ alert-stop
+nil
+
+  ~/Library/CloudStorage/Dropbox/Mac (2)/Downloads ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 14:02:3
+❯
