@@ -1036,42 +1036,6 @@ rm -r modules/app/telega
         completion-cycle-threshold completion-cycling)
     (apply #'consult-completion-in-region completion-in-region--data)))
       #+end_src
-    - Auto-commit
-      #+name: auto-commit
-      #+begin_src org :tangle no
-Corfu allows you to specify a ~corfu-commit-predicate~, which you can use to
-instruct corfu whether to auto-commit completion candidates. It's run after
-every new key event. In the example below, the candidate is auto-committed
-when "." is entered, but not after a space (e.g. for orderless regexps), on
-any key aside from space if only one candidate exists, and when the 1st
-candidate is an exact match for what you have typed in the buffer on a wide variety of key presses.
-      #+end_src
-      #+name: auto-commit.el
-      #+begin_src emacs-lisp :tangle no
-(defun my/corfu-commit-predicate ()
-  "Auto-commit candidates if:
-    1. A `.' is typed, except after a SPACE.
-    2. A selection was made, aside from entering SPACE.
-    3. Just one candidate exists, and we continue to non-symbol info.
-    4. The 1st match is exact."
-  (cond
-   ((seq-contains-p (this-command-keys-vector) ?.)
-    (or (string-empty-p (car corfu--input))
-        (not (string= (substring (car corfu--input) -1) " "))))
-
-   ((/= corfu--index corfu--preselect) ; a selection was made
-    (not (seq-contains-p (this-command-keys-vector) ? )))
-
-   ((eq corfu--total 1) ;just one candidate
-    (seq-intersection (this-command-keys-vector) [?: ?, ?\) ?\] ?\( ? ]))
-
-   ((and corfu--input ; exact 1st match
-         (string-equal (substring (car corfu--input) corfu--base)
-                       (car corfu--candidates)))
-    (seq-intersection (this-command-keys-vector) [?: ?. ?, ?\) ?\] ?\" ?' ? ]))))
-
-(setq corfu-commit-predicate #'my/corfu-commit-predicate)
-      #+end_src
 
 **** README.org
 #+begin_src org :tangle modules/completion/corfu/README.org :noweb no-export :mkdirp yes
@@ -1173,8 +1137,9 @@ different from the familiar prefix TAB completion. Corfu can be used with the
 default completion styles, the use of Orderless is not a necessity. See also
 the [[https://github.com/minad/corfu/wiki][Corfu Wiki]] for additional configuration tips. In particular the Lsp-mode
 configuration is documented in the Wiki.
-@minad (Author of Cape, Corfu, Vertico)
 ,#+end_quote
+--- @minad (Author of Cape, Corfu, Vertico)
+
 Here is an example configuration:
 
 ,** Optional customizations
@@ -1184,18 +1149,19 @@ Here is an example configuration:
   :custom
   (corfu-cycle t)                ; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ; Enable auto completion
-  (corfu-commit-predicate nil)   ; Do not commit selected candidates on next input
+  (corfu-commit-predicate nil)   ; Do not commit selected candidates on
+                                 ; next input
   (corfu-quit-at-boundary t)     ; Automatically quit at word boundary
   (corfu-quit-no-match t)        ; Automatically quit if there is no match
   (corfu-preview-current nil)    ; Disable current candidate preview
   (corfu-preselect-first nil)    ; Disable candidate preselection
   (corfu-echo-documentation nil) ; Disable documentation in the echo area
-  (corfu-scroll-margin 5)        ; Use scroll margin)
+  (corfu-scroll-margin 5))       ; Use scroll margin
 ,#+end_src
 
 ,** Enable Corfu only for certain modes.
-This module enable ~global-corfu-mode~ by default. You may want to enable Corfu
-only for certain modes.
+This module enable ~global-corfu-mode~ by default. You may want to enable
+Corfu only for certain modes.
 ,#+begin_src emacs-lisp
 (use-package corfu
   :hook ((prog-mode . corfu-mode)
@@ -1234,18 +1200,10 @@ dispatcher.
       orderless-component-separator #'orderless-escapable-split-on-space)
 ,#+end_src
 
-,** Auto-Commit
-
-<<auto-commit>>
-
-,#+begin_src emacs-lisp
-<<auto-commit.el>>
-,#+end_src
-
 ,** More additional
 See also the [[https://github.com/minad/corfu/wiki][Corfu Wiki]] for additional configuration tips. For more general
-documentation read the chapter about completion in the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Completion.html][Emacs manual]]. If you want
-to create your own Capfs, you can find documentation about completion in
+documentation read the chapter about completion in the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Completion.html][Emacs manual]]. If you
+want to create your own Capfs, you can find documentation about completion in
 the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion.html][Elisp manual]].
 
 ,* Troubleshooting
