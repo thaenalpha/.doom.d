@@ -1001,7 +1001,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
   (setq magit-inhibit-save-previous-winconf t
         magit-repository-directories `((,doom-emacs-dir . 0)
                                        (,doom-private-dir . 0)
-                                       (,(concat straight-base-dir "straight/repos") . 1))))
+                                       ("~/projects" . 1))))
 (after! forge
   (when EMACS29+ ; sqlite buitin support
     (setq forge-database-connector 'sqlite-builtin))
