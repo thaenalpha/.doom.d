@@ -6,7 +6,6 @@
 (doom! :completion
        (corfu +orderless   ; Completion Overlay Region FUnction
               +tabnine     ; cape-tabnine-to-capf
-              +tng         ; TAB-and-Go completion
               +childframe) ; Documentation popup for Corfu
        (vertico            ; the search engine of the future
         +childframe        ; Using posframe to show Vertico
@@ -29,7 +28,6 @@
        nav-flash           ; blink cursor line after big motions
        ophints             ; highlight the region an operation acts on
        (popup              ; tame sudden yet inevitable temporary windows
-        ;;+all               ; ensure all buffers (*name*) are treated as popups
         +defaults)         ; default popup rules for a variety of buffers.
        (treemacs +lsp)     ; a project drawer, like neotree but cooler
        unicode             ; extended unicode support for various languages
@@ -40,8 +38,7 @@
        zen                 ; distraction-free coding or writing
 
        :editor
-       (evil +tree-sitter  ; Provides evil textobjects using tree-sitter
-        +everywhere)       ; come to the dark side, we have cookies
+       (evil +everywhere)  ; come to the dark side, we have cookies
        file-templates      ; auto-snippets for empty files
        fold                ; (nigh) universal code folding
        format              ; automated prettiness
@@ -97,7 +94,7 @@
        prodigy             ; managing external services & code builders
        rgb                 ; creating color strings
        tmux                ; an API for interacting with tmux
-       tree-sitter         ; PRIVATE syntax-tree at speed of light
+       tree-sitter         ; syntax and parsing, sitting in a tree...
 
        :os
        (:if IS-MAC macos   ; improve compatibility with macOS
@@ -128,9 +125,8 @@
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
        (php +tree-sitter)  ; perl's insecure younger brother
-       (python +lsp        ; beautiful is better than ugly
-               +pyright
-               +tree-sitter)
+       (python +tree-sitter; beautiful is better than ugly
+        +lsp +pyright)
        (rest +jq)          ; Emacs as a REST client
        (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        (sh                 ; she sells {ba,z,fi}sh shells on the C xor

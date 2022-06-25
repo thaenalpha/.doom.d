@@ -126,7 +126,6 @@ grammar             ; tasing grammar mistake every you make
 #+begin_src emacs-lisp
 (corfu +orderless   ; Completion Overlay Region FUnction
        +tabnine     ; cape-tabnine-to-capf
-       +tng         ; TAB-and-Go completion
        +childframe) ; Documentation popup for Corfu
 (vertico            ; the search engine of the future
  +childframe        ; Using posframe to show Vertico
@@ -136,7 +135,7 @@ grammar             ; tasing grammar mistake every you make
 #+begin_src emacs-lisp
 (company            ; the ultimate code completion backend
  +childframe        ; displaying completion candidates in a child frame
-                    ;;+tng ; TAB-and-Go completion, incompatible with the `+childframe'
+ +tng               ; TAB-and-Go completion, incompatible with `+childframe'
  +tabnine)          ; the all-language autocompleter that uses machine learning
 (corfu +orderless   ; Completion Overlay Region FUnction
        +company     ; Wrap Company backend in a Cape and turn it into a Capf!
@@ -155,8 +154,7 @@ literate
 ** :editor
 #+name: doom-editor
 #+begin_src emacs-lisp
-(evil +tree-sitter  ; Provides evil textobjects using tree-sitter
- +everywhere)       ; come to the dark side, we have cookies
+(evil +everywhere)  ; come to the dark side, we have cookies
 file-templates      ; auto-snippets for empty files
 fold                ; (nigh) universal code folding
 format              ; automated prettiness
@@ -169,7 +167,7 @@ snippets            ; my elves. They type so I don't have to
 #+begin_src emacs-lisp
 god                 ; run Emacs commands without modifier keys
 lispy               ; vim for lisp, for people who don't like vim
-objed               ; text object editing for the innocent
+(objed +manual)     ; text object editing for the innocent
 #+end_src
 ** :emacs
 #+name: doom-emacs
@@ -218,9 +216,8 @@ emacs-lisp          ; drown in parentheses
  +roam2             ; wander around notes
  +web)              ; Display and capture web content with Org-mode
 (php +tree-sitter)  ; perl's insecure younger brother
-(python +lsp        ; beautiful is better than ugly
-        +pyright
-        +tree-sitter)
+(python +tree-sitter; beautiful is better than ugly
+ +lsp +pyright)
 (rest +jq)          ; Emacs as a REST client
 (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
 (sh                 ; she sells {ba,z,fi}sh shells on the C xor
@@ -241,14 +238,17 @@ common-lisp         ; if you've seen one lisp, you've seen them all
 coq                 ; proofs-as-programs
 crystal             ; ruby at the speed of c
 (csharp             ; unity, .NET, and mono shenanigans
+ +lsp               ; omnisharp through LSP support
+ +unity             ; special support for the [[https://unity.com/][Unity game engine]]
+ +dotnet            ; Dotnet transient interface with Sharper
  +tree-sitter)
-(dart +flutter)     ; paint ui and not much else
+(dart +lsp +flutter); paint ui and not much else
 data                ; config/data formats
 dhall
-(elixir +lsp        ; erlang done right
-        +tree-sitter)
-(elm +tree-sitter   ; care for a cup of TEA?
-     +lsp)
+(elixir             ; erlang done right
+ +lsp +tree-sitter)
+(elm +lsp           ; care for a cup of TEA?
+     +tree-sitter)
 emacs-lisp          ; drown in parentheses
 erlang              ; an elegant language for a more civilized age
 ess                 ; emacs speaks statistics
@@ -291,11 +291,11 @@ ledger              ; be audit you can be
  +roam2)            ; wander around notes
 nim                 ; python + lisp at the speed of c
 (nix +tree-sitter)  ; I hereby declare "nix geht mehr!"
-(ocaml +tree-sitter); an objective camel
+(ocaml              ; an objective camel
+ +lsp +tree-sitter)
 (php +tree-sitter)  ; perl's insecure younger brother
-(python +lsp        ; beautiful is better than ugly
-        +pyright
-        +tree-sitter)
+(python +tree-sitter; beautiful is better than ugly
+ +lsp +pyright)
 plantuml            ; diagrams for confusing people more
 purescript          ; javascript, but functional
 qt                  ; the 'cutest' gui framework ever
@@ -373,7 +373,7 @@ pdf                 ; pdf enhancements
 prodigy             ; managing external services & code builders
 rgb                 ; creating color strings
 tmux                ; an API for interacting with tmux
-tree-sitter         ; PRIVATE syntax-tree at speed of light
+tree-sitter         ; syntax and parsing, sitting in a tree...
 #+end_src
 *** All Available-Tools
 #+begin_src emacs-lisp
@@ -408,7 +408,7 @@ rgb                 ; creating color strings
 taskrunner          ; taskrunner for all your projects
 terraform           ; infrastructure as code
 tmux                ; an API for interacting with tmux
-tree-sitter         ; PRIVATE syntax-tree at speed of light
+tree-sitter         ; syntax and parsing, sitting in a tree...
 upload              ; map local to remote projects via ssh/ftp
 #+end_src
 ** :ui
@@ -430,7 +430,6 @@ minimap             ; show a map of the code on the side
 nav-flash           ; blink cursor line after big motions
 ophints             ; highlight the region an operation acts on
 (popup              ; tame sudden yet inevitable temporary windows
- ;;+all               ; ensure all buffers (*name*) are treated as popups
  +defaults)         ; default popup rules for a variety of buffers.
 (treemacs +lsp)     ; a project drawer, like neotree but cooler
 unicode             ; extended unicode support for various languages
@@ -446,6 +445,8 @@ deft                ; notational velocity for Emacs
 modeline
  +light             ; less featureful version of the modeline
 modus               ; Highly accessible themes (WCAG AAA)
+popup
+ +all               ; catch all popups that start with an asterix
 tab-workspaces      ; tab emulation, persistence & separate workspaces
 #+end_src
 * Disable some of Doom’s slowest modules.
