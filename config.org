@@ -1381,13 +1381,10 @@ If INTERACTIVE is nil the function acts like a capf."
 (use-package! cape
   :defer t
   :init
-  (dolist (capf #'(cape-file
-                   cape-dabbrev
-                   cape-keyword
-                   cape-symbol
-                   +cape/yasnippet))
-    (add-to-list 'completion-at-point-functions capf))
-  <<tabnine>>)
+  (dolist (capf (list #'cape-file #'cape-dabbrev #'cape-keyword
+                      #'cape-symbol #'+cape/yasnippet
+                      <<tabnine>>))
+    (add-to-list 'completion-at-point-functions capf)))
 
 ;; TAB CYCLE if there are only a few candidates, otherwise show menu
 (setq completion-cycle-threshold 1)
@@ -1475,8 +1472,7 @@ Enable by add =+tabnine= flag to =:completion corfu=
   #+name: tabnine
   #+begin_src emacs-lisp :tangle no
 (when (featurep! +tabnine)
-  (add-to-list 'completion-at-point-functions
-               (cape-company-to-capf #'company-tabnine)))
+  (cape-company-to-capf #'company-tabnine))
   #+end_src
   #+name: packages.el
   #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
