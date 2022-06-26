@@ -2857,7 +2857,7 @@ pnpm add import-js -g           # user shell
 2. Configure Import-Js
 3. Install Watchman as an performance booster to import-js daemon
    - macOS or Linux
-     #+begin_src sh :tangle no
+     #+begin_src shell :async t :tangle no
 brew update && brew install watchman
      #+end_src
 
