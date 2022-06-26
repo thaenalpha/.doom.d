@@ -1305,8 +1305,8 @@ If INTERACTIVE is nil the function acts like a capf."
   :commands corfu-complete
   :hook (doom-first-input . global-corfu-mode)
   :bind (:map corfu-map
-         ("TAB"                          . corfu-next)
-         ([tab]                          . corfu-next)
+         ("TAB"                          . my-tab)
+         ([tab]                          . my-tab)
          ("S-TAB"                        . corfu-previous)
          ([backtab]                      . corfu-previous)
          ([remap move-beginning-of-line] . corfu-beginning-of-prompt)
@@ -3835,9 +3835,23 @@ This module has no prerequisites.
 [[file:packages.org::*Brief][Brief]]
 *** Copilot
 #+begin_src emacs-lisp
+(defun my-tab ()
+  (interactive)
+  (or (copilot-accept-completion)
+      (complete-symbol)))
+;; complete by copilot first, then corfu-mode
 (use-package! copilot
-  :hook
-  ((js-mode typescript-mode typescript-tsx-mode web-mode rjsx-mode) . copilot-mode))
+  :after company
+  :hook (prog-mode . copilot-mode)
+  :hook (text-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         :map company-active-map
+         ("<tab>" . 'my-tab)
+         ("TAB" . 'my-tab)
+         :map company-mode-map
+         ("<tab>" . 'my-tab)
+         ("TAB" . 'my-tab)))
 #+end_src
 
 *** fzf

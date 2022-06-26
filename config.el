@@ -949,9 +949,23 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 
 (use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
 
+(defun my-tab ()
+  (interactive)
+  (or (copilot-accept-completion)
+      (complete-symbol)))
+;; complete by copilot first, then corfu-mode
 (use-package! copilot
-  :hook
-  ((js-mode typescript-mode typescript-tsx-mode web-mode rjsx-mode) . copilot-mode))
+  :after company
+  :hook (prog-mode . copilot-mode)
+  :hook (text-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         :map company-active-map
+         ("<tab>" . 'my-tab)
+         ("TAB" . 'my-tab)
+         :map company-mode-map
+         ("<tab>" . 'my-tab)
+         ("TAB" . 'my-tab)))
 
 ;;; :tools gist
 (add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
