@@ -1284,7 +1284,8 @@ If INTERACTIVE is nil the function acts like a capf."
   (after! lsp-mode
     (setq lsp-completion-provider :none)
     (setq-local completion-at-point-functions
-                (list (cape-capf-buster #'lsp-completion-at-point)))))
+                (list #'+cape/yasnippet
+                      (cape-capf-buster #'lsp-completion-at-point)))))
 
 ;; Pad before lsp modeline error info
 (add-hook! 'lsp-mode-hook
