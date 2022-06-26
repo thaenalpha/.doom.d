@@ -949,6 +949,10 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 
 (use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
 
+(use-package! copilot
+  :hook
+  ((js-mode typescript-mode typescript-tsx-mode web-mode rjsx-mode) . copilot-mode))
+
 ;;; :tools gist
 (add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
 

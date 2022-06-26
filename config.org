@@ -105,6 +105,7 @@
   - [[#tools-tools][Tools :tools:]]
     - [[#arrayify][Arrayify]]
     - [[#brief][Brief]]
+    - [[#copilot][Copilot]]
     - [[#fzf][fzf]]
     - [[#gist][Gist]]
     - [[#lookup][Lookup]]
@@ -3832,6 +3833,12 @@ This module has no prerequisites.
 
 **** packages.el
 [[file:packages.org::*Brief][Brief]]
+*** Copilot
+#+begin_src emacs-lisp
+(use-package! copilot
+  :hook
+  ((js-mode typescript-mode typescript-tsx-mode web-mode rjsx-mode) . copilot-mode))
+#+end_src
 
 *** fzf
 **** Description
