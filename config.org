@@ -1380,11 +1380,12 @@ If INTERACTIVE is nil the function acts like a capf."
 (use-package! cape
   :defer t
   :init
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
-  (add-to-list 'completion-at-point-functions #'+cape/yasnippet)
+  (dolist (capf #'(cape-file
+                   cape-dabbrev
+                   cape-keyword
+                   cape-symbol
+                   +cape/yasnippet))
+    (add-to-list 'completion-at-point-functions #'cape-file))
   <<tabnine>>)
 
 ;; TAB CYCLE if there are only a few candidates, otherwise show menu
