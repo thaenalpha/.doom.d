@@ -4131,7 +4131,7 @@ pip install epc
 ;; -*- no-byte-compile: t; -*-
 ;;; tools/lsp-bridge/packages.el
 (package! lsp-bridge
-  :recipe (:host github :repo "thaenalpha/lsp-bridge"
+  :recipe (:host github :repo "manateelazycat/lsp-bridge"
            :files ("*.el" "*.py" "core/*.py" "langserver/*.json" "acm/*")))
 #+end_src
 *** magit +forge
