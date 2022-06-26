@@ -1386,7 +1386,7 @@ If INTERACTIVE is nil the function acts like a capf."
                    cape-keyword
                    cape-symbol
                    +cape/yasnippet))
-    (add-to-list 'completion-at-point-functions #'cape-file))
+    (add-to-list 'completion-at-point-functions capf))
   <<tabnine>>)
 
 ;; TAB CYCLE if there are only a few candidates, otherwise show menu
