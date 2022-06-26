@@ -1336,7 +1336,6 @@ If INTERACTIVE is nil the function acts like a capf."
            "C-p"   #'corfu-previous
            "C-j"   #'corfu-next
            "C-k"   #'corfu-previous
-           "C-h"   #'corfu-show-documentation
            "C-u"   #'corfu-scroll-down
            "C-d"   #'corfu-scroll-up
            "C-v"   #'corfu-scroll-up
