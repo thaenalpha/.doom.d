@@ -1313,17 +1313,19 @@ If INTERACTIVE is nil the function acts like a capf."
          ([remap move-end-of-line]       . corfu-end-of-prompt)
          ("M-m"                          . corfu-move-to-minibuffer)
          ([return]                       . corfu-insert))
-  :init
-  (setq corfu-separator ?\s             ; Orderless field separator
-        corfu-preview-current nil
-        corfu-auto  t            ; Enable auto completion
-        corfu-preselect-first nil) ; Disable candidate preselection
-
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-prefix 0)
+  (corfu-auto-delay 0.15)
+  (corfu-echo-documentation 0.3)
+  (corfu-preselect-first nil)    ;; Disable candidate preselection
+  (corfu-on-exact-match 'quit)
+  :config
   <<additional-move-cmds>>
 
   <<to-minibuffer>>
 
-  :config
   (when (and (featurep 'evil) (featurep! :config default +bindings))
     ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
     (advice-add #'corfu--setup :after #'evil-normalize-keymaps)
