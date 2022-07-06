@@ -95,6 +95,7 @@
   - [[#programming-language][Programming Language]]
     - [[#clojure][Clojure]]
     - [[#javascript][JavaScript]]
+    - [[#nix][Nix]]
     - [[#org][Org]]
     - [[#sql][SQL]]
     - [[#web][Web]]
@@ -3119,6 +3120,29 @@ If not it will throw an error, the one I got is about it cannot find node_sqlite
 This case is come from =node-pre-gyp= cannot find the pre-compiled binary in the first place.
 Then it uses `node-gyp` to build the extension but it failed without messages you anything.
 
+*** Nix
+[[doom-modules:lang/nix]] extended configuration.
+**** Troubleshooting
++ Git executable cannot be found on remote TRAMP while it should be.
+
+ This is because by default, ~eshell~ will not adopt the remote PATH settings.
+
+ That's why [[doom-modules:lang/nix/config.el][lang/nix/config.el]] has included ~/run/current-system/sw/bin~
+ which is the root's ~PATH~ for Nix(OS), but it's still not enough since we also
+ need ~~/.nix-profile/bin~ for packages in user profile (using =home-manager=).
+
+ The solution [[https://emacs.stackexchange.com/a/2106/5165][was provided by rekado (thanks!)]] (as a reply to another
+ more general question about ~eshell~):
+
+ #+begin_src emacs-lisp
+;;; :lang nix
+(when (featurep! :lang nix)
+  ;; You can configure TRAMP to respect the PATH variable on the remote
+  ;; machine (for remote eshell sessions) by adding
+  ;; `tramp-own-remote-path' to the list `tramp-remote-path':
+  (after! tramp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)))
+#+end_src
 *** Org
 - _Configuration_
 

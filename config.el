@@ -549,6 +549,14 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (require 'clj-deps-new))
 
+;;; :lang nix
+(when (featurep! :lang nix)
+  ;; You can configure TRAMP to respect the PATH variable on the remote
+  ;; machine (for remote eshell sessions) by adding
+  ;; `tramp-own-remote-path' to the list `tramp-remote-path':
+  (after! tramp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)))
+
 ;;; :lang org
 (after! org
   (setq org-hide-emphasis-markers t
