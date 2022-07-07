@@ -89,6 +89,7 @@ in. Remember to run ~doom sync~ after modifying it!
 calendar
 edit-server         ; Edit with Emacs server
 slack               ; Slack client for Emacs
+telega              ; telegram unofficial client
 <<Apps for websites>>
 #+end_src
 *** Apps for websites
@@ -109,7 +110,6 @@ twitter             ; twitter client https://twitter.com/vnought
 #+begin_src emacs-lisp
 emms                ; The Emacs Multimedia System
 irc                 ; how neckbeards socialize
-telega              ; telegram unofficial client
 #+end_src
 ** :checkers
 #+name: doom-checkers

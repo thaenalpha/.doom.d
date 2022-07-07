@@ -143,6 +143,7 @@
        calendar
        edit-server         ; Edit with Emacs server
        slack               ; Slack client for Emacs
+       telega              ; telegram unofficial client
        (:unless (or IS-WINDOWS
                     (getenv "WSLENV"))
         everywhere)        ; *leave* Emacs!? You must be joking
