@@ -796,7 +796,6 @@ Please refer [[https://github.com/ahungry/md4rd][ahungry/md4rd's README]].
 #+end_src
 
 *** Slack
-
 **** config.el
 #+begin_src emacs-lisp :tangle modules/app/slack/config.el
  ;;; app/slack/config.el -*- lexical-binding: t; -*-
