@@ -111,6 +111,13 @@ Private or extra to the Doom modules
 (package! slack)
 (package! alert)
 #+end_src
+*** Telega :telega:
+#+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; app/telega/packages.el
+
+(package! telega)
+  #+end_src
 
 ** Completion
 *** Company

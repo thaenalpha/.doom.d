@@ -875,7 +875,7 @@ Please refer [[https://github.com/ahungry/md4rd][ahungry/md4rd's README]].
 #+end_src
 **** [[file:packages.org::*Slack][packages.el]]
 *** Telega - full featured unofficial client for Telegram platform for GNU Emacs.
-**** Installation
+**** README.org
 telega depends on the visual-fill-column and rainbow-identifiers packages.
 This dependency automatically installs if you install telega from MELPA or
 GNU Guix. Otherwise, you will need to install these packages by hand.
@@ -937,31 +937,39 @@ Finally, to install the library system-wide:
 cd ./td/build && sudo make install
 #+end_src
 
-It will install headers to =/usr/local/include= and library itself into =/usr/local/lib=.
-If you have TDLib installed in other location, don't forget to modify ~telega-server-libs-prefix~ before starting telega.
-#+begin_src emacs-lisp :tangle no
-;; I'm a Guix user.
-(use-package telega-server
-  :defer t
-  :when (featurep! :app telega)
-  :config
-  (setq! telega-server-libs-prefix "~/.guix-profile"))
-#+end_src
+It will install headers to =/usr/local/include= and library itself into
+=/usr/local/lib=.
+If you have TDLib installed in other location, don't forget to modify
+~telega-server-libs-prefix~ before starting telega.
+
 ***** Installing telega from MELPA
++ ~install~ as a doom module (You need to add =telega= at :app in =init.el=)
 
-+ ~install~ as a doom :app module (You need to add =telega= at :app in =init.el=)
-
-  #+begin_src emacs-lisp :tangle modules/app/telega/packages.el :mkdirp yes
-;; -*- no-byte-compile: t; -*-
-;;; app/telega/packages.el
-
-(package! telega)
-  #+end_src
-
-- ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
++ ~uninstall~ by replace =:tangle= value in ~install~ block with =no= and just press enter at the block below:
   #+begin_src sh :tangle no
 rm -r modules/app/telega
   #+end_src
+**** config.el
+#+begin_src emacs-lisp :tangle modules/app/telega/config.el :mkdirp yes
+;;; app/telega/config.el -*- lexical-binding: t; -*-
+
+(use-package! telega-server
+  :defer t
+  :config
+  (cond ((and IS-MAC
+              ;; Is user using home brew and Apple silicon Mac?
+              (file-directory-p "/opt/homebrew/Cellar/tdlib"))
+         (setq telega-server-libs-prefix "/opt/homebrew"))
+        (IS-LINUX (cond
+                   ;; Or a Guix user?
+                   ((file-directory-p "~/.guix-profile/lib/tdlib")
+                    (setq telega-server-libs-prefix "~/.guix-profile"))
+                   ;; Or a Nix user?
+                   ((file-directory-p "~/.nix-profile/lib/tdlib")
+                    (setq telega-server-libs-prefix "~/.nix-profile"))))))
+#+end_src
+**** [[file:packages.org::*Telega][packages.el]]
+
 ** Checkers :checkers:
 *** Grammar :languagetool:convenience:
 #+begin_src emacs-lisp
