@@ -33,59 +33,60 @@
 ;;
 ;;; UI
 
-(setq display-line-numbers-type  'visual
-      doom-font                  (font-spec :family "JetBrainsMono Nerd Font"
-                                            :size 12 :weight 'light)
-      doom-variable-pitch-font   (font-spec :family "DejaVu Sans" :size 13)
-      vertico-posframe-font      (font-spec :family "JetBrainsMono Nerd Font" :size 15)
-      doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
-      doom-serif-font            doom-variable-pitch-font
-      default-frame-alist        (dolist (prop
-                                           '((height . 50)
-                                             (width  . 162)
-                                             (inhibit-double-buffering . t)))
-                                   (add-to-list 'default-frame-alist prop))
+(setq display-line-numbers-type   'visual
+      +treemacs-git-mode          'deferred
+      aj-dark+-blue-modeline              t
       doom-acario-light-brighter-modeline t
-      doom-themes-treemacs-theme 'doom-colors
-      doom-modeline-height 22
-      aj-dark+-blue-modeline t
-      +treemacs-git-mode         'deferred)
+      doom-modeline-height                22
+      doom-themes-treemacs-theme  'doom-colors
+      doom-font                (font-spec :family "JetBrainsMono Nerd Font"
+                                          :size 12 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 13)
+      vertico-posframe-font    (font-spec :family "JetBrainsMono Nerd Font" :size 15)
+      doom-unicode-font        (font-spec :family "FiraGO" :weight 'Book)
+      doom-serif-font             doom-variable-pitch-font)
 
-(let ((my-doom-color 'auto))
-  (eval                           ; theme varies to the value of `my-doom-color'
-   `(let ((auto       'auto)
-          (default    'doom-one)
-          (light ',(nth (random 7)
-                        '(alabaster doom-alabaster-bg doom-alabaster doom-acario-light
-                                    doom-github almost-mono-white almost-mono-cream)))
-          (dark ',(nth (random 8)
-                       '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula
-                                  ahungry almost-mono-black almost-mono-gray)))
-          (custom     'doom-dracula))
-      (if (eq ,my-doom-color 'auto)
-          (run-with-timer
-           0 3600                       ; check for every hour
-           (defun synchronize-theme (light dark)
-             "Sets the theme according to the hour in the current time.
+(dolist (params '((inhibit-double-buffering . t) (height . 50) (width . 162)))
+  (add-to-list 'default-frame-alist params)) (set-mouse-color "red")
+
+(after! straight
+  (add-to-list 'custom-theme-load-path (straight--build-dir "aj-dark+-theme")))
+
+(let ((my-doom-color 'auto))  ; theme varies to the value of `my-doom-color'
+  (eval `(let ((auto              'auto)
+               (default           'doom-one)
+               (light ',(nth (random 7)
+                             '(
+                               alabaster doom-alabaster doom-alabaster-bg
+                               doom-acario-light doom-github
+                               almost-mono-white almost-mono-cream)))
+               (dark  ',(nth (random 7)
+                             '(
+                               aj-dark+ quartz doom-ayu-mirage doom-dracula
+                               ahungry almost-mono-black almost-mono-gray)))
+               (custom            'doom-dracula))
+           (if (eq ,my-doom-color 'auto)
+               (run-with-timer
+                0 3600                  ; check for every hour
+                (defun synchronize-theme (light dark)
+                  "Sets the theme according to the hour in the current time.
 If the hour is (both inclusive) in `light-theme-hours' then
 `light' theme is loaded, otherwise `dark' theme is loaded."
-             (let* ((hour (string-to-number
-                           (substring (current-time-string) 11 13)))
-                    (light-theme-begin 6)   ; Hour to turn on  `light' theme
-                    (light-theme-end  17)   ; Hour to turn off `light' theme
-                    (light-theme-hours (number-sequence
-                                        light-theme-begin light-theme-end))
-                    (now (if (member hour light-theme-hours) light dark)))
-               (unless (equal now doom-theme)
-                 (setq doom-theme now) (doom-init-theme-h)))) light dark)
-        ;; Specific color mode
-        (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
+                  (let* ((hour (string-to-number
+                                (substring (current-time-string) 11 13)))
+                         (light-theme-begin 6)   ; Hour to turn on  `light' theme
+                         (light-theme-end  17)   ; Hour to turn off `light' theme
+                         (light-theme-hours (number-sequence
+                                             light-theme-begin light-theme-end))
+                         (now (if (member hour light-theme-hours) light dark)))
+                    (unless (equal now doom-theme)
+                      (setq doom-theme now) (doom-init-theme-h)))) light dark)
+             ;; Specific color mode
+             (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
 
 ;; Roll the mouse wheel to scrolls the display pixel-by-pixel.
 (when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
   (pixel-scroll-precision-mode t))
-
-(set-mouse-color "red")
 
 ;;
 ;;; keybinds

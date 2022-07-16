@@ -34,7 +34,8 @@
   - [[#themes][Themes]]
   - [[#fonts][Fonts]]
   - [[#line-numbers][Line numbers]]
-  - [[#window--frame][Window & frame]]
+  - [[#frame][Frame]]
+    - [[#frame-sizing][Frame sizing]]
   - [[#miscellaneous][Miscellaneous]]
     - [[#mouse][Mouse]]
 - [[#keyboard-shortcuts][Keyboard Shortcuts]]
@@ -233,10 +234,11 @@ UI stuff
 ;;; UI
 
 (setq <<line-numbers-setting>>
-      <<my-fonts-settings>>
-      <<my-frame-settings>>
+      <<my-treemacs-settings>>
       <<my-theme-settings>>
-      <<my-treemacs-settings>>)
+      <<my-fonts-settings>>)
+
+<<my-frame-settings>> <<pointer-settings>>
 
 <<my-theme-script>>
 #+end_src
@@ -245,14 +247,17 @@ UI stuff
 Look at the options and choose your [[mode][mode]]
 #+name:     my-theme-modes
 #+begin_src emacs-lisp :tangle no
-(default    'doom-one)
+(default           'doom-one)
 (light ',(nth (random 7)
-              '(alabaster doom-alabaster-bg doom-alabaster doom-acario-light
-                          doom-github almost-mono-white almost-mono-cream)))
-(dark ',(nth (random 8)
-             '(aj-dark+ doom-one doom-vibrant doom-ayu-mirage doom-dracula
-                        ahungry almost-mono-black almost-mono-gray)))
-(custom     'doom-dracula)
+              '(
+                alabaster doom-alabaster doom-alabaster-bg
+                doom-acario-light doom-github
+                almost-mono-white almost-mono-cream)))
+(dark  ',(nth (random 7)
+              '(
+                aj-dark+ quartz doom-ayu-mirage doom-dracula
+                ahungry almost-mono-black almost-mono-gray)))
+(custom            'doom-dracula)
 #+end_src
 
 : default, light, dark, custom
@@ -261,7 +266,7 @@ or
 
 #+name:     auto-dark-mode
 #+begin_src emacs-lisp :tangle no
-auto       'auto
+auto              'auto
 #+end_src
 
 : auto
@@ -285,34 +290,37 @@ auto
 ** Themes
 #+name: my-theme-settings
 #+begin_src emacs-lisp :tangle no
+aj-dark+-blue-modeline              t
 doom-acario-light-brighter-modeline t
-doom-themes-treemacs-theme 'doom-colors
-doom-modeline-height 22
-aj-dark+-blue-modeline t
+doom-modeline-height                22
+doom-themes-treemacs-theme  'doom-colors
 #+end_src
+
 #+name: my-theme-script
 #+begin_src emacs-lisp :noweb no-export :tangle no
-(let ((my-doom-color '<<mode>>))
-  (eval                           ; theme varies to the value of `my-doom-color'
-   `(let ((<<auto-dark-mode>>)
-          <<my-theme-modes>>)
-      (if (eq ,my-doom-color 'auto)
-          (run-with-timer
-           0 3600                       ; check for every hour
-           (defun synchronize-theme (light dark)
-             "Sets the theme according to the hour in the current time.
+(after! straight
+  (add-to-list 'custom-theme-load-path (straight--build-dir "aj-dark+-theme")))
+
+(let ((my-doom-color '<<mode>>))  ; theme varies to the value of `my-doom-color'
+  (eval `(let ((<<auto-dark-mode>>)
+               <<my-theme-modes>>)
+           (if (eq ,my-doom-color 'auto)
+               (run-with-timer
+                0 3600                  ; check for every hour
+                (defun synchronize-theme (light dark)
+                  "Sets the theme according to the hour in the current time.
 If the hour is (both inclusive) in `light-theme-hours' then
 `light' theme is loaded, otherwise `dark' theme is loaded."
-             (let* ((hour (string-to-number
-                           (substring (current-time-string) 11 13)))
-                    <<auto-mode-settings>>
-                    (light-theme-hours (number-sequence
-                                        light-theme-begin light-theme-end))
-                    (now (if (member hour light-theme-hours) light dark)))
-               (unless (equal now doom-theme)
-                 (setq doom-theme now) (doom-init-theme-h)))) light dark)
-        ;; Specific color mode
-        (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
+                  (let* ((hour (string-to-number
+                                (substring (current-time-string) 11 13)))
+                         <<auto-mode-settings>>
+                         (light-theme-hours (number-sequence
+                                             light-theme-begin light-theme-end))
+                         (now (if (member hour light-theme-hours) light dark)))
+                    (unless (equal now doom-theme)
+                      (setq doom-theme now) (doom-init-theme-h)))) light dark)
+             ;; Specific color mode
+             (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
 #+end_src
 
 ** Fonts
@@ -322,29 +330,39 @@ If the hour is (both inclusive) in `light-theme-hours' then
   Arabic · Devanagari · Georgian · Hebrew · Thai
 #+name: my-fonts-settings
 #+begin_src emacs-lisp :tangle no
-doom-font                  (font-spec :family "JetBrainsMono Nerd Font"
-                                      :size 12 :weight 'light)
-doom-variable-pitch-font   (font-spec :family "DejaVu Sans" :size 13)
-vertico-posframe-font      (font-spec :family "JetBrainsMono Nerd Font" :size 15)
-doom-unicode-font          (font-spec :family "FiraGO" :weight 'Book)
-doom-serif-font            doom-variable-pitch-font
+doom-font                (font-spec :family "JetBrainsMono Nerd Font"
+                                    :size 12 :weight 'light)
+doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 13)
+vertico-posframe-font    (font-spec :family "JetBrainsMono Nerd Font" :size 15)
+doom-unicode-font        (font-spec :family "FiraGO" :weight 'Book)
+doom-serif-font             doom-variable-pitch-font
 #+end_src
 
 ** Line numbers
 #+name: line-numbers-setting
 #+begin_src emacs-lisp :tangle no
-display-line-numbers-type  'visual
+display-line-numbers-type   'visual
 #+end_src
 
-** Window & frame
-#+name: my-frame-settings
-#+begin_src emacs-lisp :tangle no
-default-frame-alist        (dolist (prop
-                                     '((height . 50)
-                                       (width  . 162)
-                                       (inhibit-double-buffering . t)))
-                             (add-to-list 'default-frame-alist prop))
+** Frame
+Prevents some cases of Emacs flickering when opening a new frame
+#+name: frame-creation-values
+#+begin_src emacs-lisp :tangle no :noweb no-export
+'((inhibit-double-buffering . t) <<frame-size>>)
 #+end_src
+
+by add ~inhibit-double-buffering . t~ and [[frame-size][prefer sizes]] to the ~default-frame-alist~.
+#+name: my-frame-settings
+#+begin_src emacs-lisp :tangle no :noweb no-export
+(dolist (params <<frame-creation-values>>)
+  (add-to-list 'default-frame-alist params))
+#+end_src
+*** Frame sizing
+#+name: frame-size
+#+begin_src emacs-lisp :tangle no
+(height . 50) (width . 162)
+#+end_src
+
 ** Miscellaneous
 *** Mouse
 **** Scrolling
@@ -354,8 +372,9 @@ default-frame-alist        (dolist (prop
   (pixel-scroll-precision-mode t))
 #+end_src
 
-**** Cursor Color
-#+begin_src emacs-lisp
+**** Pointer Color
+#+name: pointer-settings
+#+begin_src emacs-lisp :tangle no
 (set-mouse-color "red")
 #+end_src
 * Keyboard Shortcuts :keybinds:
@@ -2424,7 +2443,7 @@ success, nil otherwise."
 Set theme, git-mode and width
 #+name: my-treemacs-settings
 #+begin_src emacs-lisp :tangle no
-+treemacs-git-mode         'deferred
++treemacs-git-mode          'deferred
 #+end_src
 *** Mixed pitch
 #+begin_quote
