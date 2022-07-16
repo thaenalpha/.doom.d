@@ -26,12 +26,17 @@
 ;;; UI
 
 ;;; Themes
-(package! aj-dark+-theme
-  :recipe (:host github :repo "AloisJanicek/.doom.d-2nd" :files ("themes/*dark+*")))
-(package! doom-alabaster-theme
-  :recipe (:host gitlab :repo "agraul/dotfiles" :files ("doom/themes/*alabaster*")))
-(package! ahungry-theme)
-(package! almost-mono-themes)
+(package! aj-dark+-theme                ; vscode dark+ theme
+  :recipe (:host github :repo "AloisJanicek/.doom.d-2nd"
+           :files ("themes/*dark+*")))
+(package! ahungry-theme)                ; Ahungry color theme for Emacs.
+(package! almost-mono-themes)           ; almost monochromatic color themes
+(package! agraul-doom-themes            ; doom-themes with alabaster & github
+  :recipe (:host gitlab :repo "agraul/dotfiles"
+           :files ("doom/themes/*.el")))
+(package! quartz-theme
+  ;; Dark Emacs theme inspired by Alabaster Dark & Jonathans Awesome Dark Theme
+  :recipe (:host github :repo "fm0xb/quartz-theme.el"))
 
 ;;; Miscellaneous
 
