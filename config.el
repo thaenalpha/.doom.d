@@ -10,10 +10,10 @@
 ;;
 ;;; System
 
-(setq shell-command-switch "-ic"
-      window-combination-resize t ; take new window space from all other windows
-      truncate-string-ellipsis  "…")    ; Unicode ellispis are nicer than "...",
-                                        ; and also save /precious/ space
+(setq shell-command-switch   "-ic"
+      window-combination-resize  t ; take new window space from all other windows
+      ;; Unicode ellispis are nicer than "...", and also save precious space.
+      truncate-string-ellipsis "…")
 (global-subword-mode 1)                 ; Iterate through CamelCase words
 
 (defadvice! prompt-for-buffer (&rest _)

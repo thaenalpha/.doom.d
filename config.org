@@ -130,10 +130,10 @@
 #+end_src
 ** Emacs
 #+begin_src emacs-lisp :noweb no-export
-(setq shell-command-switch "-ic"
+(setq shell-command-switch   "-ic"
       <<split-windows>>
-      truncate-string-ellipsis  "…")    ; Unicode ellispis are nicer than "...",
-                                        ; and also save /precious/ space
+      ;; Unicode ellispis are nicer than "...", and also save precious space.
+      truncate-string-ellipsis "…")
 (global-subword-mode 1)                 ; Iterate through CamelCase words
 #+end_src
 ** Multitasking
@@ -141,7 +141,7 @@
 Automatically resize and arrange windows on your screen
 #+name: split-windows
 #+begin_src emacs-lisp :tangle no
-window-combination-resize t ; take new window space from all other windows
+window-combination-resize  t ; take new window space from all other windows
 #+end_src
 
 When I split a window, show prompt for which buffer I want to see
