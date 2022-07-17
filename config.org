@@ -249,7 +249,7 @@ UI stuff
 Look at the options and choose your [[mode][mode]]
 #+name:     my-theme-modes
 #+begin_src emacs-lisp :tangle no
-(default           'doom-one)
+(default   'doom-one)
 (light ',(nth (random 7)
               '(
                 alabaster doom-alabaster doom-alabaster-bg
@@ -259,7 +259,7 @@ Look at the options and choose your [[mode][mode]]
               '(
                 aj-dark+ quartz doom-ayu-mirage doom-dracula
                 ahungry almost-mono-black almost-mono-gray)))
-(custom            'doom-dracula)
+(custom    'doom-dracula)
 #+end_src
 
 : default, light, dark, custom
@@ -268,7 +268,7 @@ or
 
 #+name:     auto-dark-mode
 #+begin_src emacs-lisp :tangle no
-auto              'auto
+auto      'auto
 #+end_src
 
 : auto

@@ -57,8 +57,8 @@
   (add-to-list 'custom-theme-load-path (straight--build-dir "aj-dark+-theme")))
 
 (let ((my-doom-color 'auto))  ; theme varies to the value of `my-doom-color'
-  (eval `(let ((auto              'auto)
-               (default           'doom-one)
+  (eval `(let ((auto      'auto)
+               (default   'doom-one)
                (light ',(nth (random 7)
                              '(
                                alabaster doom-alabaster doom-alabaster-bg
@@ -68,7 +68,7 @@
                              '(
                                aj-dark+ quartz doom-ayu-mirage doom-dracula
                                ahungry almost-mono-black almost-mono-gray)))
-               (custom            'doom-dracula))
+               (custom    'doom-dracula))
            (if (eq ,my-doom-color 'auto)
                (run-with-timer
                 0 3600                  ; check for every hour
