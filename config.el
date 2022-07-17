@@ -342,7 +342,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
   (setq vertico-posframe-border-width 10
         vertico-posframe-parameters '((left-fringe  . 8) (right-fringe . 8)
                                       (min-width . 90))
-        vertico-posframe-poshandler #'posframe-poshandler-frame-center))
+        vertico-posframe-poshandler #'posframe-poshandler-p0.5p0-to-f0.5p1))
 
 ;;; :ui modeline
 ;; An evil mode indicator is redundant with cursor shape - @hlissner

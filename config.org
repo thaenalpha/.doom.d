@@ -1517,8 +1517,8 @@ Enable by add =+tabnine= flag to =:completion corfu=
 *** Vertico
 + =+childframe= To enable [[doom-package:vertico-posframe][vertico-posframe]].
   #+begin_quote
-[[github:tumashu/vertico-posframe][vertico-posframe]] is an vertico extension, which lets vertico use posframe to
-show its candidates menu.
+[[github:tumashu/vertico-posframe][vertico-posframe]] is an vertico extension, which lets vertico use posframe
+to show its candidates menu.
   #+end_quote
 
   #+begin_src emacs-lisp :noweb no-export
@@ -1527,7 +1527,7 @@ show its candidates menu.
   (setq vertico-posframe-border-width 10
         vertico-posframe-parameters '(<<show fringe to vertico-posframe>>
                                       (min-width . 90))
-        vertico-posframe-poshandler #'posframe-poshandler-frame-<<position>>))
+        vertico-posframe-poshandler #'posframe-poshandler-<<position>>))
   #+end_src
 
   #+name: show fringe to vertico-posframe
@@ -1535,10 +1535,13 @@ show its candidates menu.
 (left-fringe  . 8) (right-fringe . 8)
   #+end_src
 
+  Let center and top of posframe(0.5, 0) align to a position, which x = center of
+  frame(0.5, y) and y = y position under point(x, 1) by set <<position>> to
   #+name: position
   #+begin_src emacs-lisp :tangle no
-center
-  #+end_src
+p0.5p0-to-f0.5p1
+#+end_src
+  More info can be found in docstring of ~posframe-show~.
 
 ** Configure :config:
 *** literate
