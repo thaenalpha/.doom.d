@@ -46,10 +46,14 @@
       doom-unicode-font        (font-spec :family "FiraGO" :weight 'Book)
       doom-serif-font             doom-variable-pitch-font)
 
-(dolist (params '((inhibit-double-buffering . t) (height . 50) (width . 162)))
-  (add-to-list 'default-frame-alist params)) (set-mouse-color "red")
+(dolist (params '((height . 50) (width . 162)
+                  (mouse-color . "red")
+                  (inhibit-double-buffering . t)))
+  (add-to-list 'default-frame-alist params))
 
-(after! straight
+(use-package straight
+  :commands straight--build-dir
+  :init
   (add-to-list 'custom-theme-load-path (straight--build-dir "aj-dark+-theme")))
 
 (let ((my-doom-color 'auto))  ; theme varies to the value of `my-doom-color'

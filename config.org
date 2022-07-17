@@ -36,8 +36,10 @@
   - [[#line-numbers][Line numbers]]
   - [[#frame][Frame]]
     - [[#frame-sizing][Frame sizing]]
+    - [[#mouse-color][Mouse color]]
+    - [[#prevents-some-cases-of-emacs-flickering][Prevents some cases of Emacs flickering.]]
   - [[#miscellaneous][Miscellaneous]]
-    - [[#mouse][Mouse]]
+    - [[#scrolling][Scrolling]]
 - [[#keyboard-shortcuts][Keyboard Shortcuts]]
 - [[#apps][Apps]]
   - [[#apps-for-websites][Apps for websites]]
@@ -238,7 +240,7 @@ UI stuff
       <<my-theme-settings>>
       <<my-fonts-settings>>)
 
-<<my-frame-settings>> <<pointer-settings>>
+<<my-frame-settings>>
 
 <<my-theme-script>>
 #+end_src
@@ -298,7 +300,9 @@ doom-themes-treemacs-theme  'doom-colors
 
 #+name: my-theme-script
 #+begin_src emacs-lisp :noweb no-export :tangle no
-(after! straight
+(use-package straight
+  :commands straight--build-dir
+  :init
   (add-to-list 'custom-theme-load-path (straight--build-dir "aj-dark+-theme")))
 
 (let ((my-doom-color '<<mode>>))  ; theme varies to the value of `my-doom-color'
@@ -345,16 +349,11 @@ display-line-numbers-type   'visual
 #+end_src
 
 ** Frame
-Prevents some cases of Emacs flickering when opening a new frame
-#+name: frame-creation-values
-#+begin_src emacs-lisp :tangle no :noweb no-export
-'((inhibit-double-buffering . t) <<frame-size>>)
-#+end_src
-
-by add ~inhibit-double-buffering . t~ and [[frame-size][prefer sizes]] to the ~default-frame-alist~.
 #+name: my-frame-settings
 #+begin_src emacs-lisp :tangle no :noweb no-export
-(dolist (params <<frame-creation-values>>)
+(dolist (params '(<<frame-size>>
+                  <<mouse-color>>
+                  <<prevents-flickering>>))
   (add-to-list 'default-frame-alist params))
 #+end_src
 *** Frame sizing
@@ -362,21 +361,25 @@ by add ~inhibit-double-buffering . t~ and [[frame-size][prefer sizes]] to the ~d
 #+begin_src emacs-lisp :tangle no
 (height . 50) (width . 162)
 #+end_src
+*** Mouse color
+#+name: mouse-color
+#+begin_src emacs-lisp :tangle no
+(mouse-color . "red")
+#+end_src
+*** Prevents some cases of Emacs flickering.
+#+name: prevents-flickering
+#+begin_src emacs-lisp :tangle no :noweb no-export
+(inhibit-double-buffering . t)
+#+end_src
 
 ** Miscellaneous
-*** Mouse
-**** Scrolling
+*** Scrolling
 #+begin_src emacs-lisp
 ;; Roll the mouse wheel to scrolls the display pixel-by-pixel.
 (when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
   (pixel-scroll-precision-mode t))
 #+end_src
 
-**** Pointer Color
-#+name: pointer-settings
-#+begin_src emacs-lisp :tangle no
-(set-mouse-color "red")
-#+end_src
 * Keyboard Shortcuts :keybinds:
 For the speed of expressions
 #+begin_src emacs-lisp :noweb no-export
