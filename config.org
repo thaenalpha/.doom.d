@@ -1398,7 +1398,9 @@ If INTERACTIVE is nil the function acts like a capf."
   ;; Optionally configure the first word as flex filtered.
   (add-hook 'orderless-style-dispatchers
             (defun my/orderless-dispatch-flex-first (_pattern index _total)
-              (and (eq index 0) 'orderless-flex)) nil 'local)
+              (and (eq index 0) 'orderless-flex))
+            nil 'local)
+
   (setq completion-styles '(orderless partial-completion)
         completion-category-defaults nil
         completion-category-overrides
@@ -1454,9 +1456,11 @@ If INTERACTIVE is nil the function acts like a capf."
 no auto complete, quitting at boundary and quitting if there is no match.
 
 #+begin_src emacs-lisp :tangle modules/completion/corfu/config.el
-(add-hook! eshell-mode (setq-local corfu-quit-at-boundary t
-                                   corfu-quit-no-match t
-                                   corfu-auto nil) (corfu-mode))
+(add-hook! eshell-mode
+  (setq-local corfu-quit-at-boundary t
+              corfu-quit-no-match t
+              corfu-auto nil)
+  (corfu-mode))
 #+end_src
 **** packages.el
 #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
