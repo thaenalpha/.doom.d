@@ -148,6 +148,7 @@
                     (getenv "WSLENV"))
         everywhere)        ; *leave* Emacs!? You must be joking
        jira                ; Syncing between Jira and Org-mode.
+       leetcode            ; Leetcode integration
        mastodon            ; Client for Mastodon
        pocket              ; Client for Pocket reading list https://getpocket.com
        reddit              ; read from Emacs
