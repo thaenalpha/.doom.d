@@ -76,6 +76,13 @@ Private or extra to the Doom modules
 
 (package! org-jira)
 #+end_src
+*** Leetcode :extension:tools:
+#+begin_src emacs-lisp :tangle modules/app/leetcode/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; tools/leetcode/packages.el
+
+(package! leetcode)
+#+end_src
 *** Pocket :pocket:
 #+begin_src emacs-lisp :tangle modules/app/pocket/packages.el :mkdirp yes
 ;; -*- no-byte-compile: t; -*-
@@ -162,13 +169,6 @@ Private or extra to the Doom modules
 
 (package! kubernetes)
 (package! kubedoc)
-#+end_src
-*** Leetcode :extension:tools:
-#+begin_src emacs-lisp :tangle modules/tools/leetcode/packages.el :mkdirp yes
-;; -*- no-byte-compile: t; -*-
-;;; tools/leetcode/packages.el
-
-(package! leetcode)
 #+end_src
 *** Lookup
 + =+devdocs=

@@ -389,7 +389,6 @@ ein                 ; tame Jupyter notebooks with emacs
 fzf                 ; Command-line fuzzy finder written in Go
 gist                ; interacting with github gists
 kubernetes          ; Magit-like porcelain for Kubernetes
-leetcode            ; an leetcode client
 (lookup             ; navigate your code and its documentation
  +docsets           ; …or in Dash docsets locally
  +dictionary        ; word definition and thesaurus lookup functionality.
