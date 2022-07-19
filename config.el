@@ -318,6 +318,7 @@ If the hour is (both inclusive) in `light-theme-hours' then
   (add-hook! elfeed-search-mode #'elfeed-update)
   (setq rmh-elfeed-org-auto-ignore-invalid-feeds t))
 
+;;; :checkers grammar
 (after! langtool
   (unless (or langtool-bin
               langtool-language-tool-jar

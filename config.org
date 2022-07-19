@@ -1012,6 +1012,7 @@ rm -r modules/app/telega
 ** Checkers :checkers:
 *** Grammar :languagetool:convenience:
 #+begin_src emacs-lisp
+;;; :checkers grammar
 (after! langtool
   (unless (or langtool-bin
               langtool-language-tool-jar
