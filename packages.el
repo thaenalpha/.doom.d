@@ -66,14 +66,17 @@
 
 ;;; :lang org
 (when (featurep! :lang org)
-  (package! orca)       ; Org Capture
-  (package! org-roam-ui)
-  (package! org-ol-tree :recipe (:host github :repo "Townk/org-ol-tree"))
-  (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
-  (package! org-modern)
-  (package! org-transclusion)
+  (package! orca)                       ; Org Capture
+  (package! org-roam-ui)                ; User Interface for Org-roam
+  (package! org-ol-tree
+    :recipe (:host github :repo "Townk/org-ol-tree"))
+  (package! org-appear                  ; Auto-toggle Org elements
+    :recipe (:host github :repo "awth13/org-appear"))
+  (package! org-modern)                 ; Modern Org Mode
+  (package! org-transclusion)           ; Transclude text content via links
   (package! doct :recipe (:host github :repo "progfolio/doct"))
-  (when (featurep! :lang org +web) (package! org-web-tools)))
+  (when (featurep! :lang org +web)
+    (package! org-web-tools)))          ; Display and capture web content
 
 ;;; :lang web +tailwind
 (when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
