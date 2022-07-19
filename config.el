@@ -313,6 +313,11 @@ If the hour is (both inclusive) in `light-theme-hours' then
                                       reddit-auth "me^refresh-token")))
   (run-with-timer 0 3540 #'md4rd-refresh-login))
 
+;;; :app rss +org
+(after! elfeed
+  (add-hook! elfeed-search-mode #'elfeed-update)
+  (setq rmh-elfeed-org-auto-ignore-invalid-feeds t))
+
 (after! langtool
   (unless (or langtool-bin
               langtool-language-tool-jar
