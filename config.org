@@ -824,7 +824,7 @@ Please refer [[https://github.com/ahungry/md4rd][ahungry/md4rd's README]].
 (after! elfeed
   <<elfeed-conf>>)
 #+end_src
-**** ../../
+**** Elfeed configuration
 ***** Automatically updating feed when opening elfeed
 Hook ~elfeed-update~ to ~elfeed-search-mode-hook~
 #+begin_src emacs-lisp :tangle no :noweb-ref elfeed-conf
