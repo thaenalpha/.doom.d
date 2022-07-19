@@ -4148,8 +4148,6 @@ pip install epc
                                  '(lsp-bridge-jump)
                                  +lookup-references-functions
                                  '(lsp-bridge-find-references)
-                                 +lookup-documentation-functions
-                                 '(lsp-bridge-lookup-documentation)
                                  +lookup-implementations-functions
                                  '(lsp-bridge-find-impl))
                      (map! :map doom-leader-code-map
