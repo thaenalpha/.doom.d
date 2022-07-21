@@ -30,7 +30,6 @@
        (popup              ; tame sudden yet inevitable temporary windows
         +defaults)         ; default popup rules for a variety of buffers.
        (treemacs +lsp)     ; a project drawer, like neotree but cooler
-       unicode             ; extended unicode support for various languages
        vc-gutter           ; vcs diff in the fringe
        vi-tilde-fringe     ; fringe tildes to mark beyond EOB
        window-select       ; visually switch windows

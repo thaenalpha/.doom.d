@@ -432,7 +432,6 @@ ophints             ; highlight the region an operation acts on
 (popup              ; tame sudden yet inevitable temporary windows
  +defaults)         ; default popup rules for a variety of buffers.
 (treemacs +lsp)     ; a project drawer, like neotree but cooler
-unicode             ; extended unicode support for various languages
 vc-gutter           ; vcs diff in the fringe
 vi-tilde-fringe     ; fringe tildes to mark beyond EOB
 window-select       ; visually switch windows
@@ -448,6 +447,7 @@ modus               ; Highly accessible themes (WCAG AAA)
 popup
  +all               ; catch all popups that start with an asterix
 tab-workspaces      ; tab emulation, persistence & separate workspaces
+unicode             ; extended unicode support for various languages
 #+end_src
 * Disable some of Doom’s slowest modules.
 ** :editor
