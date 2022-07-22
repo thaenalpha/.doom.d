@@ -33,18 +33,20 @@
 ;;
 ;;; UI
 
-(setq display-line-numbers-type   'visual
-      +treemacs-git-mode          'deferred
+(setq display-line-numbers-type  'visual
+      +treemacs-git-mode         'deferred
       aj-dark+-blue-modeline              t
       doom-acario-light-brighter-modeline t
-      doom-modeline-height                22
-      doom-themes-treemacs-theme  'doom-colors
-      doom-font                (font-spec :family "JetBrainsMono Nerd Font"
-                                          :size 12 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 13)
-      vertico-posframe-font    (font-spec :family "JetBrainsMono Nerd Font" :size 15)
-      doom-unicode-font        (font-spec :family "FiraGO" :weight 'Book)
-      doom-serif-font             doom-variable-pitch-font)
+      doom-modeline-height       22
+      doom-themes-treemacs-theme 'doom-colors
+      doom-font                  (font-spec :family "JetBrainsMono"
+                                            :size 12 :weight 'light)
+      doom-variable-pitch-font   (font-spec :family "DejaVu Sans"
+                                            :size 13 :weight 'Book)
+      vertico-posframe-font      (font-spec :family "JetBrainsMono" :size 15)
+      doom-unicode-font          (font-spec :family "Meslo LG M")
+      doom-serif-font            doom-variable-pitch-font
+      variable-pitch-serif-font  (font-spec :family "Alegreya" :size 27))
 
 (dolist (params '((height . 50) (width . 162)
                   (mouse-color . "red")
@@ -374,7 +376,6 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
     "A variable-pitch face with serifs."
     :group 'basic-faces)
   (setq mixed-pitch-set-height t)
-  (setq variable-pitch-serif-font (font-spec :family "Alegreya" :size 27))
   (set-face-attribute 'variable-pitch-serif nil :font variable-pitch-serif-font)
   (defun mixed-pitch-serif-mode (&optional arg)
     "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch."

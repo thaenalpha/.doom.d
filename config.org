@@ -295,8 +295,8 @@ auto
 #+begin_src emacs-lisp :tangle no
 aj-dark+-blue-modeline              t
 doom-acario-light-brighter-modeline t
-doom-modeline-height                22
-doom-themes-treemacs-theme  'doom-colors
+doom-modeline-height       22
+doom-themes-treemacs-theme 'doom-colors
 #+end_src
 
 #+name: my-theme-script
@@ -329,24 +329,25 @@ If the hour is (both inclusive) in `light-theme-hours' then
 #+end_src
 
 ** Fonts
-+ JetBrains Mono
-+ Noto Serif
-+ [[https://bboxtype.com/typefaces/FiraGO/][FiraGO]] Global Language Extension of the Open Font Family Fira Sans
-  Arabic · Devanagari · Georgian · Hebrew · Thai
++ JetBrainsMono
++ DejaVu Sans
++ [[github:andreberg/Meslo-Font][meslo-lg]]
 #+name: my-fonts-settings
 #+begin_src emacs-lisp :tangle no
-doom-font                (font-spec :family "JetBrainsMono Nerd Font"
-                                    :size 12 :weight 'light)
-doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 13)
-vertico-posframe-font    (font-spec :family "JetBrainsMono Nerd Font" :size 15)
-doom-unicode-font        (font-spec :family "FiraGO" :weight 'Book)
-doom-serif-font             doom-variable-pitch-font
+doom-font                  (font-spec :family "JetBrainsMono"
+                                      :size 12 :weight 'light)
+doom-variable-pitch-font   (font-spec :family "DejaVu Sans"
+                                      :size 13 :weight 'Book)
+vertico-posframe-font      (font-spec :family "JetBrainsMono" :size 15)
+doom-unicode-font          (font-spec :family "Meslo LG M")
+doom-serif-font            doom-variable-pitch-font
+variable-pitch-serif-font  (font-spec :family "Alegreya" :size 27)
 #+end_src
 
 ** Line numbers
 #+name: line-numbers-setting
 #+begin_src emacs-lisp :tangle no
-display-line-numbers-type   'visual
+display-line-numbers-type  'visual
 #+end_src
 
 ** Frame
@@ -2475,7 +2476,7 @@ success, nil otherwise."
 Set theme, git-mode and width
 #+name: my-treemacs-settings
 #+begin_src emacs-lisp :tangle no
-+treemacs-git-mode          'deferred
++treemacs-git-mode         'deferred
 #+end_src
 *** Mixed pitch
 #+begin_quote
@@ -2517,7 +2518,6 @@ for writeroom mode.
     "A variable-pitch face with serifs."
     :group 'basic-faces)
   (setq mixed-pitch-set-height t)
-  (setq variable-pitch-serif-font (font-spec :family "Alegreya" :size 27))
   (set-face-attribute 'variable-pitch-serif nil :font variable-pitch-serif-font)
   (defun mixed-pitch-serif-mode (&optional arg)
     "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch."
