@@ -39,14 +39,15 @@
       doom-acario-light-brighter-modeline t
       doom-modeline-height       22
       doom-themes-treemacs-theme 'doom-colors
-      doom-font                  (font-spec :family "JetBrainsMono"
-                                            :size 12 :weight 'light)
-      doom-variable-pitch-font   (font-spec :family "DejaVu Sans"
-                                            :size 13 :weight 'Book)
-      vertico-posframe-font      (font-spec :family "JetBrainsMono" :size 15)
+      doom-font    (let ((font-family `(font-spec
+                                        :family ,(format "JetBrains%sMono"
+                                                         (if IS-MAC " " "")))))
+                      (setq vertico-posframe-font (eval `(,@font-family :size 15)))
+                      (eval `(,@font-family :size 12 :weight 'light)))
+      doom-serif-font            (font-spec :family "DejaVu Sans" :size 13)
       doom-unicode-font          (font-spec :family "Meslo LG M")
-      doom-serif-font            doom-variable-pitch-font
-      variable-pitch-serif-font  (font-spec :family "Alegreya" :size 27))
+      doom-variable-pitch-font   doom-serif-font
+      variable-pitch-serif-font  (font-spec :family "Alegreya" :size 24))
 
 (dolist (params '((height . 50) (width . 162)
                   (mouse-color . "red")
