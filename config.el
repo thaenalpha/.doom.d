@@ -77,17 +77,18 @@
                 0 3600                  ; check for every hour
                 (defun synchronize-theme (light dark)
                   "Sets the theme according to the hour in the current time.
-If the hour is (both inclusive) in `light-theme-hours' then
+If the hour is (both inclusive) in `light-hours' then
 `light' theme is loaded, otherwise `dark' theme is loaded."
                   (let* ((hour (string-to-number
                                 (substring (current-time-string) 11 13)))
                          (light-theme-begin 6)   ; Hour to turn on  `light' theme
                          (light-theme-end  17)   ; Hour to turn off `light' theme
-                         (light-theme-hours (number-sequence
-                                             light-theme-begin light-theme-end))
-                         (now (if (member hour light-theme-hours) light dark)))
+                         (light-hours (number-sequence
+                                       light-theme-begin light-theme-end))
+                         (now (if (member hour light-hours) light dark)))
                     (unless (equal now doom-theme)
-                      (setq doom-theme now) (doom-init-theme-h)))) light dark)
+                      (setq doom-theme now) (doom-init-theme-h))))
+                light dark)
              ;; Specific color mode
              (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
 
