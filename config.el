@@ -257,6 +257,10 @@ If the hour is (both inclusive) in `light-hours' then
          ;; <leader> n --- notes
          (:prefix-map ("n" . "notes")
           :desc "Org Transclusion Mode" "T" #'org-transclusion-mode)
+         ;; <leader> o --- open
+         (:prefix-map ("o" . "open")
+          :desc "Calc"              "c"     #'calc
+          :desc "APP: rss"          ","     #'=rss)
          ;; <leader> p --- project
          (:prefix-map ("p" . "project")
           :when (featurep! :tools prodigy)
