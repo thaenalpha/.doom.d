@@ -1031,12 +1031,18 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
     (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
 
 ;;; :tools magit
-(after! magit
-  ;; Don't restore wconf after quit magit
-  (setq magit-inhibit-save-previous-winconf t
-        magit-repository-directories `((,doom-emacs-dir . 0)
-                                       (,doom-private-dir . 0)
-                                       ("~/projects" . 1))))
+(setq magit-repository-directories `((,doom-emacs-dir . 0)
+                                     (,doom-private-dir . 0)
+                                     ("~/projects" . 1))
+      ;; Don't restore the wconf after quitting magit, it's jarring
+      magit-inhibit-save-previous-winconf t
+      transient-values
+      '((magit-commit "--gpg-sign=5750461731047101")
+        (magit-rebase "--autosquash" "--autostash"
+                      "--gpg-sign=5750461731047101")
+        (magit-pull "--rebase" "--autostash" "--gpg-sign=5750461731047101")
+        (magit-revert "--autostash")))
+
 (after! forge
   (when EMACS29+ ; sqlite buitin support
     (setq forge-database-connector 'sqlite-builtin))
