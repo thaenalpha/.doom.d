@@ -582,7 +582,8 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
         org-support-shift-select t
         ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility
         ;; and leave C-left/C-right to .
-        org-tree-slide-skip-outline-level 2)
+        org-tree-slide-skip-outline-level 2
+        org-display-remote-inline-images 'cache)
   (after! org-capture
     (defun org-capture-select-template-prettier (&optional keys)
       "Select a capture template, in a prettier way than default
