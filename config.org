@@ -3582,6 +3582,26 @@ is selected, only the bare key is returned."
         (org-capture)))
 #+end_src
 
+- _Display inline image for url that not end with ext. (like shields.io)_
+
+  [[help:image-type-file-name-regexps][image-type-file-name-regexps]] is used to detect the image type. It's a list of
+  regexps. The first one that matches the file name in org-link is used to
+  determine the image type to be displayed as inline image in org-mode buffer
+  with [[help:org-display-user-inline-images][org-display-user-inline-images]] if that link type have a ~:image-data-fun~
+  parameter (See [[help:org-link-set-parameters][org-link-set-parameters]].)
+
+  By default, the image type is determined by the file name extension at the end
+  of the url (~\.ext\'~ ). So, if the url is [[image-url:https://shields.io/badge/foo-bar-baz.svg][https://shields.io/badge/foo-bar-baz.svg]], the
+  image type is ~svg~ and can be displayed as inline image [[https://shields.io/badge/foo-bar-baz.svg]] but when it is
+  [[image-url:https://shields.io/badge/foo-bar-baz.svg?color=blue][https://shields.io/badge/foo-bar-baz.svg?color=blue]], type cannot be determined.
+  So we have to add a regexp to the list of regexps.
+
+  #+begin_src emacs-lisp :tangle no :noweb-ref org-conf
+;; To display inline image for url that not end with ext.(like shields.io),
+;; we still need a file extenstion but not strict it at the end of the url.
+(add-to-list 'image-type-file-name-regexps '("\\.svgz?" . svg))
+#+end_src
+
 - _Org Capture from Web browser_
 
   To let this configuration works, =Org Capture= browser's extension and
