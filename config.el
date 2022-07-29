@@ -468,11 +468,8 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
                 (102 . evil-surround-function))))
 
 ;;; :editor format
-(setq-hook! '(js-mode
-              js2-mode
-              rjsx-mode
-              typescript-mode
-              typescript-tsx-mode) +format-with-lsp nil)
+(setq-hook! '(js-mode js2-mode rjsx-mode typescript-mode typescript-tsx-mode)
+  +format-with-lsp nil)
 
 ;;; :editor rotate-text
 (after! rotate-text

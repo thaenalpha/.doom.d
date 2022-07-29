@@ -2665,22 +2665,19 @@ little effort *except* _for Org-Mode source block_.
 
 *** Format
 **** Disabling the LSP formatter
-According to [[file:~/.emacs.d/modules/editor/format/README.org::*Disabling the LSP formatter][Disabling the LSP formatter]]
+According to src_org{** Disabling the LSP formatter} in [[doom-module::editor format][format]]
 #+begin_quote
-If you are in a buffer with ~lsp-mode~ enabled and a server that
-supports =textDocument/formatting=, it will be used instead of
-=format-all='s formatter.
+If you are in a buffer with ~lsp-mode~ enabled and a server that supports
+=textDocument/formatting=, it will be used instead of [[doom-package:format-all]]'s
+formatter.
 #+end_quote
 
-To disable this behavior on ts and js modes in favor of prettier:
-#+begin_src emacs-lisp
++ To disable this behavior on TS and JS modes in favor of prettier:
+  #+begin_src emacs-lisp
 ;;; :editor format
-(setq-hook! '(js-mode
-              js2-mode
-              rjsx-mode
-              typescript-mode
-              typescript-tsx-mode) +format-with-lsp nil)
-#+end_src
+(setq-hook! '(js-mode js2-mode rjsx-mode typescript-mode typescript-tsx-mode)
+  +format-with-lsp nil)
+  #+end_src
 
 *** Rotate text
 Dictionary of rotations to use. The most part was taken from [[github:dp12/parrot][Parrot Mode]].
