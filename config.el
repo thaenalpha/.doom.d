@@ -580,8 +580,8 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
   (setq org-hide-emphasis-markers t
         org-startup-with-inline-images t
         org-support-shift-select t
-        ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility
-        ;; and leave C-left/C-right to .
+        ;; use g{h,j,k} to traverse headings and TAB to toggle their
+        ;; visibility and leave C-left/C-right to .
         org-tree-slide-skip-outline-level 2
         org-display-remote-inline-images 'cache)
   (after! org-capture

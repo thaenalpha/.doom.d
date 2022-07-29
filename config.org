@@ -3222,8 +3222,8 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
   (setq org-hide-emphasis-markers t
         org-startup-with-inline-images t
         org-support-shift-select t
-        ;; use g{h,j,k} to traverse headings and TAB to toggle their visibility
-        ;; and leave C-left/C-right to .
+        ;; use g{h,j,k} to traverse headings and TAB to toggle their
+        ;; visibility and leave C-left/C-right to .
         org-tree-slide-skip-outline-level 2
         org-display-remote-inline-images 'cache)
   <<org-conf>>)
@@ -3570,8 +3570,7 @@ is selected, only the bare key is returned."
         (when buffer (kill-buffer buffer))))))
 (advice-add 'org-mks :override #'org-mks-pretty)
 #+end_src
- The [[file:~/.config/emacs/bin/org-capture][org-capture bin]] is rather nice, but I'd be nicer with a smaller
- frame, and no modeline.
+ The [[file:~/.config/emacs/bin/org-capture][org-capture bin]] is rather nice, but it'd be nicer with a smaller frame, and no modeline.
  #+begin_src emacs-lisp :tangle no :noweb-ref org-conf
 (setf (alist-get 'height +org-capture-frame-parameters) 15)
 ;; (alist-get 'name +org-capture-frame-parameters) "❖ Capture") ;; ATM hardcoded in other places, so changing breaks stuff
@@ -3582,7 +3581,7 @@ is selected, only the bare key is returned."
         (org-capture)))
 #+end_src
 
-- _Display inline image for url that not end with ext. (like shields.io)_
+- _Display inline image for url that not end with ext.(like shields.io)_
 
   [[help:image-type-file-name-regexps][image-type-file-name-regexps]] is used to detect the image type. It's a list of
   regexps. The first one that matches the file name in org-link is used to
