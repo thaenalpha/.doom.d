@@ -76,7 +76,8 @@
   (package! org-transclusion)           ; Transclude text content via links
   (package! doct :recipe (:host github :repo "progfolio/doct"))
   (when (featurep! :lang org +web)
-    (package! org-web-tools)))          ; Display and capture web content
+    (package! org-web-tools))           ; Display and capture web content
+  (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt")))
 
 ;;; :lang web +tailwind
 (when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))

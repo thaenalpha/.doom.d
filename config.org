@@ -3599,6 +3599,30 @@ is selected, only the bare key is returned."
 ;; To display inline image for url that not end with ext.(like shields.io),
 ;; we still need a file extenstion but not strict it at the end of the url.
 (add-to-list 'image-type-file-name-regexps '("\\.svgz?" . svg))
+(advice-add #'+org-http-image-data-fn :override
+            #'+org-http-with-desc-image-data-fn)
+#+end_src
+#+begin_src emacs-lisp :tangle autoload/org-link.el :mkdirp yes
+;;; autoload/org-link.el -*- lexical-binding: t; -*-
+
+;;;###autoload
+(defun +org-http-with-desc-image-data-fn (protocol link description)
+  "Return the image data for URL."
+  (when-let (which (and (not (eq org-display-remote-inline-images 'skip))
+                        (or (and (image-type-from-file-name description)
+                                 'description)
+                            (and (image-type-from-file-name link)
+                                 'link))))
+    (if-let* ((link (if (eq which 'link)
+                        (concat protocol ":" link)
+                      description))
+              (buf (url-retrieve-synchronously link)))
+        (with-current-buffer buf
+          (goto-char (point-min))
+          (re-search-forward "\r?\n\r?\n" nil t)
+          (buffer-substring-no-properties (point) (point-max)))
+      (message "Download of image \"%s\" failed" link)
+      nil)))
 #+end_src
 
 - _Org Capture from Web browser_
