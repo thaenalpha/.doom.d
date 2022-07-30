@@ -3601,6 +3601,7 @@ is selected, only the bare key is returned."
 (add-to-list 'image-type-file-name-regexps '("\\.svgz?" . svg))
 (advice-add #'+org-http-image-data-fn :override
             #'+org-http-with-desc-image-data-fn)
+(org-link-set-parameters "mailto" :image-data-fun #'+org-http-image-data-fn)
 #+end_src
 #+begin_src emacs-lisp :tangle autoload/org-link.el :mkdirp yes
 ;;; autoload/org-link.el -*- lexical-binding: t; -*-
