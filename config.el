@@ -926,12 +926,15 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
           (interactive)
           (set-window-parameter nil 'mode-line-format 'none)
           (org-capture)))
-  ;; To display inline image for url that not end with ext.(like shields.io),
-  ;; we still need a file extenstion but not strict it at the end of the url.
+  ;; To display inline image for url that not end with ext.(like shields.io), we
+  ;; still need a file extenstion but not strict it at the end of the url.
   (add-to-list 'image-type-file-name-regexps '("\\.svgz?" . svg))
   (advice-add #'+org-http-image-data-fn :override
               #'+org-http-with-desc-image-data-fn)
-  (org-link-set-parameters "mailto" :image-data-fun #'+org-http-image-data-fn))
+  (dolist (scheme '("id" "elisp" "mailto"))
+    (org-link-set-parameters scheme
+                             :image-data-fun
+                             #'+org-http-image-data-fn)))
 
 (add-hook 'org-mode-hook #'org-modern-mode)
 (after! org-modern
