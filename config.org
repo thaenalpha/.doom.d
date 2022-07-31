@@ -3693,8 +3693,27 @@ REGEDIT4
           (file+olp "~/org/inbox.org" "Web")
           "* %c :website:\n%U %?%:initial"))))
  #+end_src
+
+**** Jira :jira:org:bug:tracker:
+#+begin_src emacs-lisp
+(setq org-jira-working-dir "~/org/jira"
+      jiralib-url "https://cenergy.atlassian.net/")
+#+end_src
+**** Roam =+roam2=
+ :PROPERTIES:
+:CUSTOM_ID: org-roam
+:header-args:emacs-lisp: :noweb-ref org-roam-conf
+:END:
+ This part is taken from @hlissner
+ #+begin_src emacs-lisp :noweb no-export :noweb-ref nil
+(after! org-roam
+  (setq
+   <<Org-roam capture templates>>)
+  <<org-roam-conf>>)
+#+end_src
++ Extend org-roam-capture-templates to include the new templates.
  #+name: Org-roam capture templates
-  #+begin_src emacs-lisp :tangle no
+  #+begin_src emacs-lisp :tangle no :noweb-ref nil
 org-roam-capture-templates
 `(("n" "note" plain
    ,(format "#+title: ${title}\n%%[%s/template/note.org]"
@@ -3757,29 +3776,11 @@ org-roam-capture-ref-templates
    :head "#+title: ${title}\n#+CREATED: %U\n#+roam_key: ${ref}\n\n"
    :unnarrowed t))
  #+end_src
-
-**** Jira :jira:org:bug:tracker:
-#+begin_src emacs-lisp
-(setq org-jira-working-dir "~/org/jira"
-      jiralib-url "https://cenergy.atlassian.net/")
-#+end_src
-**** Roam =+roam2=
- :PROPERTIES:
-:CUSTOM_ID: org-roam
-:header-args:emacs-lisp: :noweb-ref org-roam-conf
-:END:
- This part is taken from @hlissner
- #+begin_src emacs-lisp :noweb no-export :noweb-ref nil
-(after! org-roam
-  (setq
-   <<Org-roam capture templates>>)
-  <<org-roam-conf>>)
-#+end_src
- Offer completion for ~#tags~ and ~@areas~ separately from notes.
+Offer completion for ~#tags~ and ~@areas~ separately from notes.
  #+begin_src emacs-lisp :tangle no
 (add-to-list 'org-roam-completion-functions #'org-roam-complete-tag-at-point)
 #+end_src
- Automatically update the slug in the filename when #+title: has changed.
+Automatically update the slug in the filename when #+title: has changed.
  #+begin_src emacs-lisp :tangle no
 (add-hook 'org-roam-find-file-hook #'org-roam-update-slug-on-save-h)
 #+end_src
