@@ -888,6 +888,8 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
    (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c)))
            string-to-transform)))
 
+(add-hook 'org-mode-hook #'org-edit-indirect-mode)
+
 (setq org-jira-working-dir "~/org/jira"
       jiralib-url "https://cenergy.atlassian.net/")
 

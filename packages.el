@@ -77,7 +77,9 @@
   (package! doct :recipe (:host github :repo "progfolio/doct"))
   (when (featurep! :lang org +web)
     (package! org-web-tools))           ; Display and capture web content
-  (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt")))
+  (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt"))
+  (package! org-edit-indirect           ; Edit anything, not just src blocks
+    :recipe (:host github :repo "agzam/org-edit-indirect.el")))
 
 ;;; :lang web +tailwind
 (when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))

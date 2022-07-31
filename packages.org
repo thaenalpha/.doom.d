@@ -212,7 +212,9 @@ Private or extra to the Doom modules
   (package! doct :recipe (:host github :repo "progfolio/doct"))
   (when (featurep! :lang org +web)
     (package! org-web-tools))           ; Display and capture web content
-  (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt")))
+  (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt"))
+  (package! org-edit-indirect           ; Edit anything, not just src blocks
+    :recipe (:host github :repo "agzam/org-edit-indirect.el")))
 #+end_src
 *** Web
 #+begin_src emacs-lisp :tangle yes

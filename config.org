@@ -3694,6 +3694,11 @@ REGEDIT4
           "* %c :website:\n%U %?%:initial"))))
  #+end_src
 
+- Extend ~org-edit-special~ to support quote, verse, and comment blocks
+  #+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'org-edit-indirect-mode)
+  #+end_src
+
 **** Jira :jira:org:bug:tracker:
 #+begin_src emacs-lisp
 (setq org-jira-working-dir "~/org/jira"
