@@ -486,6 +486,13 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
             '("stable" "unstable")
             '("install" "uninstall")
             '("add" "remove")
+            '("jan" "feb" "mar" "apr" "may" "jun"
+              "jul" "aug" "sep" "oct" "nov" "dec")
+            '("january" "february" "march" "april" "may" "june"
+              "july" "august" "september" "october" "november" "december")
+            '("mon" "tue" "wed" "thu" "fri" "sat" "sun")
+            '("monday" "tuesday" "wednesday" "thursday" "friday" "saturday"
+              "sunday")
             ;; Parrot Mode default dictionary starts here ('v')
             '("begin" "end")
             '("enter" "exit")
