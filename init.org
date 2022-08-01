@@ -241,7 +241,7 @@ coq                 ; proofs-as-programs
 crystal             ; ruby at the speed of c
 (csharp             ; unity, .NET, and mono shenanigans
  +lsp               ; omnisharp through LSP support
- +unity             ; special support for the [[https://unity.com/][Unity game engine]]
+ +unity             ; special support for the Unity game engine
  +dotnet            ; Dotnet transient interface with Sharper
  +tree-sitter)
 (dart +lsp +flutter); paint ui and not much else
@@ -292,11 +292,13 @@ ledger              ; be audit you can be
  +present           ; using org-mode for presentations
  +roam2)            ; wander around notes
 nim                 ; python + lisp at the speed of c
-(nix +tree-sitter)  ; I hereby declare "nix geht mehr!"
+(nix +lsp           ; I hereby declare "nix geht mehr!"
+     +tree-sitter)
 (ocaml              ; an objective camel
  +lsp +tree-sitter)
 (php +tree-sitter)  ; perl's insecure younger brother
 (python +tree-sitter; beautiful is better than ugly
+ +poetry            ; packaging, dependency management, and virtual env
  +lsp +pyright)
 plantuml            ; diagrams for confusing people more
 purescript          ; javascript, but functional
