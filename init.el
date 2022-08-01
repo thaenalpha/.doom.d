@@ -113,7 +113,8 @@
              +tree-sitter)
        (lua +lsp)          ; one-based indices? one-based indices
        (markdown +grip)    ; writing docs for people to ignore
-       (nix +tree-sitter)  ; I hereby declare "nix geht mehr!"
+       (nix +lsp           ; I hereby declare "nix geht mehr!"
+            +tree-sitter)
        (org                ; organize your plain life in plain text
         +dragndrop         ; drag & drop files/images into org buffers
         +gnuplot           ; who doesn't like pretty pictures
