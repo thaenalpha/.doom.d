@@ -472,6 +472,37 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
               typescript-mode
               typescript-tsx-mode) +format-with-lsp nil)
 
+;;; :editor rotate-text
+(after! rotate-text
+  (pushnew! rotate-text-words
+            '("alpha" "beta")
+            '("yes" "no")
+            '("&" "|")
+            '("small" "medium" "large")
+            '("show" "hide")
+            '("up" "down")
+            ;; Parrot Mode default dictionary starts here ('v')
+            '("begin" "end")
+            '("enter" "exit")
+            '("forward" "backward")
+            '("front" "rear" "back")
+            '("get" "set")
+            '("high" "low")
+            '("in" "out")
+            '("min" "max")
+            '("on" "off")
+            '("prev" "next")
+            '("start" "stop")
+            '("&&" "||")
+            '("==" "!=")
+            '("." "->")
+            '("if" "else" "elif")
+            '("ifdef" "ifndef")
+            '("int8_t" "int16_t" "int32_t" "int64_t")
+            '("uint8_t" "uint16_t" "uint32_t" "uint64_t")
+            '("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+            '("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th")))
+
 ;;; :email mu4e
 (after! mu4e
   (setq sendmail-program (executable-find "msmtp")

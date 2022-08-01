@@ -90,6 +90,7 @@
   - [[#editor][Editor]]
     - [[#evil][Evil]]
     - [[#format][Format]]
+    - [[#rotate-text][Rotate text]]
   - [[#emacs-1][Emacs]]
     - [[#ctrlf-1][ctrlf]]
     - [[#dired][dired]]
@@ -2675,6 +2676,42 @@ To disable this behavior on ts and js modes in favor of prettier:
               typescript-mode
               typescript-tsx-mode) +format-with-lsp nil)
 #+end_src
+
+*** Rotate text
+Dictionary of rotations to use. The most part was taken from [[github:dp12/parrot][Parrot Mode]].
+#+begin_src emacs-lisp
+;;; :editor rotate-text
+(after! rotate-text
+  (pushnew! rotate-text-words
+            '("alpha" "beta")
+            '("yes" "no")
+            '("&" "|")
+            '("small" "medium" "large")
+            '("show" "hide")
+            '("up" "down")
+            ;; Parrot Mode default dictionary starts here ('v')
+            '("begin" "end")
+            '("enter" "exit")
+            '("forward" "backward")
+            '("front" "rear" "back")
+            '("get" "set")
+            '("high" "low")
+            '("in" "out")
+            '("min" "max")
+            '("on" "off")
+            '("prev" "next")
+            '("start" "stop")
+            '("&&" "||")
+            '("==" "!=")
+            '("." "->")
+            '("if" "else" "elif")
+            '("ifdef" "ifndef")
+            '("int8_t" "int16_t" "int32_t" "int64_t")
+            '("uint8_t" "uint16_t" "uint32_t" "uint64_t")
+            '("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+            '("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th")))
+#+end_src
+
 ** Emacs :emacs:
 *** ctrlf :extension:
 #+begin_src emacs-lisp :tangle modules/emacs/ctrlf/config.el
