@@ -48,6 +48,7 @@
     - [[#md4rd][Md4rd]]
   - [[#better-defaults-packages][Better defaults packages]]
     - [[#info-colors][info-colors]]
+    - [[#minibuffer-header-line][Minibuffer header line]]
     - [[#ctrlf][ctrlf]]
     - [[#dirvish][dirvish]]
 - [[#time--language][Time & language]]
@@ -573,8 +574,9 @@ guix bashonubuntuonwindows hackernews graphql cscareerquestions
 ** Better defaults packages :emacs:
 *** info-colors :faces:
 *Extra colors for Info-mode*
+*** Minibuffer header line :ui:
 #+begin_src emacs-lisp
-
+(add-hook 'minibuffer-setup-hook #'minibuffer-header-mode)
 #+end_src
 
 *** ctrlf :extension:

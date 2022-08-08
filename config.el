@@ -276,7 +276,7 @@ If the hour is (both inclusive) in `light-hours' then
                         (quote (nndiscourse "discourse.mozilla.org"
                                             (nndiscourse-scheme "https")))))
 
-
+(add-hook 'minibuffer-setup-hook #'minibuffer-header-mode)
 
 ;;
 ;;; Time & language
