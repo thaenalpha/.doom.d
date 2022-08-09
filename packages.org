@@ -18,7 +18,8 @@
 (unless IS-MAC (package! cask))         ; in prefer of `Brew'
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
-(package! minibuffer-header)
+(package! minibuffer-header
+  :recipe (:host github :repo "rougier/minibuffer-header"))
 #+end_src
 
 * System administration
