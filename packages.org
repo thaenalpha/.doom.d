@@ -120,7 +120,7 @@ Private or extra to the Doom modules
 *** Company
 #+begin_src emacs-lisp :tangle yes
 ;;; :completion company +tabnine
-(when (featurep! :completion company +tabnine)
+(when (modulep! :completion company +tabnine)
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
 #+end_src
@@ -177,18 +177,18 @@ Private or extra to the Doom modules
 + =+devdocs=
  #+begin_src emacs-lisp :tangle yes
 ;;; :tools lookup +devdocs 
-(when (featurep! :tools lookup +devdocs) (package! devdocs))
+(when (modulep! :tools lookup +devdocs) (package! devdocs))
 #+end_src
 + =+docsets=
  #+begin_src emacs-lisp :tangle yes
 ;;; :tools lookup +docsets
-(when (and IS-MAC (featurep! :tools lookup +docsets))
+(when (and IS-MAC (modulep! :tools lookup +docsets))
   (package! dash-at-point))
  #+end_src
 *** Magit
 #+begin_src emacs-lisp :tangle yes
 ;;; :tools magit +forge
-(when (and EMACS29+ (featurep! :tools magit +forge))
+(when (and EMACS29+ (modulep! :tools magit +forge))
  (package! emacsql-sqlite-builtin
   :recipe (:host github :repo "tarsiiformes/emacsql"
            :branch "sqlite-backends")))
@@ -198,12 +198,12 @@ Private or extra to the Doom modules
 *** Clojure
 #+begin_src emacs-lisp :tangle yes
 ;;; :lang clojure
-(when (featurep! :lang clojure) (package! clj-deps-new))
+(when (modulep! :lang clojure) (package! clj-deps-new))
 #+end_src
 *** Org
 #+begin_src emacs-lisp :tangle yes
 ;;; :lang org
-(when (featurep! :lang org)
+(when (modulep! :lang org)
   (package! orca)                       ; Org Capture
   (package! org-roam-ui)                ; User Interface for Org-roam
   (package! org-ol-tree
@@ -213,7 +213,7 @@ Private or extra to the Doom modules
   (package! org-modern)                 ; Modern Org Mode
   (package! org-transclusion)           ; Transclude text content via links
   (package! doct :recipe (:host github :repo "progfolio/doct"))
-  (when (featurep! :lang org +web)
+  (when (modulep! :lang org +web)
     (package! org-web-tools))           ; Display and capture web content
   (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt"))
   (package! org-edit-indirect           ; Edit anything, not just src blocks
@@ -222,7 +222,7 @@ Private or extra to the Doom modules
 *** Web
 #+begin_src emacs-lisp :tangle yes
 ;;; :lang web +tailwind
-(when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+(when (and (modulep! :tools lsp) (modulep! :lang web +tailwind))
   (package! lsp-tailwindcss
     :recipe (:host github :repo "merrickluo/lsp-tailwindcss")))
 #+end_src

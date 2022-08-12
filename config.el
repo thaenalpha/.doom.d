@@ -125,10 +125,10 @@ If the hour is (both inclusive) in `light-hours' then
 
       ;;; C-c
       (:prefix ("C-c" . "mode-specific-map")
-       (:when (featurep! :tools eval)
+       (:when (modulep! :tools eval)
         :desc "Evaluate line/region"      "e"     #'+eval/line-or-region
         :desc "Evaluate & replace region" "E"     #'+eval/region-and-replace)
-       (:when (featurep! :checkers grammar)
+       (:when (modulep! :checkers grammar)
         "g"     #'writegood-mode
         "C-g g" #'writegood-grade-level
         "C-g e" #'writegood-reading-ease))
@@ -140,7 +140,7 @@ If the hour is (both inclusive) in `light-hours' then
       ;;
       ;;; evil
 
-      :when (featurep! :editor evil)
+      :when (modulep! :editor evil)
       :desc "Next file"                   "M-]"   #'+evil/next-file
       :desc "Previous file"               "M-["   #'+evil/previous-file
       :n  "g+"    #'evil-numbers/inc-at-pt
@@ -159,7 +159,7 @@ If the hour is (both inclusive) in `light-hours' then
        :n "C-SPC" #'just-one-space)
 
       ;;; :ui doom-dashboard
-      (:when (featurep! :ui doom-dashboard)
+      (:when (modulep! :ui doom-dashboard)
        (:map doom-leader-open-map
         "0"       #'+doom-dashboard/open)
        :map +doom-dashboard-mode-map
@@ -194,13 +194,13 @@ If the hour is (both inclusive) in `light-hours' then
        :desc "Outline" "O" #'org-ol-tree)
 
       ;;; :ui hydra
-      (:when (featurep! :ui hydra)
+      (:when (modulep! :ui hydra)
        :desc "Interactive menu" "<menu>" #'+hydra/window-nav/body
-       :when (featurep! :completion vertico)
+       :when (modulep! :completion vertico)
        [remap +hydra/window-nav/idomenu] #'consult-imenu)
 
       ;;; :emacs dired
-      (:when (featurep! :emacs dired +dirvish)
+      (:when (modulep! :emacs dired +dirvish)
        "C-c f"                           #'dirvish-fd
        :map dirvish-mode-map
        ;; left click for expand/collapse dir or open file
@@ -214,26 +214,26 @@ If the hour is (both inclusive) in `light-hours' then
        [remap dired-do-copy]             #'dirvish-yank-menu        ; C
        )
 
-      (:when (featurep! :term vterm)
+      (:when (modulep! :term vterm)
        :map vterm-mode-map
        :i "C-j"   #'vterm--self-insert
        "C-c C-x"  #'vterm--self-insert)
 
       ;;; :completion corfu
-      (:when (featurep! :completion corfu)
+      (:when (modulep! :completion corfu)
        :i "C-@"   #'completion-at-point
        :i "C-SPC" #'completion-at-point)
 
       ;;; C-x
       (:prefix "C-x"
        ;; Omni-completion, Bind dedicated completion commands
-       (:when (featurep! :completion corfu)
+       (:when (modulep! :completion corfu)
         :i "C-p"   #'completion-at-point  ; capf
         :i "C-l"   #'cape-line
         :i "C-k"   #'+cape/dict-or-keywords
         :i "C-a"   #'cape-abbrev
         :i "s"     #'cape-ispell
-        (:unless (featurep! :completion company)
+        (:unless (modulep! :completion company)
          :i "C-s"  #'+cape/yasnippet)
         :i "C-d"   #'cape-dabbrev
         :i "d"     #'dabbrev-completion
@@ -245,7 +245,7 @@ If the hour is (both inclusive) in `light-hours' then
         :i "C-r"   #'cape-rfc1345))
 
       ;;; :config default
-      (:when (featurep! :config default)
+      (:when (modulep! :config default)
        (:map help-map
         (:when (featurep 'keychain-environment)
          "rk"   #'keychain-refresh-environment)
@@ -258,25 +258,25 @@ If the hour is (both inclusive) in `light-hours' then
               (expand-file-name "packages.org" doom-private-dir))))
 
        ;;; :ui
-       (:when (featurep! :ui popup)
+       (:when (modulep! :ui popup)
         :desc "Open this buffer in a popup" "C-x j" #'+popup/buffer)
-       (:when (featurep! :ui workspaces)
+       (:when (modulep! :ui workspaces)
         (:when IS-MAC
          :desc "Next workspace"     "s-}"   #'+workspace/switch-right
          :desc "Previous workspace" "s-{"   #'+workspace/switch-left))
 
        ;;; <leader>
-       (:when (featurep! :config default +bindings)
+       (:when (modulep! :config default +bindings)
         (:leader
          ;; <leader> z --- zoom
-         (:when (featurep! :ui hydra)
+         (:when (modulep! :ui hydra)
           :desc  "Text zoom menu"   "z"     #'+hydra/text-zoom/body)
          ;; <leader> f --- file
          (:prefix-map ("f" . "file") :desc "Find dotfile" "." #'find-dotfile)
          ;; <leader> g --- git/version control
          (:prefix-map ("g" . "git")
           (:prefix ("l" . "list")
-           (:when (featurep! :tools gist)
+           (:when (modulep! :tools gist)
             :desc "List other user's gists" "u"   #'gist-list-user
             :desc "List your starred gists" "M-s" #'gist-list-starred)))
          ;; <leader> n --- notes
@@ -288,12 +288,12 @@ If the hour is (both inclusive) in `light-hours' then
           :desc "APP: rss"          ","     #'=rss)
          ;; <leader> p --- project
          (:prefix-map ("p" . "project")
-          :when (featurep! :tools prodigy)
+          :when (modulep! :tools prodigy)
           :desc "services"          "t"     #'prodigy)
          ;; <leader> s --- search
          (:prefix-map ("s" . "search")
           (:prefix-map ("a" . "Search in applications")
-           (:when (and IS-MAC (featurep! :tools lookup +docsets))
+           (:when (and IS-MAC (modulep! :tools lookup +docsets))
             :desc "dash at point" "d" #'dash-at-point)))))))
 
 ;; Applies to first-time Gnus users
@@ -373,7 +373,7 @@ If the hour is (both inclusive) in `light-hours' then
         flycheck-global-modes '(not org-mode)))
 
 ;;; :completion company +tabnine
-(when (featurep! :completion company +tabnine)
+(when (modulep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
   (after! company
     (setq company-idle-delay nil
@@ -383,7 +383,7 @@ If the hour is (both inclusive) in `light-hours' then
           company-idle-delay 0)))
 
 ;;; :completion vertico +childframe
-(when (featurep! :completion vertico +childframe)
+(when (modulep! :completion vertico +childframe)
   (setq vertico-posframe-border-width 10
         vertico-posframe-parameters '((left-fringe  . 8) (right-fringe . 8)
                                       (min-width . 90))
@@ -632,12 +632,12 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
         " m:/tannarin26@yahoo.com/Trash") "All Trashes" ?t))))
 
 ;;; :lang clojure
-(when (featurep! :lang clojure)
+(when (modulep! :lang clojure)
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (require 'clj-deps-new))
 
 ;;; :lang nix
-(when (featurep! :lang nix)
+(when (modulep! :lang nix)
   ;; You can configure TRAMP to respect the PATH variable on the remote
   ;; machine (for remote eshell sessions) by adding
   ;; `tramp-own-remote-path' to the list `tramp-remote-path':
@@ -1042,7 +1042,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 
 ;;; :lang web
 (use-package! lsp-tailwindcss
-  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+  :when (and (modulep! :tools lsp) (modulep! :lang web +tailwind))
   :init
   (setq lsp-tailwindcss-add-on-mode t
         lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
@@ -1057,7 +1057,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 (add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
 
 ;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
-(unless (featurep! :checkers syntax)
+(unless (modulep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
 
 (after! lsp-mode

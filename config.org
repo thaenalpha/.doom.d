@@ -442,10 +442,10 @@ For the speed of expressions
 
       ;;; C-c
       (:prefix ("C-c" . "mode-specific-map")
-       (:when (featurep! :tools eval)
+       (:when (modulep! :tools eval)
         :desc "Evaluate line/region"      "e"     #'+eval/line-or-region
         :desc "Evaluate & replace region" "E"     #'+eval/region-and-replace)
-       (:when (featurep! :checkers grammar)
+       (:when (modulep! :checkers grammar)
         "g"     #'writegood-mode
         "C-g g" #'writegood-grade-level
         "C-g e" #'writegood-reading-ease))
@@ -457,7 +457,7 @@ For the speed of expressions
       ;;
       ;;; evil
 
-      :when (featurep! :editor evil)
+      :when (modulep! :editor evil)
       :desc "Next file"                   "M-]"   #'+evil/next-file
       :desc "Previous file"               "M-["   #'+evil/previous-file
       :n  "g+"    #'evil-numbers/inc-at-pt
@@ -487,7 +487,7 @@ For the speed of expressions
       <<:ui hydra/Window Navigation>>
 
       ;;; :emacs dired
-      (:when (featurep! :emacs dired +dirvish)
+      (:when (modulep! :emacs dired +dirvish)
        <<Overide dired-mode-map>>
        )
 
@@ -500,19 +500,19 @@ For the speed of expressions
        <<cape:prefix-map>>)
 
       ;;; <<default>>
-      (:when (featurep! <<default>>)
+      (:when (modulep! <<default>>)
        <<+default>>
 
        ;;; :ui
-       (:when (featurep! :ui popup)
+       (:when (modulep! :ui popup)
         :desc "Open this buffer in a popup" "C-x j" #'+popup/buffer)
-       (:when (featurep! :ui workspaces)
+       (:when (modulep! :ui workspaces)
         (:when IS-MAC
          :desc "Next workspace"     "s-}"   #'+workspace/switch-right
          :desc "Previous workspace" "s-{"   #'+workspace/switch-left))
 
        ;;; <leader>
-       (:when (featurep! <<default>> +bindings)
+       (:when (modulep! <<default>> +bindings)
         (:leader
          <<+hydra/text-zoom evil>>
          ;; <leader> f --- file
@@ -529,7 +529,7 @@ For the speed of expressions
           <<leader o … --- open-with commands>>)
          ;; <leader> p --- project
          (:prefix-map ("p" . "project")
-          :when (featurep! :tools prodigy)
+          :when (modulep! :tools prodigy)
           :desc "services"          "t"     #'prodigy)
          ;; <leader> s --- search
          (:prefix-map ("s" . "search")
@@ -1109,20 +1109,20 @@ rm -r modules/app/telega
     #+name: cape:bind global keys in normal mode
     #+begin_src emacs-lisp :tangle no
 ;;; :completion corfu
-(:when (featurep! :completion corfu)
+(:when (modulep! :completion corfu)
  :i "C-@"   #'completion-at-point
  :i "C-SPC" #'completion-at-point)
 #+end_src
     #+name: cape:prefix-map
     #+begin_src emacs-lisp :tangle no
 ;; Omni-completion, Bind dedicated completion commands
-(:when (featurep! :completion corfu)
+(:when (modulep! :completion corfu)
  :i "C-p"   #'completion-at-point  ; capf
  :i "C-l"   #'cape-line
  :i "C-k"   #'+cape/dict-or-keywords
  :i "C-a"   #'cape-abbrev
  :i "s"     #'cape-ispell
- (:unless (featurep! :completion company)
+ (:unless (modulep! :completion company)
   :i "C-s"  #'+cape/yasnippet)
  :i "C-d"   #'cape-dabbrev
  :i "d"     #'dabbrev-completion
@@ -1299,7 +1299,7 @@ This affects the minibuffer and non-lsp completion at point.
 ,#+begin_src emacs-lisp :noweb no-export
 (use-package orderless
   :defer t
-  :when (featurep! :completion corfu +orderless)
+  :when (modulep! :completion corfu +orderless)
   :init
   <​<optional>​>
   (setq completion-styles '(orderless)
@@ -1449,7 +1449,7 @@ If INTERACTIVE is nil the function acts like a capf."
 
   <<to-minibuffer>>
 
-  (when (and (featurep 'evil) (featurep! :config default +bindings))
+  (when (and (featurep 'evil) (modulep! :config default +bindings))
     ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
     (advice-add #'corfu--setup :after #'evil-normalize-keymaps)
     (advice-add #'corfu--teardown :after #'evil-normalize-keymaps)
@@ -1479,14 +1479,14 @@ If INTERACTIVE is nil the function acts like a capf."
 ;;; Packages
 
 (use-package! corfu-doc
-  :when (featurep! +childframe)
+  :when (modulep! +childframe)
   :hook (corfu-mode . corfu-doc-mode))
 
 ;; Enable `partial-completion' for files to allow path expansion.
 ;; You may prefer to use `initials' instead of `partial-completion'.
 (use-package! orderless
   :defer t
-  :when (featurep! +orderless)
+  :when (modulep! +orderless)
   :init
   ;; Optionally configure the first word as flex filtered.
   (add-hook 'orderless-style-dispatchers
@@ -1561,13 +1561,13 @@ no auto complete, quitting at boundary and quitting if there is no match.
 ;;; completion/corfu/packages.el
 
 (package! corfu)
-(when (featurep! +orderless)
+(when (modulep! +orderless)
   (package! orderless))
 (package! kind-icon)
 (package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
-(when (featurep! +childframe)
+(when (modulep! +childframe)
   (package! corfu-doc))
-(unless (featurep! :completion company) (package! company))
+(unless (modulep! :completion company) (package! company))
 #+end_src
 
 *** Tabnine
@@ -1581,7 +1581,7 @@ Install package in =packages.el=. Enable by add flag to =:completion company=
 ***** Configuration code
 #+begin_src emacs-lisp :noweb no-export
 ;;; :completion company +tabnine
-(when (featurep! :completion company +tabnine)
+(when (modulep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
   (after! company
     (setq <<company-idle-delay>>
@@ -1602,12 +1602,12 @@ Enable by add =+tabnine= flag to =:completion corfu=
   #+end_src
   #+name: tabnine
   #+begin_src emacs-lisp :tangle no
-(when (featurep! +tabnine)
+(when (modulep! +tabnine)
   (cape-company-to-capf #'company-tabnine))
   #+end_src
   #+name: packages.el
   #+begin_src emacs-lisp :tangle modules/completion/corfu/packages.el
-(when (featurep! +tabnine)
+(when (modulep! +tabnine)
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
   #+end_src
@@ -1620,7 +1620,7 @@ to show its candidates menu.
 
   #+begin_src emacs-lisp :noweb no-export
 ;;; :completion vertico +childframe
-(when (featurep! :completion vertico +childframe)
+(when (modulep! :completion vertico +childframe)
   (setq vertico-posframe-border-width 10
         vertico-posframe-parameters '(<<show fringe to vertico-posframe>>
                                       (min-width . 90))
@@ -1684,7 +1684,7 @@ Specify the directory in which your notes are stored:
   #+name: dashboard
   #+begin_src emacs-lisp :tangle no
 ;;; :ui doom-dashboard
-(:when (featurep! :ui doom-dashboard)
+(:when (modulep! :ui doom-dashboard)
  (:map doom-leader-open-map
   "0"       #'+doom-dashboard/open)
  :map +doom-dashboard-mode-map
@@ -1813,15 +1813,15 @@ When =:ui hydra= is enabled, map keys to ~+hydra/window-nav/body~~ and
 #+name: :ui hydra/Window Navigation
 #+begin_src emacs-lisp :tangle no
 ;;; :ui hydra
-(:when (featurep! :ui hydra)
+(:when (modulep! :ui hydra)
  :desc "Interactive menu" "<menu>" #'+hydra/window-nav/body
- :when (featurep! :completion vertico)
+ :when (modulep! :completion vertico)
  [remap +hydra/window-nav/idomenu] #'consult-imenu)
 #+end_src
 #+name: +hydra/text-zoom evil
 #+begin_src emacs-lisp :tangle no
 ;; <leader> z --- zoom
-(:when (featurep! :ui hydra)
+(:when (modulep! :ui hydra)
  :desc  "Text zoom menu"   "z"     #'+hydra/text-zoom/body)
 #+end_src
 
@@ -2098,7 +2098,7 @@ Therefore this function only needs to return the default value."
     (setq +workspaces--project-dir nil)))
 
 (setq projectile-switch-project-action #'+workspaces-set-project-action-fn)
-;; (when (featurep! :completion ivy)
+;; (when (modulep! :completion ivy)
 ;;   (setq
 ;;    counsel-projectile-switch-project-action
 ;;    '(1 ("o" +workspaces-switch-to-project-h "open project in new workspace")
@@ -2789,7 +2789,7 @@ Dictionary of rotations to use. The most part was taken from [[github:dp12/parro
 *** dired :files:convenience:
 #+begin_src emacs-lisp :noweb no-export :tangle no
 ;;; :emacs dired +dirvish
-(when (featurep! :emacs dired +dirvish)
+(when (modulep! :emacs dired +dirvish)
   <<dirvish Configuration>>)
 #+end_src
 *** info
@@ -2935,7 +2935,7 @@ This section adds packages and configuration on top of Doom Lang modules
 turn on paredit-mode (minor) after Clojure-mode was loaded (major)
 #+begin_src emacs-lisp
 ;;; :lang clojure
-(when (featurep! :lang clojure)
+(when (modulep! :lang clojure)
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (require 'clj-deps-new))
 #+end_src
@@ -2984,7 +2984,7 @@ This was made by doing relative symbolic links to Doom built-in JavaScript Modul
 #+begin_src emacs-lisp :tangle modules/lang/javascript/packages.el
 ;; Programming environment
 (package! tide)
-(when (featurep! :tools lookup)
+(when (modulep! :tools lookup)
   (package! xref-js2))
 #+end_src
 
@@ -3308,7 +3308,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 
  #+begin_src emacs-lisp
 ;;; :lang nix
-(when (featurep! :lang nix)
+(when (modulep! :lang nix)
   ;; You can configure TRAMP to respect the PATH variable on the remote
   ;; machine (for remote eshell sessions) by adding
   ;; `tramp-own-remote-path' to the list `tramp-remote-path':
@@ -3943,7 +3943,7 @@ backlinks buffer.
   #+begin_src emacs-lisp
 ;;; :lang web
 (use-package! lsp-tailwindcss
-  :when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+  :when (and (modulep! :tools lsp) (modulep! :lang web +tailwind))
   :init
   (setq lsp-tailwindcss-add-on-mode t
         lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode
@@ -3991,7 +3991,7 @@ In Vterm I prefer =ESC= to be a ~vterm--self-insert~
 Other keybinds these should be...
 #+name: vterm-kbd
 #+begin_src emacs-lisp :tangle no
-(:when (featurep! :term vterm)
+(:when (modulep! :term vterm)
  :map vterm-mode-map
  :i "C-j"   #'vterm--self-insert
  "C-c C-x"  #'vterm--self-insert)
@@ -4153,7 +4153,7 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
 #+end_src
 #+name: leader g l … --- gist commands
 #+begin_src emacs-lisp :tangle no
-(:when (featurep! :tools gist)
+(:when (modulep! :tools gist)
  :desc "List other user's gists" "u"   #'gist-list-user
  :desc "List your starred gists" "M-s" #'gist-list-starred)
 #+end_src
@@ -4164,14 +4164,14 @@ Troubleshooting for the conflict of ~gist-star~ and ~evil-snipe-s~ key.
  Search Dash GUI from Emacs. only works in MacOS.
 #+name: leader s a d --- Dash
  #+begin_src emacs-lisp :tangle no
-(:when (and IS-MAC (featurep! :tools lookup +docsets))
+(:when (and IS-MAC (modulep! :tools lookup +docsets))
  :desc "dash at point" "d" #'dash-at-point)
  #+end_src
 
 *** LSP
 #+begin_src emacs-lisp
 ;;; :tools LSP -- https://git.sr.ht/~gagbo/doom-config
-(unless (featurep! :checkers syntax)
+(unless (modulep! :checkers syntax)
   (setq lsp-diagnostics-provider :flymake))
 
 (after! lsp-mode

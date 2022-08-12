@@ -47,28 +47,28 @@
 ;;; Modules
 
 ;;; :completion company +tabnine
-(when (featurep! :completion company +tabnine)
+(when (modulep! :completion company +tabnine)
   (package! company-tabnine
     :recipe (:host github :repo "tommyX12/company-tabnine")))
 
 ;;; :tools lookup +devdocs 
-(when (featurep! :tools lookup +devdocs) (package! devdocs))
+(when (modulep! :tools lookup +devdocs) (package! devdocs))
 
 ;;; :tools lookup +docsets
-(when (and IS-MAC (featurep! :tools lookup +docsets))
+(when (and IS-MAC (modulep! :tools lookup +docsets))
   (package! dash-at-point))
 
 ;;; :tools magit +forge
-(when (and EMACS29+ (featurep! :tools magit +forge))
+(when (and EMACS29+ (modulep! :tools magit +forge))
  (package! emacsql-sqlite-builtin
   :recipe (:host github :repo "tarsiiformes/emacsql"
            :branch "sqlite-backends")))
 
 ;;; :lang clojure
-(when (featurep! :lang clojure) (package! clj-deps-new))
+(when (modulep! :lang clojure) (package! clj-deps-new))
 
 ;;; :lang org
-(when (featurep! :lang org)
+(when (modulep! :lang org)
   (package! orca)                       ; Org Capture
   (package! org-roam-ui)                ; User Interface for Org-roam
   (package! org-ol-tree
@@ -78,14 +78,14 @@
   (package! org-modern)                 ; Modern Org Mode
   (package! org-transclusion)           ; Transclude text content via links
   (package! doct :recipe (:host github :repo "progfolio/doct"))
-  (when (featurep! :lang org +web)
+  (when (modulep! :lang org +web)
     (package! org-web-tools))           ; Display and capture web content
   (package! org-yt :recipe (:host github :repo "thaenalpha/org-yt"))
   (package! org-edit-indirect           ; Edit anything, not just src blocks
     :recipe (:host github :repo "agzam/org-edit-indirect.el")))
 
 ;;; :lang web +tailwind
-(when (and (featurep! :tools lsp) (featurep! :lang web +tailwind))
+(when (and (modulep! :tools lsp) (modulep! :lang web +tailwind))
   (package! lsp-tailwindcss
     :recipe (:host github :repo "merrickluo/lsp-tailwindcss")))
 
