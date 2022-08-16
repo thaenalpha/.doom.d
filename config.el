@@ -92,6 +92,10 @@ If the hour is (both inclusive) in `light-hours' then
              ;; Specific color mode
              (setq doom-theme ,my-doom-color) (doom-init-theme-h)))))
 
+(use-package minibuffer-header
+  :commands minibuffer-header-mode
+  :hook (minibuffer-setup . minibuffer-header-mode))
+
 ;; Roll the mouse wheel to scrolls the display pixel-by-pixel.
 (when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
   (pixel-scroll-precision-mode t))
@@ -275,8 +279,6 @@ If the hour is (both inclusive) in `light-hours' then
 (custom-set-variables '(gnus-select-method
                         (quote (nndiscourse "discourse.mozilla.org"
                                             (nndiscourse-scheme "https")))))
-
-(add-hook 'minibuffer-setup-hook #'minibuffer-header-mode)
 
 ;;
 ;;; Time & language

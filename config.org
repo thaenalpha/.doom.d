@@ -378,6 +378,14 @@ display-line-numbers-type  'visual
 (inhibit-double-buffering . t)
 #+end_src
 
+** Minibuffer :ui:
+Header line powered by [[doom-package:][minibuffer-header]]
+#+begin_src emacs-lisp
+(use-package minibuffer-header
+  :commands minibuffer-header-mode
+  :hook (minibuffer-setup . minibuffer-header-mode))
+#+end_src
+
 ** Miscellaneous
 *** Scrolling
 #+begin_src emacs-lisp
@@ -574,11 +582,6 @@ guix bashonubuntuonwindows hackernews graphql cscareerquestions
 ** Better defaults packages :emacs:
 *** info-colors :faces:
 *Extra colors for Info-mode*
-*** Minibuffer header line :ui:
-#+begin_src emacs-lisp
-(add-hook 'minibuffer-setup-hook #'minibuffer-header-mode)
-#+end_src
-
 *** ctrlf :extension:
 Replace ~isearch~ functions with more reliable browser-like experience.
 
