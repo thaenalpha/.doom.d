@@ -329,426 +329,1209 @@
   + Purging orphaned packages (for the emperor)...
     - No builds to purge
     + Purging ELPA packages...
-      ✓ Deleted archives
-      ✓ Deleted gpg
+      * Deleted archives
+      * Deleted gpg
     + Purging straight repositories...
       =✓ Purged repos/ace-jump-mode=
     + Regrafting 404 repos...
-      =✓ repos/.doom.d-2nd cannot be compacted further=
-      =✓ repos/Emacs-langtool cannot be compacted further=
-      =✓ repos/Emacs-wgrep cannot be compacted further=
-      =✓ repos/a.el cannot be compacted further=
-      =✓ repos/ace-window cannot be compacted further=
-      =✓ repos/add-node-modules-path cannot be compacted further=
-      =✓ repos/alert cannot be compacted further=
-      =✓ repos/all-the-icons-completion cannot be compacted further=
-      =✓ repos/all-the-icons.el cannot be compacted further=
-      =✓ repos/almost-mono-themes cannot be compacted further=
-      =✓ repos/anaconda-mode cannot be compacted further=
-      =✓ repos/anaphora cannot be compacted further=
-      =✓ repos/annalist.el cannot be compacted further=
-      =✓ repos/anzu cannot be compacted further=
-      =✓ repos/auto-minor-mode cannot be compacted further=
-      =✓ repos/auto-yasnippet cannot be compacted further=
-      =✓ repos/avy cannot be compacted further=
-      =✓ repos/back-button cannot be compacted further=
-      =✓ repos/better-jumper cannot be compacted further=
-      =✓ repos/browse-at-remote cannot be compacted further=
-      =✓ repos/bui.el cannot be compacted further=
-      =✓ repos/button-lock cannot be compacted further=
-      =✓ repos/cape cannot be compacted further=
-      =✓ repos/centered-window-mode cannot be compacted further=
-      =✓ repos/cfrs cannot be compacted further=
-      =✓ repos/cheat-sh.el cannot be compacted further=
-      =✓ repos/cider cannot be compacted further=
-      =✓ repos/circe cannot be compacted further=
-      =✓ repos/citar cannot be compacted further=
-      =✓ repos/citeproc-el cannot be compacted further=
-      =✓ repos/clipetty cannot be compacted further=
-      =✓ repos/clj-refactor.el cannot be compacted further=
-      =✓ repos/clojure-mode cannot be compacted further=
-      =✓ repos/closql cannot be compacted further=
-      =✓ repos/code-review cannot be compacted further=
-      =✓ repos/color-theme-ahungry cannot be compacted further=
-      =✓ repos/company-mode cannot be compacted further=
-      =✓ repos/company-tabnine cannot be compacted further=
-      =✓ repos/compat cannot be compacted further=
-      =✓ repos/composer.el cannot be compacted further=
-      =✓ repos/consult cannot be compacted further=
-      =✓ repos/consult-dir cannot be compacted further=
-      =✓ repos/consult-flycheck cannot be compacted further=
-      =✓ repos/consult-lsp cannot be compacted further=
-      =✓ repos/corfu cannot be compacted further=
-      =✓ repos/corfu-doc cannot be compacted further=
-      =✓ repos/csv-mode cannot be compacted further=
-      =✓ repos/ctrlf cannot be compacted further=
-      =✓ repos/dap-mode cannot be compacted further=
-      =✓ repos/dash-at-point cannot be compacted further=
-      =✓ repos/dash-docs cannot be compacted further=
-      =✓ repos/dash.el cannot be compacted further=
-      =✓ repos/devdocs.el cannot be compacted further=
-      =✓ repos/diff-hl cannot be compacted further=
-      =✓ repos/dired-git-info cannot be compacted further=
-      =✓ repos/dired-rsync cannot be compacted further=
-      =✓ repos/diredfl cannot be compacted further=
-      =✓ repos/dirvish cannot be compacted further=
-      =✓ repos/discover.el cannot be compacted further=
-      =✓ repos/docker-tramp.el cannot be compacted further=
-      =✓ repos/docker.el cannot be compacted further=
-      =✓ repos/dockerfile-mode cannot be compacted further=
-      =✓ repos/doct cannot be compacted further=
-      =✓ repos/doom-modeline cannot be compacted further=
-      =✓ repos/dotfiles cannot be compacted further=
-      =✓ repos/drag-stuff.el cannot be compacted further=
-      =✓ repos/dtache cannot be compacted further=
-      =✓ repos/dtrt-indent cannot be compacted further=
-      =✓ repos/dumb-jump cannot be compacted further=
-      =✓ repos/edit-indirect cannot be compacted further=
-      =✓ repos/editorconfig-emacs cannot be compacted further=
-      =✓ repos/el-get cannot be compacted further=
-      =✓ repos/elfeed cannot be compacted further=
-      =✓ repos/elfeed-goodies cannot be compacted further=
-      =✓ repos/elfeed-org cannot be compacted further=
-      =✓ repos/elisp-def cannot be compacted further=
-      =✓ repos/elisp-demos cannot be compacted further=
-      =✓ repos/elisp-json-rpc cannot be compacted further=
-      =✓ repos/elisp-refs cannot be compacted further=
-      =✓ repos/elisp-tree-sitter cannot be compacted further=
-      =✓ repos/emacs-aio cannot be compacted further=
-      =✓ repos/emacs-async cannot be compacted further=
-      =✓ repos/emacs-bash-completion cannot be compacted further=
-      =✓ repos/emacs-buttercup cannot be compacted further=
-      =✓ repos/emacs-calfw cannot be compacted further=
-      =✓ repos/emacs-clj-deps-new cannot be compacted further=
-      =✓ repos/emacs-deferred cannot be compacted further=
-      =✓ repos/emacs-emojify cannot be compacted further=
-      =✓ repos/emacs-everywhere cannot be compacted further=
-      =✓ repos/emacs-fish cannot be compacted further=
-      =✓ repos/emacs-fish-completion cannot be compacted further=
-      =✓ repos/emacs-format-all-the-code cannot be compacted further=
-      =✓ repos/emacs-hide-mode-line cannot be compacted further=
-      =✓ repos/emacs-howdoyou cannot be compacted further=
-      =✓ repos/emacs-htmlize cannot be compacted further=
-      =✓ repos/emacs-import-js cannot be compacted further=
-      =✓ repos/emacs-kv cannot be compacted further=
-      =✓ repos/emacs-language-id cannot be compacted further=
-      =✓ repos/emacs-libvterm cannot be compacted further=
-      =✓ repos/emacs-load-env-vars cannot be compacted further=
-      =✓ repos/emacs-load-relative cannot be compacted further=
-      =✓ repos/emacs-loc-changes cannot be compacted further=
-      =✓ repos/emacs-promise cannot be compacted further=
-      =✓ repos/emacs-pug-mode cannot be compacted further=
-      =✓ repos/emacs-python-pytest cannot be compacted further=
-      =✓ repos/emacs-request cannot be compacted further=
-      =✓ repos/emacs-slack cannot be compacted further=
-      =✓ repos/emacs-slim cannot be compacted further=
-      =✓ repos/emacs-solaire-mode cannot be compacted further=
-      =✓ repos/emacs-spell-fu cannot be compacted further=
-      =✓ repos/emacs-test-simple cannot be compacted further=
-      =✓ repos/emacs-web-server cannot be compacted further=
-      =✓ repos/emacs-websocket cannot be compacted further=
-      =✓ repos/emacs-which-key cannot be compacted further=
-      =✓ repos/emacs-with-nyxt cannot be compacted further=
-      =✓ repos/emacs_chrome cannot be compacted further=
-      =✓ repos/emacsmirror-mirror cannot be compacted further=
-      =✓ repos/emacsql cannot be compacted further=
-      =✓ repos/embark cannot be compacted further=
-      =✓ repos/embrace.el cannot be compacted further=
-      =✓ repos/emmet-mode cannot be compacted further=
-      =✓ repos/envrc cannot be compacted further=
-      =✓ repos/epl cannot be compacted further=
-      =✓ repos/eros cannot be compacted further=
-      =✓ repos/esh-help cannot be compacted further=
-      =✓ repos/eshell-did-you-mean cannot be compacted further=
-      =✓ repos/eshell-syntax-highlighting cannot be compacted further=
-      =✓ repos/eshell-up cannot be compacted further=
-      =✓ repos/eshell-z cannot be compacted further=
-      =✓ repos/esxml cannot be compacted further=
-      =✓ repos/evil cannot be compacted further=
-      =✓ repos/evil-anzu cannot be compacted further=
-      =✓ repos/evil-args cannot be compacted further=
-      =✓ repos/evil-collection cannot be compacted further=
-      =✓ repos/evil-easymotion cannot be compacted further=
-      =✓ repos/evil-embrace.el cannot be compacted further=
-      =✓ repos/evil-escape cannot be compacted further=
-      =✓ repos/evil-exchange cannot be compacted further=
-      =✓ repos/evil-goggles cannot be compacted further=
-      =✓ repos/evil-indent-plus cannot be compacted further=
-      =✓ repos/evil-lion cannot be compacted further=
-      =✓ repos/evil-markdown cannot be compacted further=
-      =✓ repos/evil-mc cannot be compacted further=
-      =✓ repos/evil-multiedit cannot be compacted further=
-      =✓ repos/evil-nerd-commenter cannot be compacted further=
-      =✓ repos/evil-numbers cannot be compacted further=
-      =✓ repos/evil-org-mode cannot be compacted further=
-      =✓ repos/evil-quick-diff cannot be compacted further=
-      =✓ repos/evil-snipe cannot be compacted further=
-      =✓ repos/evil-surround cannot be compacted further=
-      =✓ repos/evil-terminal-cursor-changer cannot be compacted further=
-      =✓ repos/evil-textobj-anyblock cannot be compacted further=
-      =✓ repos/evil-textobj-tree-sitter cannot be compacted further=
-      =✓ repos/evil-traces cannot be compacted further=
-      =✓ repos/evil-vimish-fold cannot be compacted further=
-      =✓ repos/evil-visualstar cannot be compacted further=
-      =✓ repos/exato cannot be compacted further=
-      =✓ repos/expand-region.el cannot be compacted further=
-      =✓ repos/explain-pause-mode cannot be compacted further=
-      =✓ repos/f.el cannot be compacted further=
-      =✓ repos/fd-dired cannot be compacted further=
-      =✓ repos/fixmee cannot be compacted further=
-      =✓ repos/flycheck cannot be compacted further=
-      =✓ repos/flycheck-cask cannot be compacted further=
-      =✓ repos/flycheck-clj-kondo cannot be compacted further=
-      =✓ repos/flycheck-package cannot be compacted further=
-      =✓ repos/flycheck-popup-tip cannot be compacted further=
-      =✓ repos/flycheck-posframe cannot be compacted further=
-      =✓ repos/font-utils cannot be compacted further=
-      =✓ repos/forge cannot be compacted further=
-      =✓ repos/fringe-helper.el cannot be compacted further=
-      =✓ repos/fzf.el cannot be compacted further=
-      =✓ repos/gcmh cannot be compacted further=
-      =✓ repos/general.el cannot be compacted further=
-      =✓ repos/gh-notify cannot be compacted further=
-      =✓ repos/gh.el cannot be compacted further=
-      =✓ repos/ghub cannot be compacted further=
-      =✓ repos/gist.el cannot be compacted further=
-      =✓ repos/git-gutter cannot be compacted further=
-      =✓ repos/git-gutter-fringe cannot be compacted further=
-      =✓ repos/git-modes cannot be compacted further=
-      =✓ repos/git-timemachine cannot be compacted further=
-      =✓ repos/github-explorer cannot be compacted further=
-      =✓ repos/github-search cannot be compacted further=
-      =✓ repos/github-stars.el cannot be compacted further=
-      =✓ repos/gntp.el cannot be compacted further=
-      =✓ repos/gnu-elpa-mirror cannot be compacted further=
-      =✓ repos/gnuplot cannot be compacted further=
-      =✓ repos/gnuplot-mode cannot be compacted further=
-      =✓ repos/goto-chg cannot be compacted further=
-      =✓ repos/graphql-doc.el cannot be compacted further=
-      =✓ repos/graphql-mode cannot be compacted further=
-      =✓ repos/graphql.el cannot be compacted further=
-      =✓ repos/grip-mode cannot be compacted further=
-      =✓ repos/grizzl cannot be compacted further=
-      =✓ repos/haml-mode cannot be compacted further=
-      =✓ repos/helpful cannot be compacted further=
-      =✓ repos/hierarchy cannot be compacted further=
-      =✓ repos/highlight-numbers cannot be compacted further=
-      =✓ repos/highlight-quoted cannot be compacted further=
-      =✓ repos/hl-todo cannot be compacted further=
-      =✓ repos/ht.el cannot be compacted further=
-      =✓ repos/hydra cannot be compacted further=
-      =✓ repos/ibuffer-projectile cannot be compacted further=
-      =✓ repos/ibuffer-vc cannot be compacted further=
-      =✓ repos/iedit cannot be compacted further=
-      =✓ repos/info-colors cannot be compacted further=
-      =✓ repos/inheritenv cannot be compacted further=
-      =✓ repos/jade-mode cannot be compacted further=
-      =✓ repos/jq-mode cannot be compacted further=
-      =✓ repos/js2-mode cannot be compacted further=
-      =✓ repos/js2-refactor.el cannot be compacted further=
-      =✓ repos/json-mode cannot be compacted further=
-      =✓ repos/json-snatcher cannot be compacted further=
-      =✓ repos/jump.el cannot be compacted further=
-      =✓ repos/kind-icon cannot be compacted further=
-      =✓ repos/kurecolor cannot be compacted further=
-      =✓ repos/language-detection.el cannot be compacted further=
-      =✓ repos/link-hint.el cannot be compacted further=
-      =✓ repos/list-utils cannot be compacted further=
-      =✓ repos/log4e cannot be compacted further=
-      =✓ repos/logito cannot be compacted further=
-      =✓ repos/lsp-bridge cannot be compacted further=
-      =✓ repos/lsp-mode cannot be compacted further=
-      =✓ repos/lsp-pyright cannot be compacted further=
-      =✓ repos/lsp-tailwindcss cannot be compacted further=
-      =✓ repos/lsp-treemacs cannot be compacted further=
-      =✓ repos/lsp-ui cannot be compacted further=
-      =✓ repos/lua-mode cannot be compacted further=
-      =✓ repos/macrostep cannot be compacted further=
-      =✓ repos/magit cannot be compacted further=
-      =✓ repos/magit-gitflow cannot be compacted further=
-      =✓ repos/magit-popup cannot be compacted further=
-      =✓ repos/magit-todos cannot be compacted further=
-      =✓ repos/makefile-executor.el cannot be compacted further=
-      =✓ repos/makey cannot be compacted further=
-      =✓ repos/map cannot be compacted further=
-      =✓ repos/marginalia cannot be compacted further=
-      =✓ repos/markdown-mode cannot be compacted further=
-      =✓ repos/markdown-toc cannot be compacted further=
-      =✓ repos/marshal.el cannot be compacted further=
-      =✓ repos/mastodon cannot be compacted further=
-      =✓ repos/md4rd cannot be compacted further=
-      =✓ repos/melpa cannot be compacted further=
-      =✓ repos/minimap cannot be compacted further=
-      =✓ repos/mixed-pitch cannot be compacted further=
-      =✓ repos/mu4e-alert cannot be compacted further=
-      =✓ repos/multiple-cursors.el cannot be compacted further=
-      =✓ repos/names cannot be compacted further=
-      =✓ repos/nav-flash cannot be compacted further=
-      =✓ repos/nix-mode cannot be compacted further=
-      =✓ repos/nix-update-el cannot be compacted further=
-      =✓ repos/nndiscourse cannot be compacted further=
-      =✓ repos/nodejs-repl.el cannot be compacted further=
-      =✓ repos/nose cannot be compacted further=
-      =✓ repos/npm-mode cannot be compacted further=
-      =✓ repos/ns-auto-titlebar cannot be compacted further=
-      =✓ repos/nyan-mode cannot be compacted further=
-      =✓ repos/oauth2 cannot be compacted further=
-      =✓ repos/ob-async cannot be compacted further=
-      =✓ repos/ob-graphql cannot be compacted further=
-      =✓ repos/ob-restclient.el cannot be compacted further=
-      =✓ repos/orca cannot be compacted further=
-      =✓ repos/orderless cannot be compacted further=
-      =✓ repos/org cannot be compacted further=
-      =✓ repos/org-appear cannot be compacted further=
-      =✓ repos/org-cliplink cannot be compacted further=
-      =✓ repos/org-contrib cannot be compacted further=
-      =✓ repos/org-download cannot be compacted further=
-      =✓ repos/org-gcal.el cannot be compacted further=
-      =✓ repos/org-jira cannot be compacted further=
-      =✓ repos/org-modern cannot be compacted further=
-      =✓ repos/org-msg cannot be compacted further=
-      =✓ repos/org-noter cannot be compacted further=
-      =✓ repos/org-ol-tree cannot be compacted further=
-      =✓ repos/org-pdftools cannot be compacted further=
-      =✓ repos/org-pomodoro cannot be compacted further=
-      =✓ repos/org-re-reveal cannot be compacted further=
-      =✓ repos/org-roam cannot be compacted further=
-      =✓ repos/org-roam-ui cannot be compacted further=
-      =✓ repos/org-transclusion cannot be compacted further=
-      =✓ repos/org-tree-slide cannot be compacted further=
-      =✓ repos/org-web-tools cannot be compacted further=
-      =✓ repos/org-yt cannot be compacted further=
-      =✓ repos/orgit cannot be compacted further=
-      =✓ repos/orgit-forge cannot be compacted further=
-      =✓ repos/osx-dictionary.el cannot be compacted further=
-      =✓ repos/osx-trash cannot be compacted further=
-      =✓ repos/ov cannot be compacted further=
-      =✓ repos/overseer.el cannot be compacted further=
-      =✓ repos/ox-clip cannot be compacted further=
-      =✓ repos/ox-pandoc cannot be compacted further=
-      =✓ repos/package-lint cannot be compacted further=
-      =✓ repos/paredit cannot be compacted further=
-      =✓ repos/parent-mode cannot be compacted further=
-      =✓ repos/parinfer-rust-mode cannot be compacted further=
-      =✓ repos/parsebib cannot be compacted further=
-      =✓ repos/parseclj cannot be compacted further=
-      =✓ repos/parseedn cannot be compacted further=
-      =✓ repos/pass cannot be compacted further=
-      =✓ repos/password-store cannot be compacted further=
-      =✓ repos/password-store-otp.el cannot be compacted further=
-      =✓ repos/pcache cannot be compacted further=
-      =✓ repos/pcre2el cannot be compacted further=
-      =✓ repos/pdf-tools cannot be compacted further=
-      =✓ repos/persist cannot be compacted further=
-      =✓ repos/persistent-soft cannot be compacted further=
-      =✓ repos/persp-mode.el cannot be compacted further=
-      =✓ repos/pfuture cannot be compacted further=
-      =✓ repos/php-cs-fixer cannot be compacted further=
-      =✓ repos/php-extras cannot be compacted further=
-      =✓ repos/php-mode cannot be compacted further=
-      =✓ repos/php-refactor-mode.el cannot be compacted further=
-      =✓ repos/php-runtime.el cannot be compacted further=
-      =✓ repos/phpactor.el cannot be compacted further=
-      =✓ repos/phpunit.el cannot be compacted further=
-      =✓ repos/pip-requirements.el cannot be compacted further=
-      =✓ repos/pipenv.el cannot be compacted further=
-      =✓ repos/pkg-info cannot be compacted further=
-      =✓ repos/pnpm-mode cannot be compacted further=
-      =✓ repos/pocket-lib.el cannot be compacted further=
-      =✓ repos/pocket-reader.el cannot be compacted further=
-      =✓ repos/popup-el cannot be compacted further=
-      =✓ repos/popwin cannot be compacted further=
-      =✓ repos/posframe cannot be compacted further=
-      =✓ repos/powerline cannot be compacted further=
-      =✓ repos/prodigy.el cannot be compacted further=
-      =✓ repos/project cannot be compacted further=
-      =✓ repos/projectile cannot be compacted further=
-      =✓ repos/psysh.el cannot be compacted further=
-      =✓ repos/py-isort.el cannot be compacted further=
-      =✓ repos/pyimport cannot be compacted further=
-      =✓ repos/pythonic cannot be compacted further=
-      =✓ repos/pyvenv cannot be compacted further=
-      =✓ repos/queue cannot be compacted further=
-      =✓ repos/quickrun cannot be compacted further=
-      =✓ repos/rainbow-delimiters cannot be compacted further=
-      =✓ repos/rainbow-identifiers cannot be compacted further=
-      =✓ repos/rainbow-mode cannot be compacted further=
-      =✓ repos/rbenv.el cannot be compacted further=
-      =✓ repos/realgud cannot be compacted further=
-      =✓ repos/realgud-trepan-ni cannot be compacted further=
-      =✓ repos/restart-emacs cannot be compacted further=
-      =✓ repos/restclient.el cannot be compacted further=
-      =✓ repos/reveal.js cannot be compacted further=
-      =✓ repos/rjsx-mode cannot be compacted further=
-      =✓ repos/rotate-text.el cannot be compacted further=
-      =✓ repos/rust-mode cannot be compacted further=
-      =✓ repos/rustic cannot be compacted further=
-      =✓ repos/s.el cannot be compacted further=
-      =✓ repos/sass-mode cannot be compacted further=
-      =✓ repos/saveplace-pdf-view cannot be compacted further=
-      =✓ repos/sesman cannot be compacted further=
-      =✓ repos/shrface cannot be compacted further=
-      =✓ repos/shrink-path.el cannot be compacted further=
-      =✓ repos/shut-up cannot be compacted further=
-      =✓ repos/skewer-mode cannot be compacted further=
-      =✓ repos/smartparens cannot be compacted further=
-      =✓ repos/smartrep.el cannot be compacted further=
-      =✓ repos/snippets cannot be compacted further=
-      =✓ repos/spinner cannot be compacted further=
-      =✓ repos/sql-indent cannot be compacted further=
-      =✓ repos/straight.el cannot be compacted further=
-      =✓ repos/string-inflection cannot be compacted further=
-      =✓ repos/string-utils cannot be compacted further=
-      =✓ repos/svg-lib cannot be compacted further=
-      =✓ repos/tablist cannot be compacted further=
-      =✓ repos/themes cannot be compacted further=
-      =✓ repos/tide cannot be compacted further=
-      =✓ repos/tldr.el cannot be compacted further=
-      =✓ repos/toc-org cannot be compacted further=
-      =✓ repos/transient cannot be compacted further=
-      =✓ repos/tree-mode cannot be compacted further=
-      =✓ repos/tree-sitter-langs cannot be compacted further=
-      =✓ repos/treemacs cannot be compacted further=
-      =✓ repos/treepy.el cannot be compacted further=
-      =✓ repos/ts-fold cannot be compacted further=
-      =✓ repos/twittering-mode cannot be compacted further=
-      =✓ repos/typescript.el cannot be compacted further=
-      =✓ repos/ucs-utils cannot be compacted further=
-      =✓ repos/undo-tree cannot be compacted further=
-      =✓ repos/unicode-escape.el cannot be compacted further=
-      =✓ repos/unicode-fonts cannot be compacted further=
-      =✓ repos/use-package cannot be compacted further=
-      =✓ repos/uuidgen-el cannot be compacted further=
-      =✓ repos/vertico cannot be compacted further=
-      =✓ repos/vertico-posframe cannot be compacted further=
-      =✓ repos/vi-tilde-fringe cannot be compacted further=
-      =✓ repos/vimish-fold cannot be compacted further=
-      =✓ repos/visual-fill-column cannot be compacted further=
-      =✓ repos/web-mode cannot be compacted further=
-      =✓ repos/with-editor cannot be compacted further=
-      =✓ repos/writegood-mode cannot be compacted further=
-      =✓ repos/writeroom-mode cannot be compacted further=
-      =✓ repos/ws-butler cannot be compacted further=
-      =✓ repos/xref cannot be compacted further=
-      =✓ repos/xref-js2 cannot be compacted further=
-      =✓ repos/xterm-color cannot be compacted further=
-      =✓ repos/yaml-mode cannot be compacted further=
-      =✓ repos/yaml.el cannot be compacted further=
-      =✓ repos/yarn.el cannot be compacted further=
-      =✓ repos/yasnippet cannot be compacted further=
-      =✓ repos/zoutline cannot be compacted further=
       =✓ Finished regrafting. Size before: 0.0KB and after: 0.0KB (0.0KB)=
     - No ELN directories to purge
   + (Re)generating autoloads file...
-    > Generating autoloads file...
-    > Byte-compiling autoloads file...
+    + Generating autoloads file...
+    + Byte-compiling autoloads file...
     =✓ Generated .local/autoloads.28.1.elc=
   - Restart Emacs or use 'M-x doom/reload' for changes to take effect
 #<process nyan-music>
+** <2022-08-09 Tue 20:30>
++ Tangling your literate config...
+  Could not read `org-id-values' from /Users/nopan/.config/emacs/.local/cache/.org-id-locations, setting it to nil
+  Tangled 113 code blocks from config.org
+  * Done tangling 42 file(s)!
++ Synchronizing "default" profile...
+  + Regenerating envvars file
+    * Generated ~/.config/emacs/.local/env
+  + Installing packages...
+    + Building citar-embark...
+    + Updating recipe repos...
+      + Updating recipes for melpa...
+      + Updating recipes for gnu-elpa-mirror...
+      + Updating recipes for el-get...
+      + Updating recipes for emacsmirror-mirror...
+    + Cloning minibuffer-header...
+    + Building minibuffer-header...
+    * Installed 2 packages
+  + (Re)building packages...
+    - No packages need rebuilding
+  + Updating packages (this may take a while)...
+    * =(5/428) straight.el: 0e204d4 -> fed2153 [2 commit(s)]=
+      fed2153 migrate issue template links to radian software (#979)
+      ba36462 Update hook documentation
+    * =(6/428) use-package: a7422fb -> 0ad5d9d [1 commit(s)]=
+      0ad5d9d Add further notes to the README
+    * =(10/428) all-the-icons.el: ca1ef30 -> b18db6b [8 commit(s)]=
+      b18db6b config file icons, go config file icons and clean up
+      9c90dba support jsonian-mode
+      7193403 fix whitespace
+      4d7dc19 1. Reverting whitespace 2. Removing default installation subdir.
+      d40dfaa Add icons matchers for graphql files & buffers
+      8dfe2ff Revert duplicate icon definition
+      550d8a3 Add icon for shorthand graphql file extension .gql
+      4d6f44c Install to a separate directory.
+    * =(16/428) dtrt-indent: 57f4072 -> d4fd1b4 [2 commit(s)]=
+      d4fd1b4 Bump version to 1.8
+      397ca8e Fix installation instructions (fixes #64)
+    * =(17/428) helpful: 209971b -> 94a07d4 [1 commit(s)]=
+      94a07d4 Fix advised native-compiled function being treated as primitives
+    * =(19/428) smartparens: ec15aaa -> 8b6a3c3 [1 commit(s)]=
+      e09ea50 go-mode configs
+    * =(21/428) projectile: 4d6da87 -> dc6e7ff [5 commit(s)]=
+      dc6e7ff Bump the copyright years
+      00fce5a Give the project type "go" higher precedence than universal types (#1785)
+      2e4105c Add flag to fd to not print leading "./" (#1784)
+      8f2e1ea Switch rails-rspec and rails-test src-dir
+      78be771 [Fix #1755] Cache failure to find project root (#1779)
+    + =(22/428) Checking out project (2e8da1b)...=
+    * =(22/428) project: c52ec93 -> 2e8da1b [1 commit(s)]=
+      2e8da1b Update project
+    * =(25/428) corfu: b825e51 -> f0d1f1d [8 commit(s)]=
+      f0d1f1d Update corfu
+      dcdadf0 Update corfu
+      b0b9c3f Update corfu
+      d79e4e4 Update corfu
+      0fa9deb Update corfu
+      a24c5ee Update corfu
+      c8bd512 Update corfu
+      7ea8d26 Update corfu
+    * =(28/428) cape: 86a1df6 -> ab2f4ec [15 commit(s)]=
+      ab2f4ec cape-file: Fix
+      c011123 cape-file: Minor cleanup
+      6cfc957 README update
+      ad13cc9 README: Generate better info output
+      da0bd30 README: Update examples
+      be078bf cape-keyword: Update C keywords
+      e6903dc README: Fix typos
+      b4a6b63 Add cape--wrapped-table to handle table quoting
+      c36d740 cape-keyword: Add scheme-mode keywords
+      20cdb5b cape-keyword: Formatting
+      52b25f5 cape-keyword: Add nim-mode keywords
+      6409bb4 README: Prefer cape-file over cape-dabbrev
+      7042b04 Version 0.8
+      a2b5ed0 Extend README
+      9fbce87 Add Capf transformer examples
+    * =(30/428) company-mode: d514500 -> f1877a3 [11 commit(s)]=
+      3ed6858 company-show-doc-buffer: Add prefix argument toggle-auto-update
+      3edab0e Revert "fix company-clang-version function"
+      3d97a52 fix company-clang-version function
+      95cc174 fix string< test
+      73fc888 company-keywords: Add C language keywords
+      7b45c29 format it
+      4d65fa1 add nim programming language keywords to company-keywords.el
+      fa7f55b Update company-keywords.el
+      8ae8a2a Update company-keywords.el
+      7ef07bd Fix defcustoms syntax
+      7bd38c6 CI: Run tests on latest releases
+    * =(32/428) vertico: 0bc58ba -> a2e9b1b [21 commit(s)]=
+      a2e9b1b vertico-exit: Allow null completion only if explicitly requested
+      9c21010 Revert "Remove vertico-directory--completing-file-p" (Fix #260)
+      33b178f README: Update comparisons
+      e4e0bab README: Update links
+      5ec7887 README: Update link
+      41f8ed7 README: Update links
+      3e04a2a README: Add link to Prot's config
+      c1a4f8c README: Add link to Crafted Emacs configuration
+      2ad4619 README: Generate better info output
+      93f4b55 vertico-directory-enter: Check vertico--base for path completion
+      fa97500 README: Link to "Emacs Completion Explained" by Andrew Tropin (@abcdw)
+      00b0016 README: Fix typos
+      f222187 vertico-repeat-select: Improve completion candidate formatting
+      e5af1a3 vertico-repeat: Update commentary
+      47ac03f vertico-repeat: Update docstrings
+      ab8e871 vertico-repeat: Locally enable recursive minibuffers
+      7d52afe vertico-repeat: If called from minibuffer, filter by current command
+      2292290 vertico-repeat: Add vertico-repeat-transformers
+      29b87fc README update
+      7763998 README update
+      [...]
+    * =(33/428) consult: 5b7cdb1 -> e4546ed [27 commit(s)]=
+      e4546ed Use ash instead of lsh (Fix #623)
+      39452dd consult-history: Improve display when completing consult-buffer history
+      d0e85c5 README: Remove link to superseded icomplete-vertical package
+      aaba2b0 Add consult-preview-excluded-files (Fix #621)
+      b9c5d9e Remove bookmark preview messages (Fix #414)
+      bd6fc14 consult-org-heading: Add tags (Fix #620)
+      e0df102 README: Update links to completion systems
+      7c5a98a consult-grep: Respect grep-find-ignored-files and grep-find-ignored-directories (Fix #616)
+      5d286a6 consult-grep: Minor simplification
+      f6e86f3 consult--grep-builder: Use -P and -E which seem more widely supported
+      6319aec README: Generate better info output
+      054143c consult-history: Report more categories
+      1316457 README: Fix typos
+      0fa264c consult-async-map: Remap minibuffer-complete-history (Fix #613)
+      a7db54e consult--split-setup: Fix
+      0195ebf consult--split-setup: Simplify
+      2b5f167 consult--split-setup: Fix try completion
+      53e78c6 consult-grep/git-grep/ripgrep: Add -F, --fixed-strings support (Fix #608)
+      1680f26 consult-xref--preview: Simplify
+      634d006 consult-xref: Add preview support for xref-etags-location (Fix #606)
+      [...]
+    * =(34/428) compat: e1a22bf -> d8967c0 [10 commit(s)]=
+      d8967c0 Update compat
+      2a9cf8b Update compat
+      fe339bd Update compat
+      27728fa Update compat
+      664be60 Update compat
+      cc1924f Update compat
+      4680f3c Update compat
+      617d6c5 Update compat
+      86a63ee Update compat
+      f221294 Update compat
+    * =(35/428) consult-dir: d397ca6 -> 8abf62d [2 commit(s)]=
+      8abf62d Handle "raw" directory strings in recentf-list (fixes #21)
+      88f1d7c Remove needless quote and use function-item
+    * =(37/428) embark: 63f0d4d -> 5d0459d [4 commit(s)]=
+      be28f55 Mark embark-collect-mode as non-interactive
+      831f504 Fix embark-recentf-remove (Fix #519)
+      70958d0 Remove obsolete consult functions
+      9e1d1ef Fix quotation
+    * =(38/428) embark-consult was updated indirectly (with embark)=
+    * =(39/428) marginalia: 03fa465 -> 69442c2 [6 commit(s)]=
+      69442c2 README: Generate better info output
+      8a2c5f3 Minor simplification
+      ab2ed46 Add "&" as symbol class character for aliases (#144)
+      ee2bd92 marginalia-annotate-package: Support longer versions and archive name (nongnu-devel)
+      cc2a909 README: Fix typos
+      4fe73f5 marginalia--library-doc: Ensure that the fast Bourne shell is used (Fix #143)
+    * =(44/428) themes: d79a41f -> aa13e7f [3 commit(s)]=
+      aa13e7f dev: add .dir-locals.el
+      f943b80 dev: add .doomrc
+      5f96ee8 fix(base): solaire-org-hide :foreground bg-alt
+    * =(51/428) doom-modeline: 16679e2 -> 1b74638 [40 commit(s)]=
+      1b74638 Update comments.
+      4c4b451 [Refactor] Improve project-root.
+      6438b06 Refactor.
+      81666b9 Display misc and time segments in all mode lines.
+      ff7af2e [Feature] Make calendar icon optional.
+      b818be6 Add 29 into teh issue template.
+      b65dd8c Rename face: doom-modeline-date -> doom-modeline-time.
+      ab3993c Fix #555: time icon is not shown correctly.
+      c536ba3 Update issue template.
+      6f30541 Rename segment: date -> time.
+      596e524 minor update
+      8acbdec add doom modeline support for display-time-mode
+      b27d4e3 Fix UT.
+      f98f806 Update buffer name while focusing in & out frame.
+      61841f9 Update docs for auto style.
+      c410a3a Change the auto style.
+      7003009 Fix typo.
+      700e471 New constant: doom-modeline-ellipsis.
+      76df07e Optimize vcs and lsp segments.
+      462ff10 Refresh doom-modeline--limited-width-p after reverting the buffer.
+      [...]
+    * =(55/428) nav-flash: 2e31f32 -> 5d4b485 [1 commit(s)]=
+      8b41e13 add Package-Requires field
+    * =(57/428) treemacs: e80c302 -> aa3f454 [5 commit(s)]=
+      aa3f454 Fix README Typo
+      39bc43b [File Management] Change copy/move to optionally include renaming the file.
+      1a26094 [Project-Following] Don't follow into $HOME.
+      b4701c3 [Project-Following] Make sure to follow only once.
+      e266a6a [Project-Following] Fix error when switching caused by annotations.
+    * =(58/428) treemacs-evil was updated indirectly (with treemacs)=
+    * =(59/428) treemacs-projectile was updated indirectly (with treemacs)=
+    * =(60/428) treemacs-magit was updated indirectly (with treemacs)=
+    * =(61/428) treemacs-persp was updated indirectly (with treemacs)=
+    * =(67/428) writeroom-mode: a736205 -> 1fd5284 [1 commit(s)]=
+      1fd5284 Add LICENSE file
+    * =(69/428) evil: cc55fa6 -> fdf8a72 [14 commit(s)]=
+      fdf8a72 Never kill on visual paste when using evil-paste-before
+      48c9286 Save excursion when adding preceeding whitespace to A word
+      3045e42 Clear `evil-this-register` when leaving visual state
+      5e562ae Add more bindings for evil-window-map
+      76b4296 Add more tests for replace-state
+      e41151e Revert "Improve on evil-append's determination of eolp"
+      477fe8e Add `evil-enter-replace-state` & support replace repetition
+      5826a88 Fix daw deleting indentation when deleting the only word in a line
+      0e501d1 Remove 24.5 from tests
+      f64cdca evil-change only open newline if delete-func deleted line
+      a8385a3 Allow setting selected visual area marks
+      59158b3 Restore `evil-select-an-object` API
+      1c836e4 Restore `evil-select-inner-object` API
+      7e67e61 Small fix in 'evil-command-window-ex
+    * =(76/428) evil-lion: 4da660e -> a55eb64 [1 commit(s)]=
+      94a0087 Update melpa links
+    * =(77/428) evil-nerd-commenter: 386cd75 -> b1a9222 [3 commit(s)]=
+      b1a9222 fixed byte-compile
+      d34ad30 clean code
+      ce5ffcc remove elint
+    * =(78/428) evil-numbers: 08f0c1e -> 7bd9bb0 [5 commit(s)]=
+      7bd9bb0 Cleanup: use pcase-dolist
+      bfbe8ea Cleanup: move requirement for ert and evil-numbers into the test
+      61dde4e Bump to 0.7
+      061f523 Cleanup: quiet un-escaped quote warning
+      a6c886d Add Makefile for "make test"
+    * =(86/428) evil-collection: ae35410 -> c1ede88 [16 commit(s)]=
+      c1ede88 Propertize Misc section correctly
+      c08e12c mu4e: update mu4e-main Maildirs section
+      c005e07 Revert "mu4e: update mu4e-main Maildirs section"
+      b809634 smerge: Add README.org to describe keybindings
+      072731a mu4e: update mu4e-main Maildirs section
+      8cb3843 unimpaired: repeat-mode integration
+      928b107 eldoc: advice-add when Emacs version < 29
+      b71d6d6 Corfu: Fix tab declaration
+      2fa3609 remove redundant TODO
+      926b979 mu4e: replace obsolete functions
+      0595cd8 mu4e: delete the redundant keybinding
+      7a44d75 mu4e: replace obsolete mu4e-view-save-attachment-multi
+      496bbd0 Changed some keys, so user can navigate the cursor during present.
+      9cea832 mu4e: Replace obsolete mu4e-headers-search-narrow command
+      e1eed25 consult, imenu: Declare some navigation commands to be non-repeatable (#653)
+      91e5550 Placate docstring complaint
+    * =(90/428) ts-fold: 6cfe36e -> 17d131f [30 commit(s)]=
+      17d131f feat(ocaml): Support for ocaml-mode and caml-mode (#24)
+      0e83f0e docs(CHANGELOG): update
+      5711d9f refactor(parsers): Place it in alphabetic order
+      a7c2994 OCaml parser and first functions added (#21)
+      0d884a4 refactor(checkdoc): Fix checkdoc warnings (#23)
+      401aad7 Readme update (#20)
+      54babe5 docs(CHANGELOG): update
+      5a94124 fix(indicators): Render indicators once it's mode is enabled (#19)
+      ea554f1 Fix a minor typo in ts-fold-parsers.el (#14)
+      33e3fb5 docs: changelog
+      52d3697 chore(list): sort language alphabetically (#12)
+      ae12dd8 Support elixir (#10)
+      7f1e24c Add todo note
+      4f5ea58 Update copyright year
+      2bcb2f3 Fix typo
+      551bfeb doc
+      e6191cb doc
+      d8d6fc0 update
+      9a7b17a update
+      5be52cd up
+      [...]
+    * =(91/428) emacs-format-all-the-code: 828280e -> 7e375c0 [10 commit(s)]=
+      7e375c0 Simplify error message
+      9e61704 Let Prettier infer the parser when it can
+      aa22b06 Appease package-lint
+      7e047a4 Support `taplo fmt` for TOML
+      4101593 Add erb formatter support (#193)
+      3227bd4 Sort prettierd language names
+      5974bc5 Drop "RJSX" and "Javascript-IDE" from prettierd (#189)
+      08d58ca Re-indent prettierd definition
+      99fc3f9 Added support for prettierd
+      9c8b304 Add alejandra formatter for Nix
+    * =(97/428) snippets: 6b2bd5a -> f957f8d [5 commit(s)]=
+      f957f8d dev: add .doomrc
+      6418bf9 dev: add .dir-locals.el
+      8db3a39 snippet(doom-docs-org): add notice-*
+      cc9fa46 feat(+php-laravel-mode): add migration snippet
+      edd1645 feat(+php-laravel-mode): add __ snippet
+    * =(102/428) dired-rsync: b327971 -> 4057a36 [2 commit(s)]=
+      4057a36 README.org: document a gotcha with remote-to-remote copy
+      7bdc1dd dired-rsync: better file path handling
+    * =(103/428) dirvish: 867dfc4 -> 845cd61 [140 commit(s)]=
+      845cd61 refactor(vc): improve setter of `dirvish-vc-preview` option
+      5f1ab93 refactor(collapse): use `thread-last`
+      cfb9d9f fix(core): select prev entry after `dired-up-directory`, closes #120
+      8e186f7 fix(collapse): endless while loop
+      37c9c3d refactor: improve buffer/window initialization
+      b9969e2 feat(core): add `dirvish-hide-cursor` user option, closes #119
+      3605ab1 refactor(core): inhibit `moody-redisplay` in dirvish, closes #118
+      c2ae189 docs: move FAQ section to CUSTOMIZING.org
+      c62f8b8 refactor(core): rename `dirvish-mode/header-line-position`
+      8f1b38d refactor(core): make `dirvish--hide-dired-header` a regular function
+      b7023b4 refactor(vc): make `vc-annotate` quiet
+      95973cf fix(#115): second attempt
+      7753e81 refactor(core): improve cursor hiding mechanism
+      884abea fix(extras): add offset when aligning text in TTY sessions (#115)
+      ceecf18 fix(core): remove `mod` from `dirvish-audio-exts`, closes #114
+      db0f289 doc: duplicate keymap in sample config
+      030457d feat(extras): add `dirvish-copy-remote-path` command, closes #110
+      ba2594f refactor: add `on-winconf-change` slot, closes #112
+      ddba662 fix: ensure dedicated dirvish windows
+      d87ba9e refactor: improve `dirvish-dispatch`
+      [...]
+    * =(110/428) magit: bf0ef38 -> 8a0cc83 [15 commit(s)]=
+      8a0cc83e magit-push-implicitly--desc: Account for local upstream
+      64cca913 magit-push: Fix magit-push-implicitly--desc
+      ac7fae6a Set coding system for remaining libraries that need it
+      765069ad readme: Use smaller donation images
+      24f079e8 readme: Remove spaces between donation images
+      b293d305 readme: Update image urls
+      0e451f2c Update donation options
+      281f0c3c magit-commit-diff-1: Fix recent regression in --all handling
+      80cdadb0 magit-section-goto-successor--same: Work around Emacs 26 bug
+      acd26dd9 manual: Fix command name for magit-toggle-git-debug entry
+      1f7a2937 magit-mode-menu: Fix "Show manual" command
+      35da95e9 magit-push-*--desc: Remove newline at end of description
+      fd2feb4a magit-push-to-remote: Define using transient-define-suffix
+      19461258 magit-push-implicitly: Improve docstring
+      12b415e0 magit-push-implicitly--desc: Return desc for push.default=nothing
+    + =In repository "git-timemachine", remote "origin" has URL=
+      "https://gitlab.com/pidu/git-timemachine.git"
+      but recipe specifies a URL of
+      "https://codeberg.org/pidu/git-timemachine"
 
-  ~/Library/CloudStorage/Dropbox/Mac (2)/Downloads ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  10m 31s 13:55:2
-❯ alert-stop
-nil
+      1) Abort
+      2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+      3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+      4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+      5) Delete remote "origin", re-create it with manually set URL, and fetch
+    * =(122/428) flycheck: c955fd6 -> 8541a61 [4449 commit(s)]=
+      ddadb173 Reformat flycheck-test.el so that ‘make check’ succeeds
+      199e8059 Fix dependency on bazel.el.
+      be3fa604 Fix small issues found by Checkdoc
+      541f2085 Stay within line length limit
+      29c64a1e Use /usr/bin/python3 since Python 2 is dead
+      278905a6 Add missing closing parentheses
+      94b46fe7 Add column support to Erlang checkers (#1914)
+      afae1391 Adapt the Bazel checkers to changes in bazel-mode.
+      301059bb Add rdc=true
+      39b35c62 Add -gencode option for cuda-nvcc
+      a9714c28 Newer hlint can produce error spans
+      59c52375 Update verilator patterns
+      71f71df0 Fix a typo in a comment
+      31fcad76 Bump version after releasing 32 (closes GH-1754)
+      3b5b4248 Release version 32
+      3bad72cc Make R linter `lintr` stateless and efficient
+      30a65816 Fix Buttercup tests on Emacs 28.
+      b3d14923 Update the config file var declarations of pylint and mypy
+      041b6341 Add a :working-directory to flake8, pyright, and mypy
+      01e01e17 Add a :working-directory property to python-pylint
+      [...]
+    * =(124/428) flycheck-posframe: 8f60c9b -> 19896b9 [4 commit(s)]=
+      110d6eb Fix checkdoc warning surfaced via new github actions check
+      cb08f51 Don't test older unsupported emacs versions in github actions
+      d9695cf Add github actions workflow
+      f46132c Add an option to match the border face to the highest error level.
+    * =(125/428) emacs-spell-fu: 1299bfc -> bfd017f [4 commit(s)]=
+      bfd017f Cleanup: use `zerop`
+      87fd352 Cleanup: sharp-quote function
+      dd35cff Cleanup: quiet quote warnings
+      4b38ed7 Correct URL
+    * =(128/428) citar: b6cd49f -> 146f2cb [33 commit(s)]=
+      146f2cb Regeneralize citar-open-entry
+      c48f15b Fix README typos
+      7e66f53 Make file opening more customizable
+      ce0be81 Minor refactor of `citar-add-file-to-library` (#671)
+      64c332a Fix: use case-insensitive lookup for bib entry field names.
+      bc61a81 Fix autoload issue + multiple selection corner case
+      58640a7 Remove citar--clean-string
+      8475c1f `citar-open` and `citar-open-notes` now allow creating notes.
+      88f7d95 API: resource getter functions now return hash tables.
+      c5ed78e Fix bug in citar-capf--candidates
+      c05dce0 Allow `citar-select-refs` to be used with `embark-act`.
+      96a567d Minor refactoring of `citar--select-resource`
+      68f1ef8 Add function to check validity of notes source plists.
+      9115f8d Update `citar-open` and related functions to properly handle notes.
+      9e0edce Fix undefined variable error for `embark-default-action-overrides`
+      3e7d3a4 Include cross-referenced keys when getting note items.
+      c02dac7 Fix `citar-file-test--parse-file-field` for new function signature.
+      dbc849b Fix indentation and doc string lint warnings.
+      1257ebf Remove extra entries argument to API functions
+      ba1f700 Add citar-open-notes to embark multitarget-actions
+      [...]
+    * =(129/428) citar-embark was updated indirectly (with citar)=
+    * =(130/428) parsebib: 35e9ced -> 175a1bd [4 commit(s)]=
+      175a1bd Update README.md
+      ca7f5fc Update version number to 4.2
+      994b658 Exclude certain fields when cleaning TeX markup.
+      1ec276b Add LICENSE file
+    * =(131/428) citeproc-el: 65e1c52 -> 406bd99 [24 commit(s)]=
+      f571620 Add acknowledgement section to README
+      d2f1845 List new modes in README.md
+      42d588e Add tests for the new bib-entry, locator-only and title-only modes
+      6f2d024 Add extra citation modes
+      7cc0152 Bump copyright year
+      73b08e1 Sort only sub-bibs containing repeated items
+      eefdcca Add more detailed subbib-filter documentation to README
+      b88b2bc Add blt-type field in bib(la)tex->csl conversion tests
+      392106d Fix type of the added blt-type entry fields
+      6f54885 Add support for csl-type and function based subbib filtering
+      b57582f Store the original type during bib(la)tex->conversion
+      54843c9 Add name post-processing hook
+      aec3657 Add name post-processing hook
+      6c928c6 Update expected fails
+      4cc0f7f Add name post-processing hook
+      e65b44d Add a formatted citation postprocessing hook
+      f7bcebf Update testing information in the README
+      008710d Don't do CI on Emacs snapshot (for now)
+      0e2bef0 Add Emacs 28.1 and update expected fails for CI
+      9226eb9 Updated expected fails list
+      [...]
+    * =(133/428) emacs-howdoyou: a01971a -> f6c659a [2 commit(s)]=
+      f6c659a should show howdoyou buffer in new window within current frame
+      faf2b8a simplfy how to get window to show buffer
+    * =(135/428) realgud: 3c88611 -> 45f7e44 [1 commit(s)]=
+      5c596c4 Update README.md by changing a single quantifier
+    * =(137/428) dap-mode: 50c2a99 -> e2a37cc [6 commit(s)]=
+      e2a37cc Use 'cwd' and 'program' arguments only if they exist (#648)
+      31f92f6 Fix typo: brekapoints -> breakpoints (#644)
+      157bc48 dap-dlv-go: parse env files on emacs side
+      ad0b8f9 Fix dap--select-thread-id after dap--get-path-for-frame change (#641)
+      5e449c8 Feature/docker aware dap mode (#559)
+      d3c663f dap--select-thread-id: prefer traces w/ valid path (#584)
+    * =(140/428) docker.el: 44f0bbe -> 8d0429d [8 commit(s)]=
+      8d0429d Disable docstrings warnings for Emacs 28.1
+      c74d878 Add missing periods in docstrings
+      a14957f Add missing json require
+      064bd80 Remove useless vterm requires
+      ee3b1c5 Only use json-mode if it's already present
+      960193e Test Emacs 28.1
+      bc11d5e Version 2.2.0
+      9f58cbe Use `json-mode` instead of `js-mode` for `docker-inspect`
+    * =(142/428) dockerfile-mode: b63a3d1 -> c7e4e25 [2 commit(s)]=
+      c7e4e25 updating build string example
+      74ed3df feat(build): add option to specify --progress flag
+    * =(146/428) fzf.el: d61cecb -> 21912eb [3 commit(s)]=
+      21912eb Add support for custom narrowing (#73)
+      7d32bb3 add configurable grep; fzf/grep-dwim (#71)
+      978a9d9 stop setting FZF_DEFAULT_COMMAND (#70)
+    * =(152/428) dumb-jump: ba41273 -> 0a783d1 [2 commit(s)]=
+      0a783d1 remove snapshot
+      c560d4e ci: Add Emacs 28.1 (#427)
+    * =(155/428) osx-dictionary.el: 1a4479d -> 0715e5a [1 commit(s)]=
+      de51869 use current-word to get word to read, avoid only read first syllable
+    * =(156/428) lsp-mode: c8b8cd8 -> ece9bcd [43 commit(s)]=
+      ece9bcd Don't prompt for an action within `lsp-organize-imports`, even if `lsp-auto-execute-action` is disabled. (#3662)
+      d9317f2 Add configuration for excluding declarations from xrefs/references (#3655)
+      0f56580 feat(clients): add support for the syntax_tree Ruby gem (#3653)
+      b02bde6 bug: fix callback is not when install package from npm (#3656)
+      e33fa71 typo/code fix CPP-guide (#3654)
+      3fef341 Remove spurious window.showMessage client capability (#3652)
+      6d6d997 docs(links): Update install instruction for lsp-grammarly (#3651)
+      9ef89a2 docs(links): Update install instructions and links for html/css/json language server (#3649)
+      2c6a0e9 Set includeDeclaration to t by default
+      4c17f92 Auto-load lsp-racket
+      b2dc841 Add Support for Spacemacs (#3620)
+      9200482 add `workingDirectory` support to `eslint` client (#3592)
+      9a5750b Add client configuration for Marksman (#3632)
+      2ca7364 Add option `lsp-purescript-formatter` (#3631)
+      4af9907 terraform docs: Fix rendering of lists (#3633)
+      6b0c94b terraform: Add documentation related to links (#3630)
+      5a62d4a Tweak semantic tokens for terraform (#3626)
+      e1d5649 Add `lsp-use-workspace-root-for-server-default-directory' (#3327)
+      e4cc46d openscad: better server; support both stdio and tcp connection types (#3514)
+      5e511ba fix: clojure-lsp download link using macos arch (#3622)
+      [...]
+    * =(157/428) lsp-ui: ca195f3 -> 8d4fa5a [7 commit(s)]=
+      8d4fa5a Fix typo in `lsp-ui-doc-position` docstring (#725)
+      9a8983d bump version to 8.0.1
+      a94bcec Fixes for lsp-ui-doc-glance (#711)
+      0a6368d Refactor `imenu` option to fix window width, and add note.
+      267a2c9 Add an option that will impose `window-size-fixed` on `imenu` buffer.
+      11a3a65 More rigorous fix, as per Issue #474.
+      84e592e Fix `lsp-ui-imenu' sub-title ordering.
+    + =In repository "lsp-bridge", remote "origin" has URL=
+      "https://github.com/thaenalpha/lsp-bridge.git"
+      but recipe specifies a URL of
+      "https://github.com/manateelazycat/lsp-bridge.git"
 
-  ~/Library/CloudStorage/Dropbox/Mac (2)/Downloads ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 14:02:3
-❯
+      1) Abort
+      2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+      3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+      4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+      5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+       How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     + Repository "lsp-bridge" has a dirty worktree:
+    
+       M  README.md
+       A  langserver/intelephense.json
+       M  lsp-bridge.el
+
+       1) Abort
+       2) Stash changes
+       3) Discard changes (Choose this if unsure)
+
+       How to proceed? (1, 2, 3; don't know? Pick 3) Optional stash message:     + In repository "lsp-bridge", HEAD on "intelephense" is behind default branch "master"
+
+       1) Abort
+       2) Checkout "master"
+       3) Magit log "intelephense..master" and open recursive edit
+
+       How to proceed? (1, 2, 3)     * (159/428) lsp-bridge: c0b0bdf -> 0eaa6b3 [230 commit(s)]
+       0eaa6b3 Fixed acm telega backends completion not working. (#303)
+       91076e1 Refactor code.
+       82e0e18 Add telega username completion backend. (#301)
+       6e2b467 Update readme.
+       12e4c1b Update readme.
+       69ec0f9 Add orjson support.
+       b464dc3 Refactor with pick_multi_server_names
+       d95931f Rename.
+       977f565 Refactor: remove duplicate code.
+       bc32bba Fix acm-backend-lsp-filepath error.
+       18b5ffa Try to fix error: acm-backend-lsp-filepath is void variable
+       fe2ff22 Fix issue 299
+       6065a0e Ascertain `acm-backend-lsp-filepath` is not void before lsp-bridge-diagnostics-fetch runs (#296) (#297)
+       d4adb96 Catch FileNotFoundError when read search files. (#295)
+       8934e63 fix: acm-doc-toggle error:frame not exists when acm-enable-doc set to nil (#294)
+       9493198 Update readme.
+       40b3a05 Update README (#293)
+       23e63bb fix: doc preview display (#292)
+       062faca feat: add acm elisp symbol type: feature, special form, constant (#291)
+       69f390c Add R's languageserver for ess-r-mode (#290)
+       [...]
+    * =(160/428) magit was updated indirectly (with magit)=
+    * =(164/428) code-review: d38fbe5 -> 95b36ec [10 commit(s)]=
+      c26a944 fix changelog
+      688cc47 remove emacs 25.1 from the list
+      3e552d3 fix CI deps
+      7010691 fix test suite
+      3e54b29 set of fixes
+      2a66db3 orient users to enable emojify to see pretty symbols
+      eb454fc fix display with long messages. display only first for now
+      c267bac Fix suggestion code block
+      fa12dc2 doom emacs users
+      68f861e remove funding as I've not been active enough here.
+    * =(169/428) pdf-tools: fe42da6 -> bb0b71f [8 commit(s)]=
+      bb0b71f Change the default value of `pdf-annot-list-highlight-type`
+      8e500e5 Fix: Handle nil return value from `image-scroll` functions
+      efd4cee pdf-annot: Add function to sort the date field
+      0b8d47d Fix: Dockerfile for ubuntu-18/20 needs fix-missing
+      4d53fd2 Disable pixel-scroll-precision-mode locally if enabled
+      a72fc93 Fix `revert-buffer` for PDF files opened via Tramp
+      24e7095 Test and Documentation changes: dockerfiles and readme
+      386dca5 Make sure autoconf is install on macOS so autoreconf may run
+    * =(173/428) kurecolor: d17a77d -> 2016973 [7 commit(s)]=
+      2016973 1.3.2 bump
+      c1601a5 Fix error with adjustment functions
+      8fa0b29 Bump to 1.3.1
+      1bec9d3 Fix error with region functions
+      db71be8 Update README (fix some conversion issues)
+      b06039b Several new features see below.
+      7fcb147 Add clamp & hex set h, s or b from another color + tests.
+    * =(176/428) evil-textobj-tree-sitter: f99b7af -> 7ec5835 [3 commit(s)]=
+      7ec5835 Update tree-sitter queries to latest
+      9dce8da Update tree-sitter queries to latest
+      d6dae90 Update tree-sitter queries to latest
+    + =In repository "evil-terminal-cursor-changer", remote "origin" has URL=
+      "https://github.com/kisaragi-hiu/evil-terminal-cursor-changer.git"
+      but recipe specifies a URL of
+      "https://github.com/7696122/evil-terminal-cursor-changer.git"
+
+      1) Abort
+      2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+      3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+      4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+      5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+       How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     + In repository "evil-terminal-cursor-changer", HEAD on default branch "master" has diverged from "origin/master"
+
+       1) Abort
+       2) Merge "origin/master" into "master"
+       3) Rebase "master" onto "origin/master"
+       4) Reset "master" to "origin/master"
+       5) Magit log "master...origin/master" and open recursive edit
+
+       How to proceed? (1, 2, 3, 4, 5)     * (180/428) evil-terminal-cursor-changer: 24755a1 -> 12ea9c0 [70 commit(s)]
+       12ea9c0 fix: on tmux
+       66403b9 Update evil-terminal-cursor-changer.el
+       81ede5c Remove dependency of evil
+       582b1ce fix
+       c78c506 Add customizable terminal type override, resolves #24
+       1cf452c Do nothing when noninteractive is non-nil
+       17386ec fix for emacsclient
+       46b71ea Make sure a valid escape sequence is always returned
+       b16f0da make showing cursor shape reliably
+       c2eaa55 double check (display-graphic-p) in etcc--evil-set-cursor
+       ca3577d Check for tmux in xterm and wrap seq if true
+       918a741 Update README.md
+       12d6a33 Make on/off function
+       af31670 Add hook for change buffer
+       655d028 Modify comment for cursor setting
+       2735a11 remove dependency to hexrgb.
+       98b50b0 Fix konsole.
+       c6d9270 extract cursor shape symbol from cursor type
+       ae7c270 update cask file
+       1db58dc broken on transparent iterm2 #7
+       [...]
+    * =(181/428) paredit: 8330a41 -> d0b1a2f [7 commit(s)]=
+      d0b1a2f Bump copyright year.
+      4a1450b Respect fill-paragraph-function.  Fall back to lisp-fill-paragraph.
+      568d4d4 More slurpage edge cases.
+      2ecb5f0 Test some backward-slurp screw cases.
+      86f1f5f Stop each test on first failure or unexpected success.
+      84e8ccd Add some examples of slurping edge cases that we should handle.
+      c6300b9 Batch up test failures and implement expected-failure.
+    * =(184/428) clojure-mode: b6f41d7 -> ad322e9 [9 commit(s)]=
+      ad322e9 v5.15.1
+      f38ca72 Use constant values instead of variables in clojure-match-next-def tests (#627)
+      cb0f9a9 [Fix #625] Fix imenu displaying metadata instead of var name  (#626)
+      bb327cb Tweak a couple of changelog entries
+      93bb1c5 v5.15.0
+      6952067 Satisfy docstring linter
+      54a62cc Fix infinite loop when reverse searching for next definition (#624)
+      fee38d7 Add missing clojure.core macros to clojure-mode font-lock declaration: (#623)
+      d82417c Remove needless quote of choice values
+    * =(185/428) clj-refactor.el: f368c56 -> 1bd7b09 [12 commit(s)]=
+      1bd7b09 Use refactor-nrepl 3.5.4
+      8f511ea Update circle-ci environment to include value for TERM
+      35cca56 Fix regex for removing prefix from ns alias
+      7011b06 Remove prefixes including digits and various orderings
+      10633c1 Change `cljr-ns-alias-at-point` to detect symbols at point before /
+      ead4813 Extract cljr--alias-here helper and add pending test cases with issue
+      61249b2 tests for ns-alias-at-point, unresolved-alias-ref, insert-require-libspec
+      7398af1 Decomplect finding valid aliases from candidate namespace generation
+      9f7ce86 Extract cljr--ns-alias-at-point helper from cljr--magic-requires-lookup-alias
+      d061175 Extract cljr--insert-require-libspec helper from cljr-slash
+      7bf500c Upgrade refactor-nrepl
+      c3b69b3 Upgrade `cider`, `parseedn` and `inflections` dependencies
+    * =(186/428) cider: 14246b8 -> 9577dbb [11 commit(s)]=
+      9577dbbd [Fix #3235] Fix TRAMP file handling (#3237)
+      21ccc40d Use `clojure-mode` 5.15.1 (#3230)
+      fe397a56 Fix shell quoting in Gradle tests (#3229)
+      486a924e Update cider-tests to reference cider-nrepl 0.28.5
+      3377d9d0 Document Gradle usage
+      773cc972 Support injecting dependencies into Gradle
+      c2744a85 For Gradle jack-in use wrapper by default
+      c1bd60e3 Don't disable Gradle daemon by default
+      f422665f Populate completions with metadata (#3226)
+      b47fe53b `cider-clojure-cli-aliases` should be a string value that need to be explicitly stated (#3224)
+      186b4976 [Fix #3200] Improve browse-ns interface with filters and groupings (#3217)
+    * =(192/428) elisp-def: dfca043 -> 1d2e88a [2 commit(s)]=
+      223a962 Push current position to mark ring
+      7e9c950 Silence Emacs deprecation warning
+    * =(193/428) elisp-demos: 01c301b -> 4b51dff [1 commit(s)]=
+      4b51dff * elisp-demos.org: Update for Emacs 28.2 (Mostly finished).
+    * =(196/428) emacs-buttercup: 42df1fa -> 62176a3 [1 commit(s)]=
+      62176a3 Improve buttercup--run-suite docstring
+    * =(197/428) graphql-mode: 9740e40 -> 92136cf [4 commit(s)]=
+      5975f0d Use graphql-beginning of query for indentation
+      809464a Don't use loop to navigate code
+      4d075a9 Basic support for better indenting in polymode
+      0fb22dd Fix syntax table for triple quotes
+    * =(200/428) typescript.el: f2de3f4 -> d1123e0 [11 commit(s)]=
+      b650e42 fix(fontlock): only re-fontify method calls with reserved words
+      9bd226b fix(fontlock): do not fontify builtins in object/interface key context
+      84bab53 test(fontlock): update tests related to arglist fontification
+      d21c983 feat(fontlock): fontify arrow fn arguments
+      ba04745 fix(fontlock): fontify return type in a function type definition
+      367cfb7 fix(fontlock): do not fontify function calls as keywords
+      93e1040 feat(tests): use font-lock-ensure instead of font-lock-fontify-buffer
+      83bf47e Update README.md
+      218a546 fix(fontlock): fontify parameters in multiline arglist
+      333a7c5 feat(fontlock): fontify the variable and type in typeguard
+      d223ae4 style: fix whitespace
+    * =(209/428) tide: 96bfc5d -> 4cf6a0d [1 commit(s)]=
+      7996277 Describe the behaviors of tide-documentation-at-point and tide-error-at-point better.
+    * =(213/428) lua-mode: 5a9bee8 -> d17a00c [1 commit(s)]=
+      7442552 Upgrade license to GPLv3
+    * =(214/428) markdown-mode: f7cbc96 -> 0b8dc23 [3 commit(s)]=
+      fe52190 Don't override link/reference brackets/parentheses faces
+      c4f0889 Don't override table faces by link faces
+      4b84ecf Improve docstrings
+    * =(219/428) nix-mode: 8fe2ccf -> b3f71c7 [436 commit(s)]=
+      8bd12b1 fix wrong enum value in nix-has-flakes
+      7fbde25 Add tests for issue 157
+      80b05d3 Fix docstring for new function
+      acf4d6f Naming change
+      acf6f9d Code style: change (+ 1 ...) to (1+ ...)
+      87ba3a2 Fix $$ in string literals
+      0950294 Fix out-of-bounds error
+      7072348 Fix syntax highlighting for ''$ in indented strings
+      bac8793 chore(deps): bump cachix/install-nix-action from 16 to 17
+      bca3d51 chore(deps): bump actions/checkout from 2 to 3
+      a237452 Add --print-build-logs to flake transient
+      83980ca nix-mode: Add missing transient dependency for nix-flake
+      5fb9df6 chore(deps): bump cachix/install-nix-action from 14.1 to 16
+      c4abb64 nix-flake: Add a comment
+      e167b82 nix-flake: Fix inconsistent state after switching the flake
+      a3eb135 nix-flake: Fix miscomparison to avoid repeatedly adding to registry
+      07b6069 nix-flake: Fix an unexpected error in assert
+      c4e4f38 chore: Add nix-flake.el to Cask
+      14f1bb2 chore: Bump install-nix-action to v14.1
+      de85646 Add dependabot.yml
+      [...]
+    * =(220/428) nix-update-el: fc6c39c -> 1dd1434 [8 commit(s)]=
+      055cb9a Don't specify ref in GitHub URLs
+      ec573af Add an autoload directive to `nix-update-fetch`
+      783fd4e Make GitHub URLs use `https://`
+      a7d4bc0 Remove hardcoded reference to "refs/heads/master"
+      7e7efc1 Allow specifying rev before fetching
+      bf07f6a Require json
+      a0e6728 Add support for fetchzip
+      616b410 Add support for `fetchPypi`
+    * =(221/428) org: 2b1b428 -> 4db67da [20757 commit(s)]=
+      4db67da68 org.el: Improve automatic fast tag selection keys
+      00adad935 org-src: Fix invisible text in src block fontification
+      a303a794f Support interactive editing of comment blocks
+      9cc60dee4 lisp/ob-plantuml.el: Insert results in buffer
+      a0b21e3f1 * lisp/org.el (org-set-tags-command): Put local tags on top
+      e47bcb021 lisp/ox-latex.el: `org-latex-language-alist' improved
+      22eedaea8 lisp/ol.el: Fix some docstring style issues
+      f71546cc9 * testing/lisp/test-ol.el: Fix test name
+      3858a97ac * lisp/ol.el (org-insert-link): Fix edge case when ALL-PREFIXES is nil
+      2bbb92a72 test-ol: tests for insert-description param when inserting links
+      e3a05d09b ol.el: add description format parameter to org-link-parameters
+      5a1b05031 org-colview: Do not rely on `current-column' ignoring display properties
+      8f5bf1725 org-id-update-locations: Scan all the open Org buffers
+      215de6176 Partially revert "org-mode: Make local variables effective during Org startup"
+      4702a7303 org: Fix resource prompt in non-file buffers
+      3626f0384 doc/org-manual.org: Fix typo in "The global TODO list"
+      79dfb16d5 org-id: Fix `org-id-locations' variable name in error message
+      fde93abb8 org-mode: Prevent early fontification
+      5a49cc5f4 ox-latex: comment on \date LaTeX macro
+      0599ddfd4 Revert "lisp/ox-latex: Omit empty date"
+      [...]
+    + =In repository "org-contrib", HEAD on default branch "master" has diverged from "origin/master"=
+
+      1) Abort
+      2) Merge "origin/master" into "master"
+      3) Rebase "master" onto "origin/master"
+      4) Reset "master" to "origin/master"
+      5) Magit log "master...origin/master" and open recursive edit
+
+      How to proceed? (1, 2, 3, 4, 5)     * (222/428) org-contrib: c1e0980 -> 39e2abc [2425 commit(s)]
+      39e2abc [PATCH] Remove libraries that are in transition to be part of Org
+      6f4ba83 [PATCH] Remove libraries that are in transition to other repositories
+      c6aef31 lisp/org-contrib.el: Bump version to 0.4
+      89ddcab *el: Fix Homepage keyword
+      56fdeef README*: Update the list of files to delete from the next release
+      3dd9841 Delete files
+      15b03d5 * lisp/org-contacts.el: Update homepage
+      e6cb6ca Replace removed `remove-if' by `cl-remove-if'
+      4936783 lisp/org-eldoc.el: Fix inf-loop when point in org src blocks
+      f237d67 lisp/org-eldoc.el: Whitespace change
+      a33dd6f Rename some obsolete functions to their newer names
+      5766ff1 Don’t assume Emacs internal timestamp format
+      9dc8f49 Don’t assume Emacs internal timestamp format
+      65821e4 Support numeric argument values in src definition lines
+      e14dfea README*: Add org-contacts.el to the list of file to remove
+      1ae5f90 org-contacts.el: Add the new homepage
+      56a3bbb lisp/org-contrib.el: Bump version to 0.3
+      23cd791 lisp/ol-man.el: Delete
+      b8012e7 lisp/org-contrib.el: Bump version to 0.2
+      f5edcb4 Move ob-stan.el here from Org's core
+      [...]
+    + =In repository "org-yt", remote "origin" has URL=
+      "https://github.com/TobiasZawada/org-yt.git"
+      but recipe specifies a URL of
+      "https://github.com/thaenalpha/org-yt.git"
+
+      1) Abort
+      2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+      3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+      4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+      5) Delete remote "origin", re-create it with manually set URL, and fetch
+    * =(234/428) gnuplot: 57be3c7 -> 803033e [6 commit(s)]=
+      803033e Rename run-gnuplot to gnuplot-run
+      e1d32b8 Remove variable gnuplot-ntemacs-p (internal)
+      7bf8ffb Update URLs
+      556aff7 Remove references to old Emacs version
+      4b44969 Fix some documentation warnings in package-lint
+      fca3877 Remove commented out function gnuplot-set-binding
+    * =(240/428) org-re-reveal: f184e66 -> 6f78a0a [6 commit(s)]=
+      6f78a0a Version 3.15.0
+      5235df0 Add pointer on image resizing
+      1a06363 Provide hints for multi-column layouts
+      fb07995 Document changes
+      5ca4834 Add test cases
+      b107cc2 Refactor handling of slide attributes
+    * =(241/428) reveal.js: 039972c -> e219184 [1 commit(s)]=
+      e219184 update browserlist from '> 0.5%, IE 11, not dead' to '> 2%, not dead' #2985
+    * =(242/428) org-roam: c386761 -> 7f453f3 [3 commit(s)]=
+      7f453f3 (fix)promote: promote all metadata to file level (#2246)
+      e435581 (fix): remove use of deprecated org-font-lock-ensure (#2238)
+      917a325 (fix): links not displayed properly in org-roam-buffer (#2236)
+    * =(246/428) ox-pandoc: 0a35d0f -> f8eac5e [6 commit(s)]=
+      f8eac5e README note on required pandoc + org versions for citation support
+      1beb7c0 Remove some application-specific formats from default export menu
+      bf5d024 Make jira export functions autoload
+      58a8373 Add export-to-jira for consistency
+      453130c Add Jira (and Confluence) markdown export
+      7a3a4b7 Avoid messing with the numbering of citation footnotes from CSL
+    * =(249/428) php-mode: 81717a5 -> ca6ae67 [2 commit(s)]=
+      52d96a8 Remove needless quote from choice values
+      c143ab3 Use delq instead of cl-remove-if
+    * =(251/428) phpunit.el: fe6bc91 -> 02020d4 [1 commit(s)]=
+      ac57840 feat: Support Laravel stack trace format
+    * =(255/428) emacs-async: 2f57dfa -> 6d164db [259 commit(s)]=
+      5a6c0d5 Reset command-line-args-left (#154)
+      7f4ed1e Add a (require 'bytecomp)
+      676e500 Change customize :group to 'lisp
+      14f48de Fix Makefile
+      36a1015 Change default value of async-bytecomp-allowed-packages to 'all
+      a1bd2ac untabify and indent-buffer
+      fbbba03 fix package-lint/check-doc/byte-compiler warnings
+      11769c1 Update version in source file as well
+      e81c685 Update *pkg.el file
+      64bb180 Fix typos
+      c80976d Some rewording of part of README.md
+      6577ae5 Add forge to async-bytecomp-allowed-packages
+      67c3695 Fix async-bytecomp--get-package-deps according to
+      5e353eb Change deps management in async-bytecomp.el
+      bd68cc1 Handle dotted lists as well
+      ec374ca Use consp instead of listp
+      373b32a Remove props recursively when injecting vars with NOPROPS
+      0b545da Only revert dired buffers if not remote
+      4d3b737 Fix error from reverting to nonexistent directories
+      d17c11e Add more info about emacs bug when using async
+      [...]
+    * =(258/428) anaconda-mode: cbea0fb -> 160e4e7 [1 commit(s)]=
+      160e4e7 Pass in ssh port only if it exists
+    * =(262/428) emacs-python-pytest: 5e72c34 -> 9bf8db3 [2 commit(s)]=
+      9bf8db3 Switch to `compilation-mode' after pytest process finishes (#62)
+      d031fa9 Add `0` as a valid argument that can be passed to `-n`. (#61)
+    * =(268/428) rustic: 060149c -> baef1fa [1244 commit(s)]=
+      76c3bdc cargo-comint-run: single run-args, no need for let*()
+      8ee162c Reverted changes on rustic-cargo.el. Updated comint-run() run-args
+      b94d936 Pass process-environment and exec-path through with-temp-buffer
+      3b98e26 rustic-cargo-comint-run was causing a Lisp error - wrong-type-argument string, in rustic-cargo-run-get-relative-example-name()
+      39029a7 fix readme
+      f0f0391 Revert "disable automatic lsp setup"
+      8770ab9 update lsp section in readme
+      19513fe disable automatic lsp setup
+      0bd7932 bump version to 3.2
+      e90f0ca Fix typo.
+      65efa87 Integrate cargo spellcheck with rustic
+      0cee6a9 don't change eglot-ignored-server-capabilites
+      207f614 Remove note from "Known issues" section
+      4c831ac Add note to Installation section about rust-analyzer
+      d363ace bump version
+      352ef51 add notes about automatic lsp server installation
+      5603dd2 add note for using make
+      0da1159 don't require Cargo.toml for compile commands
+      a9e445b Support custom cargo check/run/build/test commands
+      66c6c83 rustic-doc: Note that windows is not supported.
+      [...]
+    * =(285/428) org-gcal.el: f8075bd -> 229463a [3 commit(s)]=
+      d35e5aa Fix org-generic-id--last-update-id-time-put
+      7b1ddd9 Intern strings for use as plist keys
+      526ff41 org-generic-id-update-id-locations: don't scan unmodified files
+    * =(288/428) alert: 7046393 -> fb92919 [81 commit(s)]=
+      06197be Make alignment consistent
+      46860bb Pass through user defined :persistent value
+      208b817 Update documentaion with alternative
+      2b1fe9e Fix issue #92
+      761dd17 Make mode-line style work properly
+      5c03dae formatting
+      e4f7cdf Use the built-in AppleScript support of Emacs MacPort
+      f47b0b3 Fix usage of alert-libnotify-additional-args
+      d09c4c1 notifications: Add a default action to open corresponding buffer
+      4a1823d Remove unnecessary dash
+      9f329be Fix indetation
+      46ce6ad Silence the byte compiler
+      77163c1 Document cl-lib requirement in Package-Requires keywords
+      847f008 Switch from cl to cl-lib and lexical binding
+      afce117 Fix type definition of alert-notifications-priorities
+      21a013c Ensure log4e logging is enabled when using default log4e functions
+      b89172f Fix: libnotify: properly pass expire-time args to notify-send
+      469285e Don't declare a variable at runtime that is never used
+      5d80c5a Silence the byte compiler
+      d01708b Add a variable to customize additional arguments to notify-send
+      [...]
+    * =(289/428) telega.el: 1080f10 -> 11c0c78 [3 commit(s)]=
+      11c0c78 [enh] More i18n stuff
+      a12beb6 [add] woozy-face emoji
+      4da9c7a telega-msg-default-reaction is deprecated
+    * =(290/428) emacs-everywhere: 0d0d185 -> a1b16b5 [2 commit(s)]=
+      a1b16b5 Fix docstring typo
+      cbe56e2 Reintroduce emacs-everywhere-major-mode-function
+    * =(291/428) org-jira: 44fe1d9 -> 9362933 [5 commit(s)]=
+      9362933 Fix old melpa URL reference
+      7581ee2 Add test for a GET on an assigned issue (shows accountId, not name)
+      1b0cfae Update "labels" fields on org-jira-update-issue call. Fix #305.
+      97e9535 Format org-jira-refresh-issues-in-buffer-loose with default paren style
+      05208a3 Added org-jira-refresh-issues-in-buffer-loose()
+    * =(293/428) mastodon: 4ab5a4b -> 3ff8f25 [11 commit(s)]=
+      3ff8f25 re-allow boost/fave of own toots!
+      a74340a update discover bindings for profile followers/following
+      04f7ff9 text-mode for update profile note
+      b6184b5 bump version in boilerplate
+      c06f1a1 --thread: use --api for get-json url for toot
+      21358f5 refactor toggle boost and toggle fave
+      ae945fd --thread: fetch current toot before printing thread
+      95e20d6 --thread: fetch current toot before printing thread
+      d0a9ced no fave counts for fol-req notifs
+      04d35c7 tl--thread: FIX fetching of toot id for notifs/use parent toot
+      8774ec3 --get-buffer-property: or rather than if
+    * =(294/428) pocket-reader.el: 0a177d4 -> 88d1e60 [2 commit(s)]=
+      88d1e60 Change: (pocket-reader-generic-add-link) Check clipboard
+      2e08929 Tidy: Docstrings, compilation warnings
+    + =In repository "elfeed-goodies", remote "origin" has URL=
+      "https://github.com/algernon/elfeed-goodies.git"
+      but recipe specifies a URL of
+      "https://github.com/jeetelongname/elfeed-goodies.git"
+
+      1) Abort
+      2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+      3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+      4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+      5) Delete remote "origin", re-create it with manually set URL, and fetch
+    * =(298/428) elfeed-org: d28c858 -> f8715f2 [1 commit(s)]=
+      f8715f2 Fix Spacemacs link markdown (#74)
+    * =(303/428) sql-indent: 6c5b352 -> f170a27 [1 commit(s)]=
+      f170a27 Update sql-indent
+    * =(307/428) copilot.el: 9b13478 -> 4a42da7 [3 commit(s)]=
+      4a42da7 chore: update agent (copilot.vim 1.4.3)
+      c164fe3 Raise error if there's an issue with node
+      5b6f984 add: update config examples (#40)
+    * =(310/428) .doom.d-2nd: 183bbca -> c5bed00 [1 commit(s)]=
+      c5bed00 fix custom org-ql queries
+    * =(313/428) dotfiles: 6622d0d -> 9e4467c [4 commit(s)]=
+      9e4467c [Doom] update things
+      253331e Enable :lang rust
+      0d9b20a Revert "[Doom Alabaster] Less intense mu4e"
+      872ba0a [Doom Alabaster] Less intense mu4e
+    * =(315/428) devdocs.el: d5d0cfb -> 60099be [1 commit(s)]=
+      60099be Bump version
+    * =(319/428) org-roam-ui: 9474a25 -> c75fc75 [5 commit(s)]=
+      a5b8119 ci: label issues from sponsors
+      5b165e0 org-roam-ui--update-theme now uses org-roam-ui-custom-theme when set
+      2cd93bf chore: build
+      11111bb Read useInheritance from emacs config
+      94b543c Making sure attachment preview works with file level ID
+    * =(322/428) org-modern: 4131dd8 -> c82b50a [5 commit(s)]=
+      c82b50a Fix org-modern-progress (Fix #82)
+      f336d5a Fix loading on terminal Emacs (Fix #81)
+      239c02a Update example
+      9ad8b7e README update
+      cef71f8 Improve todo statistic fontification
+    * =(324/428) doct: 8464809 -> 15974ad [1 commit(s)]=
+      15974ad doct--warn-template-entry-type-maybe: fix entry validation (#35)
+    * =(328/428) bind-key was updated indirectly (with use-package)=
+    * =(333/428) elisp-refs: 8f84280 -> af73739 [1 commit(s)]=
+      728a79e Add open other window as in deadgrep
+    * =(334/428) xref: cc312ec -> feb30d2 [1 commit(s)]=
+      feb30d2 Update xref
+    * =(335/428) svg-lib: 5ff87b7 -> 1e78346 [1 commit(s)]=
+      1e78346 Update svg-lib
+    * =(347/428) pcache: 893d2a6 -> 507230d [2 commit(s)]=
+      a791e23 update emacs matrix
+      2004af4 Convert to lexical scoping.
+    * =(355/428) transient: a583d2b -> 3b26742 [18 commit(s)]=
+      3b26742 transient--fit-window-to-buffer: Use correct package prefix
+      a5562cb manual: Avoid texinfo complications
+      47ebcee manual: Fix minor defects
+      2a47c32 manual: Include GPLv3 in appendix
+      69584bf manual: Use @insertcopying
+      1b42da2 manual: Update copyright notice
+      eba78cb manual: Use more precise @dircategory
+      1be2b72 manual: Use verbatim instead of code in diagram legends
+      9cd69ef manual: Use double quotation marks (U+201C and U+201D)
+      3ff531b manual: Use "verbatim" emphasis markers
+      bcd9fbe manual: Use new "dfn" macro
+      b49e79d manual: Use new "codevar" macro
+      86b24eb manual: Use new "kbdvar" macro
+      5d116c7 manual: Use new "var" macro
+      2c7624e manual: Use "kbd" macro explicitly
+      389d2bf Backport changes from Emacs
+      d855bbf Fix typo in changelog
+      cc887eb transient--delay-post-command: Fix execute-extended-command handling
+    * =(357/428) magit-section was updated indirectly (with magit)=
+    * =(359/428) git-gutter: a50672b -> 315e792 [11 commit(s)]=
+      7f80640 Update test.yml
+      180fd92 fix ci badge
+      5acc82d update badge link
+      ec446f5 package before install
+      84d0fb7 ignore
+      9a298de add fail fast
+      5f687d8 fix eask command
+      f0b9f44 simplify
+      5301d54 fix meta
+      3082b77 feat(Eask): Replace Cask with Eask
+      ab85e2c Fix a typo in README
+    * =(363/428) expand-region.el: 7e5bbe2 -> c5c4362 [1 commit(s)]=
+      c5c4362 Fix wrong type argument on Emacs 28.1
+    * =(367/428) emacs-language-id: cbd5b8f -> 1d05bb7 [6 commit(s)]=
+      1d05bb7 Fix mint-mode order issue.
+      6ca0c79 Recognize Mint in mint-mode
+      e48aba3 Recognize ERB templates in web-mode
+      e7f743e Move languages.{sh,yml} to admin/
+      77e6b21 Add languages.sh
+      3dcf792 Update .gitignore
+    * =(379/428) gh.el: 27ccc89 -> 9c47468 [1 commit(s)]=
+      59d8728 update emacs matrix
+    * =(381/428) marshal.el: 490496d -> bc00044 [1 commit(s)]=
+      e77a3ae update emacs matrix
+    * =(387/428) yaml.el: cb1cc42 -> 73fde9d [10 commit(s)]=
+      4a3243a yaml--the-end: fix incorrect regexp
+      af49540 Use cl-defun &key to allow eldoc argument hints to work better
+      ee34639 Update docstring and README to match current behavior
+      94ea32e version bump
+      7783d80 Don't remove all properties, just yaml-n
+      7ef2e8c fix unit tests
+      fdc6592 fix zero-column indent problems; add more unit tests
+      c3988d1 store current indent level and use that for basis of block indent
+      67e8b5f Fix off-by-one bug for storing position
+      419e85f fix folding block parsing error
+    * =(398/428) js2-mode: 88c081e -> 841cfec [3 commit(s)]=
+      841cfec Bump the version
+      6b83e24 Fix #591 by saving the position earlier
+      7c43ea5 Add support for the d (hasIndices) and s (dotAll) regexp flags
+    * =(404/428) pythonic: fe75bc1 -> c18a5bd [1 commit(s)]=
+      c18a5bd Deactivate virualenv when python-activate is calles with nil
+    * =(407/428) rust-mode: 56e5c3a -> 01ba441 [2 commit(s)]=
+      01ba441 add deprecation note for racer and rls
+      7bff488 bump version to 1.0.5
+    * =(419/428) hierarchy: fed505b -> d8373b3 [1 commit(s)]=
+      63bd723 Fix and link version information in Readme
+    * =(427/428) jsonrpc: efb4187 -> 2c74dc5 [1 commit(s)]=
+      2c74dc5 Update jsonrpc
+    * =Updated 123 package(s)=
+    + (Re)building packages...
+      > Building straight...
+      > Building use-package...
+      > Building use-package > Building bind-key...
+      > Building use-package...
+      > Building all-the-icons...
+      > Building dtrt-indent...
+      > Building helpful...
+      > Building helpful > Building elisp-refs...
+      > Building helpful...
+      > Building smartparens...
+      > Building projectile...
+      > Building project...
+      > Building project > Building xref...
+      > Building project...
+      > Building corfu...
+      > Building svg-lib...
+      > Building cape...
+      > Building company...
+      > Building vertico...
+      > Building consult...
+      > Building consult > Building compat...
+      > Building consult...
+      > Building consult-dir...
+      > Building flycheck...
+      > Building embark...
+      > Building embark-consult...
+      > Building marginalia...
+      > Building doom-themes...
+      > Building nav-flash...
+      > Building pcache...
+      > Building doom-modeline...
+      > Building evil...
+      > Building treemacs...
+      > Building treemacs-evil...
+      > Building treemacs-projectile...
+      > Building treemacs-magit...
+      > Building treemacs-magit > Building magit...
+      > Building treemacs-magit > Building magit > Building git-commit...
+      > Building treemacs-magit > Building magit > Building git-commit > Building transient...
+      > Building treemacs-magit > Building magit > Building git-commit...
+      > Building treemacs-magit > Building magit > Building magit-section...
+      > Building treemacs-magit > Building magit...
+      > Building treemacs-magit...
+      > Building treemacs-persp...
+      > Building lsp-mode...
+      > Building lsp-mode > Building markdown-mode...
+      > Building lsp-mode...
+      > Building git-gutter...
+      > Building writeroom-mode...
+      > Building expand-region...
+      > Building evil-lion...
+      > Building evil-nerd-commenter...
+      > Building evil-numbers...
+      > Building evil-collection...
+      > Building ts-fold...
+      > Building format-all...
+      > Building format-all > Building language-id...
+      > Building format-all...
+      > Building doom-snippets...
+      > Building dired-rsync...
+      > Building dirvish...
+      > Building info-colors...
+      > Building flycheck-posframe...
+      > Building spell-fu...
+      > Building citar...
+      > Building citar > Building parsebib...
+      > Building citar > Building org...
+      > Building citar > Building citeproc...
+      > Building citar...
+      > Building citar-embark...
+      > Building howdoyou...
+      > Building realgud...
+      > Building dap-mode...
+      > Building dap-mode > Cloning lsp-docker...
+      > Building dap-mode > Building lsp-docker...
+      > Building dap-mode > Building lsp-docker > Building yaml...
+      > Building dap-mode > Building lsp-docker...
+      > Building dap-mode...
+      > Building docker...
+      > Building dockerfile-mode...
+      > Building fzf...
+      > Building gh...
+      > Building gh > Building marshal...
+      > Building gh...
+      > Building dumb-jump...
+      > Building async...
+      > Building osx-dictionary...
+      > Building lsp-ui...
+      > Building lsp-bridge...
+      > Building code-review...
+      > Building pdf-tools...
+      > Building kurecolor...
+      > Building evil-textobj-tree-sitter...
+      > Building evil-terminal-cursor-changer...
+      > Building paredit...
+      > Building clojure-mode...
+      > Building clj-refactor...
+      > Building clj-refactor > Building cider...
+      > Building clj-refactor...
+      > Building elisp-def...
+      > Building elisp-demos...
+      > Building buttercup...
+      > Building graphql-mode...
+      > Building js2-mode...
+      > Building typescript-mode...
+      > Building tide...
+      > Building lua-mode...
+      > Building nix-mode...
+      > Building nix-update...
+      > Building org-contrib...
+      > Building gnuplot...
+      > Building alert...
+      > Building org-re-reveal...
+      > Building revealjs...
+      > Building org-roam...
+      > Building ox-pandoc...
+      > Building php-mode...
+      > Building phpunit...
+      > Building anaconda-mode...
+      > Building anaconda-mode > Building pythonic...
+      > Building anaconda-mode...
+      > Building python-pytest...
+      > Building rustic...
+      > Building rustic > Building rust-mode...
+      > Building rustic...
+      > Building org-gcal...
+      > Building telega...
+      > Building emacs-everywhere...
+      > Building org-jira...
+      > Building mastodon...
+      > Building pocket-reader...
+      > Building md4rd...
+      > Building md4rd > Building hierarchy...
+      > Building md4rd...
+      > Building elfeed-org...
+      > Building sql-indent...
+      > Building copilot...
+      > Building copilot > Building jsonrpc...
+      > Building copilot...
+      > Building minibuffer-header...
+      > Building aj-dark+-theme...
+      > Building agraul-doom-themes...
+      > Building devdocs...
+      > Building org-roam-ui...
+      > Building org-modern...
+      > Building doct...
+      * Rebuilt 127 package(s)
+  + Purging orphaned packages (for the emperor)...
+    - No builds to purge
+    + Purging ELPA packages...
+      * Deleted archives
+      * Deleted gpg
+    + Purging straight repositories...
+      * Purged repos/doom-emacs-private
+      * Purged repos/font-utils
+      * Purged repos/unicode-fonts
+    + Regrafting 410 repos...
+      * Finished regrafting. Size before: 0.0KB and after: 0.0KB (0.0KB)
+    - No ELN directories to purge
+  + (Re)generating autoloads file...
+    + Generating autoloads file...
+    + Byte-compiling autoloads file...
+    * Generated .local/autoloads.28.1.elc
+  - Restart Emacs or use 'M-x doom/reload' for changes to take effect
+ * Finished upgrading Doom Emacs
+ * Finished in 42m 44s
+#<process nyan-music>
