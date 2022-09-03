@@ -1535,3 +1535,1812 @@
  * Finished upgrading Doom Emacs
  * Finished in 42m 44s
 #<process nyan-music>
+** <2022-11-01 Tue>
+! No profile loader found. Generating one...
+  > Regenerating it...
+  > Synchronizing 1 known profile...
+    - Added safe-mode
+    ✓ Regenerated profile loader: ~/.config/emacs/profiles/load.el
+> Tangling your literate config...
+  ✓ Done tangling 42 file(s)!
+> Synchronizing "default" profile...
+  > Regenerating envvars file
+    ✓ Generated ~/.config/emacs/.local/env
+  > Installing packages...
+    > Building visual-fill-column...
+    x There was an unexpected runtime error
+      Message: Invalid sub-list head in :files directive: :not
+      Backtrace:
+        (error "Invalid sub-list head in :files directive: %S" :not)
+        (if (stringp (car spec)) nil (error "Invalid sub-list head in :files...
+        (cond ((eq spec :defaults) (setq files (append straight-default-file...
+        (let ((spec (car files))) (setq files (cdr files)) (cond ((eq spec :...
+        (while files (let ((spec (car files))) (setq files (cdr files)) (con...
+        (let ((mappings nil) (exclusions nil)) (while files (let ((spec (car...
+        (straight--expand-files-directive-internal (:defaults (:not "Cask" "...
+        (let* ((default-directory src-dir) (result (straight--expand-files-d...
+        (straight-expand-files-directive (:defaults (:not "Cask" "LICENSE" "...
+        (let ((--dolist-tail-- (straight-expand-files-directive files (strai...
+        (progn (let ((dir (straight--build-dir package))) (if (file-exists-p...
+        (let* ((--cl-rest-- recipe) (package (car (cdr (plist-member --cl-re...
+      ! Wrote extended backtrace to ~/.config/emacs/.local/logs/cli.doom.221101042145.68921.error
+    ! Script was abruptly aborted, leaving Doom in an incomplete state!
+    - Run 'doom sync' to repair it.
+    ✓ Finished in 10.70771s
+#+begin_src shell :async t
+rm -rf ~/.config/emacs/.local/straight/repos/straight.el
+cd ~/.config/emacs
+git pull
+doom clean  # in case you've byte-compiled
+doom sync -up!j 8
+#+end_src
+> Installing straight...
+> Tangling your literate config...
+  ✓ Done tangling 42 file(s)!
+> Synchronizing "default" profile...
+  > Regenerating envvars file
+    ✓ Generated ~/.config/emacs/.local/env
+  > Installing packages...
+    > Building visual-fill-column...
+    > Building spell-fu...
+    > Updating recipe repos...
+      ✓ melpa updated (ec8e444 -> e3da6cf)
+        - $ cd /Users/nopan/.config/emacs/.local/straight/repos/melpa/
+          $ git config --get remote.origin.url
+        
+          https://github.com/melpa/melpa.git
+        
+          [Return code: 0]
+        
+          $ cd /Users/nopan/.config/emacs/.local/straight/repos/melpa/
+          $ git fetch origin
+        
+          From https://github.com/melpa/melpa
+             ec8e4440..e3da6cf0  master     -> origin/master
+      ✓ gnu-elpa-mirror updated (ff81342 -> a4f8d64)
+        - $ cd /Users/nopan/.config/emacs/.local/straight/repos/gnu-elpa-mirror/
+          $ git config --get remote.origin.url
+        
+          https://github.com/emacs-straight/gnu-elpa-mirror.git
+        
+          [Return code: 0]
+        
+          $ cd /Users/nopan/.config/emacs/.local/straight/repos/gnu-elpa-mirror/
+          $ git fetch origin
+        
+          From https://github.com/emacs-straight/gnu-elpa-mirror
+             ff81342..a4f8d64  master     -> origin/master
+      ✓ el-get updated (39f494a -> 0a9d568)
+        - $ cd /Users/nopan/.config/emacs/.local/straight/repos/el-get/
+          $ git config --get remote.origin.url
+        
+          https://github.com/dimitri/el-get.git
+        
+          [Return code: 0]
+        
+          $ cd /Users/nopan/.config/emacs/.local/straight/repos/el-get/
+          $ git fetch origin
+        
+          From https://github.com/dimitri/el-get
+             39f494a..0a9d568  master     -> origin/master
+      ✓ emacsmirror-mirror updated (d6b92f1 -> be9d095)
+        - $ cd /Users/nopan/.config/emacs/.local/straight/repos/emacsmirror-mirror/
+          $ git config --get remote.origin.url
+        
+          https://github.com/emacs-straight/emacsmirror-mirror.git
+        
+          [Return code: 0]
+        
+          $ cd /Users/nopan/.config/emacs/.local/straight/repos/emacsmirror-mirror/
+          $ git fetch origin
+        
+          From https://github.com/emacs-straight/emacsmirror-mirror
+             d6b92f1..be9d095  master     -> origin/master
+    > Cloning citar-org-roam...
+    > Building citar-org-roam...
+    > Cloning org-mac-link...
+    > Building org-mac-link...
+    > Cloning ob-clojure-literate.el...
+    > Building ob-clojure-literate...
+    > Cloning ob-php...
+    > Building ob-php...
+    ✓ Installed 6 packages
+  > (Re)building packages...
+    > Building git-timemachine...
+    ✓ Rebuilt 1 package(s)
+  > Updating packages (this may take a while)...
+    ✓ (6/433) use-package: 0ad5d9d -> 0be480e [706 commit(s)]
+        2dd93e0 fix #1008: allow passing the SPEC-TYPE argument via :custom-face
+        c81f9e7 Bump version to 2.4.3
+        4932ed2 bind-key.el: Bump version for ELPA
+        cdd59d5 Add README.org to explain purpose of doc/ directory
+        7b05028 Update version to 2.4.2
+        e6932fe Add .elpaignore
+        057e25c Update copyright for submission to ELPA
+        4fdc36a fix #934: use face-spec-set instead of custom-set-faces
+        ba9007c Update CI and Makefile to fail on compiler warnings
+        b749cef Fix emacs native compilation warning for bind-key
+        b8ac02f Fix emacs native compilation warning
+        e2d173b Revert "Remove use-package-font-lock-keywords"
+        e1a08c5 Go back to making `override-global-mode` non-global
+        cdec032 Correct badge URL
+        b635f58 Make sure that bind-key's `override-global-mode` is initially on
+        b9400ec Quote single quotes in docstrings or use different quoting
+        17056cc gitignore: Ignore more generated documentation and stats
+        66834ff manual: Regenerate texi file
+        b185c6b manual: Copy text from Introduction to info entry page
+        df8cc6b manual: Downcase src and example keywords
+        [...]
+    ✓ (11/433) all-the-icons.el: b18db6b -> 4a4d626 [3 commit(s)]
+        15b77955 added support for meson
+        6f876fa1 alphabetical order
+        3a82045c added support for odin
+    ✓ (18/433) helpful: 94a07d4 -> 6633d82 [2 commit(s)]
+        6633d82 Assign `list-buffers-directory` to help topic
+        cb9beb0 Unescape \= in signature docstring
+    ✓ (22/433) projectile: dc6e7ff -> 20aa2ad [6 commit(s)]
+        20aa2ad Support `projectile-replace` to select file extension on C-u (#1778)
+        99b5f69 Tweak wording
+        26be837 [Docs] Tweak some wording (#1793)
+        9427361 Add src-dir and test-dir Properties to mill Project Type (#1790)
+        c191195 Fix doc errors on Emacs snapshot
+        d811e2b Add a progress reporter to recursive progress discovery
+    ✓ (25/433) emacs-which-key: 1ab1d0c -> 8093644 [11 commit(s)]
+        2875fcd Ignore .DS_Store
+        e993113 Allow truncating without using any ellipsis
+        08d57fe Don't make description longer than allowed when truncating
+        783d695 Support different types for which-key-max-description-length
+        fe68fe2 Avoid unnecessary work
+        245be33 Fix vertical off-by-one error
+        5fe2d33 Fix horizontal off-by-one error
+        254d6fd Don't pad beyond maximal width
+        16c992f Displaying just one column means pages are arranged vertically
+        d924a4a Calculate format string only once
+        55b2440 Replace or quote certain single quotes in docstrings
+    ✓ (28/433) emacsql: 373975c -> e318a6c [39 commit(s)]
+        e318a6c Add new SQLite back-ends
+        67ca812 make: Suppress warning about obsolete autoload package
+        ec4f3d0 Resume development
+        c1a4407 Release version 3.1.1
+        bfbd0c3 Resume development
+        40c41d0 Release version 3.1.0
+        4fe4413 Re-indent some data so that machine and human can agree
+        1becb00 Define a few constants as such
+        b907279 Fix docstring of emacsql-sqlite-condition-alist
+        20cdad6 Include sqlite error code in error data
+        0da3f06 Fix docstring typo
+        5c4aa10 Do not warn about missing pg functions
+        50b1394 make: Fix compiling and cleaning tests
+        9ee397b Whitespace cosmetics
+        5818000 make: Update pg repository url
+        a4d01ed Adjust emacsql-pg to new pg version from original author
+        b4d5ef4 make: Don't require pg.el to be available to build and test
+        d3d76ea make: Use essentially same Makefile as for other packages I maintain
+        b405d99 make: Don't use LDFLAGS to set Emacs load-path
+        b9d848f make: Don't warn about implicit fallthroughs
+        [...]
+    > In repository "copilot.el", HEAD on default branch "main" has diverged from "origin/main"
+
+         1) Abort
+         2) Merge "origin/main" into "main"
+         3) Rebase "main" onto "origin/main"
+         4) Reset "main" to "origin/main"
+         5) Magit log "main...origin/main" and open recursive edit
+
+      How to proceed? (1, 2, 3, 4, 5)
+     ✓ (31/433) copilot.el: 4a42da7 -> 3b78e9b [99 commit(s)]
+        3b78e9b fix: allow complete in non-file buffers (#57)
+        0d1b171 add: proxy support
+        26f6a5c Copilot.vim 1.6.0
+        17348d0 Copilot.vim 1.5.4
+        f316299 Update spacemacs documentation (#56)
+        b1ace0a add: documentation for copilot-clear-overlay-ignore-commands
+        d3f6d40 add: support a list of commands that should be allowed to call without clearing the copilot overlay
+        826995c Copilot.vim 1.5.3
+        109a3d8 Copilot.vim 1.5.2
+        511440d Copilot.vim 1.5.1
+        3925041 ci: set return code to 0
+        542b7b3 fix: completion cycling should keeps the overlay
+        eeafc98 Copilot.vim 1.5.0
+        5a14dd7 ci: auto update copilot binaries
+        21ee307 copilot--overlay: reuse when possible
+        920e37a copilot-mode: add/remove hooks properly
+        1b1b0f5 chore: update agent (copilot.vim 1.4.3)
+        e549d82 Raise error if there's an issue with node
+        c7d29f7 add: update config examples (#40)
+        2fd740c add: a global mode and a keymap for the completion overlay (#31)
+        [...]
+    ✓ (32/433) minibuffer-header: fe5d90d -> 5b5ffd9 [1 commit(s)]
+        dcdbaeb feat(src): add autoload
+    ✓ (34/433) mentor: a820c84 -> 88ef7de [38 commit(s)]
+        88ef7de Fix typo in README
+        291ba7f Rename functions for namespacing
+        1481f81 Clean up mentor-trackers.el, and add new binds/commands
+        f9c4a52 Change files to trackers
+        cc51ee5 Add mentor-tracker-mode to view torrents tracker information
+        89548f9 Improve README section on installing
+        bd51a02 Simplify description of libxml issue
+        218579c Require subr-x when compiling
+        0382dc2 Harden GitHub CI workflow
+        f027f6e Fix GitHub CI workflow
+        089df9b Add missing "/" to gnu.org URL
+        b8dfa8f Make test run check-declare
+        75faf58 Add test.yml
+        0ca84af Require url-scgi 0.8
+        480602f Bump version to 0.5
+        8f74039 Ignore backup files
+        cddddfc Delete bundled url-scgi.el
+        b08697d Add url-scgi to Package-Requires
+        ba02a36 Add .elpaignore for NonGNU ELPA
+        300dd08 Don't byte-compile .dir-locals.el
+        [...]
+    ✓ (39/433) dotfiles: 9e4467c -> bd59132 [15 commit(s)]
+        bd59132 [Doom] Add more GTD contexts
+        335d02f [Doom] Make org-link-bugzilla URL-aware
+        78e1ed7 [Doom] Don't use a file-template for Python
+        b66f05d [Doom] avy keys + no org-modern-todo
+        9e2c232 [Doom] Fix org-agenda-custom-commands order
+        1f3c2e3 [Doom] Simplify interaction with org-agenda
+        f943824 [Doom] Refactor setting org-agenda-custom-commands
+        71832f9 [Doom] org: hide emphasis markers
+        d873c5e [Doom] Don't maximize in launch
+        55de0b5 [Doom] Use Alabaster Theme from its own repo
+        ea0c1f8 [Doom] Update init.el
+        bcefd2c [Doom] Try org-modern instead of +pretty
+        d29998a [Doom] Stop using deprecated Doom things
+        0f1e38b [Doom] font: Iosevka SS05 Light Extended
+        fe33a8d [Doom Alabaster] Align tree-sitter faces
+    ✓ (41/433) devdocs.el: 60099be -> 61ce83b [1 commit(s)]
+        61ce83b New user option devdocs-window-select
+    ✓ (43/433) emacs-clj-deps-new: 183089e -> e1cf65e [1 commit(s)]
+        e1cf65e autoload user facing function
+    ✓ (44/433) orca: 47c03af -> 0687f41 [1 commit(s)]
+        0687f41 orca.el : Fix undeclared dependencies.
+    ✓ (45/433) org-roam-ui: c75fc75 -> 6bf6a5e [8 commit(s)]
+        6bf6a5e chore: build
+        1936250 fix: type-error
+        3f28da8 docs: add docs about add-node-to-local-graph
+        c4a9897 feat: add/remove note to local graph from emacs
+        fb26ac0 fix: small bugs
+        a575d14 fix: move a ton of functions to separate files
+        fa84c05 comment out useless usestate
+        16a8da9 Update FUNDING.yml
+    ✓ (47/433) org-appear: 60ba267 -> eb9f9db [1 commit(s)]
+        eb9f9db Document Org variables that should be set to hide elements (#51)
+    ✓ (48/433) org-modern: c82b50a -> 59b2e3c [32 commit(s)]
+        59b2e3c Adding string support for org-modern heading hide star
+        8bf1023 Use logand
+        ed9d67d Version 0.5
+        adf89bc Update links
+        828cf10 face is already removed by font-lock-default-unfontify-region
+        246fb4c Better unfontify
+        44bb8bb Ensure that org-modern doesn't change modification status (Fix #95)
+        5c4daa2 Update agenda on theme change
+        d6307ee Support theme switching
+        34ccd3a Simplify table scaling
+        610e6fb Avoid advice, instead replace unfontify-region-function
+        e086f14 Use better mechanism to adjust font-lock-keywords
+        ffb2758 example: Add test from #33
+        9e60fa6 Ensure that source blocks are properly fontified (Fix #33)
+        df19969 org-modern--update-label-face: Simplify
+        fb0ec9c org-modern-label: Expand docstring, warn about overriding the face
+        536c82b Refactoring and simplification
+        7a1e15c Add missing check
+        148eedb Remove org-modern-variable-pitch
+        9e76abd Table scaling (See #69 and #75)
+        [...]
+    ✓ (49/433) org-transclusion: d765810 -> 1b2dae2 [2 commit(s)]
+        1b2dae2 Update org-transclusion
+        b00a053 Update org-transclusion
+    ✓ (50/433) doct: 15974ad -> 506c22f [1 commit(s)]
+        506c22f doct-unload-function: fix format specifier
+    ✓ (51/433) org-web-tools: b94a07a -> b5b7fee [1 commit(s)]
+        b5b7fee Docs: Remove image
+    ✓ (53/433) org-edit-indirect.el: f146d1b -> 62894ac [1 commit(s)]
+        62894ac adds drawers and fixes headlines
+    ✓ (54/433) lsp-tailwindcss: 09377d5 -> c0ca58d [3 commit(s)]
+        c0ca58d feat: bump server version to 0.8.7
+        a641718 feat: autoload functions and make check server (#45)
+        6cff719 add a helper function to check server version
+    ✓ (55/433) corfu: f0d1f1d -> 03688d6 [8 commit(s)]
+    ✓ (56/433) orderless: 8b9af27 -> b355ef6 [166 commit(s)]
+        531372b Name advice function, link to u/hvis's comment
+        6b86527 Flex matching: more efficient regexp, better highlighting
+        c06e66d Avoid long lines
+        b341b82 Update README regarding Prescient (Fix #121)
+        684c5e4 Improve orderless-try-completion (Fix #118)
+        fbf969e Add note about custom styles for `company-capf'
+        2646dad Update manual to mention Vertico
+        cbb1c00 Mention orderless works fine with Vertico (fix #59)
+        f7be0fb Make strict initialism independent of syntax tables (fix #60)
+        871eb1d Use add-face-text-property
+        e4c38ef README: Add variable category to orderless+initialism sample
+        94e8940 Omit null components (fix #55)
+        d2891b8 orderless+initialism example requires Marginalia (see #54)
+        d13f47d Bump version number
+        8d187bd Only enable regexp and literal matching styles by default
+        05fc3d2 fix typo
+        818af9e Remove pattern compiler variable
+        44935d8 Fix bug when all matching styles return nil
+        e5cb3f7 update readme
+        f6394f1 orderless-default-pattern-compiler: Ignore nil components
+        [...]
+    ✓ (57/433) kind-icon: cce18f7 -> 8adc665 [2 commit(s)]
+    ✓ (58/433) cape: ab2f4ec -> df9067c [12 commit(s)]
+        df9067c Minor cleanup
+        7575584 Fix `cape-history` for Eshell and Comint. (#64)
+        b98c2ea cape-symbol-wrapper: Add rst-mode
+        e8b6a8a Improve cape--symbol-annotation
+        caa5500 Add cape-symbol-wrapper and cape--symbol-exit
+        c976301 Fix mode aliases in cape-keyword (Fix #63)
+        89fe409 Update links
+        5cd6b86 Version 0.9
+        3ccb3bb Avoid setf
+        0361400 Fix #60 - Use /usr/share/dict/words
+        f360464 cape-keyword: Add erlang-mode
+        f632114 cape-keyword: Add crystal keywords
+    ✓ (60/433) company-mode: f1877a3 -> 48fea7a [6 commit(s)]
+        48fea7a Fix new byte-compilation warning
+        5d3fa6d Pacify Emacs 29 compiler warnings
+        5b14107 add erlang-mode keywords
+        77ceda0 User manual: fix F1 key typo
+        cfc759a Add Crystal-mode into company-keywords
+        cab10c0 Adjust recently added docs
+    ✓ (62/433) vertico: a2e9b1b -> bfdc174 [23 commit(s)]
+        bfdc174 vertico-directory: Fix typo
+        8735749 Add missing completion-predicate
+        3106094 Version 0.28
+        cb174fc Revert "vertico-exit: Allow null completion only if explicitly requested"
+        439c971 Revert "Accept empty input if minibuffer-default is non-nil"
+        26669c6 vertico-repeat--restore: Use vertico--update to update state
+        0baa4c2 Update naming convention
+        fedcee0 Rename function, shorter name
+        604727b Ensure that Vertico is always initialized fully (Fix #289)
+        f587c13 Formatting
+        ae58e7a Remove vertico-directory--completing-file-p
+        e76f30f Rename functions, they update the entire state
+        5023833 Update readme
+        30dad48 README update
+        49016ba Update links
+        8078b8c Move vertico--index computation to vertico--recompute-candidates
+        54c8f73 vertico-insert: Always insert first candidate, if prompt is selected
+        ebe8a38 Code readability
+        f6171a7 Do not try to resize root window (Fix #279)
+        64b57b0 Version 0.27
+        [...]
+    ✓ (63/433) consult: e4546ed -> 3226c1a [58 commit(s)]
+        3226c1a Expand docstring of consult-customize
+        a337cbc Update changelog
+        51402e8 README update
+        00a58f5 README: Update recommended preview configuration
+        5b258a5 Remove obsolete consult-line-point-placement
+        82a41d3 Formatting
+        8fac54c consult--jump-1: Fix case, where current-buffer/=window-buffer
+        b27ea3e Indentation
+        0abeee7 Add consult--source-file-register
+        cf9c5e5 Update commentary
+        d5b3286 Version 0.20
+        cc615b0 Update changelog
+        428ffd0 Minor cleanup
+        cb5aea3 Enable setting an index var from consult-mode-histories (#669)
+        6cb8cd8 Revert "Enable setting an index var from consult-mode-histories (#669)"
+        e5333d0 Revert "Fix whitespace"
+        1b6d22d Fix whitespace
+        3b399ab Enable setting an index var from consult-mode-histories (#669)
+        8717aa2 Refactor consult--find-file-temporarily
+        7c3ee6e typo (#664)
+        [...]
+    ✓ (64/433) compat: d8967c0 -> 056e3cc [8 commit(s)]
+    ✓ (65/433) consult-dir: 8abf62d -> ed8f087 [1 commit(s)]
+        ed8f087 dont open connections to remote hosts from recentf (#22)
+    ✓ (66/433) consult-flycheck: 9b40f13 -> 1d43437 [1 commit(s)]
+        1d43437 Remove consult--jump-state argument (#1)
+    ✓ (67/433) embark: 5d0459d -> 3a86e4b [26 commit(s)]
+        3a86e4b Delete FUNDING.yml file
+        4af269d Add autoload for org-attach-dir
+        99e6dbf embark-org: transform org attachment link to org-file-link
+        1bacf0b Create FUNDING.yml
+        4ce430c Correct loading instructions for embark-consult
+        9b23155 Move warning
+        97f986b Update info manual after change in #550
+        52b25d9 Remove some obsolete variables
+        e565f91 Update commentary
+        3b91887 Add a warning in case embark-consult cannot be loaded
+        eaa5f5d Use vertico--update
+        2422d4e Fix wikipedia link example code (fix #545)
+        6b28976 Silence compiler
+        4f924a0 Update info manual for the #516 fix
+        11129db Fix #516
+        8c768f2 embark-insert: leave point after inserted text (fix #533)
+        fc9f138 Set next-error-last-buffer in grep export (fix #537)
+        8461bdc embark-toggle-variable: Toggle local variable
+        28c1e33 Change bindings for Org link copying
+        476f2ae Fix bugs found in PR #542
+        [...]
+    ✓ (68/433) embark-consult was updated indirectly (with embark)
+    ✓ (69/433) marginalia: 69442c2 -> c9297ee [12 commit(s)]
+        c9297ee Add @oantolin to FUNDING.yml
+        cc7a086 Version 0.15
+        5108586 Remove unnecessary defvar
+        d13ea27 Update docstring
+        459f230 marginalia-annotate-package: Handle multiple installed package versions
+        606dc0a Update links
+        c37a276 Drop Selectrum-specific workaround to obtain the full candidate
+        ddba3a3 Improve tab annotator
+        7f5bf78 marginalia-annotate-tab: Additionally show tab group (Fix #147)
+        db12d80 marginalia--cache-reset: Ignore arguments
+        b6d9a7e Version 0.14
+        fd66a02 Minor README cleanup
+    ✓ (71/433) all-the-icons-completion: 286e2c0 -> 4d8ae54 [2 commit(s)]
+        4d8ae54 autoload bookmark-get-filename
+        fc90b56 add icons for bookmark
+    ✓ (72/433) vertico-posframe: 7ca364d -> 46aa1df [1 commit(s)]
+        46aa1df :group 'vertico-posframe => :group 'vertico, fix #17
+    ✓ (74/433) themes: aa13e7f -> 535800f [5 commit(s)]
+        535800f feat(base): add symbol-overlay faces
+        2880aab fix(ext-treemacs): add icon for pom.xml
+        c4e92a7 tweak(vibrant): use more vivid color for variables
+        3e68f63 dev: update .doomrc
+        aff98a6 fix: invalid nil values in Emacs 29
+    ✓ (78/433) hl-todo: 2337eac -> 8dbe52b [2 commit(s)]
+        8dbe52b make: Suppress warning about obsolete autoload package
+        c699c9b hl-todo--setup: Make sure lambda is code not data
+    ✓ (79/433) hydra: 9e9e00c -> 317e1de [1 commit(s)]
+        317e1de Fix emacs native compilation warning
+    ✓ (81/433) doom-modeline: 1b74638 -> b66d5e5 [51 commit(s)]
+        b66d5e5 Support helm-ag.
+        5c98267 Use unspecified instead of nil in `defface'
+        936bfbc New option: doom-modeline-modal.
+        0993f4b Remove extra spaces in buffer name.
+        8cad541 Remove extra space after buffer name.
+        68689f4 Ensure bar height is fixed.
+        997c324 Update the buffer name when the current Info node changes
+        66369c2 Fix: display incorrect mode-line for info.
+        36cde4c [Feature] Status indicator for active compilation buffer.
+        1d6ad06 Fix #578: Wrong buffer name being displayed.
+        5dbb434 Fix: refresh font width cache in 29.
+        d39de4d Minor fix.
+        b1fa665 Align right segment for font size of mode-line.
+        eb27003 Remove after-revert-hook since find-file-hook has been called in revert-buffer.
+        657ff0a Fix #576: Bad face in some buffer names.
+        e2c062e Update buffer info after reverting buffer.
+        deca7ae Refactor.
+        13748fe [Feature] Define calculator mode-line.
+        aa0e2dd Change eglot--major-mode to eglot-major-modes.
+        df15169 Update FAQ.
+        [...]
+    ✓ (83/433) evil-anzu: d3f6ed4 -> d1e98ee [1 commit(s)]
+        a964de4 Fix emacs native compilation warning
+    > In repository "treemacs", HEAD on default branch "master" has diverged from "origin/master"
+
+         1) Abort
+         2) Merge "origin/master" into "master"
+         3) Rebase "master" onto "origin/master"
+         4) Reset "master" to "origin/master"
+         5) Magit log "master...origin/master" and open recursive edit
+
+      How to proceed? (1, 2, 3, 4, 5)     ✓ (87/433) treemacs: aa3f454 -> 984099b [55 commit(s)]
+        984099b [Misc] Fix typo.
+        75ba10f [Rendering] Don't load obsolete extensions module.
+        19eb68e [Mu4e] Use new initialization syntax.
+        0408fc1 [Annotations] Remove obsolete variable.
+        76807be [Misc] Fix compile issues for latest Emacs build.
+        d508822 [Misc] Don't use buffer-local-value as a generalised variable.
+        180989a [Docs] Add peek-mode documentation.
+        12e0393 [Build] Add build for Emacs 28.2.
+        056e5a4 [Build] Fix treemacs--parent tests.
+        5a26f45 [Misc] Fix typo.
+        40e0bde [Interface] fix copy-functions used `kill-new` not work in emacs-29
+        20765ac [Treelib] Implement depth-based expansion for extensions.
+        e4bb236 [Treelib] Fix updates of variadic parent nodes.
+        13a8a06 [Magit] Take extension nodes into account when running updates.
+        b4bb1d7 [Treelib] Implement prefix-arg based expansion depth.
+        e4a9cce [Treelib] Correct :path property of variadic nodes.
+        78fdc88 [Treelib] Add missing :leaf property.
+        7c853db [Treelib] Remove :face argument.
+        6dc0ca1 [Treelib] Make the :face parameter optional.
+        59b1fc2 [Project-Following] Ensure project is followed at startup.
+        [...]
+    ✓ (88/433) treemacs-evil was updated indirectly (with treemacs)
+    ✓ (89/433) treemacs-projectile was updated indirectly (with treemacs)
+    ✓ (90/433) treemacs-magit was updated indirectly (with treemacs)
+    ✓ (91/433) treemacs-persp was updated indirectly (with treemacs)
+    ✓ (92/433) lsp-treemacs: 9859326 -> 2894e6d [5 commit(s)]
+        2894e6d Delete redundant code
+        6cfffec Fix lsp-treemacs to work with latest treemacs
+        f7ae975 Disable expanding of the tree
+        0502bf1 Move initialization in treemacs-initialize
+        e668656 Fix lsp-treemacs to work against latest treemacs
+    ✓ (95/433) ace-window: 0577c42 -> 77115af [7 commit(s)]
+        77115af Get inherited faces in posframe.
+        3fe3534 Make posframe buffers hidden
+        0d9a89e ace-window-posframe.el (ace-window-posframe-disable): Fixup
+        aec8fd6 ace-window-posframe.el: map -> cl-map
+        e3e6ec1 Fix slowness of posframe
+        751bd32 Allow configuration of the posframe position
+        b2cc22a Provide ace-window-posframe-mode
+    ✓ (96/433) persp-mode.el: d0f8eb0 -> 67be9fe [8 commit(s)]
+        67be9fe Up version.
+        43f49cd persp-tramp-save-buffer -- save port information.
+        cc5d552 Up version.
+        fc129b7 Make persp-delete-other-windows more safe.
+        7bca3b4 Fix persp-tramp-save-buffer.
+        8f192c3 Up version.
+        190358e %s -> %S in error message format.
+        3e66d13 When loading from file in case of errors try to load as much as possible
+    ✓ (99/433) evil: fdf8a72 -> 26168f1 [48 commit(s)]
+        26168f1 Update ] and [ markers when doing operator
+        2e30d83 Update docs
+        88da852 evil transient mouse selection (#1706)
+        a13a05f Add evil-execute-last-recorded-macro à la nvim
+        d43fe06 Add [S-left] and [S-right] bindings for insert state
+        51bd3c3 Remove z kb macros for discoverability
+        b27997b  Remove make-variable-buffer-local from variables (fixes #1416)
+        a42516d Fix compiler warnings
+        cddc4a6 Shorten doc-strings
+        298273f Suppress operator for evil-set-marker
+        a3110e6 Revert "Suppress operator for some normal state commands" partially
+        840084f Fix evil-select-paren #1673 for regexp special chars (#1696)
+        7b4a9b4 Fixup evil-select-paren for multichars delimiters
+        f631618 Add tests for c-w yanking word in evil search
+        3b73f82 evil-ex-completion-map/evil-ex-search-keymap respect evil-want-C-w-delete
+        a760514 C-w support yank word when search-module is 'evil-search
+        b46acf2 Fix evil-ex-substitute up to EOB
+        30980b3 Fix up the cmds that scroll relative to cursor
+        c503bcc Add test
+        782323a Handle gj/gk when tracking EOL
+        [...]
+    ✓ (107/433) evil-nerd-commenter: b1a9222 -> 9609fb1 [1 commit(s)]
+        9609fb1 fixed: last char is missing^Cn multiline commment object
+    ✓ (116/433) evil-collection: c1ede88 -> c3611ae [6 commit(s)]
+        c3611ae shortdoc: (S-)?tab to navigate buttons
+        d1dec4e eglot: add bindings for xref-find-definitions-other-(window|frame)
+        f45f4ab Add bindings for crdt.el's menu modes
+        6306aa7 pdf: Add binds for `pdf-history-forward/backward`
+        76d003c emms: Use line-beginning-position
+        665d5c9 mu4e: remove the inaccurate description
+    > In repository "ts-fold", remote "origin" has URL
+      "https://github.com/jcs090218/ts-fold.git"
+    but recipe specifies a URL of
+      "https://github.com/emacs-tree-sitter/ts-fold.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     ✓ (120/433) ts-fold: 17d131f -> c3da552 [9 commit(s)]
+        c3da552 tests(test.yml): Add test for Emacs 28.2
+        0174027 Fix typo/grammar in error message (#34)
+        1cb7841 Add FUNDING.yml
+        bbb1eae docs(CHANGELOG): fix PR number for #33
+        9f24d29 Julia language parser. (#33)
+        28409a0 docs: Update repo link (#32)
+        3b2e70d tests(test.yml): Add workflow_dispatch
+        f0804a2 docs(CHANGELOG): update (#28)
+        443ba51 feat(ruby): Enhance Ruby parser (#26)
+    ✓ (121/433) emacs-format-all-the-code: 7e375c0 -> c237c4c [6 commit(s)]
+        c237c4c Add `ocamlformat` as an OCaml formatter
+        d01a070 Add autoload for format-all-ensure-formatter
+        4d7a70a Add `Verible` as a Verilog formatter (#209)
+        8f40631 Improve format-all-default-formatters customization
+        48f79e8 Provide a customizable lighter for format-all-mode
+        f5e97b4 Support fourmolu version 0.8
+    ✓ (126/433) auto-yasnippet: db9e0dd -> f54fb42 [8 commit(s)]
+        f54fb42 Fix badge branch
+        83f6e5a Add workflow CI / Test badge
+        62a3e84 Clean up workflow run
+        39a3cdc Update auto-yasnippet-test.el
+        8b3290d Create test workflow
+        7ef65b8 Put back aya-create-one-line
+        b63ddd7 Fixup package commentary
+        85592ff 1.0.0
+    ✓ (127/433) snippets: f957f8d -> 03a62fe [1 commit(s)]
+        03a62fe snippet(csharp): add foreach
+    ✓ (128/433) ctrlf: cefb0af -> e4bd61e [3 commit(s)]
+        e4bd61e Integrate evil with ctrlf-style-alist. (#124)
+        63d27a0 Do not run CI on Emacs master (#125)
+        9b32106 README: document how to configure `ctrlf-minibuffer-mode-map` (#121)
+    ✓ (129/433) diredfl: 62b559e -> 94bd99e [1 commit(s)]
+        94bd99e Add Emacs 28.2 to CI, cut down size of matrix
+    > In repository "dirvish", HEAD on default branch "main" has diverged from "origin/main"
+
+         1) Abort
+         2) Merge "origin/main" into "main"
+         3) Rebase "main" onto "origin/main"
+         4) Reset "main" to "origin/main"
+         5) Magit log "main...origin/main" and open recursive edit
+
+      How to proceed? (1, 2, 3, 4, 5)     ✓ (132/433) dirvish: 845cd61 -> ec41006 [1046 commit(s)]
+        ec41006 refactor(side): use `no-other-window` window parameter
+        3dc059b docs: resolve TODOs and improve wording
+        f3febed perf(side): get rid of recursive `buffer-list-update-hook` call
+        6c76aab feat(side): add `dirvish-side-follow-mode`
+        4813c66 fix(core): do not reuse sessions from other tabs (#156)
+        4bab220 fix(core): dirvish-tramp-preview-dp -> dirvish-tramp-dp
+        0beee69 fix: record history entries by default
+        99d06c0 docs: add 2 faq entries
+        a33dbb5 refactor(core): add `dirvish-preview-environment` user option
+        ac00775 refactor: improve preview update
+        4a99dc5 refactor(yank): add back persistent task logging (#150)
+        86a9ff5 perf: record subtree depth at insertion
+        b858719 refactor(yank): tweak `dirvish-rsync`'s dest reader, closes #155
+        501f6c3 refactor: preview small images as it is
+        11a3bec refactor(extras): improve setter of `dirvish-ui-setup-items`
+        4f2642c feat(core): recognize `cr2` and `arw` extension (canon/sony DSLR)
+        8333b72 fix(yank): void-function error in subprocess, closes #153
+        4f636bf fix: `tramp-get-connection-property` takes 3 args in Emacs 28 (#154)
+        252764f docs: add instructions for Emacs newcomers
+        a877ba8 refactor: improve gnuls checking / preview on remote hosts
+        [...]
+    ✓ (135/433) ibuffer-vc: 5fa6aea -> 813d2de [1 commit(s)]
+        3e966a9 Add support for the SCCS backend
+    ✓ (136/433) info-colors: 47ee73c -> 2e237c3 [1 commit(s)]
+        f110240 Don't quote keys in cl-case
+    ✓ (138/433) browse-at-remote: cef26f2 -> 010639f [103 commit(s)]
+        2dcdcf1 add gitlab.gnome.org
+        6030f01 Fix stash URL for detached head.
+        e4dd9c4 Fix incorrect indentation in README
+        a61bda1 Bump version to 0.13.0
+        dec6bf0 Include sourcehut in comments and documentation
+        166c110 Add support for sourcehut (git.sr.ht)
+        9f4a532 Reliably extract SHA1 from magit-revision buffers
+        82c741c Add phabr to readme
+        2ffeb5d Bump version update readme
+        08e1b92 Documentation update and version bump
+        163f587 Add support for Phabricator URLs
+        3342bc2 Add Gist (gist.github.com) support
+        e34aceb Support VC's log-view-mode
+        6141806 Strip port from URL unless protocol is HTTP/HTTPS
+        898aea3 Fix typo
+        47bab99 Minor merge issues, bump version, updates in readme
+        cd2ccda Add support for repositories that are hosted on gnu cgit
+        b144d98 "stash" is also a valid value in browse-at-remote-remote-type-domains
+        f7c115e Suggest configuring browse-at-remote-remote-type-domains for unknown domains
+        10bbe72 Use Emacs' built-in URL parsing
+        [...]
+    ✓ (139/433) magit: 8a0cc83 -> 87e68e0 [52 commit(s)]
+        87e68e0a magit-tag-release: Fix case when no default is detected
+        8158b484 magit-list-module-paths: Ensure they are relative to top-level
+        ccd82ffe magit-reflog-labels: Add entry for "rewritten"
+        74d14c2d magit-log-reflog-re: Handle "rewritten during rebase"
+        2fee806a magit-rebase: Add --update-refs
+        0ef98ef5 test: Comment failing magit-toplevel:tramp
+        b52922a3 magit-get-submodule-name: Adapt to change in Git v2.38.0
+        619b6a14 make: Suppress warning about obsolete autoload package
+        5d6c01e2 magit-commit-squash-internal: Restore window conf after showing diff
+        47df80a4 magit-stash-push: Don't unquote inside group vector
+        1c51352e magit-branch-delete: Improve suggested branch for checkout
+        557ab2c0 magit-diff-wash-diff: Fix headers for "git log -L --no-prefix"
+        37c0c857 magit-diff-wash-diff: Cosmetics
+        304b1730 diff: Remove partially broken and unnecessary kludge
+        ce0746ab diff: Mention when a file is a binary
+        3e833f36 AUTHORS.md: Update list of contributors
+        71717126 manual: Mention with-editor-filter-visit-hook in performance hint
+        9a69e3d4 magit-blame--make-margin-overlays: Fix beginning of each overlay
+        d24c5107 Remove duplicated `and'
+        169dbf9c manual: Fix a typo
+        [...]
+    > In repository "git-timemachine", remote "origin" has URL
+      "https://codeberg.org/pidu/git-timemachine"
+    but recipe specifies a URL of
+      "https://github.com/emacsmirror/git-timemachine.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     ✓ (140/433) git-timemachine: ca09684 -> 77a3e72 [1 commit(s)]
+        af88b1d remove unnecessary git-timemachine-completing-read-fn
+    ✓ (141/433) git-modes: eca3bb4 -> 4f9ad30 [1 commit(s)]
+        4f9ad30 make: Suppress warning about obsolete autoload package
+    ✓ (147/433) eshell-syntax-highlighting: 8e3a685 -> 1ba39a9 [1 commit(s)]
+        1ba39a9 Do highlighting silently to avoid changing undo data (#10)
+    ✓ (150/433) emacs-libvterm: 3155a47 -> 19c84e9 [20 commit(s)]
+        19c84e9 Reflect human-friendly prompt change in README to configuration file
+        c1c1071 Use `prompt_pwd` to format `/home/myuser/mydir` as `~/mydir`
+        e9bfe56 fix #632 Meta/Alt not working in terminal/non-graphical mode
+        b32f620 Fix type for vterm-clear-scrollbark-when-clearing
+        0838ee3 check  libvterm version,make it compile with libvterm<0.2
+        54bef7c update readme about libvterm 0.2 is needed.
+        e19dc2b make-obsolete for all vterm-send-C-[a-z] vterm-send-M-[a-z] etc.
+        7feb9c3 reimplement OSC 52 with VTermSelectionCallbacks from libvterm v0.2
+        679b43f use mirror https://github.com/Sbozzolo/libvterm-mirror.git v0.2
+        0091bb0 fix document of vterm-enable-manipulate-selection-data-by-osc52
+        4e9b3f3 fix compile warning on emacs 29
+        dac3187 unbind M-{A-Z} #575 related
+        f65916b fix #622
+        4b5539c Better vterm-undo key bind and close #613
+        aff8bad delete recent added vterm-send-meta-{up/down/left/right}
+        9ac4aeb prefer vterm--self-insert
+        1ed2646 rewrite vterm--self-insert/vterm-send/vterm-send-next-key.
+        6f49cae try fix #598. `ESC =`(Application Keypad (DECKPAM)) as control seq.
+        c66c324 Add vterm-send-meta<up,down,left,right> functions and keybindings
+        ceddd7a Declare variable before first use
+    ✓ (151/433) flycheck: 8541a61 -> d72c29f [5 commit(s)]
+        81b05c55 Remove `-`, not `/dev/stin`, from hadolint output
+        c64f3331 Fix typo adds 't' to 'no'
+        f15bf5a8 put global-flycheck-mode in 'flycheck group instead of 'flycheck-faces
+        4d5380cb update flake8 config file list
+        6f054dbd Set run_name to __main__ when running python modules
+    > In repository "spell-fu", remote "origin" has URL
+      "https://github.com/emacsmirror/spell-fu.git"
+    but recipe specifies a URL of
+      "https://codeberg.org/ideasman42/emacs-spell-fu"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     ✓ (154/433) spell-fu: bfd017f -> d907800 [6 commit(s)]
+        d907800 Cleanup: replace 'if' with 'cond'
+        ba5942c Fix #31: Failure to detect updated symlinked dictionaries
+        3e532cc Cleanup: sharp-quote function
+        33a71c8 When using jit-lock-stealth, ensure words out of the view are checked
+        ad26435 Fix #13: Every word marked as incorrect on MS-Windows
+        2288af9 Add support for buffer local word-lists
+    ✓ (157/433) citar: 146f2cb -> c37a482 [14 commit(s)]
+        c37a482 Call predicate on candidate display string (fix #708)
+        4a302fc citar-file: Unescape filenames in citar-file--parser-default
+        24a800b Fix linter warnings on indentation and long docstring lines. (#698)
+        cf36790 More formatting
+        b0605c3 Fix indent formatting
+        52050ca Update docstrings, KEY arg to CITEKEY
+        219a69c Clarify docstring on citar-open-note
+        60cc30e Add at-point function for org property drawers
+        f66177b Add multiple files example to README
+        b0fefab Add binding hint to multi UI
+        731c0ae Remove bold from default highlight face
+        beb9ce9 Remove obsolete variables
+        9d7088c v1.0!
+        8f81ccb Bump parsebib version
+    ✓ (158/433) citar-embark was updated indirectly (with citar)
+    ✓ (160/433) parsebib: 175a1bd -> 1efca92 [6 commit(s)]
+        1efca92 Wrap `not` with `any` in rx for older emacs (#27)
+        f87b0fd Update version number.
+        819f6f2 Remove unused functions.
+        db69b09 Update README.md on `parsebib-TeX-markup-replacement-alist`.
+        eabfb0d Update doc strings for TeX-replacement functions and variables.
+        f41befa Speed up markup removal (#25)
+    ✓ (161/433) citeproc-el: 406bd99 -> e705911 [6 commit(s)]
+        a20411a Parse formatting in locators
+        adc8e09 citeproc-rt.el: Support underline formatting in CSL text fields
+        d89df23 Don't test on Emacs 26
+        6f4d515 Use short title for title-only cite
+        0beab2c Use short title for title-only cites
+        2c9df46 Use the biblatex->csl converter to convert org-bibtex entries
+    ✓ (165/433) realgud: 45f7e44 -> aff03ae [1 commit(s)]
+        a670add Use the right variable for trepan3k minibuffer history.
+    ✓ (167/433) dap-mode: e2a37cc -> 2879578 [10 commit(s)]
+        2879578 Drop with-lsp-workspace calls because debug-session-workspace is not used
+        442aef5 Make sure dap-ui buffer is created
+        0f76925 Declare posframe-mouse-banish
+        6b2cca8 Better dap-ui-locals
+        5d5043f Utilize dap-ui-default-fetch-count
+        7f924d7 Add support for VSCode Tasks (#578)
+        b5a617f `cpptools+codelldb`: Updates, Better detection of the architecture (#664)
+        61c8825 Refactor debug provider names (#662)
+        5821215 Fix #314. Give other tooltip-functions a chance to run. (#663)
+        192c4e1 Debug template for current file and root cwd (#660)
+    ✓ (168/433) posframe: 0d23bc5 -> 3084cb6 [2 commit(s)]
+        c6026ba only redraw when reusing the existing posframe
+        0c5e57a v1.1.8
+    ✓ (169/433) envrc: 7f36664 -> 0cd450a [10 commit(s)]
+        0cd450a Remove defunct note from README
+        08cffdc Clarify README wording
+        433df84 Fix other quoting issues
+        437cc27 Unquote `envrc-direnv-executable` to have executable in process call
+        fb68fd2 Use `envrc-direnv-executable` custom variable in tests
+        ef192d2 In test harness, handle when envrc-debug is unset
+        8a73947 Add defcustom for envrc-direnv-executable
+        9b772ce envrc-file-extra-keywords: Restore use_{guix,flake,nix}
+        c4d430e Add Emacs 28.2 to CI
+        936e45e add new stdlib keywords
+    ✓ (170/433) docker.el: 8d0429d -> cc0046e [3 commit(s)]
+        cc0046e Remove docker-tramp dependency
+        3173403 Remove MELPA stable tests because transient don't support it
+        670b7c3 Provide default list of Docker Compose projects
+    ✓ (172/433) dockerfile-mode: c7e4e25 -> 52c6c00 [5 commit(s)]
+        52c6c00 Update docstring
+        e2d59c7 Fix various lint warnings
+        099bc8d Remove unnecessary configuration
+        5e7096d Recognize Containerfile
+        73a8bcc Fix: remove repeated switch in docstring
+    ✓ (173/433) editorconfig-emacs: 1f6f16c -> bd1d9c3 [5 commit(s)]
+        bd1d9c3 Check `filename` rather than `buffer-file-name` for consistency (#280)
+        bcd3775 Prepare v0.9.0 (#275)
+        f529bbe Fix package load for use-package usage (#277)
+        44bcfcf  Add fixes for Emacs 29 (#276)
+        541298a tests(build.yml): Use latest minor version number (#274)
+    ✓ (174/433) quickrun: 314beae -> 548b64c [578 commit(s)]
+        548b64c Use -A for deno
+        04ab23b Add truncate lines option
+        621dfb1 Avoid pop-to-buffer on multiple runs
+        4da5bc5 docs(README.md): codeblock supported backend
+        d0bd252 Add support MASM
+        a33b096 docs(README.md): Add support asm
+        abbd70b rev indentation
+        0b1ae06 fix compile
+        48efb3f Update quickrun.el
+        d4cc5e9 docs(README.md): remove travis badge
+        449c608 fix compile warnings
+        0994d46 add changelog
+        b8a9b71 Add support for Deno
+        fb7bf53 support select compile-only flag
+        c32926e rename changelog
+        e770215 add license file
+        9af221d fix eask file
+        0b01c16 Add quickrun-select command
+        1a334ed modernize package
+        62c5e2a fix indentation
+        [...]
+    ✓ (179/433) emacs-request: 38ed1d2 -> 2c33e45 [511 commit(s)]
+        78e81ed Fix docstring has wrong usage of unescaped single quotes
+        7444e76 package is now single-file
+        62e9f2b 28.2
+        4dad570 Closes #213
+        bb277bc Fix emacs native compilation warning
+        8ca33f7 fixes issue with missing mime-types
+        3336eaa Semeai condition
+        68003b3 Fixes #205
+        c96a45d emacs26-3 and werkzeug flaps under global-auto-revert-mode
+        2b68b3c Oh I didn't need to do that
+        99ae82f Fixes #202
+        f3a5b43 Cask rapprochement
+        f795d03 shell env variables are in a separate subspace
+        c076219 okay, now cask24 is failing too
+        572a900 I may need to eval calls
+        c92102f On 20210213, emacs24 couldn't download packages from elpa
+        ef231e1 request-response-headers
+        8e6aaa5 Revert "add headers slot into request-response structure"
+        ec35961 In for a penny, in for a pound
+        576585d reuse GITHUB_HEAD_REF
+        [...]
+    ✓ (182/433) lsp-mode: ece9bcd -> dfda673 [70 commit(s)]
+        dfda673 Revert "Dispatch each lsp--parser-on-message in next message loop (#3087)" (#3791)
+        31645f9 :rocket: `feat` Add Nix lsp, nil (#3789)
+        2e2d5dc Suggestion of adding `clients' to `load-path' (#3788)
+        9a3708c don't put evaporate to lens overlays (#3772)
+        48cf201 Fire up lsp when lsp-mode is called
+        ac6e3b8 Remove double resolving
+        af4bd15 Remove deprecated `--background-services-enabled` flag to FSAC (#3776)
+        2fdfb51 Improve project root print on conected message (#3775)
+        a3b3c15 patch for snippets in ts-ls (#3766)
+        a2ca5ae Update lsp-mode.el (#3768)
+        4f5754f Add more settings for lsp-nim
+        287cdcb Jump to current workspace in lsp-describe-session if applicable (#3758)
+        6122ec5 docs: Fix stray comment in lsp--apply-text-edit (#3756)
+        c44eac7 Upgrade lsp-xml version and add new formatting options (#3764)
+        89b0e87 *lsp-help*: allow to open link with markdown-follow-link-at-point (#3759)
+        759fb79 lsp-rust: add semantic token modifiers (#3668)
+        c9db552 lsp-ansible: update settings
+        facd782 hide parent details in imenu nodes (#3752)
+        178be6f fix header for forgetting workspace folders (#3751)
+        bbce14c lsp-eslint: support glob patterns for workingDirectories parameter (#3747)
+        [...]
+    ✓ (183/433) lsp-ui: 8d4fa5a -> 3cd7cc6 [3 commit(s)]
+        3cd7cc6 use lsp-feature? to check for hover capability instead of lsp--capability (#734)
+        d8cce7d new command lsp-ui-doc-toggle
+        e5a5623 Allow lsp UI doc hide from focused frame (#729)
+    ✓ (184/433) consult-lsp: 19606a0 -> 58b5414 [2 commit(s)]
+        58b5414 Bump dev version
+        c2ec2c5 fix(file-symbols): use end-line, stop assuming ht
+    ✓ (185/433) magit was updated indirectly (with magit)
+    ✓ (186/433) forge: ed8abda -> 45b06b8 [9 commit(s)]
+        45b06b8 Remove support for obsolete libsqlite3 and broken sqlite3 backends
+        3336452 forge--branch-pullreq: Cosmetics
+        ce212f8 make: Suppress warning about obsolete autoload package
+        2a2c6dd Make forge--buffer-draft-p public
+        6de2094 forge--db-dump: Copy binary db if sqlite3 cannot be found
+        6a820a4 forge-create-pullreq-hook: New hook
+        9556d3b make: Print message for texi target
+        bb2041f manual: Regenerate texi
+        351a780 manual: Use @insertcopying
+    ✓ (189/433) magit-todos: 67fd80c -> c5030cc [4 commit(s)]
+        c5030cc Change: Require Emacs 26.1 or later
+        c6d9e64 Tidy: Compilation warnings
+        45bd4ae Meta: Update makem.sh
+        f7ce396 Change: Load org only when needed
+    ✓ (190/433) makefile-executor.el: d0a34c3 -> 170d14d [13 commit(s)]
+        3e7ad8b fix: unbalanced parenthesis
+        2009402 Use grep -E instead of egrep
+        50a0166 Avoid this triply-repeated conditional check.
+        ac2e5a3 Avoid nil.
+        440de68 Rework header comment.
+        51f8474 Better version number.
+        645cf09 Remove projectile mentions from docs.
+        0b25999 Fix argument invocation errors.
+        2b446fe Fix date.
+        0f786e4 Excise last (featurep 'project) check.
+        12736ed Bump version.
+        a291bc8 Remove projectile.
+        72e42ec Define makefile-executor-project-root.
+    ✓ (192/433) password-store: c4d8a1d -> dddca73 [2 commit(s)]
+        dddca73 tests: Replace short OpenPGP keyids with fingerprints
+        47f8d95 emacs: Add command password-store-generate-no-symbols
+    ✓ (194/433) pdf-tools: bb0b71f -> d6980bc [13 commit(s)]
+        d6980bc Enable testing against MacOS in CI/CD!
+        5350677 Add make targets to start / stop the podman VM
+        e6d1df4 Speed up server testing by keeping the containers around
+        a4905d8 Revert "Adds translattion of highlight annotations"
+        aec8ecd Add non-transparent text selection to known problems
+        2ce06dd Address some byte-compiler warnings
+        a316013 Fix nix-shell pkg-config dependency name
+        49078c7 Fix: misuse of cl-ecase
+        45b0570 Fix: Warnings and <26.1 code
+        1a0a30c Revert "synctex_parser: fix vasprintf() not exists in non-GNU environment (#134)"
+        bea5ddb synctex_parser: fix vasprintf() not exists in non-GNU environment (#134)
+        c3d227c Don't depend on gcc when building with `nix-shell` (#135)
+        6df4160 Fix: remove execute permisions from temp files
+    ✓ (198/433) kurecolor: 2016973 -> 0e3b9df [96 commit(s)]
+        0e3b9df Fix push pages
+        3dabc10 Move tests to /dev
+        ba6f0f2 add mirroring
+        190756d examples updated to use aliases: group & examples
+        7f81c9c Update README.md
+        e7e27e4 Update README.md
+        8af9001 ~> approx equal for floats and lists of floats.
+        abd5047 Approximation expects correct rounding.
+        052e0a2 Fix broken test case...
+        48b2ecb Clean up
+        ac8a97b Use cond instead of pcase T_T
+        e54d3c1 Add approximate equality (scalar floats working.)
+        d86d169 Ok... fix the test name...
+        da59a6f Get example 1:1 test working first...
+        22169e2 Ignore any DS_Store file...
+        c4b4670 Ignore Macos DS_Store files
+        58700b9 Update etd. Each example will be a test.
+        ec27710 Update README.md
+        553e852 Fix bad formatting
+        e3331e7 1.6.1
+        [...]
+    ✓ (200/433) tree-sitter-langs: deb2d86 -> 00738cb [12 commit(s)]
+        00738cb Release 0.12.4
+        32c0306 Bump go grammar
+        11d1b78 chore(queries): Highlight enum as keyword
+        6d18db5 Release 0.12.3
+        d663cbc Add perl grammar
+        8ca4fdd Changelog update.
+        df272b6 Add Haskell mode and highlights.scm
+        4896a56 Release 0.12.2
+        b5a27cf Add yaml grammar
+        5c6900a Release 0.12.1
+        68e637e Bump java grammar
+        c283571 Add verilog to list of languages
+    ✓ (201/433) evil-textobj-tree-sitter: 7ec5835 -> 087c3c3 [9 commit(s)]
+        087c3c3 Update tree-sitter queries to latest
+        b986367 Update tree-sitter queries to latest
+        490b266 fallback to builtin queries if no major mode in user queries
+        3c9a444 Update tree-sitter queries to latest
+        fad2178 Update tree-sitter queries to latest
+        c2408aa Update tree-sitter queries to latest
+        4510e31 Update tree-sitter queries to latest
+        f0b887f Update tree-sitter queries to latest
+        0df263f Update tree-sitter queries to latest
+    ✓ (202/433) osx-trash: af74a20 -> 90f0c99 [1 commit(s)]
+        90f0c99 Add new osx-trash-command to deal with incompatible implementation
+    ✓ (206/433) paredit: d0b1a2f -> e4a67f4 [3 commit(s)]
+        e4a67f4 Add .gitignore file.
+        81e069b Credit Javier Olaechea and Vladimir Sedach.
+        42500e5 Note that Paredit Mode and Electric Indent Mode are incompatible.
+    ✓ (209/433) clojure-mode: ad322e9 -> 414157c [11 commit(s)]
+        414157c Fix whitespace
+        d472982 Fix function definition names being not highlighted
+        49c1615 Tweak a changelog entry
+        24ee368 Make function definition regexp only look for 'clojure.core/defn' forms
+        4a5f011 Replace obsoleted function
+        0b03238 Fix byte-compile warnings quotes in docstring
+        68e0e13 [Fix #377] Fix font locking for def forms (#630)
+        0af29f4 Tweak some markup
+        52f3e1f Tweak some changelog entries
+        905abd0 Set add-log-current-defun-function (#629)
+        0be365a [Fix #581] Fix font locking for keywords starting with a number (#628)
+    ✓ (210/433) clj-refactor.el: 1bd7b09 -> 8300d5c [27 commit(s)]
+        8300d5c 3.6.0
+        e53606b Add Changelog entry introducing #532
+        0c8d818 Disable the reader-conditional term of `cljr--language-context-at-point`.
+        a3c0cb4 Prefer explicit parsing instead of destructuring binding per reviewer
+        c28773d Document feature paths inside `cljr-slash`
+        16da22c Improve documentation for `cljr--call-middleware-suggest-libspec` and `cljr--language-context-at-point`
+        a1c1988 Assert that completing-read is called or not called for each example
+        52fe70a Documentation changes suggested in code review
+        e27d860 Shadow cljr-slash-uses-suggest-libspec to enable feature without using setq in tests
+        72685e4 Expand test coverage for `cljr--language-context-at-point`
+        843caf2 Add `cljr-slash-uses-suggest-libspec` flag to prefer new middleware
+        44106f3 Add `cljr--language-context-at-point` for detecting context
+        343698a Introduce `cljr--call-middleware-suggest-libspec`
+        bcb4627 Fix failing tests by expecting value instead of macro expansion
+        cd97626 Use refactor-nrepl 3.5.5
+        8f511ea Update circle-ci environment to include value for TERM
+        35cca56 Fix regex for removing prefix from ns alias
+        7011b06 Remove prefixes including digits and various orderings
+        10633c1 Change `cljr-ns-alias-at-point` to detect symbols at point before /
+        ead4813 Extract cljr--alias-here helper and add pending test cases with issue
+        [...]
+    ✓ (211/433) cider: 9577dbb -> e9324ac [22 commit(s)]
+        e9324acf Consecutive result overlays can now be seen (#3259)
+        d08609fe Add support for Clojure Spec 2
+        33c26b2a Bump the injected cider-nrepl
+        aa9cb3f3 Bump the dev version
+        92c1b6de Tweak a changelog entry
+        055545df Add a changelog entry
+        e75706f5 [Fix #2561] Disable undo in *cider-test-report* buffers
+        b8d8de60 Disable undo in cider-stacktrace buffer
+        101671c0 Bump the inject cider-nrepl version
+        20debc82 Fix several typos
+        14eb0229 Remove needless quote from the choices
+        5bba4856 Bump the injected nREPL version to 1.0
+        7d1a989d Switch back the docs version
+        700ded1d Release CIDER 1.5 ("Strasbourg")
+        73fe0916 Tweak the changelog
+        90561f1c Add evaluate and tap commands for last-sexp and sexp-at-point (#3240)
+        f54101f5 Prefer dashes over stars for bullet points
+        de51a0b1 Tweak a changelog entry
+        10cc3905 Tweak some changelog entries
+        68974c9f Tweak an obsoletion message
+        [...]
+    ✓ (218/433) elisp-demos: 4b51dff -> 792be70 [1 commit(s)]
+        6e74eff elisp-demos.org: Add backquote to json-encode
+    ✓ (219/433) flycheck-package: 615c1ed -> 3a6aaed [1 commit(s)]
+        3a6aaed Add Emacs 28.2 to CI, cut down size of matrix
+    ✓ (221/433) emacs-buttercup: 62176a3 -> eaa4b3c [333 commit(s)]
+        eaa4b3c Bump version: 1.27 → 1.28
+        ae884f1 Accept un-evaluated functions in buttercup--enclosed-expr
+        001adc0 Bump version: 1.26 → 1.27
+        10d5d88 Test on GNU Emacs 28.2
+        bff022e Use the name instead of the symbol in *-define-matcher-for-*-function
+        e2b77ac Check position of the :var and :var* keywords
+        9022546 Bump version: 1.25 → 1.26
+        91b541a Add .elpaignore
+        e083d67 Makefile: Rename test* targets check*
+        9f3d181 Makefile: Remove release target and associated variables
+        cdbb8b0 tests: Add tests for buttercup--enclosed-expr
+        0e26b1b Clean up buttercup--enclosed-expr
+        4cbd106 tests: Use buttercup--wrap-expr instead of make-list-of-closures
+        435fc0d tests: Fix some buttercup-expect tests
+        ec4d94f tests: Create enclosed expressions with buttercup--wrap-expr
+        8dda6ef Refactor the expect macro
+        ef293a6 Fix: (buttercup--enclosed-expr) byte-code functions
+        ceedad5 Test on GNU Emacs 28.1
+        ba62f80 Bump version: 1.24 → 1.25
+        42a1d7e tests: Add a simple load test
+        [...]
+    ✓ (225/433) typescript.el: d1123e0 -> d79551c [1 commit(s)]
+        b99d893 fix(fontlock): fix special forms/ternary mistaken for method declarations
+    ✓ (238/433) lua-mode: d17a00c -> 3e783c9 [1 commit(s)]
+        348e69b Enable lexical-binding for tests as required by buttercup
+    ✓ (239/433) markdown-mode: 0b8dc23 -> 7030c72 [5 commit(s)]
+        f5a9ef6 Update test configuration
+        cce3249 Fix issue URL
+        9bac1ca Fix italic fontification after bold markups
+        883c846 Update testing emacs versions
+        518191b Fix deprecated warnings on Emacs 29.1
+    ✓ (242/433) grip-mode: 6d6ddbe -> e1e8ee9 [4 commit(s)]
+        e1e8ee9 New option: grip-sleep-time.
+        2bb9f66 Update markdown toc.
+        a607f3e Update toc of README.
+        acb97fc Update to 28.2 in CI.
+    ✓ (244/433) nix-mode: b3f71c7 -> b76c847 [9 commit(s)]
+        b76c847 Don’t set search string when it’s empty
+        c229d66 Remove nix-search require
+        5efb538 Fix auto-mode-alist for drvs
+        1f93977 Bind l to nix-store-show-log
+        e0c057f Add function to get nix store log path
+        26928b8 Add `nix-store-show-log` to open a log file from nix-store-path mode.
+        098433b chore(deps): bump cachix/install-nix-action from 17 to 18
+        e1f3af5 Make flycheck happier
+        c8f33e5 Differentiate realised/unrealised store paths
+    ✓ (245/433) nix-update-el: 1dd1434 -> aab70a3 [1 commit(s)]
+        aab70a3 Allow C-u to force refresh the rev field
+    ✓ (246/433) org: 4db67da -> 48b237d [20950 commit(s)]
+        48b237d9e org-attach-attach: Fix storing link to attached files
+        d4e3598ab fixup! org-babel-read: Fix cells like '"string" more'
+        633ca9e69 org-babel-read: Fix cells like '"string" more'
+        9a3dd429b org-babel-import-elisp-from-file: Fix when \"s are not around
+        f8a9cd230 org-babel-eval: Return command output even upon failure
+        ab7eff9d9 org-babel-eval-error-notify: Avoid uninformative empty error buffer
+        1ef420b19 org-babel-comint-with-output: Handle output without trailing newlines
+        69e3a4db3 org-babel: Refactor temporary directory usage
+        2f5e7103e ox-odt: Improve link generation in 4e5c737311
+        524e0e0b7 test-ob: Test indentation of multiline text in list output
+        a83edd624 fixup! ob-shell: Fix multi-line scripts in sessions
+        801c93638 ob-shell: Fix multi-line scripts in sessions
+        bed47b437 test-ob-java: Test Java source block header arguments at all levels
+        e70057879 ob-core.el: Fix indentation of multiline text in list output
+        85ab64c2b org-clock-select-task: Do not offer non-printable characters in selection
+        3502ce2db ox-odt: Fix newlines replaced by spaces in Han script
+        cce846e5f org-manual: Clarify `org-timer-start' command description
+        d98a49648 org-lint: Fix regexp when matching header-args
+        ee3dbb0fd ob-java: Define the list of all supported header arguments
+        deb1517fe org-macs.el: Do not compare wall time and file modification time
+        [...]
+    > In repository "org-contrib", HEAD on default branch "master" has diverged from "origin/master"
+
+         1) Abort
+         2) Merge "origin/master" into "master"
+         3) Rebase "master" onto "origin/master"
+         4) Reset "master" to "origin/master"
+         5) Magit log "master...origin/master" and open recursive edit
+
+      How to proceed? (1, 2, 3, 4, 5)     ✓ (247/433) org-contrib: 39e2abc -> aa104c0 [2429 commit(s)]
+        aa104c0 [PATCH] Remove libraries that are in transition to be part of Org
+        65711dc [PATCH] Remove libraries that are in transition to other repositories
+        6422b26 fix(org-checklist.el): change org-make-checklist-export (Emacs 28+ cl)
+        7f32f80 file-name-directory return nil with arg file
+        caf613d org-depend: Fix obsoletion warnings
+        dba0972 lisp/org-eldoc.el: Fix propertizing of non-string header args
+        c6aef31 lisp/org-contrib.el: Bump version to 0.4
+        89ddcab *el: Fix Homepage keyword
+        56fdeef README*: Update the list of files to delete from the next release
+        3dd9841 Delete files
+        15b03d5 * lisp/org-contacts.el: Update homepage
+        e6cb6ca Replace removed `remove-if' by `cl-remove-if'
+        4936783 lisp/org-eldoc.el: Fix inf-loop when point in org src blocks
+        f237d67 lisp/org-eldoc.el: Whitespace change
+        a33dd6f Rename some obsolete functions to their newer names
+        5766ff1 Don’t assume Emacs internal timestamp format
+        9dc8f49 Don’t assume Emacs internal timestamp format
+        65821e4 Support numeric argument values in src definition lines
+        e14dfea README*: Add org-contacts.el to the list of file to remove
+        1ae5f90 org-contacts.el: Add the new homepage
+        [...]
+    ✓ (248/433) avy: ba5f035 -> 955c8de [3 commit(s)]
+        955c8de avy.el (avy--overlay): Avoid error on empty string
+        6f9eefa avy.el (avy-process): Assume avy-action-oneshot will be let-bound
+        fd7b02f Add `avy-action-oneshot` variable to redefine avy-action locally
+    ✓ (256/433) orgit: b33b916 -> 5036c3d [1 commit(s)]
+        5036c3d make: Suppress warning about obsolete autoload package
+    ✓ (257/433) orgit-forge: 8baf1de -> 3a54569 [1 commit(s)]
+        3a54569 make: Suppress warning about obsolete autoload package
+    ✓ (258/433) org-download: 947ca22 -> 19e166f [3 commit(s)]
+        19e166f Also make available for derived modes
+        7ca67df org-download.el (org-download-image): Add org-journal-mode
+        69c57bd fix: delete formatted link
+    ✓ (259/433) gnuplot: 803033e -> f420219 [3 commit(s)]
+        f420219 README update
+        d50c352 Fix a few warnings
+        d134129 Do not distribute gnuplot.info with gnuplot.el
+    ✓ (264/433) org-tree-slide: 3faa042 -> d6529bc [1 commit(s)]
+        d6529bc Update docstrings
+    ✓ (265/433) org-re-reveal: 6f78a0a -> 941aa4b [8 commit(s)]
+        941aa4b Version 3.16.1
+        7344b07 Refactor test for presence of math plugin
+        d89d2b1 Turn SPDX headers into keywords
+        5ab524b Version 3.16.0
+        e73e2bc Document MathJax alternatives
+        e076a82 Add test case of math plugin
+        8bf88cc Prefer math plugin over MathJax script element
+        e227cbc Quote apostrophes properly
+    ✓ (266/433) reveal.js: e219184 -> f6f657b [2307 commit(s)]
+        f6f657b 4.4.0
+        fb68f1c fix getAttribute exception in notes plugin #3285
+        4681323 remove doppler
+        c1c4145 fix merge error, closes #3277
+        8a97ad5 prevent extra \n at end of single notes #3010
+        b23d15c fix issue were auto-animate could interfere with inherited line-height
+        a0e4860 fix issue with past/future vertical slides remaining visible in Safari 15.4 (closes #3164)
+        62a85d5 Add generated files
+        f9ce61e Support multiple aside notes elements per slide
+        90bbe8b new shortcuts; alt+arrow key skips fragments, shift+arrow key jumps to last slide in the given direction #1105
+        a3e8162 fix unmatched h3 in test
+        bc5ca9a Fix unmatched h3-tags
+        01d8d66 check for slides container too #2217
+        e237fea better error message when '.reveal' root node is missing #2217
+        9ca5068 Update whitespaces
+        28509e0 fix test
+        4d44382 Update build output for highlightjs
+        20d7c87 fix(highlight): allow pre fragments
+        ade2345 4.1.3 - accidentally published a local change to npm -_-
+        a453ac0 4.1.2
+        [...]
+    ✓ (267/433) org-roam: 7f453f3 -> d95d256 [1 commit(s)]
+        d95d256 (Docs): Fixed typos in the docs (#2256)
+    ✓ (272/433) ob-restclient.el: 3ac834b -> 1b021ce [1 commit(s)]
+        58b4ff6 Support variable assignment when expanding source blocks
+    ✓ (276/433) php-mode: ca6ae67 -> c3c442a [25 commit(s)]
+        b82b978 php-doc-annotation-tag inherits font-lock-doc-markup-face if defined
+        9424e19 Update CHANGELOG
+        fa8a969 Support prefixed tags in phpstan- and psalm-
+        6abc996 Add PHPStan and Psalm type names to php-phpdoc-type-keywords
+        29bbf49 Update Cask
+        8366639 Add functions-txt subcommand to extract_functions.php
+        51670f3 Add "=>" to php-mode token as pseudo-operator
+        b3718d4 Copy thing-at-point-bounds-of-string-at-point function from thingatpt.el
+        6049ad7 Add php-complete.el
+        4609c93 Add php-leading-tokens
+        5179a1c Copy c-end-of-token function from cc-engine.el
+        6531053 Add php-defs.el
+        651d524 Add script/extract_functions.php
+        ff16da2 Update CHANGELOG
+        c3f96b7 Add dump c-syntactic-context in test
+        f926139 Fix indentation of expression continuation in arglist
+        9aecbf0 Refactor :magic test
+        e4c764a Fix quotes = and ' in docstring
+        52f2f2d Fix Makefile
+        85bacee Remove (c-lang-defconst c-opt-<>-sexp-key)
+        [...]
+    ✓ (280/433) phpactor.el: 34195f1 -> dde09ad [11 commit(s)]
+        dde09ad Make phpactor-history-size custom variable and default desabled
+        c652439 Add require php-mode and defvar php-mode syntax table in compile time
+        09a35a3 Add fboundp check json-parse-buffer in compile time
+        03eff6c Suppress unused varible
+        da1a4c2 Fix doc string parameters
+        209337f Update Phpactor
+        1f4c339 Add :destination argument to phpactor-navigate command
+        7fd9e47 Show relative path on phpactor-list-references instead of truncate
+        1c55936 Add declare-function smart-jump-register
+        9159485 Make company-phpactor.el lazy load 'company
+        743cc9c Phpactor 2022.09.11
+    ✓ (282/433) emacs-async: 6d164db -> ffde304 [283 commit(s)]
+        0efee62 Add reference to Emacs bug/58446 in comment
+        de04325 Change dired-async-skip-fast default to nil
+        c6f3043 Fix error with file-attributes on remote files
+        53addd0 Bump to version 1.9.7
+        dbac401 Fix docstring and long lines
+        d65fb9d dired-async-skip-fast is not used fix it
+        ad2b253 Cosmetic cleanup of merged smart-async feature
+        370ead4 Bump to 1.9.6
+        53799e7 Skip async for fast operations
+        9a8cd0c Delete async-pkg.el
+        334c58e Add a .dir-locals file
+        ea37e23 Untabify
+        7c2da98 Update package-requires to fit with elpa
+        43f4944 Declare package functions
+        94850fd Reinstall async-pkg.el after elpa merge
+        a153f5d Update headers and version number
+        943a75c Fix paren error in dired-async
+        d7e7f79 Update README
+        0fd5d54 Make the async byte compile variable injection regexp "shy"
+        00c6f3f fix inclusion of bytecomp variables
+        [...]
+    ✓ (286/433) lsp-pyright: c745228 -> 2fa2c89 [2 commit(s)]
+        2fa2c89 Update README.
+        fad6300 Update to 28.2 in CI.
+    ✓ (287/433) anaconda-mode: 160e4e7 -> ca8edba [1 commit(s)]
+        ca8edba Remove distutils dependency
+    ✓ (291/433) emacs-python-pytest: 9bf8db3 -> 33c921a [7 commit(s)]
+        33c921a Add --collect-only option (#65)
+        66e9aaa git main these days
+        98b5032 post-release changelog changes
+        aef8b42 bump version for 3.3.0 release
+        94fbb49 semi-random whitespace changes in readme
+        da5df10 update changelog
+        bec1483 Make "-v" argument-regexp match complete string (#64)
+    ✓ (292/433) pyimport: a6f63cf -> c006a5f [1 commit(s)]
+        5e537f8 Add support for pyflakes 2.5.0 output
+    ✓ (294/433) restclient.el: ae79e7d -> 1fb5706 [1 commit(s)]
+        1fb5706 fix: lexical-let is void when using cl-lib
+    ✓ (296/433) restclient-jq was updated indirectly (with restclient.el)
+    ✓ (297/433) rustic: baef1fa -> 4879922 [39 commit(s)]
+        50cfa28 Fix some docstring issues that caused compiler warnings
+        c996b6f rustic-save-some-buffers-advice: respect the `pred' argument of `save-some-buffers'
+        0eca6e6 introduce command for nextest
+        6ed570a also run tests for emacs28
+        4c89ea7 fix last commit
+        d8a93f7 append to rustic-compile-rustflags instead of replacing value
+        ae86664 update rustic-save-some-buffers
+        f48269c consider buffer-save-without-query in rustic-save-some-buffers
+        66988ec add bound check to `rustic-cargo-auto-add-missing-dependencies`
+        53cacf5 bump version to 3.4
+        006e7ce rectify interactive parameter of rustic-cargo-check
+        5a42347 Add documentation
+        7206be4 Add rustic-cargo-update
+        84ec9b2 allow config rustic-cargo-check-arguments on C-u
+        6a99822 babel: update rustic-babel-default-toolchain as string type
+        d71fbf5 babel: toolchain allows specify version string, close #439
+        c5564b8 also allow parsing flycheck buffers to add missing dependencies
+        db78dbf change cargo install arguments default
+        92c2dde add workaround for rustic-format-file hang on windows
+        760d48f make the prefix argument optional
+        [...]
+    ✓ (303/433) web-mode: 7b5459f -> 4b8a695 [1251 commit(s)]
+        4b8a695 typescript indent fix
+        a7f75a8 new color web-mode-interpolate-color4-face
+        8c0baa2 better html interpolation
+        de9dfa3 attr issue
+        38ed4c5 perl template compatibility
+        7ae48de Add completion for element tags
+        c2f6ce3 Add completion and optional arguments to web-mode-attribute-insert
+        0fbf102 Fix ‘{{~’ completion for Handlebars
+        b060670 fixed: support multi line comment
+        edf4237 fixed: web-mode-comment-indent-new-line
+        cdbd74b fix css fontifying issue
+        bbc34fe eex
+        4f728fe add css colors' keywords
+        8edf904 handle named colors in css
+        036da13 add crystal engine
+        1896ca2 web-mode.el: allow [.@?] prefixes for attributes in literal strings
+        902b085 Added form_with for Ruby on Rails erb.html file
+        f702777 some changes from Stephan Monnier
+        4e3a7eb A typo in `:value-type`
+        7ad06ca fix indent with else
+        [...]
+    ✓ (307/433) yaml-mode: 535273d -> 3fcb36d [10 commit(s)]
+        a00de52 Add remaining highlighting tests
+        9c26d32 Use separate font-lock test function
+        45b232d Correct docstring
+        fbf8a95 Make code less imperative
+        ab69598 more fix
+        85f19ca Fix by review
+        ebeb27c Add unit test and github actions configuration
+        211db42 Simplify regular expression
+        e859daf fix: #96 highlight error with inline comments
+        2f913f0 Fix byte-compile warnings
+    ✓ (308/433) org-msg: 60e22e4 -> e017432 [1 commit(s)]
+        e017432 Check if org-msg-options is already in mail body to avoid nesting
+    ✓ (314/433) org-gcal.el: 229463a -> 40291be [1 commit(s)]
+        6b06ffc Issue 202: Replace switch-to-buffer with set-buffer
+    ✓ (315/433) emacs_chrome: 65a8e43 -> 3ce09c6 [1 commit(s)]
+        341e0f2 Protect message from log data, especially when it may contain %. elements
+    ✓ (317/433) alert: fb92919 -> 2c11cf9 [2 commit(s)]
+        4512320 Add Termux support
+        c39ce68 Remove executable bit from alert.el
+    ✓ (318/433) telega.el: 11c0c78 -> 10bca59 [30 commit(s)]
+        10bca59 [enh] Support for additional arguments to docker
+        a02b9a7 etc/Dockerfile: update TDLib
+        bb10ae6 Version -> 0.8.75
+        e8bb33f telega-server: Mark heart on fire as emoji
+        659f296 Bind <tab>/<backtab> in the `telega-msg-button-map'
+        33a1188 Added :planet: emoji into etc/emojis.alist
+        dbae662 Automatically view ignored message if all messages are read
+        8071a84 Use --rm flag for docker
+        108ed35 [enh] For telega-auto-translate-mode
+        864ed69 Regard string values for `telega-use-docker'
+        ba15890 New features, fixes and enhancements
+        e94f6a1 Support wrap backwards from end of buffer
+        e75bf96 [add] `is-bot' user temex
+        c786170 Fix for the https://t.me/emacs_telega/36581
+        4ac8c68 etc/Dockerfile update to TDLib 1.8.7
+        70979c6 Back to melpa.org
+        d88a481 Use MELPA mirror, since melpa.org is down
+        549808d Support for TDLib 1.8.7
+        37432b4 [add] Support for non-fe0f keycap sequence emojis
+        1470d27 Various improvements and fixes
+        [...]
+    ✓ (319/433) emacs-everywhere: a1b16b5 -> b461c4b [4 commit(s)]
+        b461c4b Update donation badge
+        e1b7018 Try even harder to set the clipboard content
+        c3d5d1a Fix calling of major mode function
+        94e1069 Update maintainer email address
+    ✓ (320/433) org-jira: 9362933 -> f6e9b90 [1 commit(s)]
+        f6e9b90 Update TOC
+    ✓ (323/433) pocket-reader.el: 88d1e60 -> eac22b2 [1 commit(s)]
+        eac22b2 Docs: Remove image
+    ✓ (326/433) elfeed-goodies: c9d9cd1 -> 544ef42 [4 commit(s)]
+        3bd3ec2 Make face name consistent
+        d0144d1 Faces are directly in elfeed-goodies group
+        90b6951 Correctly define the faces
+        fa0c6c6 Define faces for entry headers in show mode.
+    ✓ (330/433) link-hint.el: 5461229 -> 1f9bb60 [1 commit(s)]
+        1f9bb60 Added support for notmuch with w3m as renderer
+    ✓ (331/433) bind-key was updated indirectly (with use-package)
+    ✓ (333/433) dash.el: 0ac1ecf -> 3df46d7 [2 commit(s)]
+        3df46d7 Give -concat alias a stable docstring
+        e926385 Update GitHub CI workflow
+    ✓ (334/433) s.el: 08661ef -> e957dcb [244 commit(s)]
+        e957dcb Set a timeout on CI of 5 minutes.
+        b4b8c03 1.13.1 add (s-unindent s &optional bol) (#155)
+        2d2270b Delete ci-bugfix.yml
+        abab87b Re-enable CI for 24.4&5 26.1,2&3
+        04e864f Bugfix Github Workflow on 24.x/26.x (#160)
+        ff1cc7d Run a CI workflow for bugfix/debugging  CI
+        2d54cc7 Allow bug reports for 24.1-29.1
+        d4fa4f6 Update BUG-REPORT.yml
+        b528668 Update BUG-REPORT.yml
+        fe44c1e Update BUG-REPORT.yml
+        1b814c3 Update Bug Report
+        9299e66 Align workflow name with dash.el
+        be74a09 Disable CI for 24.4 & 24.5
+        84941f2 Update readme-template.md
+        06b4b0c Fix Bug Report YML string error.
+        d283bae non-reproducible issue note to placeholder
+        54f82f9 Update README copyright dates and maintainer note.
+        27d41f7 Github actions replaces Travis badge.
+        4839a3c Include Emacs 24.3..24.5 in CI tests.
+        3c6b59d Set Emacs versions under test.
+        [...]
+    ✓ (335/433) f.el: d2019d4 -> d50dca4 [3 commit(s)]
+        d50dca4 Fix package header and local variable format (#116)
+        85c91f9 Update README
+        9f7346b Silence Emacs 29 compiler warning (#115)
+    ✓ (337/433) xref: feb30d2 -> cd3c12a [4 commit(s)]
+    ✓ (339/433) emacsql was updated indirectly (with emacsql)
+    ✓ (344/433) xml-rpc-el: b8c9c31 -> 85a9fc0 [8 commit(s)]
+        b4409a0 Replace require of timezone with autoload
+        97d609b Add .elpaignore for NonGNU ELPA
+        f161262 Add NonGNU ELPA to installation instructions
+        50d6a74 Fix link in NonGNU ELPA badge
+        6d5892d Add file header to xml-rpc-test.el
+        d3e467f Fix issues discovered by package-lint
+        fc0c82e Bump version to 1.6.16
+        aefa28c Fix byte-compiler warnings in Emacs 29
+    ✓ (345/433) transient: 3b26742 -> ad953cc [16 commit(s)]
+        ad953cc transient--insert-group: Add fallback for failed alignment calculation
+        f98edf5 Backport commit db2ed9f333 from Emacs
+        2143a95 Remove obsolete function aliases
+        be4ffe8 manual: Fix mistake from previous commit
+        277e5f2 transient-prepare-suffix{,es}: New functions
+        e88f51d Quote more carefully while parsing
+        afb7b25 make: Suppress warning about obsolete autoload package
+        ea851f3 Turn suffix specifications into code instead of data
+        0a3b22f transient--delay-post-command: Account for events returned as vector
+        d93dfeb manual: Fix wrong reference
+        097f5be manual: Fix typos
+        555792f Fix setting level of anonymous infixes
+        5b39231 transient--describe-function: Handle renamed help buffer better
+        9d4fabc transient--describe-function: Handle renamed help buffer
+        6b9c93a make: Print message for texi target
+        8e5c384 manual: Drop an empty line
+    ✓ (347/433) emacsql-sqlite was updated indirectly (with emacsql)
+    ✓ (348/433) magit-section was updated indirectly (with magit)
+    ✓ (351/433) pfuture: f9e67bd -> 19b53ae [2 commit(s)]
+        19b53ae Fix eldoc warnings.
+        61f66af Fix emacs native compilation warning
+    ✓ (352/433) lv was updated indirectly (with hydra)
+    ✓ (353/433) ht.el: c4c1be4 -> e83fdb8 [3 commit(s)]
+        e83fdb8 Test ht-equal-p with more deeply nested ht
+        ef768cc Make nested ht comparable
+        cdc7666 Fix emacs native compilation warning
+    ✓ (357/433) spinner: 34905ea -> 634529b [1 commit(s)]
+        634529b Update spinner
+    ✓ (358/433) svg-lib: 1e78346 -> da72b81 [1 commit(s)]
+        da72b81 Update svg-lib
+    ✓ (365/433) back-button: 98d9298 -> f8783c9 [2 commit(s)]
+        0e79591 use cl-lib instead of cl
+        d7b004a remove ucs-utils dependency
+    ✓ (374/433) with-editor: cfcbc27 -> 4ca225b [4 commit(s)]
+        4ca225b make: Suppress warning about obsolete autoload package
+        1d5860c make: Print message for texi target
+        14a958d manual: Regenerate texi
+        3b8b2e0 manual: Use @insertcopying
+    ✓ (375/433) git-gutter: 315e792 -> ec28e85 [3 commit(s)]
+        c6547fe Ensure that global-linum-mode is bound when checking it
+        cc2c145 tests(test.yml): Update Emacs 28.x to minor version 2
+        9ff2f5c tests(test.yml): Add workflow_dispatch
+    ✓ (379/433) expand-region.el: c5c4362 -> b70feaa [1 commit(s)]
+        b70feaa Add autoload to contract-region
+    ✓ (382/433) inheritenv: c2c879a -> 2102ed2 [1 commit(s)]
+        2102ed2 Add Emacs 28.2 to CI, cut down size of matrix
+    ✓ (383/433) emacs-language-id: 1d05bb7 -> 40ceb1f [3 commit(s)]
+        40ceb1f Add HTML+EEX language-id (#23)
+        f3dff98 add rescript-mode (#21)
+        ba65c24 Recognize PHP in web-mode
+    ✓ (386/433) popup-el: c65905a -> 5420f7f [6 commit(s)]
+        5420f7f docs(README): use formal codeblock to hl code
+        a9635a2 fix(popup.el): Use faster popup-replace-displayable implementation
+        717c81e Make popup-replace-displayable much faster
+        c303445 tests(test.yml): Update Emacs 28.x to minor version 2
+        cc41181 Fix emacs native compilation warning
+        34c2684 tests(test.yml): Add workflow_dispatch
+    ✓ (387/433) string-inflection: fd7926a -> 50ad549 [3 commit(s)]
+        a104cc1 Fix emacs native compilation warning
+        1f91fa7 [Fix] Remove accidental copy/paste duplication
+        0ccd59c [Feat] Add support for Elixir, which rarely uses UPPERCASE
+    ✓ (393/433) lsp-docker: a0d7cbf -> 3ffd772 [1 commit(s)]
+        3ffd772 Use a configurable docker command everywhere (#52)
+    > In repository "closql", remote "origin" has URL
+      "https://github.com/emacscollective/closql.git"
+    but recipe specifies a URL of
+      "https://github.com/magit/closql.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     ✓ (400/433) closql: 87d2eda -> 820e951 [3 commit(s)]
+        820e951 make: Suppress warning about obsolete autoload package
+        463b0f4 closql-db: Value of process slot may no longer be a process
+        46b3020 closql-where-class-in: Support vector or types as argument
+    ✓ (401/433) ghub: 94f5aa2 -> 717f6b2 [6 commit(s)]
+        717f6b2 make: Suppress warning about obsolete autoload package
+        f07790b Use line-beginning-position instead of point-at-bol
+        8d98f1e Silence deprecation warnings in backport
+        4e5bb75 make: Print message for texi target
+        41c5e50 manual: Regenerate texi
+        0604dc5 manual: Use @insertcopying
+    ✓ (402/433) treepy.el: 3ac940e -> de1a2dd [3 commit(s)]
+        91829c8 Update library headers to follow conventions
+        4f12d65 Enforce use of spaces for indentation
+        f653124 Don't quote keys in cl-case
+    ✓ (407/433) map: 9f46b9c -> 361f23d [1 commit(s)]
+        361f23d Update map
+    ✓ (408/433) multiple-cursors.el: 225fc0e -> 1e4842d [1 commit(s)]
+        1e4842d Fix `mc/mark-all-in-region` leaving fake cursor.
+    ✓ (411/433) package-lint: 70529b2 -> 4ea8318 [3 commit(s)]
+        afa1cb5 Prefer pcase to cl-ecase (fixes #235)
+        b04ea93 Regenerate stdlib-changes
+        3dc5d14 Add Emacs 28.2
+    ✓ (412/433) js2-mode: 841cfec -> a297ec2 [2 commit(s)]
+        95fe268 Support top-level await
+        7480c79 Recognize escaped $ inside template literal
+    ✓ (416/433) php-runtime.el: 017e0e7 -> 36e6ae8 [3 commit(s)]
+        36e6ae8 require cl-lib when compile-time
+        71839d4 Remove dependency to f.el
+        fbf0f4e Fix doc strings by checkdoc
+    ✓ (420/433) rust-mode: 01ba441 -> b4537b6 [13 commit(s)]
+        b96ea13 Fix internal link in README.md
+        10be8b4 Use line-beginning-position instead of obsolete point-at-bol
+        49087fd Skip test if Cargo isn’t installed.
+        27e4d2b Avoid compilation warnings about potentially-undefined functions.
+        c91d4dd rust-buffer-project: don't use rust-buffer-crate when file-remote-p
+        49709dc Fulfil requirements of cargo locate-project --workspace
+        faf6d98 Make compilation buffer workspace-aware
+        d01b382 apply minor fixes
+        da747ed more test fixing
+        9d12986 fix quirks in rust-mode-tests.el
+        6978752 fixes
+        7bff488 bump version to 1.0.5
+        56e5c3a Merge pull request #449 from rust-lang/remote-crate-path
+    ✓ (422/433) request-deferred was updated indirectly (with emacs-request)
+    ✓ (423/433) persist: 78c8d8f -> c108354 [1 commit(s)]
+        c108354 Update persist
+    ✓ (425/433) circe: 41cdc11 -> d0bd811 [1 commit(s)]
+        d0bd811 Support strikethrough/monospace format codes
+    ✓ (427/433) graphql.el: 5ca5f50 -> 4575642 [2 commit(s)]
+        4575642 Mark copyright as now held by the FSF
+        553850c Apply some cleanup patches from Stefan
+    ✓ (432/433) popwin: 71a0ab2 -> 2165d34 [3 commit(s)]
+        2165d34 tests(test.yml): Update Emacs 28.x to minor version 2
+        16ae7c1 tests(test.yml): Add workflow_dispatch
+        527216a tests(test.yml): Add workflow_dispatch
+    ✓ Updated 180 package(s)
+    > (Re)building packages...
+      > Building use-package...
+      > Building use-package > Building bind-key...
+      > Building use-package...
+      > Building straight...
+      > Building all-the-icons...
+      > Building helpful...
+      > Building helpful > Building dash...
+      > Building helpful > Building s...
+      > Building helpful > Building f...
+      > Building helpful...
+      > Building projectile...
+      > Building xref...
+      > Building which-key...
+      > Building shrface...
+      > Building shrface > Building org...
+      > Building shrface...
+      > Building emacsql-mysql...
+      > Building emacsql-mysql > Building emacsql...
+      > Building emacsql-mysql...
+      > Building copilot...
+      > Building copilot > Building editorconfig...
+      > Building copilot...
+      > Building minibuffer-header...
+      > Building mentor...
+      > Building mentor > Building xml-rpc...
+      > Building mentor > Building async...
+      > Building mentor > Cloning url-scgi...
+      > Building mentor > Building url-scgi...
+      > Building mentor...
+      > Building agraul-doom-themes...
+      > Building devdocs...
+      > Building clj-deps-new...
+      > Building clj-deps-new > Building transient...
+      > Building clj-deps-new > Building transient > Building compat...
+      > Building clj-deps-new > Building transient...
+      > Building clj-deps-new...
+      > Building orca...
+      > Building org-roam-ui...
+      > Building org-roam-ui > Building org-roam...
+      > Building org-roam-ui > Building org-roam > Building emacsql-sqlite...
+      > Building org-roam-ui > Building org-roam > Building magit-section...
+      > Building org-roam-ui > Building org-roam...
+      > Building org-roam-ui...
+      > Building treemacs...
+      > Building treemacs > Building ace-window...
+      > Building treemacs > Building ace-window > Building avy...
+      > Building treemacs > Building ace-window...
+      > Building treemacs > Building pfuture...
+      > Building treemacs > Building hydra...
+      > Building treemacs > Building hydra > Building lv...
+      > Building treemacs > Building hydra...
+      > Building treemacs > Building ht...
+      > Building treemacs > Building posframe...
+      > Building treemacs...
+      > Building org-appear...
+      > Building org-modern...
+      > Building org-transclusion...
+      > Building doct...
+      > Building org-web-tools...
+      > Building org-web-tools > Building request...
+      > Building org-web-tools...
+      > Building org-edit-indirect...
+      > Building lsp-tailwindcss...
+      > Building lsp-tailwindcss > Building lsp-mode...
+      > Building lsp-tailwindcss > Building lsp-mode > Building spinner...
+      > Building lsp-tailwindcss > Building lsp-mode > Building markdown-mode...
+      > Building lsp-tailwindcss > Building lsp-mode...
+      > Building lsp-tailwindcss...
+      > Building corfu...
+      > Building orderless...
+      > Building kind-icon...
+      > Building kind-icon > Building svg-lib...
+      > Building kind-icon...
+      > Building cape...
+      > Building company...
+      > Building vertico...
+      > Building consult...
+      > Building consult-dir...
+      > Building consult-flycheck...
+      > Building consult-flycheck > Building flycheck...
+      > Building consult-flycheck...
+      > Building embark...
+      > Building embark-consult...
+      > Building marginalia...
+      > Building all-the-icons-completion...
+      > Building vertico-posframe...
+      > Building doom-themes...
+      > Building back-button...
+      > Building hl-todo...
+      > Building doom-modeline...
+      > Building evil-anzu...
+      > Building evil-anzu > Building evil...
+      > Building evil-anzu...
+      > Building treemacs-evil...
+      > Building treemacs-projectile...
+      > Building treemacs-magit...
+      > Building treemacs-magit > Building magit...
+      > Building treemacs-magit > Building magit > Building git-commit...
+      > Building treemacs-magit > Building magit > Building git-commit > Building with-editor...
+      > Building treemacs-magit > Building magit > Building git-commit...
+      > Building treemacs-magit > Building magit...
+      > Building treemacs-magit...
+      > Building treemacs-persp...
+      > Building treemacs-persp > Building persp-mode...
+      > Building treemacs-persp...
+      > Building lsp-treemacs...
+      > Building git-gutter...
+      > Building evil-embrace...
+      > Building evil-embrace > Building expand-region...
+      > Building evil-embrace...
+      > Building evil-nerd-commenter...
+      > Building evil-collection...
+      > Building yasnippet...
+      > Building ts-fold...
+      > Building format-all...
+      > Building format-all > Building inheritenv...
+      > Building format-all > Building language-id...
+      > Building format-all...
+      > Building auto-yasnippet...
+      > Building doom-snippets...
+      > Building ctrlf...
+      > Building diredfl...
+      > Building dirvish...
+      > Building ibuffer-vc...
+      > Building info-colors...
+      > Building browse-at-remote...
+      > Building git-timemachine...
+      > Building git-modes...
+      > Building eshell-syntax-highlighting...
+      > Building vterm...
+      > Building popup...
+      > Building spell-fu...
+      > Building citar...
+      > Building citar > Building parsebib...
+      > Building citar > Building citeproc...
+      > Building citar > Building citeproc > Building string-inflection...
+      > Building citar > Building citeproc...
+      > Building citar...
+      > Building citar-embark...
+      > Building howdoyou...
+      > Building realgud...
+      > Building dap-mode...
+      > Building dap-mode > Building lsp-docker...
+      > Building dap-mode...
+      > Building envrc...
+      > Building docker...
+      > Building dockerfile-mode...
+      > Building quickrun...
+      > Building lsp-ui...
+      > Building consult-lsp...
+      > Building forge...
+      > Building forge > Building closql...
+      > Building forge > Building ghub...
+      > Building forge > Building ghub > Building treepy...
+      > Building forge > Building ghub...
+      > Building forge...
+      > Building magit-todos...
+      > Building makefile-executor...
+      > Building pass...
+      > Building pass > Building password-store...
+      > Building pass...
+      > Building pdf-tools...
+      > Building kurecolor...
+      > Building tree-sitter-langs...
+      > Building evil-textobj-tree-sitter...
+      > Building osx-trash...
+      > Building paredit...
+      > Building map...
+      > Building clojure-mode...
+      > Building clj-refactor...
+      > Building clj-refactor > Building multiple-cursors...
+      > Building clj-refactor > Building cider...
+      > Building clj-refactor...
+      > Building elisp-demos...
+      > Building flycheck-package...
+      > Building flycheck-package > Building package-lint...
+      > Building flycheck-package...
+      > Building buttercup...
+      > Building js2-mode...
+      > Building typescript-mode...
+      > Building lua-mode...
+      > Building grip-mode...
+      > Building nix-mode...
+      > Building nix-update...
+      > Building org-contrib...
+      > Building orgit...
+      > Building orgit-forge...
+      > Building org-download...
+      > Building gnuplot...
+      > Building alert...
+      > Building org-tree-slide...
+      > Building org-re-reveal...
+      > Building revealjs...
+      > Building ob-restclient...
+      > Building ob-restclient > Building restclient...
+      > Building ob-restclient...
+      > Building php-runtime...
+      > Building php-mode...
+      > Building phpactor...
+      > Building lsp-pyright...
+      > Building anaconda-mode...
+      > Building python-pytest...
+      > Building pyimport...
+      > Building restclient-jq...
+      > Building rustic...
+      > Building rustic > Building rust-mode...
+      > Building rustic...
+      > Building web-mode...
+      > Building yaml-mode...
+      > Building org-msg...
+      > Building org-gcal...
+      > Building org-gcal > Building request-deferred...
+      > Building org-gcal > Building persist...
+      > Building org-gcal...
+      > Building edit-server...
+      > Building circe...
+      > Building telega...
+      > Building emacs-everywhere...
+      > Building org-jira...
+      > Building graphql...
+      > Building pocket-reader...
+      > Building elfeed-goodies...
+      > Building elfeed-goodies > Building popwin...
+      > Building elfeed-goodies > Building link-hint...
+      > Building elfeed-goodies...
+      ✓ Rebuilt 187 package(s)
+  > Purging orphaned packages (for the emperor)...
+    - No builds to purge
+    > Purging ELPA packages...
+      ✓ Deleted archives
+      ✓ Deleted gpg
+    > Purging straight repositories...
+      ✓ Purged repos/diff-hl
+      ✓ Purged repos/emacs-spell-fu
+      ✓ Purged repos/gh-notify
+      ✓ Purged repos/github-explorer
+      ✓ Purged repos/github-search
+      ✓ Purged repos/github-stars.el
+      ✓ Purged repos/lsp-bridge
+      ✓ Purged repos/mastodon
+    > Regrafting 415 repos...
+      ✓ Finished regrafting. Size before: 0.0KB and after: 0.0KB (0.0KB)
+    > Purging old native bytecode...
+      - Deleting "28.1-32bb1b2d"
+      ✓ Purged 1 directory(ies)
+  > (Re)building profile in /Users/nopan/.config/emacs/.local/etc/...
+    > Deleting old init files...
+    > Generating 4 init files...
+    > Byte-compiling ~/.config/emacs/.local/etc/@init.28.el...
+    ✓ Built init.28.elc
+  - Restart Emacs or use 'M-x doom/reload' for changes to take effect
+✓ Finished in 18m 12s
