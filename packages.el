@@ -13,6 +13,7 @@
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 (package! minibuffer-header
   :recipe (:host github :repo "rougier/minibuffer-header"))
+(package! path-headerline-mode)
 
 ;;
 ;;; Tools
