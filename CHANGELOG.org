@@ -3344,3 +3344,237 @@ doom sync -up!j 8
     ✓ Built init.28.elc
   - Restart Emacs or use 'M-x doom/reload' for changes to take effect
 ✓ Finished in 18m 12s
+** <2022-11-04 Fri 03:18>
+> Tangling your literate config...
+  ✓ Done tangling 42 file(s)!
+> Synchronizing "default" profile...
+  > Regenerating envvars file
+    ✓ Generated ~/.config/emacs/.local/env
+  > Installing packages...
+    - No packages need to be installed
+  > (Re)building packages...
+    - No packages need rebuilding
+  > Updating recipe repos...
+    ✓ melpa updated (e3da6cf -> 1b2c64c)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/melpa/
+        $ git config --get remote.origin.url
+
+        https://github.com/melpa/melpa.git
+
+        [Return code: 0]
+
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/melpa/
+        $ git fetch origin
+
+        From https://github.com/melpa/melpa
+           e3da6cf0..1b2c64ce  master     -> origin/master
+    ✓ nongnu-elpa updated (b1d7b18 -> 057dc59)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/nongnu-elpa/
+        $ git config --get remote.origin.url
+
+        https://git.savannah.gnu.org/git/emacs/nongnu.git
+
+        [Return code: 0]
+
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/nongnu-elpa/
+        $ git fetch origin
+
+        From https://git.savannah.gnu.org/git/emacs/nongnu
+           b1d7b18..057dc59  main       -> origin/main
+    ✓ gnu-elpa-mirror updated (a4f8d64 -> 97a6cf7)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/gnu-elpa-mirror/
+        $ git config --get remote.origin.url
+
+        https://github.com/emacs-straight/gnu-elpa-mirror.git
+
+        [Return code: 0]
+
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/gnu-elpa-mirror/
+        $ git fetch origin
+
+        From https://github.com/emacs-straight/gnu-elpa-mirror
+           a4f8d64..97a6cf7  master     -> origin/master
+    ✓ emacsmirror-mirror updated (be9d095 -> 66865c4)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/emacsmirror-mirror/
+        $ git config --get remote.origin.url
+
+        https://github.com/emacs-straight/emacsmirror-mirror.git
+
+        [Return code: 0]
+
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/emacsmirror-mirror/
+        $ git fetch origin
+
+        From https://github.com/emacs-straight/emacsmirror-mirror
+           be9d095..66865c4  master     -> origin/master
+  > Updating packages (this may take a while)...
+    > In repository "emacsql", remote "origin" has URL
+      "https://github.com/skeeto/emacsql.git"
+    but recipe specifies a URL of
+      "https://github.com/magit/emacsql.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+    ✓ (54/433) lsp-tailwindcss: c0ca58d -> 6e5addf [1 commit(s)]
+        6e5addf feat: bump server version to 0.9.1 (#48)
+    ✓ (55/433) corfu: 03688d6 -> 17f3c28 [1 commit(s)]
+        17f3c28 Update corfu
+    ✓ (81/433) doom-modeline: b66d5e5 -> 87b9289 [4 commit(s)]
+        87b9289 Eliminate compilation warnings.
+        3005b87 Improve faces of modals segments.
+        5d9c20a [Feature] Different color indicators for various modal modes.
+        729c9a8 Add option to make segments visible in inactive windows (#588)
+    ✓ (99/433) evil: 26168f1 -> f921816 [2 commit(s)]
+        f921816 Add evil-keep-lines and evil-flush-lines
+        e0e68d0 Flush and keep for evil-ex-global performance
+    ✓ (139/433) magit: 87e68e0 -> 2a5815f [4 commit(s)]
+        2a5815fe git-commit-font-lock-keywords-1: Use more restrictive keyword regexp
+        a3d3758b magit-file-rename: Fix initial-input for destination
+        1f74e797 magit-rebase-interactive-1: Cosmetics
+        2653432b git-rebase: Support update-ref action
+    ✓ (150/433) emacs-libvterm: 19c84e9 -> 5de2684 [1 commit(s)]
+        5de2684 Change a binding for S-prior back to scroll-down-command
+    ✓ (182/433) lsp-mode: dfda673 -> 54cdc61 [6 commit(s)]
+        54cdc61 fix: support volar 1.0 (#3787)
+        0fb8fe3 add references capability (#3798)
+        145ca1e add .gradle to `lsp-file-watch-ignored-directories` (#3797)
+        8091f5d Update docs
+        06bd589 Fix lsp-clients.json as well.
+        b8d9b0a Do not use 'nil for the nix nil server id (#3795)
+    ✓ (184/433) consult-lsp: 58b5414 -> f6fff70 [1 commit(s)]
+        f6fff70 fix(file-symbols): use symbol in lsp-get
+    ✓ (185/433) magit was updated indirectly (with magit)
+    > In repository "makefile-executor.el", remote "origin" has URL
+      "https://github.com/thiderman/makefile-executor.el.git"
+    but recipe specifies a URL of
+      "https://github.com/Olivia5k/makefile-executor.el.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+    > In repository "macrostep", remote "origin" has URL
+      "https://github.com/joddie/macrostep.git"
+    but recipe specifies a URL of
+      "https://github.com/emacsorphanage/macrostep.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     ✓ (215/433) macrostep: 424e373 -> 75ecd04 [10 commit(s)]
+        75ecd04 Require ert and cl-lib unconditionally
+        22c10f9 Delete bundled cl-lib.el and ert.el
+        b430ea8 Add .elpaignore
+        1596a7c Checkdoc fixes
+        400c483 Add LICENSE
+        4c3c260 Update library headers
+        049282b Shorten first lines of two docstrings
+        290e412 Remove stray declare form
+        2d0091b Avoid positional arguments to define-minor-mode
+        abed4cb Continue to extend macrostep-expansion-highlight-face to window edge
+    ✓ (276/433) php-mode: c3c442a -> f5c4016 [13 commit(s)]
+        f5c4016 Update AUTHORS
+        9603a4f Revert string-trim-right
+        08ef915 Revert "Use compat-string-trim-* functions for compatibility"
+        cf10f7c Use compat-string-trim-* functions for compatibility
+        f35bf9a Add php-mode-version-id and make obsolete php-mode-version-number
+        7853345 Update CHANGELOG
+        258d6c5 Add Psalm template annotations to php-phpdoc-type-tags
+        0bbdc46 Add "type" to php-phpdoc-type-tags as "phpstan-type"
+        44601ab Add "phan" to type tag vendor prefix
+        08776c1 Changed variable name to php-phpdoc-type-names to avoid confusion
+        fe8ab09 Add key-of and value-of type (#716)
+        3321d49 Add @param-out keyword in php-phpdoc-type-tags (#715)
+        235c9a0 Add @phpstan-self-out and @phpstan-this-out keywords (#714)
+    ✓ (282/433) emacs-async: ffde304 -> 10cedd8 [1 commit(s)]
+        91bd569 dired-async: Explicitly tag dired-async processes
+    ✓ (318/433) telega.el: 10bca59 -> 31a695a [1 commit(s)]
+        31a695a Correct a trivial event message misspelling (#382)
+    > In repository "mastodon.el", remote "origin" has URL
+      "https://github.com/jdenen/mastodon.el.git"
+    but recipe specifies a URL of
+      "https://codeberg.org/martianh/mastodon.el.git"
+
+         1) Abort
+         2) Rename remote "origin" to "origin-1", re-create "origin" with correct URL, and fetch
+         3) Rename remote "origin" manually, re-create it with correct URL, and fetch
+         4) Delete remote "origin", re-create it with correct URL, and fetch (Choose this if unsure)
+         5) Delete remote "origin", re-create it with manually set URL, and fetch
+
+      How to proceed? (1, 2, 3, 4, 5; don't know? Pick 4)       Really delete remote "origin"? (y or n)     > In repository "mastodon.el", HEAD on "master" is behind default branch "main"
+
+         1) Abort
+         2) Checkout "main"
+         3) Magit log "master..main" and open recursive edit
+
+      How to proceed? (1, 2, 3)     ✓ (322/433) mastodon.el: ef10fe5 -> 2d25c15 [917 commit(s)]
+        50bd192 Revert "FIX getting of 'parent-toot properties in mastodon-toot--reply"
+        7b5b03b get instance from account/url, so it works for ppl on own instance
+        0b7c807 t = yes, :json-false = no, in instance description display
+        e07ccef FIX fetching parent toot in --reply, for notifs
+        f324c1c woodpecker 27 not 27.1
+        57bc256 Revert "mandate 27.1 for woodpecker (debian stable)"
+        220a883 mandate 27.1 for woodpecker (debian stable)
+        7dc15fc separate pipline names + only CI on main/develop
+        56d305e separate pipline names + only CI on main/develop
+        7a4e4e0 add emacs 27 to woodpecker
+        604fe15 add emacs 27 to woodpecker
+        c0a267f add emacs 27 to woodpecker
+        56b820e check version in woodpecker
+        cf02b35 autoload profile-account-settings in mastodon.el
+        6b88c28 handle empty relationships vector in make-buffer-for
+        0798cf6 handle empty relationships vector in make-buffer-for
+        020c8ef FIX getting of 'parent-toot properties in mastodon-toot--reply
+        c917a2d FIX getting of 'parent-toot properties in mastodon-toot--reply
+        e8432a9 FIX getting of 'parent-toot properties in mastodon-toot--reply
+        9420b5e FIX getting of 'parent-toot properties in mastodon-toot--reply
+        [...]
+    ✓ (349/433) magit-section was updated indirectly (with magit)
+    ✓ Updated 15 package(s)
+    > (Re)building packages...
+      > Building async...
+      > Building magit-section...
+      > Building lsp-tailwindcss...
+      > Building lsp-tailwindcss > Building lsp-mode...
+      > Building lsp-tailwindcss...
+      > Building corfu...
+      > Building doom-modeline...
+      > Building evil...
+      > Building magit...
+      > Building magit > Building git-commit...
+      > Building magit...
+      > Building vterm...
+      > Building consult-lsp...
+      > Building macrostep...
+      > Building php-mode...
+      > Building telega...
+      > Building mastodon...
+      ✓ Rebuilt 15 package(s)
+  > Purging orphaned packages (for the emperor)...
+    > Purging straight builds...
+      ✓ Purged build/ucs-utils
+    - No ELPA packages to purge
+    > Purging straight repositories...
+      ✓ Purged repos/spell-fu
+      ✓ Purged repos/ucs-utils
+    > Regrafting 414 repos...
+      ✓ Finished regrafting. Size before: 0.0KB and after: 0.0KB (0.0KB)
+    > Purging old native bytecode...
+      - Deleting "28.2-48ec18bb"
+      ✓ Purged 1 directory(ies)
+  > (Re)building profile in /Users/nopan/.config/emacs/.local/etc/@/...
+    > Deleting old init files...
+    > Generating 4 init files...
+    > Byte-compiling ~/.config/emacs/.local/etc/@init.28.el...
+    ✓ Built init.28.elc
+  - Restart Emacs or use 'M-x doom/reload' for changes to take effect
+✓ Finished in 17m 28s
