@@ -3578,3 +3578,170 @@ doom sync -up!j 8
     ✓ Built init.28.elc
   - Restart Emacs or use 'M-x doom/reload' for changes to take effect
 ✓ Finished in 17m 28s
+** <2022-11-07 Mon 21:11>
+> Tangling your literate config...
+  ✓ Done tangling 44 file(s)!
+> Synchronizing "default" profile...
+  > Regenerating envvars file
+    ✓ Generated ~/.config/emacs/.local/env
+  > Installing packages...
+    - No packages need to be installed
+  > (Re)building packages...
+    - No packages need rebuilding
+  > Updating recipe repos...
+    ✓ melpa updated (1b2c64c -> aaf337a)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/melpa/
+        $ git config --get remote.origin.url
+      
+        https://github.com/melpa/melpa.git
+      
+        [Return code: 0]
+      
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/melpa/
+        $ git fetch origin
+      
+        From https://github.com/melpa/melpa
+           1b2c64ce..aaf337a7  master     -> origin/master
+    ✓ el-get updated (0a9d568 -> 938aa10)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/el-get/
+        $ git config --get remote.origin.url
+      
+        https://github.com/dimitri/el-get.git
+      
+        [Return code: 0]
+      
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/el-get/
+        $ git fetch origin
+      
+        From https://github.com/dimitri/el-get
+           0a9d568..938aa10  master     -> origin/master
+    ✓ emacsmirror-mirror updated (66865c4 -> 925ac28)
+      - $ cd /Users/nopan/.config/emacs/.local/straight/repos/emacsmirror-mirror/
+        $ git config --get remote.origin.url
+      
+        https://github.com/emacs-straight/emacsmirror-mirror.git
+      
+        [Return code: 0]
+      
+        $ cd /Users/nopan/.config/emacs/.local/straight/repos/emacsmirror-mirror/
+        $ git fetch origin
+      
+        From https://github.com/emacs-straight/emacsmirror-mirror
+           66865c4..925ac28  master     -> origin/master
+  > Updating packages (this may take a while)...
+    ✓ (36/430) .doom.d-2nd: c5bed00 -> 1f6838b [7 commit(s)]
+        1f6838b disable eaf
+        45dc4a9 clean up and bump packages.el
+        d787290 set up load path differently
+        fadab03 adjust enabled doom org modules
+        7f809c4 adjust some org-roam worlflow settings
+        5de2b67 adjust to the name change from upstream
+        1a3646e remove malfunctioning statement
+    ✓ (45/430) org-roam-ui: 6bf6a5e -> 5ac7496 [2 commit(s)]
+        5ac7496 chore: build
+        fc90956 Updating overflow prop on math/latex displays to be auto so scrollbars appear consistently between browsers.
+    ✓ (62/430) vertico: bfdc174 -> 5499642 [1 commit(s)]
+        5499642 Simplify, replace vertico--allow-prompt-p function with variable
+    ✓ (81/430) doom-modeline: 87b9289 -> 4729f2b [2 commit(s)]
+        4729f2b Update remapping faces.
+        1cd3d1c Fix: displaying modal text instead of icon had been ignored
+    ✓ (87/430) treemacs: 984099b -> 3b525ea [1 commit(s)]
+        3b525ea [Compatibility] Enable evil-escape integration if a newer version is used.
+    ✓ (88/430) treemacs-evil was updated indirectly (with treemacs)
+    ✓ (89/430) treemacs-projectile was updated indirectly (with treemacs)
+    ✓ (90/430) treemacs-magit was updated indirectly (with treemacs)
+    ✓ (91/430) treemacs-persp was updated indirectly (with treemacs)
+    ✓ (99/430) evil: f921816 -> c59f2c0 [1 commit(s)]
+        c59f2c0 gp & gP linewise & blockwise
+    ✓ (148/430) flycheck: d72c29f -> 5f31d75 [1 commit(s)]
+        137b637f Enable json checkers for js-json-mode as well
+    ✓ (158/430) citeproc-el: e705911 -> 69536c8 [6 commit(s)]
+        8478073 Add org-latex formatter
+        d89df23 Don't test on Emacs 26
+        6f4d515 Use short title for title-only cite
+        0beab2c Use short title for title-only cites
+        2c9df46 Use the biblatex->csl converter to convert org-bibtex entries
+        406bd99 Merge pull request #117 from andras-simonyi/Add_acknowledgements_to_README
+    ✓ (166/430) envrc: 0cd450a -> d55ee22 [1 commit(s)]
+        2a4812d Fix setting of PATH in eshell for Emacs 29.0.1
+    ✓ (170/430) editorconfig-emacs: bd1d9c3 -> 3352e48 [1 commit(s)]
+        3352e48 Prepare v0.9.1 (#281)
+    ✓ (179/430) lsp-mode: 54cdc61 -> 59eeba7 [1 commit(s)]
+        59eeba7 Support for native json-rpc (#3792)
+    ✓ (208/430) cider: e9324ac -> f56fb01 [1 commit(s)]
+        f56fb019 Update cli-suitable link
+    ✓ (236/430) markdown-mode: 7030c72 -> c338cdf [1 commit(s)]
+        8f53f62 Change dev version string to match Emacs expected format.
+    ✓ (273/430) php-mode: f5c4016 -> 2bc4db0 [7 commit(s)]
+        7bcc9d6 Remove php-mode-disable-c-auto-align-backslashes and always disabled
+        a8a62f3 Make append to flymake-allowed-file-name-masks only in legacy
+        330070d Fix php-flymake-php-init for legacy flymake
+        0902894 Add php-mode-replace-flymake-diag-function
+        dc67eae Add php-flymake.el
+        683211c Remove 'flymake-cc from flymake-diagnostic-functions
+        0260bd2 Make obsolete php-mode-disable-c-mode-hook variable
+    ✓ (315/430) telega.el: 31a695a -> 870fe32 [1 commit(s)]
+        870fe32 Fixes
+    ✓ (319/430) mastodon.el: 2d25c15 -> e61ba4c [926 commit(s)]
+        e61ba4c add dash to handles regex
+        327bcc8 propertize hashtags and handles in toot compose buffer
+        8f5cb76 boilerplate
+        32679d7 edit header prop line for melpa
+        8499e99 readme deps
+        6556a83 Revert "fetch-server-account-settings: only fetch if var not set"
+        10c5926 use ts library to format poll expiry
+        437a4f0 readme re poll
+        8da3601 pretty expiry display and voter count
+        2e89ac9 poll - add collection of expiry times
+        70c40eb rename --make-poll-params to --make-poll-options-params
+        ebbe537 small improvements to poll display in timeline
+        af6cbd5 basic poll creation, with all options
+        f5257ee basic poll create funs
+        6d11e60 Revert "remove unused --append-query-string"
+        1c1e828 http.el docstrings
+        bcf418d flycheck requires / thingatpt fun
+        b2d79ea toot--kill: fix delete after change funs fun name
+        0f85f3d convert :json-false to nil in account settings handling
+        42990b2 fetch-server-account-settings: only fetch if var not set
+        [...]
+    ✓ Updated 20 package(s)
+    > (Re)building packages...
+      > Building editorconfig...
+      > Building aj-dark+-theme...
+      > Building org-roam-ui...
+      > Building treemacs...
+      > Building lsp-mode...
+      > Building lsp-mode > Building markdown-mode...
+      > Building lsp-mode...
+      > Building vertico...
+      > Building flycheck...
+      > Building doom-modeline...
+      > Building evil...
+      > Building treemacs-evil...
+      > Building treemacs-projectile...
+      > Building treemacs-magit...
+      > Building treemacs-persp...
+      > Building citeproc...
+      > Building envrc...
+      > Building cider...
+      > Building php-mode...
+      > Building telega...
+      > Building mastodon...
+      > Building mastodon > Cloning ts.el...
+      > Building mastodon > Building ts...
+      > Building mastodon...
+      ✓ Rebuilt 21 package(s)
+  > Purging orphaned packages (for the emperor)...
+    - No builds to purge
+    - No ELPA packages to purge
+    > Purging straight repositories...
+    > Regrafting 412 repos...
+      ✓ Finished regrafting. Size before: 0.0KB and after: 0.0KB (0.0KB)
+    - No ELN directories to purge
+  > (Re)building profile in /Users/nopan/.config/emacs/.local/etc/@/...
+    > Deleting old init files...
+    > Generating 4 init files...
+    > Byte-compiling ~/.config/emacs/.local/etc/@init.28.el...
+    ✓ Built init.28.elc
+  - Restart Emacs or use 'M-x doom/reload' for changes to take effect
+✓ Finished in 7m 53s
