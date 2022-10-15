@@ -4031,7 +4031,7 @@ This module has no prerequisites.
 **** packages.el
 [[file:packages.org::*Brief][Brief]]
 *** Copilot
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defun corfu-next-or-copilot-completion ()
   (interactive)
   (or (copilot-accept-completion)
