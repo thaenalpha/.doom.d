@@ -906,8 +906,8 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 
 (add-hook 'org-mode-hook #'org-modern-mode)
 (after! org-modern
-  (setq org-modern-star ["❯" "◉" "○" "◈" "◇" "✳"]
-        org-modern-list '((43 . "➤")
+  (add-to-list 'org-modern-star "❯")
+  (setq org-modern-list '((43 . "➤")
                           (45 . "–")
                           (42 . "✓"))))
 

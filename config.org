@@ -3285,8 +3285,8 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
  #+begin_src emacs-lisp
 (add-hook 'org-mode-hook #'org-modern-mode)
 (after! org-modern
-  (setq org-modern-star ["❯" "◉" "○" "◈" "◇" "✳"]
-        org-modern-list '((43 . "➤")
+  (add-to-list 'org-modern-star "❯")
+  (setq org-modern-list '((43 . "➤")
                           (45 . "–")
                           (42 . "✓"))))
  #+end_src
