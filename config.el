@@ -621,7 +621,6 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 ;;; :lang org
 (after! org
   (setq org-hide-emphasis-markers t
-        org-startup-with-inline-images t
         org-support-shift-select t
         ;; use g{h,j,k} to traverse headings and TAB to toggle their
         ;; visibility and leave C-left/C-right to .

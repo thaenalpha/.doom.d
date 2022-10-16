@@ -3272,7 +3272,6 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 ;;; :lang org
 (after! org
   (setq org-hide-emphasis-markers t
-        org-startup-with-inline-images t
         org-support-shift-select t
         ;; use g{h,j,k} to traverse headings and TAB to toggle their
         ;; visibility and leave C-left/C-right to .
