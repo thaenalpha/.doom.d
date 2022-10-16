@@ -96,6 +96,18 @@ If the hour is (both inclusive) in `light-hours' then
   :commands minibuffer-header-mode
   :hook (minibuffer-setup . minibuffer-header-mode))
 
+(defun mode-line-enable-top ()
+  "Display mode line on the top side."
+  (interactive)
+  (when mode-line-format (setq header-line-format mode-line-format
+                               mode-line-format nil)))
+
+(defun mode-line-enable-bottom ()
+  "Display mode line on the bottom side."
+  (interactive)
+  (when header-line-format (setq mode-line-format header-line-format
+                                 header-line-format nil)))
+
 ;; Roll the mouse wheel to scrolls the display pixel-by-pixel.
 (when (fboundp #'pixel-scroll-precision-mode) ; EMACS29+
   (pixel-scroll-precision-mode t))

@@ -393,6 +393,22 @@ Header line powered by [[doom-package:][minibuffer-header]]
 (minibuffer-header-mode -1)
   #+end_src
 
+** Mode Line
+The feature of [[elisp:(howdoyou-promise-answer "Moving the mode line and minibuffer to the top")][moving the mode line to the top]] is useful for MacBook M1 Pro.
+#+begin_src emacs-lisp
+(defun mode-line-enable-top ()
+  "Display mode line on the top side."
+  (interactive)
+  (when mode-line-format (setq header-line-format mode-line-format
+                               mode-line-format nil)))
+
+(defun mode-line-enable-bottom ()
+  "Display mode line on the bottom side."
+  (interactive)
+  (when header-line-format (setq mode-line-format header-line-format
+                                 header-line-format nil)))
+#+end_src
+
 ** Miscellaneous
 *** Scrolling
 #+begin_src emacs-lisp
