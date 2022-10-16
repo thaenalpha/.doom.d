@@ -386,6 +386,13 @@ Header line powered by [[doom-package:][minibuffer-header]]
   :hook (minibuffer-setup . minibuffer-header-mode))
 #+end_src
 
++ Due to the development state, it may have some bugs. If that’s the case, here
+  is how to disable it:
+  #+begin_src emacs-lisp :tangle no
+(remove-hook! minibuffer-setup #'minibuffer-header-mode)
+(minibuffer-header-mode -1)
+  #+end_src
+
 ** Miscellaneous
 *** Scrolling
 #+begin_src emacs-lisp
