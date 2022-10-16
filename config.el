@@ -1200,3 +1200,10 @@ Prodigy processes with that status")
 ;;; Local Variables
 (put 'flycheck-textlint-executable 'safe-local-variable #'stringp)
 (put 'quickrun-option-command      'safe-local-variable #'stringp)
+
+(defun random-achar ()
+  "Random a key character on *Select Link* buffer"
+  (interactive)
+  (let* ((achar "abcdefghijklmnopqrstuvwxyz1234567890:;<=>?@")
+         (i (% (abs (random)) (length achar))))
+    (print! (substring achar i (1+ i)))))

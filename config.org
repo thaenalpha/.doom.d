@@ -4549,3 +4549,12 @@ A list of files considered marking the root of a project.
 
 #+Original Value:
 | .projectile | .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
+** Random a character
+#+begin_src emacs-lisp
+(defun random-achar ()
+  "Random a key character on *Select Link* buffer"
+  (interactive)
+  (let* ((achar "abcdefghijklmnopqrstuvwxyz1234567890:;<=>?@")
+         (i (% (abs (random)) (length achar))))
+    (print! (substring achar i (1+ i)))))
+#+end_src
