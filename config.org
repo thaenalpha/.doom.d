@@ -4556,5 +4556,5 @@ A list of files considered marking the root of a project.
   (interactive)
   (let* ((achar "abcdefghijklmnopqrstuvwxyz1234567890:;<=>?@")
          (i (% (abs (random)) (length achar))))
-    (print! (substring achar i (1+ i)))))
+    (message (substring achar i (1+ i)))))
 #+end_src
