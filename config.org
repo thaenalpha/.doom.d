@@ -3284,7 +3284,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)))
 #+end_src
 *** Org
-- _Configuration_
++ _Configuration_
 
   Put any basic configuration here
 
@@ -3301,7 +3301,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
   <<org-conf>>)
 #+end_src
 
-- _Org Modern_
++ _Org Modern_
  #+begin_src emacs-lisp
 (add-hook 'org-mode-hook #'org-modern-mode)
 (after! org-modern
@@ -3344,7 +3344,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
   (run-at-time nil nil #'org-appear--set-elements))
  #+end_src
 
-- _Heading structure_
++ _Heading structure_
  #+begin_src emacs-lisp
 (after! org-ol-tree
   (defadvice! org-ol-tree-system--graphical-frame-p--pgtk ()
@@ -3356,7 +3356,7 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 :desc "Outline" "O" #'org-ol-tree
 #+end_src
 
-- Transclusion
++ Transclusion
  #+name: f12 --- Transclusion Add
     #+begin_src emacs-lisp :tangle no
 "<f12>" #'org-transclusion-add
@@ -3366,7 +3366,8 @@ Then it uses `node-gyp` to build the extension but it failed without messages yo
 :desc "Org Transclusion Mode" "T" #'org-transclusion-mode
   #+end_src
 
-- Capture
++ Capture
+
  #+begin_quote
 From the @Tecosaur's Emacs configuration.
 #+end_quote
@@ -3653,7 +3654,7 @@ is selected, only the bare key is returned."
         (org-capture)))
 #+end_src
 
-- _Display inline image for url that not end with ext.(like shields.io)_
++ _Display inline image for url that not end with ext.(like shields.io)_
 
   [[help:image-type-file-name-regexps][image-type-file-name-regexps]] is used to detect the image type. It's a list of
   regexps. The first one that matches the file name in org-link is used to
@@ -3698,7 +3699,7 @@ is selected, only the bare key is returned."
       nil)))
 #+end_src
 
-- _Org Capture from Web browser_
++ _Org Capture from Web browser_
 
   To let this configuration works, =Org Capture= browser's extension and
   =org-protocol= handler is required.
@@ -3766,7 +3767,7 @@ REGEDIT4
           "* %c :website:\n%U %?%:initial"))))
  #+end_src
 
-- Extend ~org-edit-special~ to support quote, verse, and comment blocks
++ Extend ~org-edit-special~ to support quote, verse, and comment blocks
   #+begin_src emacs-lisp
 (add-hook 'org-mode-hook #'org-edit-indirect-mode)
   #+end_src
