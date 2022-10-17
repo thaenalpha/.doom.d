@@ -1081,6 +1081,18 @@ rm -r modules/app/telega
                                                :depth 2)))))))))
 #+end_src
 
+*** Syntax :flycheck:
+
+#+begin_src emacs-lisp
+;;; :checkers syntax
+(after! flycheck
+  (flycheck-add-mode 'html-tidy 'web-mode)
+  (setq flycheck-tidyrc (expand-file-name "~/.tidyrc")
+        flycheck-javascript-eslint-executable "eslint_d"
+        flycheck-stylelintrc ".stylelintrc.json"
+        flycheck-global-modes '(not org-mode)))
+#+end_src
+
 ** Completion :completion:
 *** Corfu
 - *Features*

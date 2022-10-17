@@ -356,6 +356,14 @@ If the hour is (both inclusive) in `light-hours' then
                                                :type 'dirs
                                                :depth 2)))))))))
 
+;;; :checkers syntax
+(after! flycheck
+  (flycheck-add-mode 'html-tidy 'web-mode)
+  (setq flycheck-tidyrc (expand-file-name "~/.tidyrc")
+        flycheck-javascript-eslint-executable "eslint_d"
+        flycheck-stylelintrc ".stylelintrc.json"
+        flycheck-global-modes '(not org-mode)))
+
 ;;; :completion company +tabnine
 (when (featurep! :completion company +tabnine)
   (add-to-list 'company-backends #'company-tabnine)
