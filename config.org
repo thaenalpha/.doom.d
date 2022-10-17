@@ -38,6 +38,9 @@
     - [[#frame-sizing][Frame sizing]]
     - [[#mouse-color][Mouse color]]
     - [[#prevents-some-cases-of-emacs-flickering][Prevents some cases of Emacs flickering.]]
+    - [[#scroll-bar][Scroll bar]]
+  - [[#minibuffer][Minibuffer]]
+  - [[#mode-line][Mode Line]]
   - [[#miscellaneous][Miscellaneous]]
     - [[#scrolling][Scrolling]]
 - [[#keyboard-shortcuts][Keyboard Shortcuts]]
@@ -48,7 +51,6 @@
     - [[#md4rd][Md4rd]]
   - [[#better-defaults-packages][Better defaults packages]]
     - [[#info-colors][info-colors]]
-    - [[#minibuffer-header-line][Minibuffer header line]]
     - [[#ctrlf][ctrlf]]
     - [[#dirvish][dirvish]]
 - [[#time--language][Time & language]]
@@ -69,6 +71,7 @@
     - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
   - [[#checkers][Checkers]]
     - [[#grammar][Grammar]]
+    - [[#syntax][Syntax]]
   - [[#completion][Completion]]
     - [[#corfu][Corfu]]
     - [[#tabnine][Tabnine]]
@@ -125,6 +128,7 @@
   - [[#directory-local-variables][Directory Local Variables]]
   - [[#safe-local-variables][safe-local-variables]]
   - [[#marking-the-root-of-a-project][Marking the root of a project]]
+  - [[#random-a-character][Random a character]]
 
 * System
 #+begin_src emacs-lisp
