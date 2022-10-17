@@ -359,7 +359,8 @@ display-line-numbers-type  'visual
 #+begin_src emacs-lisp :tangle no :noweb no-export
 (dolist (params '(<<frame-size>>
                   <<mouse-color>>
-                  <<prevents-flickering>>))
+                  <<prevents-flickering>>
+                  <<scroll-bar>>))
   (add-to-list 'default-frame-alist params))
 #+end_src
 *** Frame sizing
@@ -376,6 +377,11 @@ display-line-numbers-type  'visual
 #+name: prevents-flickering
 #+begin_src emacs-lisp :tangle no :noweb no-export
 (inhibit-double-buffering . t)
+#+end_src
+*** Scroll bar
+#+name: scroll-bar
+#+begin_src emacs-lisp :tangle no
+(scroll-bar-width . 11)
 #+end_src
 
 ** Minibuffer :ui:

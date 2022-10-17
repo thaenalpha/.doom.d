@@ -51,7 +51,8 @@
 
 (dolist (params '((height . 50) (width . 162)
                   (mouse-color . "red")
-                  (inhibit-double-buffering . t)))
+                  (inhibit-double-buffering . t)
+                  (scroll-bar-width . 11)))
   (add-to-list 'default-frame-alist params))
 
 (use-package straight
