@@ -12,7 +12,7 @@
 (setq user-full-name "Nopanun Laochunhanun"
       user-mail-address "nopanun@pm.me")
 
-(when-let ((authinfo (and IS-MAC "~/.authinfo.gpg"))) ; Ghub's preference.
+(when-let (authinfo (and IS-MAC "~/.authinfo.gpg")) ; Ghub's preference.
   (setq auth-sources (cons authinfo (remove authinfo auth-sources))))
 #+end_src
 
