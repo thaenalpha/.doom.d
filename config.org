@@ -204,6 +204,8 @@ That way, you only need to suffer that slowness once, when it is needed.
  #+end_quote
 2. [[file:init.org::*Disable some of Doom’s slowest modules.][Disable some of Doom’s slowest modules.]]
 3. Turn off line numbers:
+
+   #+name: line-numbers-setting
  #+begin_src emacs-lisp :tangle no
 display-line-numbers-type  nil
 #+end_src
@@ -353,7 +355,7 @@ variable-pitch-serif-font  (font-spec :family "Alegreya" :size 24)
 #+end_src
 
 ** Line numbers
-#+name: line-numbers-setting
+
 #+begin_src emacs-lisp :tangle no
 display-line-numbers-type  'visual
 #+end_src

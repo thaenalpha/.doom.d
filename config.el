@@ -33,7 +33,7 @@
 ;;
 ;;; UI
 
-(setq display-line-numbers-type  'visual
+(setq display-line-numbers-type  nil
       +treemacs-git-mode         'deferred
       aj-dark+-blue-modeline              t
       doom-acario-light-brighter-modeline t
