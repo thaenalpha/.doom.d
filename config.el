@@ -37,7 +37,7 @@
       +treemacs-git-mode         'deferred
       aj-dark+-blue-modeline              t
       doom-acario-light-brighter-modeline t
-      doom-modeline-height       22
+      doom-modeline-height       30
       doom-themes-treemacs-theme 'doom-colors
       doom-font    (let ((font-family `(font-spec
                                         :family ,(format "JetBrains%sMono"

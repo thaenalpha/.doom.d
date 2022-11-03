@@ -303,7 +303,7 @@ auto
 #+begin_src emacs-lisp :tangle no
 aj-dark+-blue-modeline              t
 doom-acario-light-brighter-modeline t
-doom-modeline-height       22
+doom-modeline-height       30
 doom-themes-treemacs-theme 'doom-colors
 #+end_src
 
