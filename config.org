@@ -164,7 +164,7 @@ When I split a window, show prompt for which buffer I want to see
   (display-battery-mode 1)) ; it's nice to know how much power you have
 #+end_src
 ** Startup
-- *doom:scrath*
+- *[[elisp:(doom/open-scratch-buffer)][doom:scrath]]*
  #+begin_quote
 When I bring up Doom's scratch buffer with SPC x, it's often to play with
 elisp or note something down (that isn't worth an entry in my org files).
