@@ -149,6 +149,10 @@ If the hour is (both inclusive) in `light-hours' then
       :n  "C-0"   #'doom/reset-font-size
       :n  "C-+"   #'text-scale-increase
       :n  "M-C-+" #'doom/increase-font-size
+      :ng "S-<left>"  #'evil-window-left
+      :ng "S-<right>" #'evil-window-right
+      :ng "S-<up>"    #'evil-window-up
+      :ng "S-<down>"  #'evil-window-down
       (:when (or IS-WINDOWS
                  (getenv "WSLENV"))
        :n "C-SPC" #'just-one-space)
