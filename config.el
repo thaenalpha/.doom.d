@@ -200,15 +200,11 @@ If the hour is (both inclusive) in `light-hours' then
 
       (:when (featurep! :emacs dired +dirvish)
        :map dirvish-mode-map
-       "M-m"     #'dirvish-toggle-fullscreen
-       "C-c C-f" #'fd-dired
-       [remap dired-do-copy]       #'dirvish-yank
-       [remap dired-do-redisplay]  #'dirvish-roam
-       [remap evil-backward-char]  #'dirvish-up-directory
-       [remap evil-forward-char]   #'dirvish-find-file
-       [remap evil-find-char]      #'dirvish-menu-file-info-cmds
-       [remap evil-ex-search-backward] #'dirvish-dispatch
-       [remap evil-switch-to-windows-last-buffer] #'dirvish-other-buffer)
+       "M-m"                           #'dirvish-toggle-fullscreen
+       "C-c C-f"                       #'dirvish-fd
+       [remap dired-do-copy]           #'dirvish-yank
+       [remap dired-do-redisplay]      #'dirvish-roam
+       [remap evil-ex-search-backward] #'dirvish-dispatch)
 
       (:when (featurep! :term vterm)
        :map vterm-mode-map

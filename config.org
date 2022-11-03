@@ -635,15 +635,11 @@ A modern file manager based on ~dired-mode~, [[github:ralesi/ranger.el][ranger]]
 #+name: Overide dired-mode-map
 #+begin_src emacs-lisp :tangle no
 :map dirvish-mode-map
-"M-m"     #'dirvish-toggle-fullscreen
-"C-c C-f" #'fd-dired
-[remap dired-do-copy]       #'dirvish-yank
-[remap dired-do-redisplay]  #'dirvish-roam
-[remap evil-backward-char]  #'dirvish-up-directory
-[remap evil-forward-char]   #'dirvish-find-file
-[remap evil-find-char]      #'dirvish-menu-file-info-cmds
+"M-m"                           #'dirvish-toggle-fullscreen
+"C-c C-f"                       #'dirvish-fd
+[remap dired-do-copy]           #'dirvish-yank
+[remap dired-do-redisplay]      #'dirvish-roam
 [remap evil-ex-search-backward] #'dirvish-dispatch
-[remap evil-switch-to-windows-last-buffer] #'dirvish-other-buffer
 #+end_src
 
 * Time & language
