@@ -1,4 +1,4 @@
-* src_shell{doom up -p;alert} :doom:upgrade:log:
+* src_shell{doom sync -upj 8 | tee -a CHANGELOG.org; alert} :doom:upgrade:log:
 ** [2022-06-25 Sat 14:04]
 + Compiling your literate config...
   - Could not read `org-id-values' from /Users/nopan/.config/emacs/.local/cache/.org-id-locations, setting it to nil
