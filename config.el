@@ -198,13 +198,20 @@ If the hour is (both inclusive) in `light-hours' then
        :when (featurep! :completion vertico)
        [remap +hydra/window-nav/idomenu] #'consult-imenu)
 
+      ;;; :emacs dired
       (:when (featurep! :emacs dired +dirvish)
+       "C-c f"                           #'dirvish-fd
        :map dirvish-mode-map
-       "M-m"                           #'dirvish-toggle-fullscreen
-       "C-c C-f"                       #'dirvish-fd
-       [remap dired-do-copy]           #'dirvish-yank
-       [remap dired-do-redisplay]      #'dirvish-roam
-       [remap evil-ex-search-backward] #'dirvish-dispatch)
+       ;; left click for expand/collapse dir or open file
+       "<mouse-1>"                       #'dirvish-subtree-toggle-or-open
+       ;; middle click for opening file / entering dir in other window
+       "<mouse-2>"                       #'dired-mouse-find-file-other-window
+       ;; right click for opening file / entering dir
+       "<mouse-3>"                       #'dired-mouse-find-file
+       [remap dired-sort-toggle-or-edit] #'dirvish-quicksort        ; o
+       [remap dired-do-redisplay]        #'dirvish-ls-switches-menu ; r
+       [remap dired-do-copy]             #'dirvish-yank-menu        ; C
+       )
 
       (:when (featurep! :term vterm)
        :map vterm-mode-map
