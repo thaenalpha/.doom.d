@@ -420,6 +420,11 @@ The feature of [[elisp:(howdoyou-promise-answer "Moving the mode line and minibu
   (when header-line-format (setq mode-line-format header-line-format
                                  header-line-format nil)))
 #+end_src
+Keybinds to the above commands with [[kbd:][<leader> t]] prefix.
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-leader-toggle-map
+:desc "Up modeline"       "6"     #'mode-line-enable-top
+:desc "Down modeline"     "h"     #'mode-line-enable-bottom
+#+end_src
 
 ** Miscellaneous
 *** Scrolling
@@ -534,7 +539,10 @@ For the speed of expressions
          ;; <leader> s --- search
          (:prefix-map ("s" . "search")
           (:prefix-map ("a" . "Search in applications")
-           <<leader s a d --- Dash>>))))))
+           <<leader s a d --- Dash>>))
+         ;; <leader> t --- toggle
+         (:prefix-map ("t" . "toggle")
+          <<doom-leader-toggle-map>>)))))
 #+end_src
 #+name: leader o … --- open-with commands
 #+begin_src emacs-lisp :tangle no :noweb no-export

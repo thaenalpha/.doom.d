@@ -294,7 +294,11 @@ If the hour is (both inclusive) in `light-hours' then
          (:prefix-map ("s" . "search")
           (:prefix-map ("a" . "Search in applications")
            (:when (and IS-MAC (modulep! :tools lookup +docsets))
-            :desc "dash at point" "d" #'dash-at-point)))))))
+            :desc "dash at point" "d" #'dash-at-point)))
+         ;; <leader> t --- toggle
+         (:prefix-map ("t" . "toggle")
+          :desc "Up modeline"       "6"     #'mode-line-enable-top
+          :desc "Down modeline"     "h"     #'mode-line-enable-bottom)))))
 
 ;; Applies to first-time Gnus users
 (setq gnus-select-method '(nndiscourse "discourse.mozilla.org"
