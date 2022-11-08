@@ -357,7 +357,7 @@ variable-pitch-serif-font  (font-spec :family "Alegreya" :size 24)
 ** Line numbers
 
 #+begin_src emacs-lisp :tangle no
-display-line-numbers-type  'visual
+display-line-numbers-type  nil
 #+end_src
 
 ** Frame
