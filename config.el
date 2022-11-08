@@ -297,9 +297,8 @@ If the hour is (both inclusive) in `light-hours' then
             :desc "dash at point" "d" #'dash-at-point)))))))
 
 ;; Applies to first-time Gnus users
-(custom-set-variables '(gnus-select-method
-                        (quote (nndiscourse "discourse.mozilla.org"
-                                            (nndiscourse-scheme "https")))))
+(setq gnus-select-method '(nndiscourse "discourse.mozilla.org"
+                                       (nndiscourse-scheme "https")))
 
 ;;
 ;;; Time & language
