@@ -3721,21 +3721,27 @@ is selected, only the bare key is returned."
 ;;;###autoload
 (defun +org-http-with-desc-image-data-fn (protocol link description)
   "Return the image data for URL."
-  (when-let (which (and (not (eq org-display-remote-inline-images 'skip))
-                        (or (and (image-type-from-file-name description)
-                                 'description)
-                            (and (image-type-from-file-name link)
-                                 'link))))
-    (if-let* ((link (if (eq which 'link)
-                        (concat protocol ":" link)
-                      description))
-              (buf (url-retrieve-synchronously link)))
-        (with-current-buffer buf
-          (goto-char (point-min))
-          (re-search-forward "\r?\n\r?\n" nil t)
-          (buffer-substring-no-properties (point) (point-max)))
-      (message "Download of image \"%s\" failed" link)
-      nil)))
+  (when-let
+      (image-url
+       (and (not (eq org-display-remote-inline-images 'skip))
+            (or (and description
+                     (or (and (image-type-from-file-name
+                               description)
+                              description)
+                         (and (equal (substring description 0 3)
+                                     "img")
+                              (setq protocol "img" description
+                                    (substring description 4)))))
+                (and (image-type-from-file-name link)
+                     (concat protocol ":" link)))))
+    (if (equal protocol "img") (base64-decode-string image-url)
+      (if-let ((buf (url-retrieve-synchronously image-url)))
+          (with-current-buffer buf
+            (goto-char (point-min))
+            (re-search-forward "\r?\n\r?\n" nil t)
+            (buffer-substring-no-properties (point) (point-max)))
+        (message "Download of image \"%s\" failed" image-url)
+        nil))))
 #+end_src
 
 + _Org Capture from Web browser_
