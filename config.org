@@ -3728,7 +3728,8 @@ is selected, only the bare key is returned."
                      (or (and (image-type-from-file-name
                                description)
                               description)
-                         (and (equal (substring description 0 3)
+                         (and (length> description 11)
+                              (equal (substring description 0 3)
                                      "img")
                               (setq protocol "img" description
                                     (substring description 4)))))
