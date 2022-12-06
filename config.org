@@ -4525,7 +4525,7 @@ My current development external services & code builders:
   :name "PHP-FPM"
   :command "php-fpm"
   :args '("--nodaemonize")
-  :tags '(work php)
+  :tags '(work lang)
   :stop-signal 'kill
   :kill-process-buffer-on-stop t)
    #+end_src
@@ -4535,7 +4535,7 @@ My current development external services & code builders:
   :name "mysqld daemon"
   :command "mysqld_safe"
   :args '("--datadir=/opt/homebrew/var/mysql")
-  :tags '(work mysql)
+  :tags '(work dbms)
   :stop-signal 'kill
   :kill-process-buffer-on-stop t)
 #+end_src
@@ -4544,7 +4544,7 @@ My current development external services & code builders:
 (prodigy-define-service
   :name "Redis server"
   :command "redis-server"
-  :tags '(work redis)
+  :tags '(work cache)
   :stop-signal 'kill
   :kill-process-buffer-on-stop t)
 #+end_src
