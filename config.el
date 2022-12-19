@@ -328,14 +328,14 @@ If the hour is (both inclusive) in `light-hours' then
 
 ;;; :app mastodon
 (after! mastodon
- (setq mastodon-instance-url "https://mstdn.io"))
+  (setq mastodon-instance-url "https://mstdn.io"))
 
 ;;; :app reddit
 (after! md4rd
   (let ((reddit-auth (lambda (type)
-                       (funcall
-                        (plist-get (car (auth-source-search :user type))
-                                   :secret)))))
+                       (funcall (plist-get (car (auth-source-search
+                                                 :user type))
+                                           :secret)))))
     (setq md4rd-subs-active
           '(
             emacs+doomemacs+orgmode lisp+Common_Lisp+prolog+clojure javascript

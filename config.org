@@ -604,9 +604,9 @@ guix bashonubuntuonwindows hackernews graphql cscareerquestions
 #+name: md4rd-conf
 #+begin_src emacs-lisp :tangle no :noweb no-export
 (let ((reddit-auth (lambda (type)
-                     (funcall
-                      (plist-get (car (auth-source-search :user type))
-                                 :secret)))))
+                     (funcall (plist-get (car (auth-source-search
+                                               :user type))
+                                         :secret)))))
   (setq md4rd-subs-active
         '(
           <<your-subreddits>>)
@@ -785,7 +785,7 @@ rm -r modules/app/edit-server
 #+begin_src emacs-lisp :noweb no-export
 ;;; :app mastodon
 (after! mastodon
- (setq <<Mastodon Configuration>>))
+  (setq <<Mastodon Configuration>>))
 #+end_src
 **** README.org
 #+begin_src org :tangle modules/app/mastodon/README.org :mkdirp yes
