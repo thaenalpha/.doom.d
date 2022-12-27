@@ -3711,7 +3711,7 @@ is selected, only the bare key is returned."
             (or (and description
                      (or (and (image-type-from-file-name
                                description)
-                              description)
+                              (string-trim description "\\[\\["))
                          (and (length> description 11)
                               (equal (substring description 0 3)
                                      "img")
