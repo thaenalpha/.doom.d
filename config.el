@@ -352,21 +352,6 @@ If the hour is (both inclusive) in `light-hours' then
   (add-hook! elfeed-search-mode #'elfeed-update)
   (setq rmh-elfeed-org-auto-ignore-invalid-feeds t))
 
-;;; :checkers grammar
-(after! langtool
-  (unless (or langtool-bin
-              langtool-language-tool-jar
-              langtool-java-classpath)
-    (cond (IS-MAC
-           (cond
-            ;; is user using home brew?
-            ((file-directory-p "/opt/homebrew/Cellar/languagetool")
-             (setq langtool-language-tool-jar
-                   (locate-file "libexec/languagetool-commandline.jar"
-                                (doom-files-in "/opt/homebrew/Cellar/languagetool"
-                                               :type 'dirs
-                                               :depth 2)))))))))
-
 ;;; :checkers syntax
 (after! flycheck
   (flycheck-add-mode 'html-tidy 'web-mode)

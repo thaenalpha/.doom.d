@@ -70,7 +70,6 @@
     - [[#slack][Slack]]
     - [[#telega---full-featured-unofficial-client-for-telegram-platform-for-gnu-emacs][Telega - full featured unofficial client for Telegram platform for GNU Emacs.]]
   - [[#checkers][Checkers]]
-    - [[#grammar][Grammar]]
     - [[#syntax][Syntax]]
   - [[#completion][Completion]]
     - [[#corfu][Corfu]]
@@ -1079,24 +1078,6 @@ rm -r modules/app/telega
 **** [[file:packages.org::*Telega][packages.el]]
 
 ** Checkers :checkers:
-*** Grammar :languagetool:convenience:
-#+begin_src emacs-lisp
-;;; :checkers grammar
-(after! langtool
-  (unless (or langtool-bin
-              langtool-language-tool-jar
-              langtool-java-classpath)
-    (cond (IS-MAC
-           (cond
-            ;; is user using home brew?
-            ((file-directory-p "/opt/homebrew/Cellar/languagetool")
-             (setq langtool-language-tool-jar
-                   (locate-file "libexec/languagetool-commandline.jar"
-                                (doom-files-in "/opt/homebrew/Cellar/languagetool"
-                                               :type 'dirs
-                                               :depth 2)))))))))
-#+end_src
-
 *** Syntax :flycheck:
 
 #+begin_src emacs-lisp
