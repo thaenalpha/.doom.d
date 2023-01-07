@@ -14,6 +14,8 @@
 (package! minibuffer-header
   :recipe (:host github :repo "rougier/minibuffer-header"))
 (package! path-headerline-mode)
+(package! mentor)                  ; Frontend for the rTorrent bittorrent client
+(package! org-random-todo)
 
 ;;
 ;;; Tools
