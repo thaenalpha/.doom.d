@@ -597,7 +597,7 @@ Add something like this into your config:
 #+begin_src emacs-lisp :tangle no
 emacs+doomemacs+orgmode lisp+Common_Lisp+prolog+clojure javascript
 linux firefox ProgrammerHumor programming+learnprogramming webdev
-guix bashonubuntuonwindows hackernews graphql cscareerquestions
+guix+nixos BeMyReference hackernews graphql cscareerquestions
 #+end_src
 
 #+name: md4rd-conf

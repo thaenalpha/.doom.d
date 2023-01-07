@@ -340,7 +340,7 @@ If the hour is (both inclusive) in `light-hours' then
           '(
             emacs+doomemacs+orgmode lisp+Common_Lisp+prolog+clojure javascript
             linux firefox ProgrammerHumor programming+learnprogramming webdev
-            guix bashonubuntuonwindows hackernews graphql cscareerquestions)
+            guix+nixos BeMyReference hackernews graphql cscareerquestions)
           md4rd--oauth-access-token (funcall
                                      reddit-auth "me^access-token")
           md4rd--oauth-refresh-token (funcall
