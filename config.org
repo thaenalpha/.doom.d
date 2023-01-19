@@ -2767,6 +2767,18 @@ Dictionary of rotations to use. The most part was taken from [[github:dp12/parro
             '("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th")))
 #+end_src
 
+*** Substitute
+Efficiently replace targets in the buffer or context.
+#+begin_src emacs-lisp :tangle modules/editor/substitute/config.el :mkdirp yes
+;;; editor/substitute/config.el -*- lexical-binding: t; -*-
+
+(use-package! substitute
+  :config (map! "M-# s" #'substitute-target-below-point
+                "M-# r" #'substitute-target-above-point
+                "M-# d" #'substitute-target-in-defun
+                "M-# b" #'substitute-target-in-buffer))
+#+end_src
+
 ** Emacs :emacs:
 *** ctrlf :extension:
 #+begin_src emacs-lisp :tangle modules/emacs/ctrlf/config.el

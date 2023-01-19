@@ -129,6 +129,13 @@ Private or extra to the Doom modules
 
 ** Editor
 *** evil
+*** Substitute
+#+begin_src emacs-lisp :tangle modules/editor/substitute/packages.el :mkdirp yes
+;; -*- no-byte-compile: t; -*-
+;;; editor/substitute/packages.el
+
+(package! substitute)
+#+end_src
 ** Emacs
 *** ctrlf :extension:
 #+begin_src emacs-lisp :tangle modules/emacs/ctrlf/packages.el :mkdirp yes
