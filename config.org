@@ -3827,19 +3827,23 @@ REGEDIT4
       jiralib-url "https://cenergy.atlassian.net/")
 #+end_src
 **** Roam =+roam2=
- :PROPERTIES:
+:PROPERTIES:
 :CUSTOM_ID: org-roam
 :header-args:emacs-lisp: :noweb-ref org-roam-conf
 :END:
- This part is taken from @hlissner
- #+begin_src emacs-lisp :noweb no-export :noweb-ref nil
+
+This part is taken from @hlissner
+
+#+begin_src emacs-lisp :noweb no-export :noweb-ref nil
 (after! org-roam
   (setq
    <<Org-roam capture templates>>)
+
   <<org-roam-conf>>)
 #+end_src
+
 + Extend org-roam-capture-templates to include the new templates.
- #+name: Org-roam capture templates
+  #+name: Org-roam capture templates
   #+begin_src emacs-lisp :tangle no :noweb-ref nil
 org-roam-capture-templates
 `(("n" "note" plain
@@ -3904,38 +3908,55 @@ org-roam-capture-ref-templates
    :unnarrowed t))
  #+end_src
 Offer completion for ~#tags~ and ~@areas~ separately from notes.
- #+begin_src emacs-lisp :tangle no
-(add-to-list 'org-roam-completion-functions #'org-roam-complete-tag-at-point)
+
+#+begin_src emacs-lisp :tangle no
+(add-to-list 'org-roam-completion-functions
+             #'org-roam-complete-tag-at-point)
 #+end_src
+
 Automatically update the slug in the filename when #+title: has changed.
- #+begin_src emacs-lisp :tangle no
+
+#+begin_src emacs-lisp :tangle no
 (add-hook 'org-roam-find-file-hook #'org-roam-update-slug-on-save-h)
 #+end_src
+
 Make the backlinks buffer easier to peruse by folding leaves by default.
-  #+begin_src emacs-lisp :tangle no
-(add-hook 'org-roam-buffer-postrender-functions #'magit-section-show-level-2)
-  #+end_src
+
+#+begin_src emacs-lisp :tangle no
+(add-hook 'org-roam-buffer-postrender-functions
+          #'magit-section-show-level-2)
+#+end_src
+
 List dailies and zettels separately in the backlinks buffer.
+
 #+begin_src emacs-lisp :tangle no
 (advice-add #'org-roam-backlinks-section :override
             #'org-roam-grouped-backlinks-section)
 #+end_src
+
 Open in focused buffer, despite popups
+
 #+begin_src emacs-lisp :tangle no
 (advice-add #'org-roam-node-visit :around #'+popup-save-a)
 #+end_src
+
 Make sure tags in vertico are sorted by insertion order, instead of arbitrarily
 (due to the use of group_concat in the underlying SQL query).
+
 #+begin_src emacs-lisp :tangle no
-;; (advice-add #'org-roam-node-list :filter-return #'org-roam-restore-insertion-order-for-tags-a)
-;; (advice-remove #'org-roam-node-list #'org-roam-restore-insertion-order-for-tags-a) ; hotfix
+;; (advice-add #'org-roam-node-list :filter-return
+;;             #'org-roam-restore-insertion-order-for-tags-a)
+;; (advice-remove #'org-roam-node-list
+;;                #'org-roam-restore-insertion-order-for-tags-a) ; hotfix
 #+end_src
-Add ID, Type, Tags, and Aliases to top of
-backlinks buffer.
+
+Add ID, Type, Tags, and Aliases to top of backlinks buffer.
+
 #+begin_src emacs-lisp :tangle no
 (advice-add #'org-roam-buffer-set-header-line-format :after
             #'org-roam-add-preamble-a)
 #+end_src
+
 *** SQL
 #+begin_src emacs-lisp
 (when (featurep 'sql-indent-autoloads) (add-hook! sql-mode #'sqlind-minor-mode))
