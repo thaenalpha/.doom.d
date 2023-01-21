@@ -94,6 +94,7 @@
     - [[#evil][Evil]]
     - [[#format][Format]]
     - [[#rotate-text][Rotate text]]
+    - [[#substitute-substituteel][#Substitute (substitute.el)]]
   - [[#emacs-1][Emacs]]
     - [[#ctrlf-1][ctrlf]]
     - [[#dired][dired]]
@@ -2767,8 +2768,14 @@ Dictionary of rotations to use. The most part was taken from [[github:dp12/parro
             '("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th")))
 #+end_src
 
-*** Substitute
+*** [[https://git.sr.ht/~protesilaos/substitute#substitute-substituteel][#]]Substitute (substitute.el)
+:PROPERTIES:
+:CUSTOM_ID: Substitute (substitute.el)
+:END:
+
 Efficiently replace targets in the buffer or context.
+
+*Video demo:* [[https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/][https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/]]
 #+begin_src emacs-lisp :tangle modules/editor/substitute/config.el :mkdirp yes
 ;;; editor/substitute/config.el -*- lexical-binding: t; -*-
 
