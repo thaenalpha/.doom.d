@@ -1097,7 +1097,9 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 ;;; :tools magit
 (setq magit-repository-directories `((,doom-emacs-dir . 0)
                                      (,doom-private-dir . 0)
-                                     ("~/projects" . 1))
+                                     ("~/projects/" . 1)
+                                     ("~/www/" . 1)
+                                     ("~/downloads/emacs-config/" . 1))
       ;; Don't restore the wconf after quitting magit, it's jarring
       magit-inhibit-save-previous-winconf t
       transient-values
