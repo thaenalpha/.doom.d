@@ -3832,7 +3832,7 @@ REGEDIT4
 :header-args:emacs-lisp: :noweb-ref org-roam-conf
 :END:
 
-This part is taken from @hlissner
+This part is taken from [[doom-user:][@hlissner]]
 
 #+begin_src emacs-lisp :noweb no-export :noweb-ref nil
 (after! org-roam
@@ -3842,7 +3842,7 @@ This part is taken from @hlissner
   <<org-roam-conf>>)
 #+end_src
 
-+ Extend org-roam-capture-templates to include the new templates.
++ Extend [[help:org-roam-capture-templates][org-roam-capture-templates]] to include the new templates.
   #+name: Org-roam capture templates
   #+begin_src emacs-lisp :tangle no :noweb-ref nil
 org-roam-capture-templates
