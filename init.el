@@ -45,10 +45,11 @@
        parinfer            ; turn lisp into python, sort of
        rotate-text         ; cycle region at point between text candidates
        snippets            ; my elves. They type so I don't have to
+       substitute          ; efficiently replace targets in the buffer or context
 
        :emacs
        ctrlf               ; Emacs finally learns how to ctrl+F
-       (dired              ; making dired pretty [functional]
+       (dired +icons       ; making dired pretty [functional]
         +dirvish)          ; A modern file manager based on dired mode
        electric            ; smarter, keyword-based electric-indent
        (ibuffer +icons)    ; interactive buffer management
@@ -84,7 +85,6 @@
         +devdocs           ; another API documentation viewer for Emacs
         +dictionary)       ; word definition and thesaurus lookup functionality.
        lsp                 ; Language Server Protocol
-       lsp-bridge          ; Fastest LSP client for Emacs
        (magit              ; a Git porcelain inside Emacs
         +forge)            ; interface with git forges
        make                ; run make tasks from Emacs
@@ -103,6 +103,8 @@
        (tty +osc)          ; improve the terminal Emacs experience
 
        :lang
+       (cc +lsp            ; C > C++ == 1
+           +tree-sitter)
        (clojure +lsp)      ; java with a lisp
        data                ; config/data formats
        emacs-lisp          ; drown in parentheses
@@ -120,11 +122,13 @@
         +gnuplot           ; who doesn't like pretty pictures
         +noter             ; enhanced PDF notetaking
         +pandoc            ; export-with-pandoc support
+        +passwords         ; A password manager for Org.
         +pomodoro          ; timer for clocking time on tasks.
         +present           ; using org-mode for presentations
         +roam2             ; wander around notes
         +web)              ; Display and capture web content with Org-mode
        (php +tree-sitter)  ; perl's insecure younger brother
+       plantuml            ; diagrams for confusing people more
        (python +tree-sitter; beautiful is better than ugly
         +lsp +pyright)
        (rest +jq)          ; Emacs as a REST client
