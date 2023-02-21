@@ -201,6 +201,7 @@ Private or extra to the Doom modules
  (package! emacsql-sqlite-builtin
   :recipe (:host github :repo "tarsiiformes/emacsql"
            :branch "sqlite-backends")))
+(package! magit-cz :recipe (:host github :repo "thaenalpha/magit-cz"))
 #+end_src
 
 ** Lang

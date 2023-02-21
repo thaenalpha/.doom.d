@@ -1120,6 +1120,10 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
     :after #'forge-topic-setup-buffer
     (forge-pull-topic topic)))
 
+(when (featurep 'magit-cz)              ; magit commitizen support
+  (add-hook 'git-commit-setup-hook
+            #'magit-cz-git-commit-message-setup-function))
+
 ;; Custom status to indicate that the service is doing something
 ;; that means it's not ready yet (compiling, etc)
 (prodigy-define-status :id 'working :face 'prodigy-yellow-face)

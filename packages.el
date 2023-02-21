@@ -65,6 +65,7 @@
  (package! emacsql-sqlite-builtin
   :recipe (:host github :repo "tarsiiformes/emacsql"
            :branch "sqlite-backends")))
+(package! magit-cz :recipe (:host github :repo "thaenalpha/magit-cz"))
 
 ;;; :lang clojure
 (when (modulep! :lang clojure) (package! clj-deps-new))
