@@ -4456,7 +4456,14 @@ pip install epc
 (after! forge
   (when EMACS29+ ; sqlite buitin support
     (setq forge-database-connector 'sqlite-builtin))
-  (setq forge-owned-accounts '(("thaenalpha" remote-name "my-fork"))))
+  (setq forge-owned-accounts '(("thaenalpha" remote-name "my-fork")))
+
+  ;; https://github.com/yqrashawn/yqdotfiles/blob/6ef183fb30d9f2030104b51988820b1d745f9203/.doom.d/version-control.el#L112-L115
+  (defadvice! +forge-topic-setup-buffer (topic)
+    "Refresh topic on open"
+    :after #'forge-topic-setup-buffer
+    (forge-pull-topic topic)))
+
 #+end_src
 
 **** Enable Gravatars (not works)
