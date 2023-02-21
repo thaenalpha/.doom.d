@@ -1120,7 +1120,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
     :after #'forge-topic-setup-buffer
     (forge-pull-topic topic)))
 
-(when (featurep 'magit-cz)              ; magit commitizen support
+(when (featurep 'magit-cz-autoloads)    ; magit commitizen support
   (add-hook 'git-commit-setup-hook
             #'magit-cz-git-commit-message-setup-function))
 

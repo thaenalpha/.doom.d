@@ -4464,7 +4464,7 @@ pip install epc
     :after #'forge-topic-setup-buffer
     (forge-pull-topic topic)))
 
-(when (featurep 'magit-cz)              ; magit commitizen support
+(when (featurep 'magit-cz-autoloads)    ; magit commitizen support
   (add-hook 'git-commit-setup-hook
             #'magit-cz-git-commit-message-setup-function))
 #+end_src
