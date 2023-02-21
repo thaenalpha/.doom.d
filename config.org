@@ -185,8 +185,8 @@ Troubleshoot by load Key-chain Environment Variables
 Captured On: [2021-11-12 Fri 23:05]
 
 #+begin_src emacs-lisp
-(when (featurep 'keychain-environment)
- (add-hook! magit-mode #'keychain-refresh-environment))
+(when (featurep 'keychain-environment-autoloads)
+  (keychain-refresh-environment))
 #+end_src
 
 *** Why is Emacs/Doom slow?
@@ -1642,7 +1642,7 @@ More keybinds for literate configs
 #+name: +default
 #+begin_src emacs-lisp :tangle no
 (:map help-map
- (:when (featurep 'keychain-environment)
+ (:when (featurep 'keychain-environment-autoloads)
   "rk"   #'keychain-refresh-environment)
  :prefix "d"
  :desc "init.org"        "i"  (cmd! (find-file

@@ -27,8 +27,8 @@
 
 (setq-default delete-by-moving-to-trash t) ; Delete files to trash
 
-(when (featurep 'keychain-environment)
- (add-hook! magit-mode #'keychain-refresh-environment))
+(when (featurep 'keychain-environment-autoloads)
+  (keychain-refresh-environment))
 
 ;;
 ;;; UI
@@ -247,7 +247,7 @@ If the hour is (both inclusive) in `light-hours' then
       ;;; :config default
       (:when (modulep! :config default)
        (:map help-map
-        (:when (featurep 'keychain-environment)
+        (:when (featurep 'keychain-environment-autoloads)
          "rk"   #'keychain-refresh-environment)
         :prefix "d"
         :desc "init.org"        "i"  (cmd! (find-file
