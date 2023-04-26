@@ -122,7 +122,7 @@
     - [[#lsp][LSP]]
     - [[#lsp-bridge][lsp-bridge]]
     - [[#magit-forge][magit +forge]]
-    - [[#prodigy][Prodigy]]
+    - [[#make-prodigy-sudo-able][Make Prodigy sudo-able]]
     - [[#tree-sitter][Tree-sitter]]
 - [[#local-configures][Local Configures]]
   - [[#directory-local-variables][Directory Local Variables]]
@@ -4476,7 +4476,7 @@ This will enable gravatars when viewing commits. The service used by default is
 #+BEGIN_SRC emacs-lisp :tangle no
 magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
 #+END_SRC
-*** Prodigy
+*** TODO Make Prodigy sudo-able
 Take this extra config from
 [[https://www.reddit.com/r/emacs/comments/oksdhh/package_praise_prodigy_and_fancydabbrev/][Package praise: Prodigy and fancy-dabbrev : emacs]]
 #+begin_src emacs-lisp
