@@ -63,6 +63,9 @@
   - [[#visual-effects][Visual effects]]
   - [[#text-cursor][Text cursor]]
 - [[#privacy--security][Privacy & security]]
+- [[#autoload][Autoload]]
+  - [[#random][Random]]
+    - [[#one-or-another][One or Another]]
 - [[#modules][Modules]]
   - [[#app][App]]
     - [[#edit-server][Edit-Server]]
@@ -702,6 +705,37 @@ A modern file manager based on ~dired-mode~, [[github:ralesi/ranger.el][ranger]]
 
 (setq password-cache-expiry nil)        ; I can trust my computers … can't I?
 #+end_src
+
+* Autoload
+This section contains the code + autoload functions in =autoload.el= or
+=autoload/*.el= to get the benefits of lazy loading.
+
++ What "autoload" means?
+  From Emacs manual Concept:
+  #+begin_quote
+Some commands are “autoloaded”; when you run them, Emacs automatically loads the
+associated library first. For instance, the ‘M-x compile’ command (*note
+Compilation::) is autoloaded; if you call it, Emacs automatically loads the
+‘compile’ library first. In contrast, the command ‘M-x recompile’ is not
+autoloaded, so it is unavailable until you load the ‘compile’ library.
+  #+end_quote
+  This also means that the Emacs load time can be saved by lazy load of
+  libraries, it will loads only when it needs. It is available because it's load
+  path was indexed at ~doom sync~ time.
+
+** Random
+#+begin_src emacs-lisp :tangle autoload/random.el
+;;; autoload/random.el -*- lexical-binding: t; -*-
+#+end_src
+*** One or Another
+#+begin_src emacs-lisp :tangle autoload/random.el
+;;;###autoload
+(defun one-or-another (one another)
+  "Return randomly chosen one from a given of 2 choices."
+  (interactive "s1: \ns2: ")
+  (message (if (eq 0 (random 2)) one another)))
+#+end_src
+
 * Modules
 #+begin_src emacs-lisp
 ;;
