@@ -44,6 +44,8 @@
   - [[#miscellaneous][Miscellaneous]]
     - [[#scrolling][Scrolling]]
 - [[#keyboard-shortcuts][Keyboard Shortcuts]]
+  - [[#leader-spc][Leader SPC]]
+    - [[#open-o][Open o]]
 - [[#apps][Apps]]
   - [[#apps-for-websites][Apps for websites]]
     - [[#discourse][Discourse]]
@@ -531,7 +533,7 @@ For the speed of expressions
           <<leader n T --- Org Transclusion Mode>>)
          ;; <leader> o --- open
          (:prefix-map ("o" . "open")
-          <<leader o … --- open-with commands>>)
+          <<doom-leader-open-map>>)
          ;; <leader> p --- project
          (:prefix-map ("p" . "project")
           :when (modulep! :tools prodigy)
@@ -544,8 +546,11 @@ For the speed of expressions
          (:prefix-map ("t" . "toggle")
           <<doom-leader-toggle-map>>)))))
 #+end_src
-#+name: leader o … --- open-with commands
-#+begin_src emacs-lisp :tangle no :noweb no-export
+
+** Leader [[kbd:][SPC]]
+*** Open [[kbd:][o]]
+Keyboard Shortcut to open apps with [[kbd:][<leader> o]] prefix.
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-leader-open-map
 :desc "Calc"              "c"     #'calc
 :desc "APP: rss"          ","     #'=rss
 #+end_src
