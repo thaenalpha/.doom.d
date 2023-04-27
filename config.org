@@ -67,6 +67,8 @@
   - [[#random][Random]]
     - [[#one-or-another][One or Another]]
     - [[#random-a-character][Random a character]]
+  - [[#string-manipulation][String Manipulation]]
+    - [[#arrayify][Arrayify]]
 - [[#modules][Modules]]
   - [[#app][App]]
     - [[#edit-server][Edit-Server]]
@@ -119,7 +121,6 @@
   - [[#terminal][Terminal]]
     - [[#vterm][vterm]]
   - [[#tools-tools][Tools :tools:]]
-    - [[#arrayify][Arrayify]]
     - [[#brief][Brief]]
     - [[#copilot][Copilot]]
     - [[#fzf][fzf]]
@@ -744,6 +745,35 @@ autoloaded, so it is unavailable until you load the ‘compile’ library.
   (let* ((achar "abcdefghijklmnopqrstuvwxyz1234567890:;<=>?@")
          (i (% (abs (random)) (length achar))))
     (message (substring achar i (1+ i)))))
+#+end_src
+
+** String Manipulation
+#+begin_src emacs-lisp :tangle autoload/string.el
+;;; autoload/string.el -*- lexical-binding: t; -*-
+#+end_src
+*** Arrayify
+#+begin_example
+josh
+sam
+jed
+C.J.
+toby
+-----
+Mark region then M-x arrayify RET enter Quote: " Join: ,
+#+end_example
+: "josh", "sam", "jed", "C.J.", "toby"
+
+#+begin_src emacs-lisp :tangle autoload/string.el
+;;;###autoload
+(defun arrayify (start end quote join)
+  "Turn strings on newlines into a QUOTEd, comma-separated one-liner."
+  (interactive "r\nMQuote: \nMJoin: ")
+  (let ((insertion
+         (mapconcat
+          (lambda (x) (format "%s%s%s" quote x quote))
+          (split-string (buffer-substring start end)) join)))
+    (delete-region start end)
+    (insert insertion)))
 #+end_src
 
 * Modules
@@ -4084,10 +4114,6 @@ Other keybinds these should be...
  "C-c C-x"  #'vterm--self-insert)
 #+end_src
 ** Tools :tools: :tools:
-*** Arrayify
-#+begin_src emacs-lisp
-(use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
-#+end_src
 *** Brief
 **** README.org
 #+begin_src org :tangle modules/tools/brief/README.org :mkdirp yes

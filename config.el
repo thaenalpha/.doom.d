@@ -1046,8 +1046,6 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 ;;; :term vterm
 (add-hook 'vterm-mode-hook #'evil-collection-vterm-toggle-send-escape)
 
-(use-package arrayify :load-path "lisp") ; ~/.doom.d/lisp/arrayify.el
-
 ;;; :tools gist
 (add-hook! gist-list-mode #'turn-off-evil-snipe-mode)
 
