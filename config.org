@@ -66,6 +66,7 @@
 - [[#autoload][Autoload]]
   - [[#random][Random]]
     - [[#one-or-another][One or Another]]
+    - [[#random-a-character][Random a character]]
 - [[#modules][Modules]]
   - [[#app][App]]
     - [[#edit-server][Edit-Server]]
@@ -133,7 +134,6 @@
   - [[#directory-local-variables][Directory Local Variables]]
   - [[#safe-local-variables][safe-local-variables]]
   - [[#marking-the-root-of-a-project][Marking the root of a project]]
-  - [[#random-a-character][Random a character]]
 
 * System
 #+begin_src emacs-lisp
@@ -734,6 +734,16 @@ autoloaded, so it is unavailable until you load the ‘compile’ library.
   "Return randomly chosen one from a given of 2 choices."
   (interactive "s1: \ns2: ")
   (message (if (eq 0 (random 2)) one another)))
+#+end_src
+*** Random a character
+#+begin_src emacs-lisp :tangle autoload/random.el
+;;;###autoload
+(defun random-achar ()
+  "Random a key character on *Select Link* buffer"
+  (interactive)
+  (let* ((achar "abcdefghijklmnopqrstuvwxyz1234567890:;<=>?@")
+         (i (% (abs (random)) (length achar))))
+    (message (substring achar i (1+ i)))))
 #+end_src
 
 * Modules
@@ -4681,12 +4691,3 @@ A list of files considered marking the root of a project.
 
 #+Original Value:
 | .projectile | .git | .hg | .fslckout | _FOSSIL_ | .bzr | _darcs |
-** Random a character
-#+begin_src emacs-lisp
-(defun random-achar ()
-  "Random a key character on *Select Link* buffer"
-  (interactive)
-  (let* ((achar "abcdefghijklmnopqrstuvwxyz1234567890:;<=>?@")
-         (i (% (abs (random)) (length achar))))
-    (message (substring achar i (1+ i)))))
-#+end_src
